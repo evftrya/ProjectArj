@@ -1,0 +1,127 @@
+@font-face{
+    font-family: 'boldPublica';
+    src: url('PublicaSansRound-Bd.otf') format('opentype');
+    font-style: normal;
+}
+@font-face{
+    font-family: 'normalPublica';
+    src: url('PublicaSansRound-Lt.otf') format('opentype');
+    font-style: normal;
+}
+html{
+    font-family: 'normalPublica', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+body{
+    padding: 0;
+    margin: 0;
+    background-color: aqua;
+}
+.topBar{
+    /* width: 100%; */
+    height: 70px;
+    border: black 1px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    padding: 0px 10px;
+    
+}
+.topBar>div{
+    display: flex;
+    flex-direction: row;
+    /* background-color: aqua; */
+}
+.namaCv>p{
+    /* background-color: aliceblue; */
+    font-family: 'boldPublica';
+    font-size: 25px;
+    font-weight:bold;
+    color: #9D5C0D;
+    padding: 0;
+    margin: 0;
+}
+
+.topSearch{
+    width: 65%;
+    height: 40px;
+    align-items: center;
+    font-weight: 0;
+    border: black 0.5px solid;
+    border-radius: 100px;
+    padding-left:20px ;
+}
+.topSearch>div{
+    /* background-color:rgb(241, 241, 241); */
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+.topSearch>div>input{
+    width: calc(100% - 44px);
+    border: none;
+    outline: none;
+    font-family: normalPublica;
+}
+.AccountArea{
+    width: fit-content;
+    gap: 20px;
+}
+.AccountArea>a{
+    outline: none;
+    text-decoration: none;
+    /* font-weight: 500; */
+}
+.AccountArea>a>p{
+    /* font-family: 'poppins', sans-serif; */
+    font-weight: 500;
+}
+.burger>svg{
+    height: 90%;
+}
+.burger{
+    background: none;       /* Menghilangkan background */
+    border: none;           /* Menghilangkan border */
+    outline: none;          /* Menghilangkan outline saat tombol di-click */
+    padding: 0;             /* Menghilangkan padding */
+    margin: 0;              /* Menghilangkan margin */
+    box-shadow: none;       /* Menghilangkan bayangan */
+    color: inherit;         /* Menggunakan warna teks dari elemen induk */
+    font: inherit;          /* Menggunakan font dari elemen induk */
+    cursor: pointer;
+}
+img{
+    /* margin-top: 50px; */
+    /* width: 20%; */
+}
+@media screen and (max-width: 380px) {
+    .topBar{
+        height: 10%;
+        width: 100%;
+        padding: 0;
+    }
+    .topSearch{
+        display: none !important;
+    }
+    .namaCv,.AccountArea{
+        padding: 0px 10px;
+    }
+    .namaCv>p{
+        
+        font-size: 15px;
+    }
+    
+}
+
+@media screen and (min-width: 381px) {
+    .topSearch{
+        display: flex !important;
+    }
+}
