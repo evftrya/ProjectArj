@@ -1,0 +1,233 @@
+@font-face{
+    font-family: 'boldPublica';
+    src: url('../font/PublicaSansRound-Bd.otf') format('opentype');
+    font-style: normal;
+}
+@font-face{
+    font-family: 'normalPublica';
+    src: url('../font/PublicaSansRound-Lt.otf') format('opentype');
+    font-style: normal;
+}
+button{
+    border: none;
+    outline: none;
+    background-color: rgb(0,0,0,0);
+}
+.ContainerFill{
+    font-family: 'normalPublica' !important;
+    margin-left: 10px !important;
+}
+.SubTitle{
+    height: fit-content;
+    /* background-color: aqua; */
+    padding: 0px !important;
+    display: flex;
+    align-items: center;
+    font-family: 'boldPublica';
+    font-size: 35px;
+    border-bottom: #9D5C0D 1px solid;
+    /* justify-content: center; */
+}
+.SubTitle>p{
+    margin: 20px 10px;
+}
+.content{
+    font-family: 'normalPublica' !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* padding-top: 40px !important; */
+}
+.LeftMenu{
+    padding-top: 40px;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgba(60, 60, 60, 0.014);
+}
+.LeftMenu>button{
+    display: flex;
+    flex-direction: row;
+    border: none;
+    outline: none;
+    background-color: rgb(0,0,0,0);
+    align-items: center;
+    gap: 2px;
+    border-left: 2px solid black;
+}
+.LeftMenu>button>p{
+    /* padding-top: 2px !important; */
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    font-size: 20px;
+}
+.IntoContent{
+    width: calc(100% - 300px);
+    padding-top: 25px !important;
+    padding: 0px 30px;
+    /* background-color: aqua; */
+}
+.TitleMenu{
+    height: fit-content;
+    /* background-color: aqua; */
+    padding: 0px !important;
+    display: flex;
+    align-items: center;
+    font-family: 'boldPublica';
+    font-size: 35px;
+    border-bottom: #9D5C0D 1px solid;
+    /* margin: 10px 0px; */
+    /* justify-content: center; */
+}
+.TitleMenu>p{
+    margin: 0px 20px 20px 0px!important;
+}
+.IntoContent p{
+    margin: 0px;
+}
+form{
+    /* background-color: bisque; */
+}
+.ContentInfo{
+    height: 75%;
+    /* background-color: aquamarine; */
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* align-items: center; */
+    justify-content: space-between;
+}
+.TheInput{
+    border: 1px solid rgb(137, 136, 136);
+    width: calc(45%);
+    height: fit-content;
+    /* background-color: chartreuse; */
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+#GendersArea,#PasswordsArea{
+    border: none;
+}
+
+.TheInput>p,
+#PasswordsArea>div>p,
+#Optionals{
+    font-size: 12px;
+    color: rgb(137, 136, 136) !important;
+}
+.TheInput input[type="text"],
+.TheInput>*>input[type="password"],
+.TheInput input[type="email"]{
+    border: none;
+    outline: none;
+    font-size: 20px;
+    color: #000 !important;
+    /* background-color: #9D5C0D; */
+    width: calc(85%);
+}
+#PasswordsArea{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#PasswordsArea>div>button{
+    color: #9D5C0D;
+    font-size: 12px;
+    /* font-style: italic; */
+}
+
+.Labels{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+#Optionals{
+    font-size: 12px;
+    font-style: italic;
+}
+#GendersArea{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#GendersArea>.Options{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.ButtonsArea{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: end;
+}
+.ButtonsArea>*{
+    width: fit-content;
+    height: fit-content;
+    background-color: #9D5C0D;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 15px;
+
+}
+
+@media screen and (max-width: 896px) {
+    .LeftMenu{
+        width: 180px !important;
+    }
+    .LeftMenu>button>p{
+        font-size: 15px;
+    }
+    .IntoContent{
+        width: calc(80%);
+    }
+    .TheInput{
+        width: calc(100%);
+    }
+    .TheInput input[type="text"],
+    .TheInput input[type="email"]{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 897px) {
+    .LeftMenu{
+        width: 250px !important;   
+    }
+}
+/* form input[type="text"]{
+
+} */
+
+@media screen and (max-width: 603px) {
+    .LeftMenu{
+        display: none;
+        width: 180px !important;
+    }
+    .LeftMenu>button>p{
+        font-size: 12px;
+    }
+    .TitleMenu{
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 439px) {
+    .LeftMenu{
+        width: 180px !important;
+    }
+    .LeftMenu>button>p{
+        font-size: 9px;
+    }
+    
+}
