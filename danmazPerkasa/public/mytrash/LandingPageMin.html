@@ -3,7 +3,9 @@
     <link rel="stylesheet" type="" href="LandingPageMin.css">
 
     <body>
+        <div class="">
 
+        </div>
         <div class="MainArea">
             <div class="topBar">
                 <div class="namaCv">
@@ -268,6 +270,428 @@
 
         <!-- <img src="foto.png" alt=""> -->
     </body>
+    <style>
+        @font-face{
+            font-family: 'boldPublica';
+            src: url('../font/PublicaSansRound-Bd.otf') format('opentype');
+            font-style: normal;
+        }
+        @font-face{
+            font-family: 'normalPublica';
+            src: url('../font/PublicaSansRound-Lt.otf') format('opentype');
+            font-style: normal;
+        }
+        html{
+            font-family:'Poppins', sans-serif;
+            /* font-family: 'normalPublica', sans-serif; */
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+        body{
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: rgb(255, 255, 255);
+        }
+        
+        /* --------------------- TOP BAR LANDING PAGE MIN -------------------------- */
+        .MainArea{
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .MainArea>.topBar{
+            /* width: 100%; */
+            height: 70px;
+            border: black 1px;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            padding: 0px 10px;
+            
+        }
+        .MainArea>.topBar>div{
+            display: flex;
+            flex-direction: row;
+            /* background-color: aqua; */
+        }
+        .namaCv>p,.LeftBar>.TopLeftBar>.namaBrand>p{
+            /* background-color: aliceblue; */
+            /* font-family: 'boldPublica'; */
+            font-family: 'Poppins', sans-serif;
+            font-weight:bold;
+            color: #9D5C0D;
+            
+        }
+        .namaCv>p{
+            padding: 0 10px;
+            margin: 0;
+            font-size: 25px;
+        
+        }
+        
+        .topSearch{
+            width: 65%;
+            height: 40px;
+            align-items: center;
+            font-weight: 0;
+            border: black 0.5px solid;
+            border-radius: 100px;
+            padding-left:20px ;
+        }
+        .topSearch>div{
+            /* background-color:rgb(241, 241, 241); */
+            width: 100%;
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+        }
+        .topSearch>div>input{
+            width: calc(100% - 44px);
+            border: none;
+            outline: none;
+            /* font-family: normalPublica; */
+            font-family: 'Poppins', sans-serif;
+        }
+        .AccountArea{
+            margin-left: 10px;
+            gap: 20px;
+            width: fit-content;
+        }
+        .AccountArea>div{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .AccountArea>div>a{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .WithLogin{
+            display:none !important;
+        
+        }
+        .NonLogin{
+            /* display:none !important; */
+        }
+        .AccountArea>div>a{
+            outline: none;
+            text-decoration: none;
+            /* font-weight: 500; */
+        }
+        .AccountArea>div>a>p{
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: black;
+        }
+        .burger>svg{
+            height: 90%;
+        }
+        .burger{
+            background: none;       /* Menghilangkan background */
+            border: none;           /* Menghilangkan border */
+            outline: none;          /* Menghilangkan outline saat tombol di-click */
+            padding: 0;             /* Menghilangkan padding */
+            margin: 0;              /* Menghilangkan margin */
+            box-shadow: none;       /* Menghilangkan bayangan */
+            color: inherit;         /* Menggunakan warna teks dari elemen induk */
+            font: inherit;          /* Menggunakan font dari elemen induk */
+            cursor: pointer;
+        }
+        
+        img{
+            /* margin-top: 50px; */
+            /* width: 20%; */
+        }
+        @media screen and (max-width: 690px) {
+            .MainArea>.topBar{
+                height: 10%;
+                width: 100%;
+                padding: 0;
+            }
+            .topSearch{
+                display: none !important;
+            }
+            .namaCv,.AccountArea{
+                padding: 0px 10px;
+            }
+            .namaCv>p{
+                
+                font-size: 15px;
+            }
+            
+        }
+        
+        @media screen and (min-width: 691px) {
+            .topSearch{
+                display: flex !important;
+            }
+        }
+        
+        /* ----------------- CONTAINER FILL --------------------- */
+        .MainArea>.ContainerFill{
+            padding: 0;
+            margin: 0;
+        }
+        .MainArea>.ContainerFill>div{
+            padding: 0 20px;
+            margin: 0;
+        }
+        .SpaceFree{
+            padding-top:25px !important;
+            height: 200px;
+            background-color: #F7D08A;
+        }
+        .SpaceFree>div{
+            /* background-color: rgb(133, 181, 181); */
+            
+        }
+        .SpaceFree>div>p{
+            font-family:'Poppins', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            margin:0;
+        }
+        .SpaceFree>div>button{
+            background-color: #9D5C0D;
+            width: 135px;
+            height: 40px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            margin-top: 15px;
+        }
+        .SpaceFree>div>button>p{
+            padding: 0;
+            margin: 0;
+            font-size: 15px;
+            color: #FAFAFA;
+        }
+        .Product{
+            /* margin-left: 20px !important; */
+            margin-top: 50px !important;
+            background-color: #ffffff;
+        }
+        .Product>div>div>p{
+            margin: 4px 0;
+            font-weight: bold;
+            font-size: 25;
+        }
+        .SubTitle{
+            margin-left: 20px !important;
+        }
+        
+        
+        /* ----- CONTAINER PRODUCT ----- */
+        .ContainerProducts{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            overflow: hidden;
+            align-items: center;
+            /* background-color: aqua; */
+            justify-content: center;
+            margin-bottom: 20px ;
+            
+        }
+        .ContainerProduct{
+            width: 351px;
+            height: 360px;
+            /* display: flex; */
+            /* background-color: aqua; */
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .ContainerProduct>a{
+            text-decoration: none;
+            outline: none;
+            
+        }
+        .ContainerProduct>a>.ContProductImg{
+            width: 351px;
+            height: 291px;
+            position: relative;
+            /* overflow: hidden; */
+        
+        }
+        .ContainerProduct>a>.ContProductImg>img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border: #9D5C0D 1px solid;
+        
+            /* position: relative; */
+        }
+        .ContainerProduct>a>.ContProductp{
+            position: relative;
+            background-color: white;
+            border: 1px solid #9D5C0D;
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        
+        .ContainerProduct>a>#ContProductNamep{
+            top: 15.9%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #9D5C0D;
+            font-weight: 700;
+        
+        }
+        .ContainerProduct>a>#ContProductStatusp{
+            left: 78%;
+            top: 13%;
+            color: white !important;
+            background-color: #9D5C0D;
+        }
+        .ContProductp>p{
+            margin: 0;
+            padding: 8px 15px 7.5px 15px;
+            font-size: 10px;
+        }
+        
+        /* ------ footer ----------- */
+        .MainArea>.footer{
+            background-color: #9D5C0D;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        /* ------- LEFT BAR ------------- */
+        .LeftBar{
+            
+            /* transform: translate(-50%,-50%); */
+            background-color: rgb(255, 255, 255);
+            height: 100%;
+            width: 18%;
+            position: fixed;
+            z-index: 1000;
+            display: none;
+            /* display: none; */
+            flex-direction: column;
+            /* padding: 10px 20px; */
+        }
+        .TopLeftBar{
+            /* display: none; */
+            height: 70px;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: row;
+            justify-content:space-between;
+            align-items: center;
+            padding: 0px 10px 0 20px;
+            background-color: #ffffff;
+        }
+        .TopLeftBar>button{
+            height: 100%;
+            width: 15px;
+            border: none;
+            padding: 0;
+            margin: 0;
+            outline: 0;
+            background-color:rgb(0,0,0,0);
+        }
+        .MenuArea{
+            display: flex;
+            flex-direction: row;
+            padding-left: 20px;
+            padding-top: 30px;
+            color: black;
+            /* background-color: #8e6821; */
+        }
+        .MenuArea a, .MenuArea button{
+            text-decoration: none;
+            outline: none;
+            border: none;
+            background-color: rgb(0,0,0,0);
+        }
+        .MenuArea>*{
+            /* background-color: rgb(255, 255, 255); */
+            width: 100%;
+        }
+        .MenuArea p{
+            margin:0;
+            padding: 0;
+            color: black;
+        }
+        .TheMenu{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .ProductBarArea{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .ProductBarArea>button{
+            width: 50px;
+            /* background-color: aqua; */
+        }
+        .ProductCategory{
+            /* display: flex; */
+            flex-direction: column;
+            padding-left: 20px;
+            margin-top: 15px;
+            gap: 15px;
+            display: none;
+        }
+        #svgCloseCategory{
+            display: none;
+        }
+        
+        @media screen and (max-width: 690px) {
+            .LeftBar{
+                top: 0%;
+            /* left: 60%; */
+                width: 50%;
+                right: 0%;
+            }
+            
+        
+        }
+        
+        @media screen and (min-width: 691px) {
+            .LeftBar{
+                top: 0%;
+            /* left: 60%; */
+                right: 0%;
+            }
+        }
+        .DarkArea{
+            position:fixed;
+            z-index: 200;
+            top: 0%;
+            left: 0%;
+            background-color: rgba(0, 0, 0, 0.351);
+            width: 100%;
+            height: 100%;
+            display: none;
+        }        
+    </style>
 
     <script>
 
@@ -315,3 +739,4 @@
     </script>
 
 </html>
+

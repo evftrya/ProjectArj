@@ -1,0 +1,273 @@
+/* ---------- LOGIN AND REGIS PAGE -------------- */
+
+body>img{
+    width: 50%;    
+}
+@font-face{
+    font-family: 'boldPublica';
+    src: url('../font/PublicaSansRound-Bd.otf') format('opentype');
+    font-style: normal;
+}
+@font-face{
+    font-family: 'normalPublica';
+    src: url('../font/PublicaSansRound-Lt.otf') format('opentype');
+    font-style: normal;
+}
+html{
+    font-family:'Poppins', sans-serif;
+    width: 100%;
+    height:100%;
+}
+body{
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0%;
+    margin: 0%;
+    width: 100%;
+    height: 100%;
+    /* padding-right: 10px; */
+    /* margin-right: 10px; */
+    /* justify-content: center; */
+}
+.Container{
+    font-family: 'normalPublica';
+    background-color: rgb(255, 255, 255);
+    width: 800px;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.Container>*>form{
+    /* margin: 0; */
+    /* padding: 0; */
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Container>*>*{
+    width: 100%;
+}
+
+
+.namaCv>p{
+    padding: 0px;
+    margin: 0;
+    font-size: 25px;
+    text-align: center;
+    font-family: 'boldPublica';
+    font-weight:bold;
+    color: #9D5C0D;
+}
+.Container>p{
+    /* padding: 0 10px; */
+    margin: 5px 0px;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'boldPublica';
+    font-weight:bold;
+}
+.InputArea{
+    /* background-color: #9D5C0D; */
+    width: 80%;
+}
+form{
+    /* width: 100% !important; */
+    /* background-color: #9D5C0D !important; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    
+}
+.TheInput{
+    width: calc(100% - 50px);
+    border-radius: 9px;
+    border: 1px solid black;
+    padding: 0px 25px;
+    padding: 10px 20PX;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* background-color: #9D5C0D; */
+}
+
+
+.input-container {
+    width: calc(100% - 10px);
+    height: 60px;
+    position: relative;
+    margin: 5px;
+    display: flex;
+    align-items: center; /* Menjaga elemen tetap sejajar secara vertikal */
+}
+
+.input-container input {
+    width: 100%;
+    height: 40px;
+    padding: 16px 50px 8px 20px; /* Menambah padding kanan untuk tombol */
+    font-size: 16px;
+    border: 2px solid #aaa;
+    border-radius: 15px;
+    outline: none;
+}
+
+.input-container label {
+    width: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #aaa;
+    background-color: white;
+    padding: 0 10px;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+    margin-top: 5px;
+    top: 8px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+
+
+.TheInput>p,.PasswordFill>p{
+    color: rgb(147, 147, 147);
+    font-size: 15px;
+    padding: 0px;
+    margin: 0px;
+}
+.TheInput>input,.PasswordFill>input{
+    border: none;
+    background-color: #ffffff;
+    outline: none;
+    height: 30px;
+    font-family: 'normalPublica';
+    font-size: 20px;
+}
+#PasswordArea{
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+#PasswordArea>*{
+    /* height: 100%; */
+    /* background-color: aqua; */
+}
+.ButtonArea{
+    position: absolute;
+    right: 20px; /* Atur jarak dari tepi kanan input */
+    gap: 5px;
+
+    width: 100%;
+    /* background-color: aqua; */
+    width: fit-content;
+    /* background-color: rgb(255, 255, 255); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 12px; */
+}
+.ButtonArea>button{
+    /* padding-top: ; */
+    height: 50%;
+    width: 50%;
+    border: none;
+    background-color: rgb(0,0,0,0);
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+    /* padding-left: 2px; */
+    margin-left: 20px;
+}
+a{
+    color: black;
+    padding: 10px;
+}
+form>button{
+    width: 100%;
+    border: none;
+    border-radius: 40px;
+    background-color: #9D5C0D;
+    font-family: 'boldPublica';
+    font-weight: bold;
+    color: white;
+    font-size: 40px;
+    padding: 10px;
+    margin: 0;
+}
+form>button p{
+    padding: 0;
+    margin: 0;
+}
+form p{
+    margin: 0px;
+}
+.ToRegister{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+.ToRegister>a{
+    padding: 0;
+}
+.BackButton>a{
+    font-family: 'normalPublica';
+    position: fixed;
+    top: 3%;
+    left: 2%;
+    /* background-color: aqua; */
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    text-decoration: none;
+}
+.BackButton>a>p{
+    padding: 0;
+    margin: 0;
+}
+#See{
+    display: none;
+}
+#UnSee{
+    display: flex;
+}
+.nameArea{
+    display: flex;
+    flex-direction: row;
+    /* gap: px; */
+    /* justify-content: space-between; */
+    width: 99%;
+    gap: 20px;
+}
+.nameArea>div{
+    width: 100%;
+}
+.nameArea>*>*{
+    width: 100%;
+}
+
+
+
+
+
+
+/* ------ REGIS PAGE ---------- */

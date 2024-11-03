@@ -2,10 +2,11 @@
     <title>Landing Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="" href="{{asset('css/LandingPageMin.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @vite('resources/css/app.css')
     @yield('css')
 
     <body>
-
         <div class="MainArea">
             <div class="topBar">
                 <div class="namaCv">
@@ -42,13 +43,7 @@
                         </a>
                     </div>
                     
-                    <button class="burger" onclick="LeftBar('Open')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
-                            <path d="M4 18L20 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" />
-                            <path d="M4 12L20 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" />
-                            <path d="M4 6L20 6" stroke="#000000" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>
-                    </button>
+                    
                 </div>
 
             </div>
