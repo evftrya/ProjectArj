@@ -1,233 +1,266 @@
-@font-face{
-    font-family: 'boldPublica';
-    src: url('../font/PublicaSansRound-Bd.otf') format('opentype');
-    font-style: normal;
+.Navbar{
+    /* display: none !important; */
 }
-@font-face{
-    font-family: 'normalPublica';
-    src: url('../font/PublicaSansRound-Lt.otf') format('opentype');
-    font-style: normal;
-}
-button{
-    border: none;
-    outline: none;
-    background-color: rgb(0,0,0,0);
-}
-.ContainerFill{
-    font-family: 'normalPublica' !important;
-    margin-left: 10px !important;
-}
-.SubTitle{
-    height: fit-content;
+.maincontent{
+    margin: 0px 20px !important;
     /* background-color: aqua; */
-    padding: 0px !important;
-    display: flex;
-    align-items: center;
-    font-family: 'boldPublica';
-    font-size: 35px;
-    border-bottom: #9D5C0D 1px solid;
-    /* justify-content: center; */
 }
-.SubTitle>p{
-    margin: 20px 10px;
-}
-.content{
-    font-family: 'normalPublica' !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    /* padding-top: 40px !important; */
-}
-.LeftMenu{
-    padding-top: 40px;
-    padding-left: 15px;
+.maincontent>div{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    background-color: rgba(60, 60, 60, 0.014);
+    padding-top: 15px;
+    width: 100%;
+    /* margin-left: 20px !important; */
+    height: calc(100% - 15px);
 }
-.LeftMenu>button{
+.Text>p{
+    font-family: 'boldPublica';
+    font-weight:bold;
+    color: #000000;
+    margin: 0;
+    padding: 10px 0px;
+    text-align: start;
+    letter-spacing: 0.5px;
+    font-size: 30px;
+}
+.Text>svg{
+    width: 100%;
+}
+.container{
     display: flex;
     flex-direction: row;
-    border: none;
-    outline: none;
-    background-color: rgb(0,0,0,0);
-    align-items: center;
-    gap: 2px;
-    border-left: 2px solid black;
-}
-.LeftMenu>button>p{
-    /* padding-top: 2px !important; */
-    padding: 0px;
-    margin: 0px;
-    text-align: center;
-    font-size: 20px;
-}
-.IntoContent{
-    width: calc(100% - 300px);
-    padding-top: 25px !important;
-    padding: 0px 30px;
-    /* background-color: aqua; */
-}
-.TitleMenu{
-    height: fit-content;
-    /* background-color: aqua; */
-    padding: 0px !important;
-    display: flex;
-    align-items: center;
-    font-family: 'boldPublica';
-    font-size: 35px;
-    border-bottom: #9D5C0D 1px solid;
-    /* margin: 10px 0px; */
-    /* justify-content: center; */
-}
-.TitleMenu>p{
-    margin: 0px 20px 20px 0px!important;
-}
-.IntoContent p{
-    margin: 0px;
-}
-form{
-    /* background-color: bisque; */
-}
-.ContentInfo{
-    height: 75%;
+    width: 100%;
+    height: calc(100% - 20px);
+    margin-top: 10px;
+
     /* background-color: aquamarine; */
-    margin-top: 30px;
+}
+.sideBar{
+    position: sticky;
+    background-color: #D8D2C2;
+    display: flex;
+    flex-direction: column;
+    width: 190px;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 15px;
+    height: calc(100% - 40px);
+}
+.sideBar>div{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: start;
+    align-items: center;
+}
+
+.sideBar>div:hover{
+    color: #ae8673;
+}
+.sideBar>div:active{
+    color:#B17457;
+}
+.ContainerSubMenu>svg>rect{
+    display: none;
+}
+.container2{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-left: 40px;
+    height: 100%;
+}
+.Text2{
+    /* padding: 20px 0px; */
+    display: flex;
+    flex-direction: column;
+}
+.Text2>p{
+    padding: 12px 0px;
+    font-family: 'boldPublica';
+    font-weight:bold;
+    color: #000000;
+    margin: 0;
+    text-align: start;
+    letter-spacing: 0.5px;
+    font-size: 30px;
+}
+.form{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* background-color: blueviolet; */
+    /* padding-top: 20px; */
+    /* flex-wrap: wrap; */
+}
+
+.containerbody{
+    padding-top: 30px;
+    width: 100%;
+    height: 300px;
+    /* background-color: aqua; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 20px;
-    /* align-items: center; */
     justify-content: space-between;
+    gap: 5px;
 }
-.TheInput{
-    border: 1px solid rgb(137, 136, 136);
-    width: calc(45%);
-    height: fit-content;
-    /* background-color: chartreuse; */
-    border-radius: 5px;
-    padding: 10px 20px;
-}
-#GendersArea,#PasswordsArea{
-    border: none;
+.BodyFill{
+    /* background-color: #B17457; */
+    width: 550px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
 }
 
-.TheInput>p,
-#PasswordsArea>div>p,
-#Optionals{
-    font-size: 12px;
-    color: rgb(137, 136, 136) !important;
+.input-container {
+    width: calc(100% - 10px);
+    height: 100%;
+    position: relative;
+    /* margin: 5px; */
+    display: flex;
+    align-items: center; /* Menjaga elemen tetap sejajar secara vertikal */
 }
-.TheInput input[type="text"],
-.TheInput>*>input[type="password"],
-.TheInput input[type="email"]{
-    border: none;
+
+.input-container input {
+    width: 100%;
+    height: 100%;
+    padding: 16px 50px 8px 20px; /* Menambah padding kanan untuk tombol */
+    font-size: 16px;
+    border: 2px solid #aaa;
+    border-radius: 15px;
     outline: none;
-    font-size: 20px;
-    color: #000 !important;
-    /* background-color: #9D5C0D; */
-    width: calc(85%);
 }
-#PasswordsArea{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+#ThePassword,#newPassword{
+    border: none;
+}
+input:disabled{
+    background-color: rgb(0,0,0,0);
 }
 
-#PasswordsArea>div>button{
-    color: #9D5C0D;
-    font-size: 12px;
-    /* font-style: italic; */
-}
-
-.Labels{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-#Optionals{
-    font-size: 12px;
-    font-style: italic;
-}
-#GendersArea{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-#GendersArea>.Options{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-}
-.ButtonsArea{
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: end;
-}
-.ButtonsArea>*{
+.input-container label {
     width: fit-content;
-    height: fit-content;
-    background-color: #9D5C0D;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #aaa;
+    background-color: white;
+    padding: 0 10px;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+    margin-top: 2px;
+    top: 2px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+
+
+.TheInput>p,.PasswordFill>p{
+    color: rgb(147, 147, 147);
     font-size: 15px;
-
+    padding: 0px;
+    margin: 0px;
+}
+.TheInput>input,.PasswordFill>input{
+    border: none;
+    background-color: #ffffff;
+    outline: none;
+    height: 30px;
+    font-family: 'normalPublica';
+    font-size: 20px;
 }
 
-@media screen and (max-width: 896px) {
-    .LeftMenu{
-        width: 180px !important;
-    }
-    .LeftMenu>button>p{
-        font-size: 15px;
-    }
-    .IntoContent{
-        width: calc(80%);
-    }
-    .TheInput{
-        width: calc(100%);
-    }
-    .TheInput input[type="text"],
-    .TheInput input[type="email"]{
-        width: 100%;
-    }
-}
-
-@media screen and (min-width: 897px) {
-    .LeftMenu{
-        width: 250px !important;   
-    }
-}
-/* form input[type="text"]{
-
-} */
-
-@media screen and (max-width: 603px) {
-    .LeftMenu{
-        display: none;
-        width: 180px !important;
-    }
-    .LeftMenu>button>p{
-        font-size: 12px;
-    }
-    .TitleMenu{
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-@media screen and (max-width: 439px) {
-    .LeftMenu{
-        width: 180px !important;
-    }
-    .LeftMenu>button>p{
-        font-size: 9px;
-    }
+#PasswordArea{
+    flex-direction: row;
+    justify-content: space-between;
+    
     
 }
+
+#PasswordArea>*{
+    /* height: 100%; */
+    /* background-color: aqua; */
+}
+.ButtonArea{
+    position: absolute;
+    right: 20px; /* Atur jarak dari tepi kanan input */
+    gap: 5px;
+
+    width: 100%;
+    /* background-color: aqua; */
+    width: fit-content;
+    /* background-color: rgb(255, 255, 255); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 12px; */
+}
+.ButtonArea>button{
+    /* padding-top: ; */
+    height: 50%;
+    width: 50%;
+    border: none;
+    background-color: rgb(0,0,0,0);
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+    /* padding-left: 2px; */
+    margin-left: 20px;
+}
+
+.BodyFill.Gender{
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    height: fit-content !important;
+}
+.titleSub{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 20px;
+    margin: 10px 0px;
+}
+.pOptional{
+    font-size: 12px;
+    font-style: italic;
+    color: #aaa;
+}
+.radioArea{
+    display: flex;
+    flex-direction: column;
+}
+.radioArea input[type="radio"]{
+    accent-color: #B17457;
+    border: #B17457;
+}
+.containerButton{
+    display: flex;
+    justify-content: end;
+    /* background-color: antiquewhite; */
+    height:fit-content;
+}
+.containerButton button{
+    color: white;
+    background-color: #B17457;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 10px 20px;
+    height: 50px;
+    margin: 10px;
+    border: none;
+    outline: none;
+    font-weight: bold;
+}
+
+
+
+

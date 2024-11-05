@@ -72,6 +72,13 @@ body p{
     justify-content: center;
     align-items: center;
 }
+.navleft>button.needMargin{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
 #Search{
     display: none;
 }
@@ -86,6 +93,7 @@ body p{
     color: #9D5C0D;
     margin: 0;
     padding: 0;
+    text-align: start;
 }
 
 
@@ -242,6 +250,9 @@ body p{
     display: flex;
     flex-direction: row;
     height: 100%;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+
 }
 .leftbar{
     color: #B17457;

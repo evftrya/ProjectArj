@@ -72,10 +72,10 @@
                 event.preventDefault();
             })
 
-            let unSeeBut = document.getElementById('UnSee');
-            unSeeBut.addEventListener("click", function(event){
-                event.preventDefault();
-            })
+        let unSeeBut = document.getElementById('UnSee');
+        unSeeBut.addEventListener("click", function(event){
+            event.preventDefault();
+        })
         function Password(a){
             let pw = document.getElementById('ThePassword'); 
             if(a=="LetsSee"){

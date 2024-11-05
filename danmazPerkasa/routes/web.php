@@ -15,7 +15,12 @@ use App\Http\Controllers\Controller;
 |
 */
 $controller = new Controller();
+
 Route::get('/', function (Controller $cont) {
+    return redirect('/Index');
+});
+
+Route::get('/Index', function (Controller $cont) {
     return view('landingpage');
 });
 
@@ -33,7 +38,7 @@ Route::get('/Register', function () {
 });
 
 Route::get('/Profile', function () {
-    return view('trash/Profile');
+    return view('profile');
 });
 
 Route::get('/try', function(){
