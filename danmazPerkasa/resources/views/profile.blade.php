@@ -14,25 +14,25 @@
     </div>
     <div class="container">
         <div class="sideBar">
-            <div class="ContainerSubMenu">
+            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="27" fill="#B17457"/>
                 </svg>
                 <p>Info</p>
             </div>
-            <div class="ContainerSubMenu">
+            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
                 <p>Change Password</p>
             </div>
-            <div class="ContainerSubMenu">
+            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
                 <p>Address</p>
             </div>
-            <div class="ContainerSubMenu">
+            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
@@ -46,14 +46,12 @@
                     <line y1="0.5" x2="100%" y2="0.5" stroke="#B17457"/>
                 </svg>
             </div>
-            <form action="" class="formProfile" style="display:none;">
-                <div class="containerbody">
+            <form action="" class="formProfile" id="formProfileInfo">
+                <div class="containerbody horizontal">
                     <div class="BodyFill">
                         <div class="input-container">
-                            
                                 <input type="text" name="emailUser" placeholder="" id="inputField">
                                 <label for="inputField">First Name</label>
-                            
                         </div>
                     </div>
                     <div class="BodyFill">
@@ -131,8 +129,107 @@
                 </div>
             </form>
 
-            
-            
+            <form action="" class="formProfile vertical" id="formProfileChangePassword" style="display:none;">
+                <div class="containerbody vertical">
+                    <div class="BodyFill">
+                        <div class="input-container Info" id="PasswordArea">
+                            <input type="password" name="passwordUser" id="OldPassword" placeholder="">
+                            <label for="ThePassword">Enter Current Password</label>
+                            
+
+                            <div class="ButtonArea">
+                                <p id="descPass" onclick="ChangePasswordInfo(this,'OldPassword')">Show</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="BodyFill">
+                        <div class="input-container Info" id="PasswordArea">
+                            <input type="password" name="passwordUser" id="NewPassword" placeholder="">
+                            <label for="ThePassword">Enter New Password</label>
+                            
+
+                            <div class="ButtonArea">
+                                <p id="descPass" onclick="ChangePasswordInfo(this,'NewPassword')">Show</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="BodyFill">
+                        <div class="input-container Info" id="PasswordArea">
+                            <input type="password" name="passwordUser" id="RetypeNewpassword" placeholder="">
+                            <label for="ThePassword">Re-enter New password</label>
+                            
+                            <div class="ButtonArea">
+                                <p id="descPass" onclick="ChangePasswordInfo(this,'RetypeNewpassword')">Show</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="containerButton Info">
+                    <button>Update</button>
+                </div>
+
+            </form>
+
+            <form action="" class="formProfile horizontal " id="formProfileAddress" style="display:none;">
+                <div class ="containerbody TwoSpace">
+                    <div class="lefts">
+                        <div class="BodyFill">
+                            <div class="input-container">
+                                    <input type="email" name="emailUser" placeholder="Jawa Timur" id="inputField">
+                                    <label for="inputField">Provinsi</label>
+                            </div>
+                        </div>
+                        <div class="BodyFill">
+                            <div class="input-container">
+                                    <input type="email" name="emailUser" placeholder="Bondowoso" id="inputField">
+                                    <label for="inputField">Kota / Kabupaten</label>
+                            </div>
+                        </div>
+                        <div class="BodyFill">
+                            <div class="input-container">
+                                    <input type="email" name="emailUser" placeholder="Genteng" id="inputField">
+                                    <label for="inputField">Kecamatan</label>
+                            </div>
+                        </div>
+                        <div class="BodyFill">
+                            <div class="input-container">
+                                    <input type="email" name="emailUser" placeholder="Embong Kaliasin" id="inputField">
+                                    <label for="inputField">Kelurahan</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="rights">
+                        <div class="BodyFill">
+                            <div class="input-container">
+                                        <input type="email" name="emailUser" placeholder="012" id="inputField">
+                                        <label for="inputField">RT</label>
+                            </div>
+                        </div>
+
+                        <div class="BodyFill">
+                            <div class="input-container">
+                                    <input type="email" name="emailUser" placeholder="013" id="inputField">
+                                    <label for="inputField">RW</label>
+                            </div>
+                        </div>
+                        <div class="BodyFill">
+                            <div class="input-container end">
+                                    <input type="email" name="emailUser" placeholder="Jl. Kalijudan I No. 45" id="inputField">
+                                    <label for="inputField">Alamat Detail</label>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    
+                    
+                </div>
+                <div class="containerButton">
+                    <button>Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -140,6 +237,17 @@
 
 @section('js')
 <script>
+        // function ChangeText2(elemen){
+        //     let theName = elemen.querySelectorAll("P");
+        //     let theText = document.querySelectorAll(".container2>.Text2>p")
+        //     theText[0].textContent = theName[0].textContent;
+        //     document.querySelectorAll(".formProfile").forEach(function(element){
+        //         element.style.display="none";
+        //     })
+
+        //     let theForm = document.querySelector(("#formProfile"+theName[0].textContent.replace(/\s+/g, '')));
+        //     theForm.style.display = "flex";
+        // }
         let seeBut = document.getElementById('See');
             seeBut.addEventListener("click", function(event){
                 event.preventDefault();
@@ -194,6 +302,19 @@
                 desc.setAttribute("onclick", "ChangePassword('change')")
             }
 
+        }
+
+        function ChangePasswordInfo(elemen, idinput){
+            let inp = document.querySelectorAll(("#PasswordArea #"+idinput));
+            console.log(inp[0].value);
+            if(elemen.textContent=="Show"){
+                inp[0].type="text";
+                elemen.textContent = "Hide";
+            }
+            else{
+                inp[0].type="password";
+                elemen.textContent = "Show";
+            }
         }
 
     </script>
