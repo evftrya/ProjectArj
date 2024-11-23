@@ -20,60 +20,63 @@
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="27" fill="#B17457"/>
                 </svg>
-                <p>Info</p>
+                <p><a href="/Profile/Info">Info</a></p>
             </div>
             <div class="ContainerSubMenu" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
-                <p>Change Password</p>
+                <p><a href="/Profile/Change-Password">Change Password</a></p>
             </div>
             <div class="ContainerSubMenu" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
-                <p>Address</p>
+                <p><a href="/Profile/Address">Address</a></p>
             </div>
             <div class="ContainerSubMenu" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
-                <p>Logout</p>
+                <p><a href="/Logout">Logout</a></p>
             </div>
         </div>
         <div class="container2">
             <div class="Text2">
-                <p>Info</p>
+                <p>{{{$cp}}}</p>
                 <svg width="100%" height="1" viewBox="0 0 100% 1" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <line y1="0.5" x2="100%" y2="0.5" stroke="#B17457"/>
                 </svg>
             </div>
-            <form action="" class="formProfile" id="formProfileInfo">
+            @if($wht=="Info")
+            <form action="/Profile/{{{$wht}}}-Update" class="formProfile" id="formProfileInfo" method="POST">
+                @csrf
                 <div class="containerbody horizontal">
+                    
                     <div class="BodyFill">
                         <div class="input-container">
-                                <input type="text" name="emailUser" placeholder="" id="inputField">
+                                <input type="text" name="firstName" placeholder="" id="inputField" value="{{{$data->firstName}}}" disabled required>
                                 <label for="inputField">First Name</label>
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
                             
-                                <input type="text" name="emailUser" placeholder="" id="inputField">
+                                <input type="text" name="lastName" placeholder="" id="inputField" value="{{{$data->lastName}}}" disabled  required>
                                 <label for="inputField">Last Name</label>
                             
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
-                                <input type="email" name="emailUser" placeholder="" id="inputField">
+                                <input type="email" name="emailUser" placeholder="" id="inputField" value="{{{$data->emailUser}}}" disabled required>
                                 <label for="inputField">Email</label>
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
                             
-                                <input type="email" name="emailUser" placeholder="" id="inputField">
+                                <input type="text" name="Phone" placeholder="" id="inputField" value="{{{$data->Phone}}}" disabled required>
                                 <label for="inputField">Phone</label>
                             
                         </div>
@@ -81,26 +84,11 @@
                     <div class="BodyFill">
                         <div class="input-container" id="PasswordArea">
 
-                                <input type="password" name="passwordUser" id="ThePassword" placeholder="" value="ghscmdjkfcnskd" disabled>
+                                <input type="password" name="passwordUser" id="ThePassword" placeholder="" value="{{{$data->lenPassword}}}" disabled>
                                 <label for="ThePassword">Password</label>
-                                <input type="password" name="ChangePassword" id="newPassword" placeholder=""  style="display: none;">
-                                <label for="newPassword" style="display: none;">New Password</label>
 
                             <div class="ButtonArea">
-                                <p id="descPass" onclick="ChangePassword('change')">Change</p>
-                                <button id="See" onclick="Password('LetsSee')" style="display: none;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="50" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
-                                    </svg>
-                                </button>
-                                <button id="UnSee" onclick="Password('LetsUnSee')" style="display: none;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="50" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
-                                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
-                                        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
-                                        <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
-                                    </svg>
-                                </button>
+                                <p id="descPass" onclick="window.location.href = '/Profile/Change-Password'">Change</p>
                             </div>
                         </div>
                     </div>
@@ -111,15 +99,15 @@
                         </div>
                         <div class="radioArea">
                             <label for="">
-                                <input type="radio" name="tes" id="" value="1">
+                                <input type="radio" name="Gender" id="" value="Male" @if($data->Gender=="Male") checked @endif>
                                 Male
                             </label>
                             <label for="">
-                                <input type="radio" name="tes" id="" value="1">
+                                <input type="radio" name="Gender" id="" value="Female" @if($data->Gender=="Female") checked @endif>
                                 Female
                             </label>
                             <label for="">
-                                <input type="radio" name="tes" id="" value="1">
+                                <input type="radio" name="Gender" id="" value="Prefer not to say" @if($data->Gender=="Prefer not to say") checked @endif>
                                 I Prefer not to say
                             </label>
 
@@ -127,15 +115,18 @@
                     </div>
                 </div>
                 <div class="containerButton">
-                    <button>Save Changes</button>
+                    <button type="submit" onclick="EditProfileInfo('edit',event,this)" id="toEdit">Update Profile</button>
                 </div>
             </form>
-
-            <form action="" class="formProfile vertical" id="formProfileChangePassword" style="display:none;">
+            @elseif($wht=="Change-Password")
+            <form action="/Profile/ChangePassword-Update" class="formProfile vertical" id="formProfileChangePassword" method="POST">
+                
+                @csrf
                 <div class="containerbody vertical">
+                    
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
-                            <input type="password" name="passwordUser" id="OldPassword" placeholder="">
+                            <input type="password" name="currentPassword" id="OldPassword" placeholder="" value="">
                             <label for="ThePassword">Enter Current Password</label>
                             
 
@@ -147,7 +138,7 @@
 
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
-                            <input type="password" name="passwordUser" id="NewPassword" placeholder="">
+                            <input type="password" name="NewPassword" id="NewPassword" placeholder="">
                             <label for="ThePassword">Enter New Password</label>
                             
 
@@ -159,7 +150,7 @@
 
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
-                            <input type="password" name="passwordUser" id="RetypeNewpassword" placeholder="">
+                            <input type="password" name="RetypeNewPassword" id="RetypeNewpassword" placeholder="">
                             <label for="ThePassword">Re-enter New password</label>
                             
                             <div class="ButtonArea">
@@ -169,35 +160,36 @@
                     </div>
                 </div>
                 <div class="containerButton Info">
-                    <button>Update</button>
+                    <button type="submit" onclick="formSubmit('ChangePassword',event)">Update</button>
                 </div>
 
             </form>
-
-            <form action="" class="formProfile horizontal " id="formProfileAddress" style="display:none;">
-                <div class ="containerbody TwoSpace">
+            @elseif($wht=="Address")
+            <form action="/Profile/{{{$wht}}}-Update" class="formProfile horizontal " id="formProfileAddress" method="POST">
+                @csrf
+                <div class ="containerbody TwoSpace first" style="display: none">
                     <div class="lefts">
                         <div class="BodyFill">
                             <div class="input-container">
-                                    <input type="email" name="emailUser" placeholder="Jawa Timur" id="inputField">
+                                    <input type="text" name="provinsi" placeholder="Jawa Timur" id="inputField">
                                     <label for="inputField">Provinsi</label>
                             </div>
                         </div>
                         <div class="BodyFill">
                             <div class="input-container">
-                                    <input type="email" name="emailUser" placeholder="Bondowoso" id="inputField">
+                                    <input type="text" name="KotaKabupaten" placeholder="Bondowoso" id="inputField">
                                     <label for="inputField">Kota / Kabupaten</label>
                             </div>
                         </div>
                         <div class="BodyFill">
                             <div class="input-container">
-                                    <input type="email" name="emailUser" placeholder="Genteng" id="inputField">
+                                    <input type="text" name="Kecamatan" placeholder="Genteng" id="inputField">
                                     <label for="inputField">Kecamatan</label>
                             </div>
                         </div>
                         <div class="BodyFill">
                             <div class="input-container">
-                                    <input type="email" name="emailUser" placeholder="Embong Kaliasin" id="inputField">
+                                    <input type="text" name="Kelurahan" placeholder="Embong Kaliasin" id="inputField">
                                     <label for="inputField">Kelurahan</label>
                             </div>
                         </div>
@@ -206,20 +198,20 @@
                     <div class="rights">
                         <div class="BodyFill">
                             <div class="input-container">
-                                        <input type="email" name="emailUser" placeholder="012" id="inputField">
+                                        <input type="text" name="RT" placeholder="012" id="inputField">
                                         <label for="inputField">RT</label>
                             </div>
                         </div>
 
                         <div class="BodyFill">
                             <div class="input-container">
-                                    <input type="email" name="emailUser" placeholder="013" id="inputField">
+                                    <input type="text" name="RW" placeholder="013" id="inputField">
                                     <label for="inputField">RW</label>
                             </div>
                         </div>
                         <div class="BodyFill">
                             <div class="input-container end">
-                                    <input type="email" name="emailUser" placeholder="Jl. Kalijudan I No. 45" id="inputField">
+                                    <input type="text" name="AlamatDetail" placeholder="Jl. Kalijudan I No. 45" id="inputField">
                                     <label for="inputField">Alamat Detail</label>
                             </div>
                         </div>
@@ -228,10 +220,17 @@
                     
                     
                 </div>
-                <div class="containerButton">
-                    <button>Save Changes</button>
+                <div class ="containerbody second">
+                    <div>
+                        <p>{{{$data->Address}}}</p>
+                    </div>
                 </div>
+                <div class="containerButton">
+                    <button onclick="editAddress(event,this)">Edit Address</button>
+                </div>
+
             </form>
+            @endif
         </div>
     </div>
 </div>
@@ -250,6 +249,41 @@
         //     let theForm = document.querySelector(("#formProfile"+theName[0].textContent.replace(/\s+/g, '')));
         //     theForm.style.display = "flex";
         // }
+
+        // EditProfileInfo('non-edit',event);
+
+        function editAddress(event,button){
+            event.preventDefault();
+            let editSpace = document.querySelectorAll('#formProfileAddress>.containerbody');
+            if(button.textContent=="Edit Address"){
+                button.textContent = "Save Changes";
+                editSpace[0].style.display = "flex";
+                editSpace[1].style.display = "none";
+            }
+            else{
+                formSubmit('Address',event);
+            }
+        }
+        function formSubmit(wht, event){
+            event.preventDefault();
+            document.getElementById('formProfile'+wht).submit();
+        }
+        function EditProfileInfo(wht,event,button){
+            event.preventDefault();
+            if(button.textContent=="Save Changes"){
+                document.getElementById('formProfileInfo').submit();
+            }
+            let input = document.querySelectorAll('#formProfileInfo input');
+            input.forEach(e => {
+                e.disabled = ((wht!=='edit'));
+                if(wht==='edit'){
+                    button.textContent="Save Changes";
+                }
+                else{
+                    button.textContent="Update Profile"
+                }
+            });
+        }
         let seeBut = document.getElementById('See');
             seeBut.addEventListener("click", function(event){
                 event.preventDefault();

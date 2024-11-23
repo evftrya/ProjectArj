@@ -64,6 +64,11 @@
 .ContainerSubMenu>svg>rect{
     display: none;
 }
+.ContainerSubMenu a{
+    text-decoration: none;
+    outline: none;
+    color: inherit;
+}
 .container2{
     display: flex;
     flex-direction: column;
@@ -278,6 +283,7 @@ input:disabled{
 .containerbody.vertical{
     font-family: inherit;
     flex-direction: column;
+    gap: 50px;
 }
 .containerButton.Info{
     font-family: 'normalPublica';
@@ -291,10 +297,11 @@ input:disabled{
     padding-right: 30px;
 }
 
-/* -------------- Adress ---------------- */
-/* .containerbody.TwoSpace{
-    flex-direction: column;
-} */
+/* -------------- Address ---------------- */
+.containerbody.TwoSpace{
+    /* flex-direction: column; */
+    justify-content: space-between;
+}
  .containerbody>.lefts,
  .containerbody>.rights{
     display: flex;
@@ -322,6 +329,10 @@ input:disabled{
 .containerbody.TwoSpace .input-container::placeholder:focus{
     opacity: 10%;
     font-size: 10px;
+}
+.containerbody.second{
+    width: 70%;
+    font-size: 20px;
 }
 
 

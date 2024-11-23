@@ -44,6 +44,11 @@ Route::get('/Profile', function () {
     return view('profile');
 });
 
+Route::get('/Profile/{wht}',[Controller::class,'Profile']);
+Route::post('/Profile/{wht}-Update',[Controller::class,'ProfileUpdate']);
+
+
+
 Route::get('/Logout',[AccountController::class, 'Logout']);
 
 Route::get('/try', function(){
