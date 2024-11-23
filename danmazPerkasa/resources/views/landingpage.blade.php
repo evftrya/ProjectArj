@@ -2,6 +2,7 @@
 @section('content')
 <div class="LandingPage">
     <div class="freePoster" style="background-image: url('{{asset('asetFoto/guitars1.jpg')}}');">
+        
         <p>Strings tell stories that words often cannot.</p>
         <a href="">
             <p>SHOP NOW</p>

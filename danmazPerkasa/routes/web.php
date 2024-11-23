@@ -21,6 +21,9 @@ Route::get('/', function (Controller $cont) {
 });
 
 Route::get('/Index', function (Controller $cont) {
+    // session_start();
+    // dd($_SESSION['user_id']);
+    // dd(session('user_id'));
     return view('landingpage');
 });
 
@@ -40,6 +43,8 @@ Route::get('/Register', function () {
 Route::get('/Profile', function () {
     return view('profile');
 });
+
+Route::get('/Logout',[AccountController::class, 'Logout']);
 
 Route::get('/try', function(){
     return view('try');

@@ -11,13 +11,14 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     public function AuthSystem(){
-        if(session('user_id')>0){
+        if(session('user_id')==1){
             return 1;
         }
         else{
             return 0;
         }
     }
+    
 
     public function GetUrl(){
         

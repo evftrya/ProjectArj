@@ -173,14 +173,117 @@ body p{
     /* padding-right: 30px; */
     
 }
+.AfterLogin{
+    background-color: #D8D2C2;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border-radius: 30px;
+    gap: 50px;
+    align-items: center;
+}
+.AfterLogin>svg{
+    width: 35px;
+}
 
-.UserArea>a{
+/* --------- userspace ---------- */
+
+.AccountDetil{
+    z-index: 1000;
+    margin-top: 50px;
+    font-size: 15px;
+    font-family: 'normalPublica';
+    background-color: white;
+    position: fixed;
+    right: 6%;
+    top: 7%;
+    height: fit-content;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px 20px;
+    border-radius: 20px;
+    border: #4A4947 solid 0.5px;
+    stroke-opacity: 0.45;
+}
+.AccountDetil>.top{
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+}
+.AccountDetil>*{
+    display: flex;
+    flex-direction: row;
+}
+.areaButton{
+    padding-top: 10px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column !important;
+}
+.areaButton>*{
+    display: flex;
+    flex-direction: row;
+    width: 100%;    
+    justify-content: start;
+    gap: 10px;
+    padding-left: 20px;
+    text-decoration: none;
+    color: black;
+    align-items: center;
+}
+.areaButton>*>svg{
+    height: 17px;
+    width: 17px;
+}
+
+
+.UserArea>.auth>a{
     text-decoration: none;
     outline: none;
     color:  rgba(0, 0, 0, 0.669);
-
+}
+.auth{
+    /* font-family: 'normalPublica'; */
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    text-decoration: none;
 }
 
+.searchAccountDetil{
+    /* padding: 5px; */
+    /* border: 1px solid rgb(168, 11, 11); */
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+    /* background-color: #855845; */
+}
+.searchAccountDetil>div{
+    /* padding-top: ; */
+    border: #4a49477d solid 0.7px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2px;
+    width: 90%;
+    padding: 4px;
+    border-radius: 3px;
+
+}
+.searchAccountDetil>div input{
+    width: calc(100% - 17px - 10px );
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+
+/* ----------- end user area ------- */
 @media screen and (min-width: 662px) {
 
 

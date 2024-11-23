@@ -20,6 +20,7 @@ class AccountController extends Controller
         // DD($email);
 
         if($email){
+            session_start();
             session(['user_id' => 1]);
             return redirect('/Login');
         }
@@ -28,16 +29,14 @@ class AccountController extends Controller
         }
 
 
+        
+        
+    }
 
-        // dd($request);
-        // $credentials = [
-        //     'emailUser'     => $request->input('emailUser'),
-        //     'password'  => $request->input('passwordUser'),
-        // ];
-        // dd($credentials);
-        // dd($credentials);
-        
-        
+    public function Logout(){
+        session_abort();
+        session(['user_id' => 0]);
+        return redirect(('/Login'));
     }
 
     public function AuthUser($email, $pw){
