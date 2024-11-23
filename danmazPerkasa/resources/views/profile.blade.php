@@ -56,28 +56,28 @@
                     <div class="BodyFill">
                         <div class="input-container">
                                 <input type="text" name="firstName" placeholder="" id="inputField" value="{{{$data->firstName}}}" disabled required>
-                                <label for="inputField">First Name</label>
+                                <label for="inputField">First Name*</label>
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
                             
                                 <input type="text" name="lastName" placeholder="" id="inputField" value="{{{$data->lastName}}}" disabled  required>
-                                <label for="inputField">Last Name</label>
+                                <label for="inputField">Last Name*</label>
                             
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
                                 <input type="email" name="emailUser" placeholder="" id="inputField" value="{{{$data->emailUser}}}" disabled required>
-                                <label for="inputField">Email</label>
+                                <label for="inputField">Email*</label>
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
                             
                                 <input type="text" name="Phone" placeholder="" id="inputField" value="{{{$data->Phone}}}" disabled required>
-                                <label for="inputField">Phone</label>
+                                <label for="inputField">Phone*</label>
                             
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
                             <input type="password" name="currentPassword" id="OldPassword" placeholder="" value="">
-                            <label for="ThePassword">Enter Current Password</label>
+                            <label for="ThePassword">Enter Current Password*</label>
                             
 
                             <div class="ButtonArea">
@@ -139,7 +139,7 @@
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
                             <input type="password" name="NewPassword" id="NewPassword" placeholder="">
-                            <label for="ThePassword">Enter New Password</label>
+                            <label for="ThePassword">Enter New Password*</label>
                             
 
                             <div class="ButtonArea">
@@ -151,7 +151,7 @@
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
                             <input type="password" name="RetypeNewPassword" id="RetypeNewpassword" placeholder="">
-                            <label for="ThePassword">Re-enter New password</label>
+                            <label for="ThePassword">Re-enter New password*</label>
                             
                             <div class="ButtonArea">
                                 <p id="descPass" onclick="ChangePasswordInfo(this,'RetypeNewpassword')">Show</p>
@@ -178,7 +178,7 @@
                         <div class="BodyFill">
                             <div class="input-container">
                                     <input type="text" name="KotaKabupaten" placeholder="Bondowoso" id="inputField">
-                                    <label for="inputField">Kota / Kabupaten</label>
+                                    <label for="inputField">Kota / Kabupaten*</label>
                             </div>
                         </div>
                         <div class="BodyFill">
@@ -212,7 +212,7 @@
                         <div class="BodyFill">
                             <div class="input-container end">
                                     <input type="text" name="AlamatDetail" placeholder="Jl. Kalijudan I No. 45" id="inputField">
-                                    <label for="inputField">Alamat Detail</label>
+                                    <label for="inputField">Alamat Detail*</label>
                             </div>
                         </div>
                     </div>
