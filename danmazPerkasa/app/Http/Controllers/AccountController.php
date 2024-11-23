@@ -64,7 +64,7 @@ class AccountController extends Controller
                 return redirect('/Login');
             }
             else{
-                return redirect('/');
+                return redirect('/Register');
             }
         }
 
