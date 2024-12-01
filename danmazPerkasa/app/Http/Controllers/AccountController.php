@@ -43,6 +43,7 @@ class AccountController extends Controller
     public function Logout(){
         session_abort();
         session(['user_id' => 0]);
+        session(['direction'=>null]);
         return redirect(('/Login'));
     }
 

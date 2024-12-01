@@ -1,0 +1,288 @@
+.CartContainer{
+    height: 100%;
+    /* background-color: aqua; */
+    width: calc(100% - 20px);
+    /* margin-left: ; */
+    margin: 10px;
+    font-family: 'normalPublica';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+}
+.Tables{
+    /* background-color: rgb(234, 217, 249); */
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: start;
+}
+.Tables>*{
+    background-color: #D8D2C2;
+}
+.THead{
+    /* border: 1px solid black; */
+    border-radius: 20px;
+    width: calc( 100% - 100px);
+    /* min-width: fit-content; */
+    height: 75px;
+    min-height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding: 0px 50px;
+    /* justify-content:space-between; */
+
+}
+.Tbody{
+    width: calc( 100% - 30px - 70px);
+    /* min-width: fit-content; */
+    border-radius: 20px;
+    padding: 10px 35px;
+    height: fit-content;
+    min-height: 69.2vh;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    /* gap: 10px; */
+}
+.theProduct{
+    /* margin-top: 10px; */
+    /* padding: 10px 0px; */
+    padding-top: 10px;
+    width: 100%;
+    /* min-width: ; */
+    /* height: 70px; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* justify-content:space-between; */
+    /* background-color: burlywood; */
+    /* gap: 10px; */
+}
+.theProduct>*{
+    height: 70px;
+    border-bottom: 0.5px solid #B17457;
+    /* border-bottom: 0.5px solid black; */
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+.forCBVar input, .cb input{
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    margin: 0;
+    width: 15px;
+    height: 15px;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 5px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border: none; */
+/* 25 */
+}
+.cb{
+    border:none !important;
+}
+.forCBVar input:checked::before, .cb input:checked::before{
+    position: relative;
+    content: '✔';
+    width: inherit;
+    height: inherit;
+    font-size: 80%;
+    /* content: '\2713'; */
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: #B17457;
+    border-radius: 5px;
+}
+.forProdVar, .prodDesc{
+    padding-left: 20px;
+    width: 50%;
+    min-width: 30%;
+    /* margin-left: 20px; */
+    /* background-color: bisque; */
+    /* font-weight: bold; */
+}
+
+.prodDesc{
+    /* margin-left: 10px; */
+    /* height: 100%; */
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+.ProductPhoto{
+    width: 150px;
+    /* height: 100px; */
+    height: 70px;
+    min-height: 80%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ProductDesc{
+    font-family:'Roboto', sans-serif;
+}
+
+.forPriceVar,.ProductPrice{
+    /* background-color: antiquewhite; */
+    width: calc(15% - 20px);
+    min-width: 85px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.ProductPrice{
+    font-family:'Roboto', sans-serif;
+    /* height: 70px; */
+}
+
+.forQtyVar,.ProductQty{
+    width: 10%;
+    /* min-width: 15%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: bisque; */
+}
+.ProductQty{
+    font-family:'Roboto', sans-serif;
+    font-size: 12px;
+}
+.ProductQty input{
+    border: none;
+    outline: none;
+    width: 15px;
+    /* background-color: #B17457; */
+    display: flex;
+    /* flex-direction: ; */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+}
+.ProductQty>.inside{
+    /* width: 100%; */
+    /* height: 100%; */
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    height: fit-content;
+    width: fit-content;
+    /* border: black 1px solid; */
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: white;
+}
+.ProductQty button{
+    border: none;
+    background-color: rgb(0,0,0,0);
+}
+.ProductQty button svg{
+    width: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.forSumVar,.ProductTotal{
+    /* background-color: antiquewhite; */
+    width: calc(15% - 20px);
+    min-width: 85px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.ProductTotal{
+    font-family:'Roboto', sans-serif;
+    /* height: 70px; */
+}
+.forActVar, .ProductAct{
+    /* width: calc(100% - calc(15% - 20px)
+     - 15px - 10px - 150px - 20px - 10% - calc(15% - 20px) - 20px); */
+     width: 50px;
+     /* background-color: aliceblue; */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+.ProductAct button{
+    text-decoration: none;
+    border: none;
+    background-color: rgb(0,0,0,0);
+    color: #B17457;
+    font-size: 15px;
+}
+
+
+/* ------------ UNTUK CHECKOUT --------- */
+.toCheckout{
+    width: calc( 100% - 70px);
+    padding: 30px 35px;
+    height: 200px;
+    position: sticky;
+    background-color: #D8D2C2;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    border-radius: 10px;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.5);
+}
+.toCheckout div{
+    /* background-color: aqua; */
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.toCheckout .text{
+    display: flex;
+    flex-direction: row;
+    gap: 1px;
+}
+.FinalSum{
+    color: #B17457;
+}
+.text.roboto{
+    font-family: 'Roboto',sans-serif;
+}
+.toCheckout button{
+    width: fit-content;
+    background-color: #B17457;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 20px 40px;
+    border: none;
+    color: white;
+    letter-spacing: 1px;
+}
+.sidE{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

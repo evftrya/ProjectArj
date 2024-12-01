@@ -21,6 +21,23 @@ class Controller extends BaseController
         }
     }
     
+    public function authRoute($direction){
+        if($this->AuthSystem()>0){
+            dd('masukif');
+            return redirect($direction);
+        }
+        elseif($direction!="/Login"){
+            // session_start();
+            session(['direction' => $direction]);
+            // dd(session('direction'));
+            return redirect('/Login');
+            // dd('masukelif');
+        }
+        else{
+            dd('masukelse');
+            return redirect('/Login');
+        }
+    }
 
     public function GetUrl(){
         
@@ -29,9 +46,11 @@ class Controller extends BaseController
         $request_uri = $_SERVER['REQUEST_URI'];
         $current_url = $protocol . '://' . $host . $request_uri;
         
-        $urlName = basename($current_url);
-        //hanya untuk ngambil nama halaman
-        return $urlName;
+        // Memisahkan path berdasarkan "/" dan mengambil elemen kedua
+        $urlParts = explode('/', ltrim($request_uri, '/'));
+        $firstSegment = isset($urlParts[0]) ? $urlParts[0] : ''; // Cek apakah elemen pertama ada
+
+        return $firstSegment;
     }
 
     public function Profile($wht,AccountController $acc){
@@ -60,6 +79,12 @@ class Controller extends BaseController
 
         }
         return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp]);
+    }
+    public function Product($wht){
+        
+
+
+        return view ('Product');
     }
 
     public function ProfileUpdate(Request $req,AccountController $acc,$wht){

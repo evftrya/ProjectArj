@@ -1,0 +1,248 @@
+html body{
+    overflow-x: hidden;
+}
+.containerProductDetil{
+    /* background-color: aqua; */
+    padding-bottom: 20px;
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.mainArea{
+    display: flex;
+    flex-direction: row;
+    /* background-color: bisque; */
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    border-radius: 10px;
+    /* border: #B17457 solid 1px; */
+}
+.mainArea>div{
+    width: calc(50% - 10px);
+}
+.PhotosArea{
+    width: 100%;
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* gap: 10px; */
+}
+.MainPhotos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* overflow-y: auto; */
+}
+.MainPhotos>div{
+    width: 100%;
+    height: 400px;
+    /* overflow-y: auto; */
+    /* border: 1px solid #B17457; */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.thePhotosArea{
+    /* background-color: #B17457; */
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    /* overflow-x: auto; */
+    align-items: center;
+    justify-content: space-between;
+}
+.TheScroll{
+    background-color:#B17457;
+    border-radius: 5px;
+    padding: 3px;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.TheScroll svg{
+    width: 10px;
+    margin: 3px;
+}
+.ThePhotos{
+    padding-left: 10px;
+    padding-right: 10px;
+    width: calc(100% - 10px - 6px - 10px - 6px -10px - 10px);
+    /* background-color: bisque; */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    overflow-x: hidden;
+}
+.justContainer{
+    /* padding-top: 10px; */
+    width: 100%;
+    height: 100px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: start;
+    display: flex;
+    flex-direction: row;
+    /* box-sizing: border-box; */
+    padding: 0;
+    gap: 10px;
+}
+.justContainer::-webkit-scrollbar{
+    height: 0px;
+}
+ .ThePhoto{
+    width: 70px;
+    min-width: 70px;
+    height: 70px;
+    /* background-color: beige; */
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: #B17457 1px solid;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+ }
+
+ /* ------------- PRODUCT NAME AREA ------------- */
+ .ActionArea{
+    display: flex;
+    flex-direction: column;
+    /* background-color: aqua; */
+    font-family:'normalPublica';
+    height: 400px;
+    justify-content: space-between;
+
+ }
+ .ProductName{
+    font-family: 'boldPublica';
+    /* background-color: antiquewhite; */
+    width: 95%;
+    margin-top: 10px;
+    font-size: 75px;
+ }
+ .ProductPrice{
+    /* background-color: burlywood; */
+    font-size: 35px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    color: #864e09;
+    /* justify-content: end; */
+    /* align-items: end; */
+    /* text-align: end; */
+    /* width: 80%; */
+ }
+ .ProductQty{
+    /* background-color: chartreuse; */
+    height: 100px;
+    width: 320px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+ }
+ .qtynumbers{
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    border: black 0.8px solid;
+ }
+ .qtynumbers>*{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ .qtynumbers button{
+    width: 25px;
+    height: 25px;
+    background-color: rgb(0,0,0,0);
+    outline: none;
+    border: none;
+    /* border-radius: 10px 10px 10px 0; */
+ }
+ .qtynumbers button svg{
+    width: 8px;
+ }
+ .qtynumbers>.mid{
+    width: 50px;
+    border-left: 0.8px solid black;
+    border-right: 0.8px solid black;
+    /* border: black 1px solid; */
+ }
+
+ .qtynumbers button.start{
+    border-radius: 5px 0px 0px 5px;
+    
+ }
+ .qtynumbers button.end{
+    border-radius: 0px 10px 10px 0px;
+ }
+ .withpad{
+    /* padding-left: 20px; */
+ }
+
+ .buttonArea{
+    /* background-color: #B17457; */
+    height: 50px;
+    font-family: inherit;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    justify-content: start;
+ }
+ .buttonArea button{
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    width: 150px;
+    height: 40px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+ }
+ .buttonArea button.atc{
+    color: #9D5C0D;
+    background-color: #F7D08A;
+ }
+
+ .buttonArea button.co{
+    color: #ffffff;
+    background-color: #9D5C0D ;
+ }
+
+
+ /* ----------- DESC ------------- */
+ .descArea{
+    width: calc( 50% - 10px);
+    padding-top: 20px;
+    font-size: 15px;
+    text-align: justify;
+ }
+
+
+
+
+
+

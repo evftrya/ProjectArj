@@ -3,6 +3,7 @@ $cont = app(\App\Http\Controllers\Controller::class);
 $url = $cont->GetUrl();
 
 $withBurger=["Index","/Landing-Page","Product","Custom-Instrument"];
+$noSearch = ["Info","Change-Password","Address","Detil-Product"];
 $AuthNeeded = ["Login","Register"];
 @endphp
 <!DOCTYPE html>
@@ -18,7 +19,6 @@ $AuthNeeded = ["Login","Register"];
 </head>
 <body>
     <div class="Navbar">
-
         <div class="navleft">
                 @if(!in_array($url, $withBurger))
                     <button class="needMargin" onclick="window.history.back()">
@@ -47,14 +47,18 @@ $AuthNeeded = ["Login","Register"];
         </div>
         <div class="navRight">
             <div class="searchArea">
+            @if(!in_array($url, $noSearch))
                 <div>
+                    
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg>
                     <form action="">
                         <input type="text" name="" id="" placeholder="Search">
                     </form>
+                    
                 </div>
+            @endif
             </div>
             <div class="UserArea">
             @if((in_array($url, $AuthNeeded))||(session('user_id')==0))
@@ -157,13 +161,19 @@ $AuthNeeded = ["Login","Register"];
 
                         </button>
                         <div class="ProductKategory" id="ProductKategory" style="display: none;">
-                            <a href="">
+                            <a href="/Product/AllProduct">
+                                <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
+                                </svg>
+                                <p>All products</p>
+                            </a>
+                            <a href="/Product/AllProduct">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
                                 <p>Bass</p>
                             </a>
-                            <a href="">
+                            <a href="/Product/AllProduct">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
@@ -180,7 +190,7 @@ $AuthNeeded = ["Login","Register"];
                 <div class="GapMenu">
                     <p>Shop</p>
                     <div class="Submenu">
-                        <a href="">
+                        <a href="\Cart">
                             <button>
                                 <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.8749 27.9988C13.3246 27.9988 14.4998 26.8238 14.4998 25.3744C14.4998 23.925 13.3246 22.75 11.8749 22.75C10.4252 22.75 9.25 23.925 9.25 25.3744C9.25 26.8238 10.4252 27.9988 11.8749 27.9988Z" stroke="#B17457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -247,22 +257,30 @@ $AuthNeeded = ["Login","Register"];
             but.setAttribute("onclick", "showProductCategory('toShow')")
             // but.style.backgroundColor = "rgb(0,0,0,0)"
             but.classList.remove("active");
-
         }
+
+        
     }
     function hideLeftBar(what){
         let but = document.getElementById('burger');
         let leftBar = document.getElementById('leftbar');
         let mainCont = document.getElementById('maincontent');
+        let product = document.querySelectorAll('.LandingPage.product');
         if(what=='show'){
             but.setAttribute("onclick", "hideLeftBar('hide')")
             leftBar.style.display = "flex";
             mainCont.style.margin = "20px";
+            if(product[0]){
+                product[0].style.height = "fit-content";
+            }
         }
         else{
             but.setAttribute("onclick", "hideLeftBar('show')")
             leftBar.style.display = "none";
             mainCont.style.margin = "10px";
+            if(product[0]){
+                product[0].style.height = "calc(100% - 10px)";
+            }
 
         }
     }
