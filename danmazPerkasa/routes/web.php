@@ -72,6 +72,11 @@ $controller = new Controller();
     Route::get('/Detil-Product', function(){
         return view('/ProductDetil');
     });
+
+    //CUSTOM
+    Route::get('/Custom', function(){
+        return view('Custom');
+    });
 // -------------- END PRODUCT -----------------
 
 
