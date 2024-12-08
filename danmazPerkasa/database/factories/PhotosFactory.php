@@ -22,7 +22,7 @@ class PhotosFactory extends Factory
         return [
             'PhotosName' =>$this->faker->randomElement($this->photos()),
             'id_product'=>$this->faker->numberBetween(1,20),
-            'isMain'=>
+            // 'isMain'=>
         ];
     }
 

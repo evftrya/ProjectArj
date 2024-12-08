@@ -23,6 +23,8 @@ class AccountController extends Controller
             session_start();
             session(['user_id' => $email->id_User]);
             session(['user_name' => $email->namaUser]);
+            session(['Role' => $email->role]);
+            // dd(session('Role'));
             // dd(session('user_name'));
             return redirect('/Login');
         }
@@ -44,6 +46,7 @@ class AccountController extends Controller
         session_abort();
         session(['user_id' => 0]);
         session(['direction'=>null]);
+        session(['Role'=>null]);
         return redirect(('/Login'));
     }
 

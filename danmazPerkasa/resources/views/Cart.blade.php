@@ -1,6 +1,7 @@
 @extends('layouts.BasicPage1')
 
 @section('css')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="" href="{{asset('css/Cart.css')}}">
 @endsection
 
@@ -17,31 +18,35 @@
             <div class="forActVar">Action</div>
         </div>
         <div class="Tbody" id="tbody">
-            
+            @foreach($data as $d)
             <div class="theProduct">
-                <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div>
+                <!-- <input type="text" > -->
+                <div class="cb">
+                    <input type="checkbox" name="check2" onclick="getChecked()" value="{{{$d->id_Detail_transaction}}}">
+                    <p class="Pdi" style="display:none;">{{{$d->id_product}}}</p>
+                </div>
                 <div class="prodDesc">
-                    <div class="ProductPhoto" style="background-image: url('https://i.pinimg.com/736x/89/27/79/892779104c3f686796ce798403a97a44.jpg');">
+                    <div class="ProductPhoto" style="background-image: url('asset('storage/images/'.$d->PhotosName)');">
                         
                     </div>
                     <div class="ProductDesc">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, mollitia sint reprehenderit, provident at fugit esse debitis nobis eum quibusdam aliquam, cumque dolore.</p>
+                        <p>{{{$d->nama_product}}}</p>
                     </div>
                 </div>
                 <div class="ProductPrice" id="ProductPrice">
-                    Rp. 1.700.000
+                    {{{$d->price}}}
                 </div>
                 <div class="ProductQty">
                     <div class="inside">
-                        <button class="ActQty minus" onclick="changeQty('min',this)">
+                        <button class="ActQty minus" onclick="changeQty('min',this,'{{{$d->id_product}}}')">
                             <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                             </svg>
                         </button>
                         <div class="mid">
-                            <input type="text" value="1">
+                            <input type="text" value="{{{$d->qty}}}">
                         </div>
-                        <button class="ActQty plus" onclick="changeQty('plus',this)">
+                        <button class="ActQty plus" onclick="changeQty('plus',this,'{{{$d->id_product}}}')">
                             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                             </svg>
@@ -57,84 +62,7 @@
                     </form>
                 </div>
             </div>
-            <div class="theProduct">
-                <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div>
-                <div class="prodDesc">
-                    <div class="ProductPhoto" style="background-image: url('https://i.pinimg.com/736x/89/27/79/892779104c3f686796ce798403a97a44.jpg');">
-                        
-                    </div>
-                    <div class="ProductDesc">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, mollitia sint reprehenderit, provident at fugit esse debitis nobis eum quibusdam aliquam, cumque dolore.</p>
-                    </div>
-                </div>
-                <div class="ProductPrice" id="ProductPrice">
-                    Rp. 1.700.000
-                </div>
-                <div class="ProductQty">
-                    <div class="inside">
-                        <button class="ActQty minus" onclick="changeQty('min',this)">
-                            <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
-                            </svg>
-                        </button>
-                        <div class="mid">
-                            <input type="text" value="1">
-                        </div>
-                        <button class="ActQty plus" onclick="changeQty('plus',this)">
-                            <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="ProductTotal">
-                    Rp. 3.000.000
-                </div>
-                <div class="ProductAct">
-                    <form action="">
-                        <button type="submit">Delete</button>
-                    </form>
-                </div>
-            </div>
-            <div class="theProduct">
-                <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div>
-                <div class="prodDesc">
-                    <div class="ProductPhoto" style="background-image: url('https://i.pinimg.com/736x/89/27/79/892779104c3f686796ce798403a97a44.jpg');">
-                        
-                    </div>
-                    <div class="ProductDesc">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, mollitia sint reprehenderit, provident at fugit esse debitis nobis eum quibusdam aliquam, cumque dolore.</p>
-                    </div>
-                </div>
-                <div class="ProductPrice" id="ProductPrice">
-                    Rp. 1.700.000
-                </div>
-                <div class="ProductQty">
-                    <div class="inside">
-                        <button class="ActQty minus" onclick="changeQty('min',this)">
-                            <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
-                            </svg>
-                        </button>
-                        <div class="mid">
-                            <input type="text" value="1">
-                        </div>
-                        <button class="ActQty plus" onclick="changeQty('plus',this)">
-                            <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="ProductTotal">
-                    Rp. 3.000.000
-                </div>
-                <div class="ProductAct">
-                    <form action="">
-                        <button type="submit">Delete</button>
-                    </form>
-                </div>
-            </div>
+            @endforeach
             
             
         </div>
@@ -166,8 +94,14 @@
                 </div>
                 <p class="FinalSum" id="FinalSum">Rp. 0</p>
             </div>
-            <form action="/Checkout" method="POST">
+            <form action="/Checkout" method="POST" class="formCheckout">
+                
                 @csrf
+                <div class="inps" style="display: none;">
+                    @foreach($data as $d)
+                        <input type="checkbox" name="{{{$d->id_Detail_transaction}}}" value="{{{$d->id_Detail_transaction}}}">
+                    @endforeach
+                </div>
                 <input type="text" id="toCheckout" style="Display: none">
                 <button onclick="window.location.href='/Checkout';">Checkout</button>
             </form>
@@ -180,7 +114,7 @@
     Count();
     allInputQty();
 
-    function changeQty(wht, elemen){
+    function changeQty(wht, elemen,idProduct){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
         // console.log(number.value)
         let temp = parseInt(number.value);
@@ -195,24 +129,54 @@
                 number.value=temp;
             }
         }
+
+        fetch(('/UpdateCart/'+idProduct),{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                qty: temp,
+            })
+        }).then(response=>response.json()).then(data => {
+        console.log('Success:', data.message);
+        })
+
         Count();
 
     }
 
     function checkedAll(wht, elemen){
-        let theCBs = document.querySelectorAll('.CartContainer input[type="checkbox"]');
+        let theCBs = document.querySelectorAll('.CartContainer .cb input[type="checkbox"]');
         let len = theCBs.length;
         let sumCheck = document.getElementById('totalChecked');
         let totalProduct = document.getElementById('qtys');
+        let inpForm = document.querySelector('.formCheckout').querySelectorAll('.inps input');
         theCBs.forEach(e=> {
             if(wht=="check"){
                 e.checked = true;
                 elemen.setAttribute("onclick", "checkedAll('uncheck', this)");
                 // sumCheck.textContent = len - 2;
+                inpForm.forEach(i=>{
+                    // console.log('i: '+i.getAttribute('name'));
+                    // console.log('bc: '+cb.value);
+                    if(i.getAttribute('name')==e.value){
+                        // console.log('masuk');
+                        i.checked=true;
+                        let idproduct = e.closest('.cb').querySelector('.pdi').textContent; 
+                        updateStatus(idproduct,e.checked);
+                    }
+                })
 
             }
             else{
+                inpForm.forEach(i=>{
+                    i.checked=false;
+                })
                 e.checked = false;
+                let idproduct = e.closest('.cb').querySelector('.pdi').textContent; 
+                updateStatus(idproduct,e.checked);
                 elemen.setAttribute("onclick", "checkedAll('check', this)");
                 // sumCheck.textContent = 0;
             }
@@ -246,9 +210,12 @@
         let checked = 0;
         let qtys = 0;
         let prices = 0;
+        let inpForm = document.querySelector('.formCheckout').querySelectorAll('.inps input');
+
         theCBs.forEach(e=>{
             let cb = e.querySelector('.cb input[type="checkbox"]')
             if(cb.checked==true){
+
                 checked+=1;
                 let qty = e.querySelector('.mid input')
                 let price =e.querySelector('.ProductPrice')
@@ -256,6 +223,23 @@
                 // console.log(price.textContent)
                 // console.log(idrToInt(price.textContent))
                 prices+=(parseInt(qty.value)*idrToInt(price.textContent));
+                inpForm.forEach(i=>{
+                    // console.log('i: '+i.getAttribute('name'));
+                    // console.log('bc: '+cb.value);
+                    if(i.getAttribute('name')==cb.value){
+                        // console.log('masuk');
+                        i.checked=true;
+                    }
+                })
+                let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
+                // console.log(idProduct);
+                updateStatus(idProduct,(cb.checked));
+            }
+            else{
+                let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
+                console.log(idProduct);
+                
+                updateStatus(idProduct,(cb.checked));
             }
         });
         if((qtys/2)==theCBs.length){
@@ -268,6 +252,25 @@
         TotalChecked.textContent = checked;
         // console.log(toIdr(prices))
         theFinalSum.textContent = toIdr(prices);
+
+        
+    }
+
+    function updateStatus(idProduct, wht){
+        if(wht==true){
+            wht = '1';
+        }
+        else{
+            wht='2';
+        }
+        fetch(('/UpdateStatus/'+idProduct+'/'+wht),{
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response=>response.json()).then(data => {
+            console.log('Success:', data.message);
+        })
     }
     function onEditInput(elemen){
         elemen.addEventListener('change', function(){

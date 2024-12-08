@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\custom>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Detail_Transaction>
  */
-class CustomFactory extends Factory
+class DetailTransactionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class CustomFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            
         ];
     }
 }

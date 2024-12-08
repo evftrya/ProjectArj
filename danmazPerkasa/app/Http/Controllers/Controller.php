@@ -80,12 +80,7 @@ class Controller extends BaseController
         }
         return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp]);
     }
-    public function Product($wht){
-        
-
-
-        return view ('Product');
-    }
+    
 
     public function ProfileUpdate(Request $req,AccountController $acc,$wht){
         // dd($req);

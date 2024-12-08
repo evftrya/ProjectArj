@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id('id_product')->autoIncrement();
             $table->string('nama_product');
             $table->string('type');
-            $table->unsignedBigInteger('id_Detiltransaction');
+            $table->integer('stok');
+            $table->string('price');
+            $table->string('Category');
             $table->longText('detail_product');
+            $table->longText('Features');
+            $table->string('mainPhoto')->nullable();
             $table->timestamps();
         });
     }

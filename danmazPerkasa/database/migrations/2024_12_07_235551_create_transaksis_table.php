@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customs', function (Blueprint $table) {
-            $table->id();
+        Schema::create('transaksis', function (Blueprint $table) {
+            $table->id()->autoIncrement();
+            $table->unsignedBigInteger('id_user');
+            $table->integer('Total');
             $table->timestamps();
+
+
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+
         });
     }
 
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customs');
+        Schema::dropIfExists('transaksis');
     }
 };

@@ -2,6 +2,7 @@
 
 @section('css')
 <link rel="stylesheet" type="" href="{{asset('css/productDetil.css')}}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('content')
@@ -9,7 +10,7 @@
     <div class="mainArea">
         <div class="PhotosArea">
             <div class="MainPhotos" >
-                <div class="fillMainPhotos" id="MainPhoto" style="background-image: url('https://i.pinimg.com/474x/73/5d/68/735d68b0a2300b697ebb8055ee5a9e6b.jpg');">
+                <div class="fillMainPhotos" id="MainPhoto" style="background-image: url('{{ asset('storage/images/'.$product->PhotosName) }}');">
                 </div>
             </div>
             <div class="thePhotosArea">
@@ -20,21 +21,15 @@
                 </div>
                 <div class="ThePhotos">
                     <div class="justContainer">
-                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('https://i.pinimg.com/236x/db/c0/c1/dbc0c1f90a8c52398430adccb266a8f7.jpg');">
-                        </div>
-                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('https://i.pinimg.com/236x/08/63/b9/0863b9f7a2676d951462504aaeac21a1.jpg');">
-                        </div>
-                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('https://i.pinimg.com/474x/b6/65/5b/b6655bcf74c5b4bcb1570eb676595afa.jpg');">
-                        </div>
-                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('https://i.pinimg.com/236x/db/c0/c1/dbc0c1f90a8c52398430adccb266a8f7.jpg');">
-                        </div>
-                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('https://i.pinimg.com/236x/db/c0/c1/dbc0c1f90a8c52398430adccb266a8f7.jpg');">
-                        </div>
-                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('https://i.pinimg.com/236x/db/c0/c1/dbc0c1f90a8c52398430adccb266a8f7.jpg');">
-                        </div>
-                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('https://i.pinimg.com/236x/db/c0/c1/dbc0c1f90a8c52398430adccb266a8f7.jpg');">
+                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('{{ asset('storage/images/'.$product->PhotosName) }}');">
                         </div>
                     </div>
+                    @foreach($photos as $photo)
+                    <div class="justContainer">
+                        <div onclick="changeMainPhoto(this)" class="ThePhoto" style="background-image: url('{{ asset('storage/images/'.$photo->PhotosName) }}');">
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
                 <div class="TheScroll">
                     <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,12 +41,12 @@
             
         </div>
         <div class="ActionArea">
-            <p class="ProductName">ThunderBird Basses Sunbrust</p>
-            <p class="ProductPrice">Rp. 2.500.000</p>
+            <p class="ProductName">{{{$product->nama_product}}}</p>
+            <p class="ProductPrice">{{{$product->price}}}</p>
             <div class="ProductQty">
                 <p>Quantity</p>
                 <div class="qtynumbers">
-                    <button class="start">
+                    <button class="start minus">
                         <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                         </svg>
@@ -59,16 +54,17 @@
                     <div class="mid">
                         <p>1</p>
                     </div>
-                    <button class="end">
+                    <button class="end plus" >
                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                         </svg>
                     </button>
                 </div>
-                <p class="withpad">5 Unit left</p>
+                <p class="withpad">{{{$product->stok}}} Unit left</p>
             </div>
             <div class="buttonArea">
-                <button class="atc">
+                <!-- <form action=""></form> -->
+                <button class="atc" onclick="AddToCart(this, {{{$product->id_product}}})">
                     <p>Add To Cart</p>
                 </button>
 
@@ -79,7 +75,8 @@
         </div>
     </div>
     <div class="descArea">
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex eveniet blanditiis eaque aliquam fugit vel cupiditate voluptatibus veniam? Similique voluptates odio itaque sequi perferendis ab a hic aliquam magnam consequatur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi non odio architecto voluptates magni odit nobis quibusdam quam beatae exercitationem dolorem fuga nam sunt officia, doloremque eveniet eius illum ipsum. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet quibusdam tempora ipsam, incidunt sequi dolorum voluptatem dolores atque repellendus vel tempore praesentium facilis rem sapiente id illo enim accusamus et. Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis aperiam laboriosam fugit aspernatur ad placeat, voluptas quia minus neque assumenda dignissimos deserunt nam esse sit, quas, odit asperiores veritatis iste. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos obcaecati non recusandae quo in dolorum nemo excepturi aperiam itaque qui assumenda voluptates natus aliquam dicta perspiciatis delectus corporis, vitae maiores? Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum dolorem alias labore. Consequuntur explicabo architecto earum cumque sequi accusantium dolorem quasi excepturi deleniti pariatur totam vel, quae vero error laudantium.</p>
+        <p>{{{$product->detail_product}}}</p>
+        <p>{{{$product->Features}}}</p>
         <div class="specs">
         </div>
     </div>
@@ -90,6 +87,55 @@
         let mainphoto = document.getElementById('MainPhoto');
         let change = (e.style.backgroundImage);
         mainphoto.style.backgroundImage = change;
+    }
+
+    document.addEventListener('DOMContentLoaded',function(){
+        const minusBtn = document.querySelector('.start.minus');
+        const plusbtn = document.querySelector('.end.plus');
+
+        minusBtn.addEventListener('click', function(event){
+            changeQty('minus', event);
+            console.log('masuk');
+        })
+        plusbtn.addEventListener('click', function(event){
+            changeQty('plus', event);
+        })
+    })
+
+    function changeQty(wht,event){
+        event.preventDefault();
+        console.log('masuk');
+        let qty = document.querySelector('.qtynumbers .mid p');
+        let max = parseInt(document.querySelector('.ProductQty .withpad').textContent.trim().match(/\d+/)[0]);
+        let nmr = parseInt(qty.textContent)
+        if(wht=='plus'){
+            if(nmr!=max){
+                nmr+=1;
+            }
+        }
+        else{
+            if(nmr!=1){
+                nmr-=1;
+            }
+        }
+        qty.textContent = nmr;
+    }
+
+    function AddToCart(elemen, id){
+        let qty = document.querySelector('.qtynumbers .mid p');
+        fetch(('/AddToCart/'+id),{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                qty: parseInt(qty.textContent),
+            })
+        }).then(response=>response.json()).then(data => {
+        console.log('Success:', data.message);
+        })
+        
     }
 </script>
 @endsection

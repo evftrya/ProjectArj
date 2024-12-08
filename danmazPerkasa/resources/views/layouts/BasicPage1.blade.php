@@ -2,7 +2,7 @@
 $cont = app(\App\Http\Controllers\Controller::class);
 $url = $cont->GetUrl();
 
-$withBurger=["Index","/Landing-Page","Product","Custom"];
+$withBurger=["Index","/Landing-Page","Product","Custom","Product-Manage"];
 $noSearch = ["Info","Change-Password","Address","Detil-Product"];
 $AuthNeeded = ["Login","Register"];
 @endphp
@@ -18,6 +18,128 @@ $AuthNeeded = ["Login","Register"];
     <title>Document</title>
 </head>
 <body>
+    @if(session('Role')==='Admin')
+    <div class="NewProduct" id="newProductNow" style="display: none;">
+        <div class="containerd">
+            <div class="theTitled">
+                <div class="forBack" onclick="ClosePopUp('close')">
+                    <svg width="15" height="30" viewBox="0 0 15 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.354257 15.9346L13.0833 29.6435C13.2957 29.8723 13.5778 30 13.8713 30C14.1647 30 14.4469 29.8723 14.6593 29.6435L14.673 29.628C14.7763 29.517 14.8586 29.3835 14.9148 29.2355C14.971 29.0875 15 28.9281 15 28.767C15 28.6059 14.971 28.4465 14.9148 28.2985C14.8586 28.1505 14.7763 28.0169 14.673 27.906L2.68627 14.9974L14.673 2.09402C14.7763 1.98307 14.8586 1.84953 14.9148 1.70151C14.971 1.5535 15 1.3941 15 1.23302C15 1.07194 14.971 0.912539 14.9148 0.764521C14.8586 0.616504 14.7763 0.482961 14.673 0.372016L14.6593 0.356525C14.4469 0.127669 14.1647 8.01564e-07 13.8713 8.01564e-07C13.5778 8.01564e-07 13.2957 0.127669 13.0833 0.356525L0.354257 14.0654C0.242311 14.186 0.153189 14.331 0.0922943 14.4916C0.0313997 14.6523 0 14.8252 0 15C0 15.1748 0.0313997 15.3477 0.0922943 15.5084C0.153189 15.669 0.242311 15.814 0.354257 15.9346Z" fill="black"/>
+                    </svg>
+                </div>
+                <p>Add Product</p>
+            </div>
+            
+            <form action="<?php if($url=="Product-Manage"){
+                echo $routeForm;
+            } ?>" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="PhotosAdds">
+                    <div  class="move lefted" onclick="scrollButtonPhotos('left')">
+                        <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.928329 20.131L12.2485 36.7247C12.4374 37.0017 12.6883 37.1563 12.9493 37.1563C13.2102 37.1563 13.4612 37.0017 13.65 36.7247L13.6622 36.706C13.7541 36.5717 13.8273 36.41 13.8773 36.2308C13.9273 36.0517 13.9531 35.8587 13.9531 35.6638C13.9531 35.4688 13.9273 35.2758 13.8773 35.0967C13.8273 34.9175 13.7541 34.7559 13.6622 34.6216L3.00223 18.9966L13.6622 3.37783C13.7541 3.24354 13.8273 3.08189 13.8773 2.90272C13.9273 2.72356 13.9531 2.53062 13.9531 2.33564C13.9531 2.14066 13.9273 1.94772 13.8773 1.76856C13.8273 1.58939 13.7541 1.42774 13.6622 1.29345L13.65 1.2747C13.4612 0.997686 13.2102 0.843151 12.9493 0.843151C12.6883 0.843151 12.4374 0.997686 12.2485 1.2747L0.928329 17.8685C0.828773 18.0144 0.749515 18.1899 0.69536 18.3843C0.641206 18.5788 0.613281 18.7882 0.613281 18.9997C0.613281 19.2113 0.641206 19.4206 0.69536 19.6151C0.749515 19.8095 0.828773 19.985 0.928329 20.131Z" fill="black"/>
+                        </svg>
+                    </div>
+                    <div class="move righted" onclick="scrollButtonPhotos('right')">
+                        <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.0717 17.869L1.75152 1.2753C1.56263 0.998283 1.31169 0.84375 1.05073 0.84375C0.789778 0.84375 0.538836 0.998283 0.349954 1.2753L0.337765 1.29405C0.245881 1.42834 0.172716 1.58998 0.12272 1.76915C0.0727231 1.94832 0.0469408 2.14126 0.0469408 2.33624C0.0469408 2.53121 0.0727231 2.72416 0.12272 2.90332C0.172716 3.08249 0.245881 3.24413 0.337765 3.37842L10.9978 19.0034L0.337765 34.6222C0.245881 34.7565 0.172716 34.9181 0.12272 35.0973C0.0727231 35.2764 0.0469408 35.4694 0.0469408 35.6644C0.0469408 35.8593 0.0727231 36.0523 0.12272 36.2314C0.172716 36.4106 0.245881 36.5723 0.337765 36.7065L0.349954 36.7253C0.538836 37.0023 0.789778 37.1568 1.05073 37.1568C1.31169 37.1568 1.56263 37.0023 1.75152 36.7253L13.0717 20.1315C13.1712 19.9856 13.2505 19.8101 13.3046 19.6157C13.3588 19.4212 13.3867 19.2118 13.3867 19.0003C13.3867 18.7887 13.3588 18.5794 13.3046 18.3849C13.2505 18.1905 13.1712 18.015 13.0717 17.869Z" fill="black"/>
+                        </svg>
+                    </div>
+                    <div class="buletan">
+                        <svg class="bulat first" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="7.5" cy="7.5" r="7.5" fill="#B17457"/>
+                        </svg>
+
+                    </div>
+                    <div class="PhotoAreaContainer">
+                        <input type="text" name="mainPhoto" value="foto1" style="display: none;">
+                        <div class="imageContainer nofill Main">
+                            <button class="forMainPhoto" onclick="makeItMain(this, event)">Main Photo</button>    
+                            <div class="theImage">
+
+                            </div>
+                            <button class="forInputPhoto" onclick="fillInput(this, event)">
+                                <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
+                                </svg>
+                            </button>
+                            <input type="file" name="foto1" id="">
+                        </div>
+
+                        
+                    </div>
+                </div>
+                <div class="productCategory">
+                    <p>Product Category</p>
+                    <select name="product" id="">
+                        <option value="Guitar">Guitar</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class="input-container">
+                <!-- <p>Email</p> -->
+                    <input type="email" name="ProductName" placeholder="" id="inputField">
+                    <label for="inputField">Product Name</label>
+                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                </div>
+                <div class="input-container">
+                <!-- <p>Email</p> -->
+                    <input type="email" name="ProductColor" placeholder="" id="inputField">
+                    <label for="inputField">Product Color</label>
+                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                </div>
+                <div class="input-container">
+                <!-- <p>Email</p> -->
+                    <input type="number" name="ProductPrice" placeholder="" id="inputField">
+                    <label for="inputField">Product Price</label>
+                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                </div>
+                <div class="forQty">
+                    <p>Quantity</p>
+                    <div class="ProductQty">
+                        <div class="inside">
+                            <button class="ActQty minus" onclick="changeQty('min',this,event)">
+                                <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
+                                </svg>
+                            </button>
+                            <div class="mid">
+                                <input type="number" name="stock" value="1">
+                            </div>
+                            <button class="ActQty plus" onclick="changeQty('plus',this,event)">
+                                <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-container desc">
+                <!-- <p>Email</p> -->
+                    <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
+                    <textarea  rows="4" cols="60" name="Description" id=""></textarea>
+                    <label for="inputField">Description</label>
+                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                </div>
+                <div class="input-container desc end">
+                <!-- <p>Email</p> -->
+                    <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
+                    <textarea  rows="4" cols="60" name="Features" id="" ></textarea>
+                    <label for="inputField">Features</label>
+                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                </div>
+                
+                
+            </form>
+            <div class="TheButtons" onclick="formClick(this)">
+                <button>Save Changes</button>
+            </div>
+        </div>
+        
+    </div>
+    @endif
     <div class="Navbar">
         <div class="navleft">
                 @if(!in_array($url, $withBurger))
@@ -102,7 +224,7 @@ $AuthNeeded = ["Login","Register"];
                 <input type="text">
             </div>
         </div>
-        <svg width="375" height="1" viewBox="0 0 375 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="200" height="1" viewBox="0 0 375 1" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line y1="0.5" x2="375" y2="0.5" stroke="#4A4947" stroke-opacity="0.45"/>
         </svg>
         <div class="areaButton">
@@ -146,8 +268,9 @@ $AuthNeeded = ["Login","Register"];
                 </svg>
                 <div class="GapMenu">
                     <p>Product</p>
+                    @if(session('Role')!=='Admin')
                     <div class="Submenu">
-                        <button id="chooseProduct" onclick="showProductCategory('toShow')">
+                        <button id="chooseProduct" onclick="showProductCategory('toShow',this)">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.73393 5.60437C5.73393 4.88107 5.84257 4.44062 5.902 3.92056L6.26786 0.858618C6.29711 0.564629 6.31707 0.406491 6.31707 0.305133C6.31707 0.13532 6.21818 0 6.04036 0C5.89179 0 5.76364 0.169813 5.55611 0.451597L3.33171 3.60429V3.78471C4.34014 4.30477 4.58714 4.51969 4.58714 5.60437L4.45854 12.7567C2.73836 16.1917 0 23.0288 0 24.7338C0 25.5251 0.464286 26 0.988929 26C1.47318 26 1.75964 25.6604 2.16496 25.1637C2.54104 24.7004 3.61818 23.491 4.13214 22.9152C4.35964 22.6441 4.71575 22.2254 5.10111 22.2254C5.48646 22.2254 5.83282 22.6441 6.07007 22.9152C6.57429 23.491 7.66164 24.7004 8.03725 25.1637C8.42261 25.6609 8.71975 25.9995 9.21375 25.9995C9.73746 25.9995 10.1925 25.5251 10.1925 24.7344C10.1925 23.0506 7.50332 16.3275 5.81286 12.9037L5.73393 5.60437ZM18.5761 20.09C19.0106 19.3332 19.4554 18.576 19.4554 17.2313C19.4554 16.0452 19.1885 15.2652 19.1885 14.7C19.1885 14.1582 19.8213 13.6832 21.3335 13.6832C22.8466 13.6832 23.4789 14.1582 23.4789 14.7005C23.4789 15.2651 23.2124 16.0452 23.2124 17.2318C23.2124 19.7514 24.8332 20.2598 24.8332 22.4291C24.8332 23.932 23.3903 24.6553 21.3339 24.6553C20.2958 24.6553 19.4355 24.4972 18.7437 24.0678C18.5901 24.483 18.3909 24.874 18.1508 25.2316C19.0794 25.8079 20.1769 25.9772 21.3339 25.9772C23.7659 25.9772 26 25.1186 26 22.3161C26 19.4914 24.3889 19.1746 24.3889 17.322C24.3889 16.1466 24.7149 15.2206 24.7149 14.4065C24.7149 13.367 23.6865 12.6102 22.0062 12.4744L21.8971 5.51415C21.8878 4.82429 22.7477 4.50854 22.718 4.12381C22.5894 2.29354 22.4807 1.4121 22.431 0.994469C22.3716 0.542341 22.0257 0.339096 21.3339 0.339096C20.6421 0.339096 20.2958 0.542341 20.2364 0.994469C20.1871 1.4121 20.0785 2.29354 19.9499 4.12434C19.9299 4.50854 20.78 4.82482 20.7703 5.51415L20.6616 12.4744C18.9712 12.6214 17.953 13.367 17.953 14.4065C17.953 15.22 18.2891 16.1471 18.2891 17.322C18.2891 17.8755 18.1308 18.316 17.9233 18.689C18.1941 19.1209 18.4139 19.592 18.5761 20.09ZM10.1228 20.8478C10.6173 19.8082 11.5463 18.8137 11.5463 17.1756C11.5463 15.3904 10.7756 14.6103 10.7756 14.328L10.8838 14.2829C11.1507 14.6671 11.5663 15.2774 12.1986 15.2774C12.7228 15.2774 13.0887 14.9605 13.2962 14.362C13.5037 14.9605 13.8594 15.2774 14.3933 15.2774C15.0261 15.2774 15.4412 14.6671 15.7082 14.2829L15.8071 14.328C15.8071 14.6103 15.0456 15.3904 15.0456 17.1756C15.0456 19.5142 16.7858 20.2603 16.7858 22.3166C16.7858 23.8078 15.3525 24.6558 13.2962 24.6558C12.4461 24.6558 11.7241 24.5088 11.1605 24.2599C11.1707 24.667 11.121 25.3335 11.0221 25.6275C11.7539 25.8875 12.5153 25.9777 13.2962 25.9777C15.7281 25.9777 17.9623 24.9949 17.9623 22.3166C17.9623 19.6049 16.2221 18.9607 16.2221 17.0397C16.2221 15.4466 17.1614 14.4522 17.1614 13.6164C17.1614 13.0624 16.7064 12.5317 16.1827 12.5317C15.7876 12.5317 15.5698 12.8819 15.4212 13.1075C15.1348 13.5373 15.0164 13.9098 14.443 13.9098C14.176 13.9098 14.0576 13.8308 13.988 13.6838L13.8794 5.51469C13.8794 4.67836 14.1166 4.5425 14.2554 4.45229C14.3636 4.36208 14.4527 4.27186 14.4527 4.06809C14.4527 2.215 14.9078 1.77455 14.9078 1.28846C14.9078 1.10803 14.7592 1.06239 14.5814 0.927074C14.2944 0.689866 13.761 0.339627 13.306 0.339627C12.851 0.339627 12.317 0.689866 12.0306 0.927074C11.8625 1.06239 11.7046 1.1075 11.7046 1.28846C11.7046 1.77455 12.1596 2.215 12.1596 4.06809C12.1596 4.27133 12.2479 4.36208 12.3667 4.45229C12.4953 4.5425 12.7428 4.66721 12.7428 5.51469L12.6142 13.6615C12.5548 13.8196 12.4359 13.9098 12.1494 13.9098C11.576 13.9098 11.4576 13.5373 11.1707 13.1191C11.0221 12.8819 10.7946 12.5317 10.4093 12.5317C9.88557 12.5317 9.43057 13.0624 9.43057 13.6164C9.43057 14.4522 10.3698 15.4466 10.3698 17.0397C10.3698 17.9551 9.93479 18.6333 9.54943 19.2887C9.75696 19.8087 9.95475 20.3282 10.1228 20.8478ZM5.10064 20.8929C4.5175 20.8929 4.0235 21.3678 3.48957 21.9213C2.87671 22.5422 2.13479 23.4241 1.31439 24.5316C1.27493 24.5879 1.18579 24.5768 1.19554 24.4637C1.443 22.6106 3.46961 17.5369 5.10064 14.181C6.73168 17.5258 8.75829 22.599 9.00529 24.4637C9.0155 24.5539 8.91707 24.5879 8.86739 24.5088C8.0665 23.4241 7.31529 22.5427 6.70196 21.9213C6.17825 21.3673 5.68379 20.8929 5.10064 20.8929ZM21.3335 18.3053C21.6109 18.3035 21.8765 18.1768 22.0727 17.9525C22.2689 17.7283 22.3798 17.4247 22.3814 17.1076C22.3798 16.7905 22.2689 16.4869 22.0727 16.2627C21.8765 16.0385 21.6109 15.9117 21.3335 15.9099C21.056 15.9117 20.7904 16.0385 20.5942 16.2627C20.3981 16.4869 20.2872 16.7905 20.2856 17.1076C20.2872 17.4247 20.3981 17.7283 20.5942 17.9525C20.7904 18.1768 21.056 18.3035 21.3335 18.3053Z" fill="#B17457"/>
                             </svg>
@@ -167,13 +290,13 @@ $AuthNeeded = ["Login","Register"];
                                 </svg>
                                 <p>All products</p>
                             </a>
-                            <a href="/Product/AllProduct">
+                            <a href="/Product/Bass">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
                                 <p>Bass</p>
                             </a>
-                            <a href="/Product/AllProduct">
+                            <a href="/Product/Guitar">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
@@ -181,12 +304,45 @@ $AuthNeeded = ["Login","Register"];
                             </a>
                         </div>
                     </div>
+                    @elseif(session('Role')==='Admin')
+                    <div class="Submenu">
+                        <button id="chooseProduct" onclick="showProductCategory('toShow',this)">
+                            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.73393 5.60437C5.73393 4.88107 5.84257 4.44062 5.902 3.92056L6.26786 0.858618C6.29711 0.564629 6.31707 0.406491 6.31707 0.305133C6.31707 0.13532 6.21818 0 6.04036 0C5.89179 0 5.76364 0.169813 5.55611 0.451597L3.33171 3.60429V3.78471C4.34014 4.30477 4.58714 4.51969 4.58714 5.60437L4.45854 12.7567C2.73836 16.1917 0 23.0288 0 24.7338C0 25.5251 0.464286 26 0.988929 26C1.47318 26 1.75964 25.6604 2.16496 25.1637C2.54104 24.7004 3.61818 23.491 4.13214 22.9152C4.35964 22.6441 4.71575 22.2254 5.10111 22.2254C5.48646 22.2254 5.83282 22.6441 6.07007 22.9152C6.57429 23.491 7.66164 24.7004 8.03725 25.1637C8.42261 25.6609 8.71975 25.9995 9.21375 25.9995C9.73746 25.9995 10.1925 25.5251 10.1925 24.7344C10.1925 23.0506 7.50332 16.3275 5.81286 12.9037L5.73393 5.60437ZM18.5761 20.09C19.0106 19.3332 19.4554 18.576 19.4554 17.2313C19.4554 16.0452 19.1885 15.2652 19.1885 14.7C19.1885 14.1582 19.8213 13.6832 21.3335 13.6832C22.8466 13.6832 23.4789 14.1582 23.4789 14.7005C23.4789 15.2651 23.2124 16.0452 23.2124 17.2318C23.2124 19.7514 24.8332 20.2598 24.8332 22.4291C24.8332 23.932 23.3903 24.6553 21.3339 24.6553C20.2958 24.6553 19.4355 24.4972 18.7437 24.0678C18.5901 24.483 18.3909 24.874 18.1508 25.2316C19.0794 25.8079 20.1769 25.9772 21.3339 25.9772C23.7659 25.9772 26 25.1186 26 22.3161C26 19.4914 24.3889 19.1746 24.3889 17.322C24.3889 16.1466 24.7149 15.2206 24.7149 14.4065C24.7149 13.367 23.6865 12.6102 22.0062 12.4744L21.8971 5.51415C21.8878 4.82429 22.7477 4.50854 22.718 4.12381C22.5894 2.29354 22.4807 1.4121 22.431 0.994469C22.3716 0.542341 22.0257 0.339096 21.3339 0.339096C20.6421 0.339096 20.2958 0.542341 20.2364 0.994469C20.1871 1.4121 20.0785 2.29354 19.9499 4.12434C19.9299 4.50854 20.78 4.82482 20.7703 5.51415L20.6616 12.4744C18.9712 12.6214 17.953 13.367 17.953 14.4065C17.953 15.22 18.2891 16.1471 18.2891 17.322C18.2891 17.8755 18.1308 18.316 17.9233 18.689C18.1941 19.1209 18.4139 19.592 18.5761 20.09ZM10.1228 20.8478C10.6173 19.8082 11.5463 18.8137 11.5463 17.1756C11.5463 15.3904 10.7756 14.6103 10.7756 14.328L10.8838 14.2829C11.1507 14.6671 11.5663 15.2774 12.1986 15.2774C12.7228 15.2774 13.0887 14.9605 13.2962 14.362C13.5037 14.9605 13.8594 15.2774 14.3933 15.2774C15.0261 15.2774 15.4412 14.6671 15.7082 14.2829L15.8071 14.328C15.8071 14.6103 15.0456 15.3904 15.0456 17.1756C15.0456 19.5142 16.7858 20.2603 16.7858 22.3166C16.7858 23.8078 15.3525 24.6558 13.2962 24.6558C12.4461 24.6558 11.7241 24.5088 11.1605 24.2599C11.1707 24.667 11.121 25.3335 11.0221 25.6275C11.7539 25.8875 12.5153 25.9777 13.2962 25.9777C15.7281 25.9777 17.9623 24.9949 17.9623 22.3166C17.9623 19.6049 16.2221 18.9607 16.2221 17.0397C16.2221 15.4466 17.1614 14.4522 17.1614 13.6164C17.1614 13.0624 16.7064 12.5317 16.1827 12.5317C15.7876 12.5317 15.5698 12.8819 15.4212 13.1075C15.1348 13.5373 15.0164 13.9098 14.443 13.9098C14.176 13.9098 14.0576 13.8308 13.988 13.6838L13.8794 5.51469C13.8794 4.67836 14.1166 4.5425 14.2554 4.45229C14.3636 4.36208 14.4527 4.27186 14.4527 4.06809C14.4527 2.215 14.9078 1.77455 14.9078 1.28846C14.9078 1.10803 14.7592 1.06239 14.5814 0.927074C14.2944 0.689866 13.761 0.339627 13.306 0.339627C12.851 0.339627 12.317 0.689866 12.0306 0.927074C11.8625 1.06239 11.7046 1.1075 11.7046 1.28846C11.7046 1.77455 12.1596 2.215 12.1596 4.06809C12.1596 4.27133 12.2479 4.36208 12.3667 4.45229C12.4953 4.5425 12.7428 4.66721 12.7428 5.51469L12.6142 13.6615C12.5548 13.8196 12.4359 13.9098 12.1494 13.9098C11.576 13.9098 11.4576 13.5373 11.1707 13.1191C11.0221 12.8819 10.7946 12.5317 10.4093 12.5317C9.88557 12.5317 9.43057 13.0624 9.43057 13.6164C9.43057 14.4522 10.3698 15.4466 10.3698 17.0397C10.3698 17.9551 9.93479 18.6333 9.54943 19.2887C9.75696 19.8087 9.95475 20.3282 10.1228 20.8478ZM5.10064 20.8929C4.5175 20.8929 4.0235 21.3678 3.48957 21.9213C2.87671 22.5422 2.13479 23.4241 1.31439 24.5316C1.27493 24.5879 1.18579 24.5768 1.19554 24.4637C1.443 22.6106 3.46961 17.5369 5.10064 14.181C6.73168 17.5258 8.75829 22.599 9.00529 24.4637C9.0155 24.5539 8.91707 24.5879 8.86739 24.5088C8.0665 23.4241 7.31529 22.5427 6.70196 21.9213C6.17825 21.3673 5.68379 20.8929 5.10064 20.8929ZM21.3335 18.3053C21.6109 18.3035 21.8765 18.1768 22.0727 17.9525C22.2689 17.7283 22.3798 17.4247 22.3814 17.1076C22.3798 16.7905 22.2689 16.4869 22.0727 16.2627C21.8765 16.0385 21.6109 15.9117 21.3335 15.9099C21.056 15.9117 20.7904 16.0385 20.5942 16.2627C20.3981 16.4869 20.2872 16.7905 20.2856 17.1076C20.2872 17.4247 20.3981 17.7283 20.5942 17.9525C20.7904 18.1768 21.056 18.3035 21.3335 18.3053Z" fill="#B17457"/>
+                            </svg>
+                            <p style="font-size: 14px;">Manage</p>
+                            <svg id="ProdCatOpen" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+                            </svg>
+                            <svg id="ProdCatClose" style="display: none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+                            </svg>
+
+                        </button>
+                        <div class="ProductKategory" id="ProductKategory" style="display: none;">
+                            <a href="/Product-Manage">
+                                <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
+                                </svg>
+                                <p>Product</p>
+                            </a>
+                            <a href="/Product/AllProduct">
+                                <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
+                                </svg>
+                                <p>Part</p>
+                            </a>
+                        </div>
+                    </div>
+                    @else
+                    @endif
                 </div>
 
                 <svg class="line1" width="100%" height="1" viewBox="0 0 337 1" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <line y1="0.5" x2="336.013" y2="0.5" stroke="#B17457"/>
                 </svg>
 
+                @if(session('Role')==='User')
                 <div class="GapMenu">
                     <p>Shop</p>
                     <div class="Submenu">
@@ -221,6 +377,32 @@ $AuthNeeded = ["Login","Register"];
                         </a>
                     </div>
                 </div>
+                @elseif(session('Role')==='Admin')
+                <div class="GapMenu">
+                    <p>Account</p>
+                    <div class="Submenu">
+                        <a href="">
+                            <button>
+                                <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.5 27C6.03529 27 0 20.9647 0 13.5C0 6.03529 6.03529 0 13.5 0C20.9647 0 27 6.03529 27 13.5C27 20.9647 20.8853 27 13.5 27ZM13.5 1.58824C6.90882 1.58824 1.58824 6.90882 1.58824 13.5C1.58824 20.0912 6.90882 25.4118 13.5 25.4118C20.0912 25.4118 25.4118 20.0912 25.4118 13.5C25.4118 6.90882 20.0118 1.58824 13.5 1.58824Z" fill="#B17457"/>
+                                    <path d="M5.7175 23.2676L4.28809 22.6323C4.68514 21.6793 5.95573 21.1234 7.30573 20.4882C8.65573 19.8529 10.3234 19.1382 10.3234 18.2646V17.0735C9.84691 16.6764 9.05279 15.8029 8.89397 14.5323C8.49691 14.1352 7.86162 13.4205 7.86162 12.4676C7.86162 11.9117 8.09985 11.4352 8.25867 11.1176C8.09985 10.4823 7.94103 9.2911 7.94103 8.33816C7.94103 5.2411 10.0851 3.17639 13.4999 3.17639C14.4528 3.17639 15.644 3.41463 16.2793 4.12933C17.7881 4.44698 19.0587 6.19404 19.0587 8.33816C19.0587 9.68816 18.8204 10.7999 18.6616 11.3558C18.8204 11.594 18.9793 11.9911 18.9793 12.4676C18.9793 13.4999 18.4234 14.2146 17.9469 14.5323C17.7881 15.8029 17.0734 16.597 16.5969 16.994V18.2646C16.5969 18.9793 18.0263 19.5352 19.2969 20.0117C20.8057 20.5676 22.394 21.2029 22.9499 22.4734L21.441 23.0293C21.2028 22.394 19.9322 21.9176 18.741 21.5205C16.994 20.8852 15.0087 20.1705 15.0087 18.344V16.2793L15.4057 16.0411C15.4057 16.0411 16.3587 15.4058 16.3587 14.1352V13.5793L16.8351 13.3411C16.9146 13.3411 17.3116 13.1029 17.3116 12.4676C17.3116 12.3087 17.1528 12.0705 17.0734 11.9911L16.7557 11.6735L16.9146 11.2764C16.9146 11.2764 17.3116 10.0058 17.3116 8.41757C17.3116 6.90874 16.4381 5.79698 15.7234 5.79698H15.2469L15.0087 5.39992C15.0087 5.08227 14.4528 4.76463 13.4999 4.76463C11.0381 4.76463 9.52926 6.11463 9.52926 8.33816C9.52926 9.37051 9.92632 11.1176 9.92632 11.1176L10.0057 11.5146L9.68809 11.9117C9.60867 11.9117 9.44985 12.1499 9.44985 12.4676C9.44985 12.8646 9.92632 13.3411 10.1646 13.4999L10.4822 13.7382V14.1352C10.4822 15.3264 11.5146 15.9617 11.5146 16.0411L11.9116 16.2793V18.344C11.9116 20.2499 9.84691 21.2029 7.94103 21.997C7.0675 22.3146 5.87632 22.8705 5.7175 23.2676Z" fill="#B17457"/>
+                                </svg>
+                                <p>Manage User</p>
+                            </button>
+                        </a>
+                        
+                        <a href="/Logout">
+                            <button>
+                                <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19.6923 21.7692V25.9231C19.6923 26.4739 19.4735 27.0022 19.084 27.3917C18.6945 27.7812 18.1662 28 17.6154 28H3.07692C2.52609 28 1.99782 27.7812 1.60832 27.3917C1.21882 27.0022 1 26.4739 1 25.9231V3.07692C1 2.52609 1.21882 1.99782 1.60832 1.60832C1.99782 1.21882 2.52609 1 3.07692 1H17.6154C18.1662 1 18.6945 1.21882 19.084 1.60832C19.4735 1.99782 19.6923 2.52609 19.6923 3.07692V7.23077M13.4615 14.5H28M28 14.5L23.8462 10.3462M28 14.5L23.8462 18.6538" stroke="#B17457" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <p>Logout</p>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                @else
+                @endif
             </div>
         </div>
         <div class="maincontent" id="maincontent">
@@ -233,19 +415,250 @@ $AuthNeeded = ["Login","Register"];
 
 </body>
 @yield('js')
+@if(session('Role')==='Admin')
 <script>
     
-    function showProductCategory(what){
-        let prodCat = document.getElementById('ProductKategory');
-        let but = document.getElementById('chooseProduct')
-        let svgToOpen = document.getElementById('ProdCatOpen')
-        let svgToClose = document.getElementById('ProdCatClose')
+    function formClick(elemen){
+        let form = ((elemen.closest('.containerd')).querySelector('form'))
+        let inp = document.createElement("input");
+        inp.setAttribute("name", "TotalPhoto");
+        inp.type = "text";
+        inp.value = (form.querySelectorAll('.PhotosAdds .imageContainer.withfill')).length;
+        form.appendChild(inp);
+        form.submit();
+        
+    }
+    scrollPhotos();
+    function scrollPhotos() {
+        let photosCont = document.querySelector('.PhotoAreaContainer');
+        
+        let debounceTimeout;
+
+        photosCont.addEventListener('scroll', function() {
+            clearTimeout(debounceTimeout);
+
+            debounceTimeout = setTimeout(function() {
+                let closestPhoto = null;
+                let closestDistance = Infinity;
+                let closestIndex = -1;
+                let photos = photosCont.querySelectorAll('.imageContainer');
+                console.log("panjang photos: "+photos.length)
+                photos.forEach((p, index) => {
+                    let photoRect = p.getBoundingClientRect();
+                    let contRect = photosCont.getBoundingClientRect();
+                    // console.log('photorect: '+photoRect.width);
+                    // console.log('contrect: '+contRect.left);
+
+                    let distanceToCenter = Math.abs(photoRect.left + photoRect.width / 2 - (contRect.left + contRect.width / 2));
+
+                    if (distanceToCenter < closestDistance) {
+                        closestDistance = distanceToCenter;
+                        closestPhoto = p;
+                        closestIndex = index;
+                    }
+                });
+
+                if (closestPhoto) {
+                    let ScrollAmt = closestPhoto.offsetLeft - (photosCont.offsetWidth / 2) + (closestPhoto.offsetWidth / 2);
+                    console.log("closestPhoto.offsetLeft : "+closestPhoto.offsetLeft)
+                    console.log("photosCont.offsetWidth : "+photosCont.offsetWidth)
+                    console.log("closestPhoto.offsetWidth : "+closestPhoto.offsetWidth)
+                    // console.log("Scrolamt : "+ScrollAmt);
+                    photosCont.scrollLeft = ScrollAmt;
+
+                    // console.log("Indx: " + closestIndex);
+                    moveTobulat(closestIndex);
+                    
+                }
+            }, 100);
+        });
+    }
+    function moveTobulat(theIndex){
+        let photosCont = document.querySelector('.PhotoAreaContainer');
+        let photos = photosCont.querySelectorAll('.imageContainer');
+        let photosAdds = (photosCont.closest('.PhotosAdds'));
+        let bulats = photosAdds.querySelectorAll('.bulat>circle');
+        for(let i=0; i<bulats.length;i++){
+            // bulats[i].style.backgroundColor = '#D8D2C2';
+            bulats[i].setAttribute('fill', '#D8D2C2');
+            // console.log("i = "+i)
+            if(i==(theIndex)){
+                // bulats[i].style.backgroundColor = '#B17457';
+                // console.log("bulat : "+bulats[i]+"| index = "+theIndex-1)
+                bulats[i].setAttribute('fill', '#B17457');
+                
+
+            }
+        }
+    }
+
+    function scrollButtonPhotos(what){
+        // console.log('masuk | '+what)
+        // let photosCont = document.querySelector('.PhotoAreaContainer');
+        // let photos = photosCont.querySelectorAll('.imageContainer');
+        // let theIndex = null;
+        // photos.forEach((p, index) => {
+        //     console.log('masuk photos : '+p.getAttribute('fill'))
+        //     if(p.getAttribute('fill') == '#B17457'){
+        //         theIndex = index;
+        //         console.log('index tombol '+what+" : "+theIndex);
+        //     }
+        // });
+
+        let photosCont = document.querySelector('.PhotoAreaContainer');
+        let photos = photosCont.querySelectorAll('.imageContainer');
+        let photosAdds = (photosCont.closest('.PhotosAdds'));
+        let bulats = photosAdds.querySelectorAll('.bulat>circle');
+        bulats.forEach((bulat, index)=>{
+            // console.log('bulat warna : '+bulat.getAttribute('fill'))
+            if(bulat.getAttribute('fill') == '#B17457'){
+                theIndex = index;
+                // console.log('index tombol '+what+" : "+theIndex);
+                // console.log("the index: "+theIndex);
+
+            }
+        })
+        // console.log("sebelum : "+theIndex)
+
+        if(what=="left"){
+            if(theIndex!=0){
+                (theIndex-=1)
+            }
+        }else{
+            if(theIndex!=9){
+                (theIndex+=1)
+            }
+        }
+        // console.log("sesudah : "+theIndex)
+        photosCont.scrollLeft = (theIndex*437);
+        moveTobulat(theIndex)
+
+    }
+    function changeQty(wht, elemen,event){
+        event.preventDefault();
+        let number = (elemen.closest('.ProductQty')).querySelector('.mid input');
+        // console.log(number.value)
+        let temp = parseInt(number.value);
+        
+        if(wht!='min'){
+            temp+=1;
+            number.value=temp;
+        }
+        else{
+            if(temp!=0){
+                temp-=1;
+                number.value=temp;
+            }
+        }
+        Count();
+
+    }
+
+    function fillInput(e, event){
+        event.preventDefault();
+        let cont = e.closest('.imageContainer')
+        let inp = cont.querySelector('input')
+        inp.click();
+        cont.classList.replace('nofill', 'withfill');
+        console.log(e.style.display)
+        let img = cont.querySelector('.theImage');  // Corrected class name here
+        inp.addEventListener('change', function() {
+            let file = URL.createObjectURL(inp.files[0]);  // Corrected file reference
+            if(file){
+                img.style.backgroundImage = `url(${file})`; 
+                let len = (cont.closest('.PhotoAreaContainer')).querySelectorAll('.imageContainer');
+                // console.log('panjang image : '+len.length);
+                if(len.length<10){
+                    addPhoto(cont, len.length);
+                }
+                img.style.display='flex'   // Corrected variable name here
+                e.style.display = "none";
+            }
+            
+        });
+        function addPhoto(cont,indx){
+            let photoArea = cont.closest('.PhotoAreaContainer')
+            let newdiv = document.createElement("div");
+            newdiv.className = 'imageContainer nofill notMain';
+            newdiv.innerHTML = `
+                <button class="forMainPhoto" onclick="makeItMain(this, event)">Set as Main</button>    
+                <div class="theImage">
+
+                </div>
+                <button class="forInputPhoto" onclick="fillInput(this, event)">
+                    <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
+                    </svg>
+                </button>
+                </button>
+                <input type="file" name="foto`+(indx+1)+`" id="">
+            `;
+            photoArea.appendChild(newdiv);
+            addBulat(photoArea);
+
+            function addBulat(contimage){   
+                let buletan = (contimage.closest('.PhotosAdds')).querySelector('.buletan');
+                let bulat = buletan.querySelector('.bulat.first');
+                let newbulat = bulat.cloneNode(true);
+                
+                buletan.appendChild(newbulat);
+            }
+        }
+
+        
+    }
+
+    function ClosePopUp(wht){
+        let bigCont = document.getElementById('newProductNow')
+        if(wht=='open'){
+            bigCont.style.display="flex";
+
+        }
+        else{
+            bigCont.style.display="none";
+
+        }
+    }
+
+    function makeItMain(element, event){
+        event.preventDefault();
+        let cont = element.closest('.imageContainer')
+        let inpTarget = cont.querySelector('input');
+        let inp = document.querySelector('.PhotoAreaContainer>input');
+        inp.value = inpTarget.getAttribute('name');
+        let allCont = document.querySelectorAll('.PhotoAreaContainer .imageContainer')
+        allCont.forEach(theCont => {
+            theCont.classList.replace('Main','notMain')
+            theCont.querySelector('.forMainPhoto').textContent="Set as Main"
+            // theCont.classList.replace('Main','notMain')
+        })
+        cont.classList.replace('notMain', 'Main');
+        element.textContent="Main Photo";
+
+    }
+
+
+
+
+</script>
+@endif
+<script>
+    
+    function showProductCategory(what,elemen){
+        let but = elemen;
+        let submenu = elemen.closest('.Submenu');
+        let prodCat = submenu.querySelector('#ProductKategory');
+
+        let svgToOpen = submenu.querySelector('#ProdCatOpen')
+        // console.log(svgToOpen);
+
+        let svgToClose = submenu.querySelector('#ProdCatClose')
         // htg+1;
         if(what=='toShow'){
             prodCat.style.display = "flex"
             svgToClose.style.display = "flex"
             svgToOpen.style.display = "none"
-            but.setAttribute("onclick", "showProductCategory('toClose')")
+            but.setAttribute("onclick", "showProductCategory('toClose',this)")
             but.classList.add("active");
         }
         else{
@@ -254,7 +667,7 @@ $AuthNeeded = ["Login","Register"];
             }, 200)
             svgToClose.style.display = "none"
             svgToOpen.style.display = "flex"
-            but.setAttribute("onclick", "showProductCategory('toShow')")
+            but.setAttribute("onclick", "showProductCategory('toShow',this)")
             // but.style.backgroundColor = "rgb(0,0,0,0)"
             but.classList.remove("active");
         }
@@ -266,10 +679,13 @@ $AuthNeeded = ["Login","Register"];
         let leftBar = document.getElementById('leftbar');
         let mainCont = document.getElementById('maincontent');
         let product = document.querySelectorAll('.LandingPage.product');
+        let products = document.querySelector('.LandingPage');
         if(what=='show'){
             but.setAttribute("onclick", "hideLeftBar('hide')")
             leftBar.style.display = "flex";
             mainCont.style.margin = "20px";
+            products.style.marginLeft = "200px";
+
             if(product[0]){
                 product[0].style.height = "fit-content";
             }
@@ -278,12 +694,14 @@ $AuthNeeded = ["Login","Register"];
             but.setAttribute("onclick", "hideLeftBar('show')")
             leftBar.style.display = "none";
             mainCont.style.margin = "10px";
+            products.style.marginLeft = "0px";
+
             if(product[0]){
                 product[0].style.height = "calc(100% - 10px)";
             }
 
         }
-    }
+    } 
 
     function MiniMenu(wht,elemen){
         let miniMenu = document.querySelectorAll('.AccountDetil');

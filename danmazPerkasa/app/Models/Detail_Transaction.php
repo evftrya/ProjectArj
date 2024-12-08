@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Photos extends Model
+class Detail_Transaction extends Model
 {
-    protected $primaryKey = 'id_photo';
+    protected $primaryKey = 'id_Detail_transaction';
     use HasFactory;
     protected $fillable = [
-        'id_photo',
-        'PhotosName',
+        'id_Detail_transaction',
+        'qty',
         'id_product',
-        'isMain',
+        'Total',
+        'Status',
     ];
 }

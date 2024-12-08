@@ -17,18 +17,19 @@
         </div>
         <div class="Tbody" id="tbody">
             <div class="theProducts">
+                @foreach($data as $d)
                 <div class="theProduct">
                     <!-- <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div> -->
                     <div class="prodDesc">
-                        <div class="ProductPhoto" style="background-image: url('https://i.pinimg.com/736x/89/27/79/892779104c3f686796ce798403a97a44.jpg');">
+                        <div class="ProductPhoto" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}');">
                             
                         </div>
                         <div class="ProductDesc">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, mollitia sint reprehenderit, provident at fugit esse debitis nobis eum quibusdam aliquam, cumque dolore.</p>
+                            <p>{{{$d->nama_product}}}</p>
                         </div>
                     </div>
                     <div class="ProductPrice" id="ProductPrice">
-                        Rp. 1.700.000
+                        {{{$d->price}}}
                     </div>
                     <div class="ProductQty">
                         <div class="inside">
@@ -38,7 +39,7 @@
                                 </svg>
                             </button>
                             <div class="mid">
-                                <input type="text" value="1" disabled>
+                                <input type="text" value="{{{$d->qty}}}" disabled>
                             </div>
                             <button class="ActQty plus">
                                 <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,6 +52,7 @@
                         Rp. 3.000.000
                     </div>
                 </div>
+                @endforeach
             </div>
             <div class="detilTransaksi">
                 <div class="line1">
@@ -134,7 +136,7 @@
 <script>
     Count();
     
-
+    
     function changeQty(wht, elemen){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
         // console.log(number.value)

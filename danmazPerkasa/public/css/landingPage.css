@@ -364,6 +364,8 @@ body p{
     width: 200px;
     padding: 10px;
     height: calc(100% - 20px);
+    /* display: ; */
+    position: fixed;
     /* border-right: 1px black solid; */
 }
 
@@ -472,6 +474,8 @@ body p{
     height: calc(100% - 40px);
     /* height: fit-content; */
     margin: 10px;
+    margin-top: 0px !important;
+    margin-right: 10px !important;
 
 }
 

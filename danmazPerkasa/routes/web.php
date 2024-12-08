@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\Controller;
 
 /*
@@ -66,17 +68,24 @@ $controller = new Controller();
     Route::get('/Product',function(){
         return redirect('/Product/Info');
     });
-    Route::get('/Product/{wht}',[Controller::class,'Product']);
+    Route::get('/Product/{wht}',[ProductsController::class,'Product']);
     Route::get('/Profile/{wht}',[Controller::class,'Profile']);
 
-    Route::get('/Detil-Product', function(){
-        return view('/ProductDetil');
-    });
-
+    Route::get('/Detil-Product/{id}',[ProductsController::class,'DetilProducts']);
+    Route::post('AddToCart/{idProduct}',[DetailTransactionController::class, 'store']);
+    // Route::get('/Detil-Product', function(){
+    //     return view('/ProductDetil');
+    // });
+    
     //CUSTOM
     Route::get('/Custom', function(){
         return view('Custom');
     });
+    
+    //MANAGE-PRODUCT
+    Route::get('/Product-Manage',[ProductsController::class, 'ProductManage']);
+    
+    Route::post('add-product',[ProductsController::class,'store']);
 // -------------- END PRODUCT -----------------
 
 
@@ -90,15 +99,18 @@ $controller = new Controller();
     Route::post('/Profile/{wht}-Update',[Controller::class,'ProfileUpdate']);
 
 //CART
-    Route::get('/Cart',function(){
-        return view('Cart');
-    });
+    Route::get('/Cart',[DetailTransactionController::class,'Cart']);
 
     Route::post('Checkout', function(){
         return redirect ('/Checkout');
     });
+    Route::post('UpdateCart/{id}',[DetailTransactionController::class,'UpdateCart']);
 
 //CHECKOUT
-    Route::get('/Checkout', function(){
-        return view('Checkout');
+    Route::get('/Checkout', [DetailTransactionController::class, 'CheckoutView']);
+
+    Route::get('/tes', function(){
+        return view('tes');
     });
+    Route::get('/UpdateStatus/{idproduct}/{wht}',[DetailTransactionController::class, 'UpdateStatus']);
+
