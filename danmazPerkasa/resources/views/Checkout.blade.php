@@ -19,7 +19,7 @@
             <div class="theProducts">
                 @foreach($data as $d)
                 <div class="theProduct">
-                    <!-- <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div> -->
+                    <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div>
                     <div class="prodDesc">
                         <div class="ProductPhoto" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}');">
                             
@@ -97,19 +97,19 @@
                     <div class="cont">
                         <div class="subCont">
                             <p>Total Product Price</p>
-                            <p>Rp. 4.000.000</p>
+                            <p class="totalProductPrice">Rp. 4.000.000</p>
                         </div>
                         <div class="subCont">
                             <p>Total Shipping Price</p>
-                            <p>Rp. 100.000</p>
+                            <p class="totalShippingPrice">Rp. 100.000</p>
                         </div>
                         <div class="subCont">
                             <p>Service Fee</p>
-                            <p>Rp. 1.000</p>
+                            <p class="SerivceFee">Rp. 1.000</p>
                         </div>
                         <div class="subCont">
                             <p>Handling Fee</p>
-                            <p>Rp. 1.000</p>
+                            <p class="HandlingFee">Rp. 1.000</p>
                         </div>
                     </div>
                 </div>
@@ -124,7 +124,8 @@
                 <p>Total Payment: </p>
                 <p class="FinalSum" id="FinalSum">Rp. 0</p>
             </div>
-            <form action="">
+            <form action="OrderDone" method="POST">
+                @csrf
                 <input type="text" id="toCheckout" style="Display: none">
                 <button>Make Order</button>
             </form>
@@ -134,9 +135,45 @@
 
 
 <script>
-    Count();
+    CountAll();
+    function CountAll(){
+        Count();
+        countTotalProductPrice();
+        countTotalPayment();
+    }
     
+    function countTotalProductPrice(){
+        let allproduct = document.querySelectorAll('.theProduct .ProductTotal');
+        let total = 0;
+        console.log(allproduct.length)
+        allproduct.forEach(dtotal=>{
+            console.log(dtotal.textContent);
+            console.log(idrToInt(dtotal.textContent));
+            total +=idrToInt(dtotal.textContent);
+        })
+
+        let TSP = document.querySelector('.totalProductPrice');
+        TSP.textContent = toIdr(total);
+        console.log(TSP);
+    }
+
+    function countTotalPayment(){
+        let TPP =  document.querySelector('.totalProductPrice');
+        let TSP = document.querySelector('.totalShippingPrice');
+        let SF = document.querySelector('.SerivceFee');
+        let HF = document.querySelector('.HandlingFee');
+
+        let total = (    idrToInt(TPP.textContent)
+                        +idrToInt(TSP.textContent)
+                        +idrToInt(SF.textContent)
+                        +idrToInt(HF.textContent)
+                    );
+        let FS = document.querySelector('.FinalSum');
+        FS.textContent = toIdr(total);
+        
+    }
     
+
     function changeQty(wht, elemen){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
         // console.log(number.value)
@@ -185,19 +222,19 @@
         return formatted;
 
     }
-    function idrToInt(string){
-        let str = string;
+    function idrToInt(string) {
+        let str = String(string);
 
         let angka = str.replace(/[^\d]/g, '');
 
         let parsedAngka = parseInt(angka, 10);
 
         return parsedAngka;
-    }
+}
 
     function getChecked(){
-        let theqtys = document.getElementById('qtys')
-        let TotalChecked = document.getElementById('totalChecked')
+        // let theqtys = document.getElementById('qtys')
+        // let TotalChecked = document.getElementById('totalChecked')
         let theFinalSum = document.getElementById('FinalSum')
         let theCBs = document.querySelectorAll('.theProduct');
         let checked = 0;
@@ -205,6 +242,7 @@
         let prices = 0;
         theCBs.forEach(e=>{
             let cb = e.querySelector('.cb input[type="checkbox"]')
+            // console.log(cb);
             if(cb.checked==true){
                 checked+=1;
                 let qty = e.querySelector('.mid input')
@@ -221,8 +259,8 @@
             theCBBs[0].checked = true;
             theCBBs[theCBBs.length-1].checked = true;
         }
-        theqtys.textContent = qtys;
-        TotalChecked.textContent = checked;
+        // theqtys.textContent = qtys;
+        // TotalChecked.textContent = checked;
         // console.log(toIdr(prices))
         theFinalSum.textContent = toIdr(prices);
     }

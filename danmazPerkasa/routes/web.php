@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,7 +105,7 @@ $controller = new Controller();
     Route::post('Checkout', function(){
         return redirect ('/Checkout');
     });
-    Route::post('UpdateCart/{id}',[DetailTransactionController::class,'UpdateCart']);
+    Route::post('UpdateCart/{idproduct}/{idDT}',[DetailTransactionController::class,'UpdateCart']);
 
 //CHECKOUT
     Route::get('/Checkout', [DetailTransactionController::class, 'CheckoutView']);
@@ -113,4 +114,10 @@ $controller = new Controller();
         return view('tes');
     });
     Route::get('/UpdateStatus/{idproduct}/{wht}',[DetailTransactionController::class, 'UpdateStatus']);
+
+    // Route::get('/OrderDone',function(){
+    //     return view('PaymentProses');
+    // });
+
+    Route::post('OrderDone',[TransaksiController::class,'store']);
 

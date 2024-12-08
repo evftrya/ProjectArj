@@ -85,13 +85,13 @@ html body{
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     gap: 10px;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 .justContainer{
     /* padding-top: 10px; */
-    width: 100%;
+    width: fit-content;
     height: 100px;
     overflow-x: scroll;
     overflow-y: hidden;

@@ -48,7 +48,7 @@ class ProductsController extends Controller
         $Product->mainPhoto = $main;
         $Product->save();
 
-        dd('stop');
+        // dd('stop');
         
         return redirect('/Product-Manage');
     }
@@ -68,11 +68,16 @@ class ProductsController extends Controller
                 'a.price'
             );
             
-            if($wht!=null){
+            
+            if($wht!=null && $wht!='productManage'){
                 $products->where('a.Category', $wht);
             }
+
+            if($wht!='productManage'){
+                $products = $products->where('a.stok','>',0 );
+            }
             $products = $products->get();
-        
+            // dd($products);
         return $products;
     }
     public function getDataProduct($idProduct){
@@ -87,6 +92,7 @@ class ProductsController extends Controller
                 'b.PhotosName',
                 'a.price'
         )->where('a.id_product', $idProduct)
+        // ->where('a.stok','>',0 )
         ->get();
         
         $photos = DB::table('photos as a')
@@ -103,7 +109,7 @@ class ProductsController extends Controller
     }
     
     public function ProductManage(){
-        $data = $this->getData(null);
+        $data = $this->getData('productManage');
 
         // dd($data[0]->id_product);
         // dd($data[0]);
@@ -129,5 +135,15 @@ class ProductsController extends Controller
         // dd($data);
         return view('/ProductDetil',['product'=>$data[0][0],'photos'=>$data[1]]);
 
+    }
+
+    public function CheckoutProduct($qty, $idProduct){
+        $old = Products::where('id_product', $idProduct)->first();
+        // dd($old->stok);
+        // dd(gettype($qty));
+        $old->stok =($old->stok-$qty);
+        // dd($old->stok);
+        $old->save();
+        // dd($old->stok);
     }
 }

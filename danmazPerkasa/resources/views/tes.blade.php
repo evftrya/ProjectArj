@@ -7,13 +7,13 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-    <!-- <form action="/UpdateCart/1" method="POST">
-    
+    <form action="/AddToCart/6" method="POST">
+    @csrf
     <input type="checkbox">
     <input type="text" name="qty" value="8">
 
     <input type="submit">
-    </form> -->
+    </form>
     <a href="/UpdateStatus/4/1">
         click
     </a>

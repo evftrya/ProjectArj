@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->unsignedBigInteger('id_user');
-            $table->integer('Total');
+            $table->integer('Total')->nullable();
             $table->timestamps();
 
 

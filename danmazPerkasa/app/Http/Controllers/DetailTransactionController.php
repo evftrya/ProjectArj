@@ -25,10 +25,12 @@ class DetailTransactionController extends Controller
         )->where('a.id_product', $idProduct)
         ->where('a.id_user',session("user_id"))
         ->where('a.status','Pending')
+        ->where('a.Transaksis_id',NULL)
         ->get();
-        // dd(($product));
+        // dd("ms");
+        // dd(($products));
         if(isset($products[0]->qty)){
-            $old = Detail_Transaction::where('id_Detail_transaction', session("user_id"))->first();
+            $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
             if($old){
                 // dd($old);
                 $old->qty = $old->qty+$req->qty;
@@ -66,28 +68,37 @@ class DetailTransactionController extends Controller
                 'b.price',
                 'a.qty',
                 'b.id_product',
+                'b.stok',
             )
-            ->where('a.id_User', 1);
+            ->where('a.id_User', session('user_id'));
             if($wht=='Checkout'){
                 $Data->where('a.status','Checkout');
             }
+            else if($wht=='Pending'){
+                $Data->where('a.status','Pending')
+                ->orWhere('a.status','Checkout');
+                
+            }
             $Data = $Data->get();
-               
+            // dd($Data);
+            
          return $Data;
     }
 
     public function Cart(){
-        $data = $this->getAllData(null);
-        // dd($data[0]);
+        $data = $this->getAllData('Pending');
+        // dd($data);
 
         return view('Cart',['data'=>$data]);
     }
 
-    public function UpdateCart(Request $req, $idProduct){
+    public function UpdateCart(Request $req, $idProduct,$idDT){
+        // dd($req);
         $product = (new ProductsController())->getDataProduct($idProduct)[0][0];
         // dd($product);
         
-        $old = Detail_Transaction::where('id_Detail_transaction', session("user_id"))->first();
+        $old = Detail_Transaction::where('id_Detail_transaction', $idDT)->first();
+        // dd($old);
         if($old){
             // dd($old);
             $old->qty = $req->qty;
@@ -100,19 +111,27 @@ class DetailTransactionController extends Controller
         }
     }
 
+    // public function AddCart()
+
     public function CheckoutView(){
         $data = $this->getAllData('Checkout');
         // dd($data);
         return view('Checkout',['data'=>$data]);
     }
 
+
+
     public function UpdateStatus($idProduct, $wht){
         $old = Detail_Transaction::where('id_User', session("user_id"))
             ->where('id_product',$idProduct)
+            ->where('Transaksis_id',null)
             ->first();
         // dd($old);
         if($wht=="1"){
             $old->status = "Checkout";
+        }
+        elseif($wht=='donePayment'){
+            $old->status = "Done";
         }
         else{
             $old->status = "Pending"; 
@@ -123,5 +142,12 @@ class DetailTransactionController extends Controller
             // dd('Berhasil');
         }
         
+    }
+
+    public function SetTransaction($idDetil, $idTransaksi){
+        $old = Detail_Transaction::where('id_Detail_transaction', $idDetil)->first();
+        // dd($old);
+        $old->Transaksis_id = $idTransaksi;
+        $old->save();
     }
 }

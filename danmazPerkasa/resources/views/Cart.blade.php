@@ -38,7 +38,7 @@
                 </div>
                 <div class="ProductQty">
                     <div class="inside">
-                        <button class="ActQty minus" onclick="changeQty('min',this,'{{{$d->id_product}}}')">
+                        <button class="ActQty minus" onclick="changeQty('min',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')">
                             <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                             </svg>
@@ -46,7 +46,7 @@
                         <div class="mid">
                             <input type="text" value="{{{$d->qty}}}">
                         </div>
-                        <button class="ActQty plus" onclick="changeQty('plus',this,'{{{$d->id_product}}}')">
+                        <button class="ActQty plus" onclick="changeQty('plus',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')">
                             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                             </svg>
@@ -114,14 +114,19 @@
     Count();
     allInputQty();
 
-    function changeQty(wht, elemen,idProduct){
+    function changeQty(wht, elemen,idproduct,idDT,maxstok){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
         // console.log(number.value)
         let temp = parseInt(number.value);
-        
+        console.log('temp: '+temp);
+        console.log('max: '+parseInt(maxstok));
+        console.log('bool: '+temp<=parseInt(maxstok));
         if(wht!='min'){
-            temp+=1;
-            number.value=temp;
+            
+            if(temp<parseInt(maxstok)){
+                temp+=1;
+                number.value=temp;
+            }
         }
         else{
             if(temp!=0){
@@ -130,7 +135,7 @@
             }
         }
 
-        fetch(('/UpdateCart/'+idProduct),{
+        fetch(('/UpdateCart/'+idproduct+'/'+idDT),{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

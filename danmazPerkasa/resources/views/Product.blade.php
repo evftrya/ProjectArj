@@ -21,7 +21,7 @@
             @foreach($data as $d)
             <a href="/Detil-Product/{{{$d->id_product}}}" class="TheProduk special">
                 <p class="nospecial"></p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
+                <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}');">
 
                 </div>
                 <div class="descProduct">
