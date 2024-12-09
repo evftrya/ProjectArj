@@ -4,11 +4,23 @@
         <title>Login Page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{asset('css/LoginAndRegister.css')}}" rel="stylesheet">
         <!-- <link href="login.css" rel="stylesheet"> -->
 
     </head>
     <body>
+        <div class="allert" id="theAllert" style="display:none;">
+            <div class="contAllert">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus qui nobis debitis magni itaque illum explicabo ab sapiente earum, eaque eos? Beatae repudiandae atque tempore accusamus quidem placeat illum mollitia?</p>
+            </div>
+            <div class="allertButton">
+                <button onclick="allert(null,'close')">Ok</button>
+
+            </div>
+        </div>
+
+        
         <div class="BackButton">
             <a href="{{ url()->previous() }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
@@ -28,13 +40,13 @@
 
                     <div class="input-container">
                         <!-- <p>Email</p> -->
-                            <input type="email" name="emailUser" placeholder="" id="inputField">
+                            <input type="email" class="el" name="emailUser" placeholder="" id="inputField">
                             <label for="inputField">Email</label>
                         <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                     </div>
                     <div class="input-container" id="PasswordArea">
                             <!-- <p>Password</p> -->
-                            <input type="password" name="passwordUser" id="ThePassword" placeholder="">
+                            <input type="password" class="pu" name="passwordUser" id="ThePassword" placeholder="">
                             <label for="inputField">Password</label>
                         <div class="ButtonArea">
                             <button id="See" onclick="Password('LetsSee')">
@@ -53,7 +65,7 @@
                         </div>
                     </div>
                     <a href=""><p>Forgot Password?</p></a>
-                    <button type="submit">
+                    <button>
                         <p>Login</p>
                     </button>
                     <div class="ToRegister">
@@ -76,6 +88,7 @@
         unSeeBut.addEventListener("click", function(event){
             event.preventDefault();
         })
+
         function Password(a){
             let pw = document.getElementById('ThePassword'); 
             if(a=="LetsSee"){
@@ -89,6 +102,111 @@
                 pw.type="text";
             }
         }
+        
+        function Login(event, elemen){
+            event.preventDefault();
+            let form = document.querySelector('form');
+            let el = form.querySelector('.el').value;
+            let pu = form.querySelector('.pu').value;
+            ElPu(el,pu);
+            // console.log(el);
+            // let respon = await ElPu(el,pu);
+            
+        }
+        async function ElPu(el, pu){
+            let form = document.querySelector('form');
+
+
+            let respon = null;
+            fetch(('cekLogin/Login'),{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    //el: email
+                    el: el,
+                    //pw: password
+                    pu: pu,
+                    
+                })
+            }).then(response=>response.json()).then(data => {
+                // console.log('Success:', data.message);
+                if(data.message!=null){
+                    respon = data.message;
+                    
+                }
+                // return respon;
+                console.log('in : '+respon);
+
+                // return respon;
+            })
+            console.log('out : '+respon);
+            // return respon;
+        }
+
+
+        function allert(alerted, wht){
+            let alert = document.getElementById('theAllert');
+            let dalert = alert.querySelector('.contAllert p');
+            
+            if(wht=="close"){
+                alert.style.display = "none"
+            }
+            else{
+                alert.style.display = "flex"
+                dalert.textContent = alerted; 
+            }
+        }
 
     </script>
+    <style>
+        .allert{
+            font-size: 12px;
+            border-radius: 20px;
+            width: 300px;
+            height: 150px;
+            background-color: #9D5C0D;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            z-index: 100;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+            border: white solid 0.5px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        .contAllert{
+            height: 85%;
+            /* background-color: yellow; */
+            /* background-color: red; */
+            
+        }
+        .allertButton{
+            /* width: ; */
+            /* background-color: yellow; */
+        }
+        .allert>div{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .contAllert p{
+            text-align: center;
+        }
+        .allert button{
+            width: fit-content;
+            height: fit-content;
+            padding: 5px 40px;
+            border-radius: 5px;
+            border: none;
+            background-color:white ;
+            outline: none;
+            color: #9D5C0D;
+        }
+    </style>
 </html>

@@ -68,15 +68,19 @@ class DetailTransactionController extends Controller
                 'b.price',
                 'a.qty',
                 'b.id_product',
+                'a.id_User',
                 'b.stok',
-            )
-            ->where('a.id_User', session('user_id'));
+            )->where('a.id_User', session('user_id'));
+
             if($wht=='Checkout'){
                 $Data->where('a.status','Checkout');
             }
             else if($wht=='Pending'){
-                $Data->where('a.status','Pending')
-                ->orWhere('a.status','Checkout');
+                $Data->where(function($query){
+                    $query->where('a.status','Pending')
+                    // ->where('a.id_User', session('user_id'))
+                    ->orWhere('a.status','Checkout');
+                });
                 
             }
             $Data = $Data->get();
@@ -128,7 +132,7 @@ class DetailTransactionController extends Controller
             ->first();
         // dd($old);
         if($wht=="1"){
-            $old->status = "Checkout";
+            // $old->status = "Checkout";
         }
         elseif($wht=='donePayment'){
             $old->status = "Done";
@@ -137,10 +141,11 @@ class DetailTransactionController extends Controller
             $old->status = "Pending"; 
         }
         if($old->save()){
-            return response()->json(['message'=> 'success']);
+            return response()->json(['message'=> ',,,,,']);
 
             // dd('Berhasil');
         }
+        
         
     }
 

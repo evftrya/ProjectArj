@@ -7,15 +7,18 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-    <form action="/AddToCart/6" method="POST">
+    <form action="/cekLogin/Login" method="POST">
     @csrf
     <input type="checkbox">
-    <input type="text" name="qty" value="8">
+    <!-- <input type="text" name="qty" value="8">
 
+    <input type="submit"> -->
+
+    <input type="email" name="el" placeholder="" id="inputField">
+    <input type="password" name="pu" id="ThePassword" placeholder="">
     <input type="submit">
     </form>
-    <a href="/UpdateStatus/4/1">
-        click
-    </a>
+
+    <a href="/UpdateStatus/4/1">tes</a>
     </body>
 </html>

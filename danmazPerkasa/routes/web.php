@@ -59,6 +59,8 @@ $controller = new Controller();
 
     //LOGOUT
      Route::get('/Logout',[AccountController::class, 'Logout']);
+
+     Route::post('cekLogin/{wht}',[AccountController::class, 'cekLogin']);
 // -------------- END SESSION ------------------
 
 

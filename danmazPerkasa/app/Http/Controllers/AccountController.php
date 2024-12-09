@@ -31,11 +31,47 @@ class AccountController extends Controller
         else{
             return redirect('/Login');
         }
-
-
-        
-        
     }
+
+
+    public function cekLogin(Request $req,$wht){
+        // dd($req);
+        return ($this->cekExistEmail($req->el, $req->pu,$wht));
+
+    }
+    public function cekExistEmail($email, $password, $wht){
+        $data = User::where('emailUser', $email)->first();
+        $email = null;
+        $pw = null;
+        // dd($data);
+        if($data){
+            // return response()->json(['message'=> 'ada']);
+            $hasil = $email;
+            if($wht=="Login"){
+                if($data->passwordUser!=$password || $data->passwordUser==null){
+                    $pw = 'Wrong Password';
+                    $hasil = $pw;
+                }
+                // else if()
+                else{
+                    $hasil = 'Good';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                }
+            }
+        }
+        else{
+            $email = 'Email Not Registered';
+            $hasil = $email;
+        }
+        
+        
+        // dd($hasil);
+            // return response()->json(['message'=> 'success']);
+            // return $hasil;
+        return response()->json(['message'=> $hasil]);
+            // return response()->json(['message'=> 'tes']);
+
+    }
+
     public function getProfile($idUser){
         $data = User::where('id_User', $idUser)->first();
         // dd("data".$data);
