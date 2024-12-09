@@ -132,7 +132,7 @@ class DetailTransactionController extends Controller
             ->first();
         // dd($old);
         if($wht=="1"){
-            // $old->status = "Checkout";
+            $old->status = "Checkout";
         }
         elseif($wht=='donePayment'){
             $old->status = "Done";
@@ -141,7 +141,7 @@ class DetailTransactionController extends Controller
             $old->status = "Pending"; 
         }
         if($old->save()){
-            return response()->json(['message'=> ',,,,,']);
+            return response()->json(['message'=> 'success']);
 
             // dd('Berhasil');
         }
