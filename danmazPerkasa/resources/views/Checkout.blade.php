@@ -136,6 +136,14 @@
 
 <script>
     CountAll();
+    tydeUp();
+
+    function tydeUp(){
+        let individu = document.querySelectorAll('.ProductPrice');
+        individu.forEach(e=>{
+            e.textContent = toIdr(e.textContent);
+        })
+    }
     function CountAll(){
         Count();
         countTotalProductPrice();

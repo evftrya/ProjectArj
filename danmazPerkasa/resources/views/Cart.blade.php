@@ -113,8 +113,14 @@
 <script>
     Count();
     allInputQty();
+    tydeUp();
 
-
+    function tydeUp(){
+        let individu = document.querySelectorAll('.ProductPrice');
+        individu.forEach(e=>{
+            e.textContent = toIdr(e.textContent);
+        })
+    }
     function gotoCheckout(event){
         event.preventDefault();
         console.log('tes')
