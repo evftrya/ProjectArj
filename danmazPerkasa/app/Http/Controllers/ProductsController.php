@@ -17,57 +17,69 @@ class ProductsController extends Controller
     //     }
     // }
 
-    public function store(Request $req){
+    public function store(Request $req, $wht ){
         // dd($req);
 
         $Product = new Products();
         // $Product->id_product = 1;
+
+        
         $Product->nama_product = $req->ProductName;
         $Product->stok = $req->stock;
         $Product->price = $req->ProductPrice;
-        $Product->Category = $req->product;
         $Product->detail_product = $req->Description;
-        $Product->Features = $req->Features;
-        $Product->type = 'Product';
+        $Product->weight= $req->weight;
+        $Product->type = 'Part';
+        $Product->Category = $req->product;
+        if($wht=='Product'){
+            $Product->type = 'Product';
+            $Product->Features = $req->Features;
+        }
         $Product->save();
         $id = $Product->id_product;
 
-        $photo = new PhotosController();
-        $main = null;
-        for($i = 1; $i <= $req->TotalPhoto; $i++){
-            // store(Request $req, $idProduct, $number)
-            if('foto'.$i==$req->mainPhoto){
-                // dd('foto'.$i==$req->mainPhoto);
-                $main = $photo->store($req, $id, $i);
+        if($wht=='Product'){
+            $photo = new PhotosController();
+            $main = null;
+            for($i = 1; $i <= $req->TotalPhoto; $i++){
+                // store(Request $req, $idProduct, $number)
+                if('foto'.$i==$req->mainPhoto){
+                    // dd('foto'.$i==$req->mainPhoto);
+                    $main = $photo->store($req, $id, $i);
+                }
+                else{
+                    $photo->store($req, $id, $i);
+                }
+    
             }
-            else{
-                $photo->store($req, $id, $i);
-            }
-
+            $Product->mainPhoto = $main;
+            $Product->save();
         }
-        $Product->mainPhoto = $main;
-        $Product->save();
-
-        // dd('stop');
+        $from = null;
+        ($wht=='Part') ? $from = 'Part-Manage/Part' : $from = 'Product-Manage/Product';
         
-        return redirect('/Product-Manage');
+        return redirect('/'.$from);
     }
 
-    public function getData($wht){
-
+    public function getData($wht, $from){
+        // dd($wht);
         $products = DB::table('products as a')
-            ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
             ->select(
                 'a.id_product',
                 'a.nama_product',
                 'a.stok',
                 'a.Category',
                 'a.detail_product',
-                'a.Features',
-                'b.PhotosName',
+                'a.weight',
                 'a.price'
             );
-            
+            // dd($wht);
+            if($from=='Product'){
+                $products = $products->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+                            ->addSelect('b.PhotosName',
+                                'a.Features',
+                    );
+            }
             
             if($wht!=null && $wht!='productManage'){
                 $products->where('a.Category', $wht);
@@ -75,6 +87,13 @@ class ProductsController extends Controller
 
             if($wht!='productManage'){
                 $products = $products->where('a.stok','>',0 );
+            }
+            // dd($from);
+            if($from == 'Product'){
+                $products = $products->where('a.type','Product' );
+            }
+            else{
+                $products = $products->where('a.type','Part' );
             }
             $products = $products->get();
             // dd($products);
@@ -108,12 +127,17 @@ class ProductsController extends Controller
 
     }
     
-    public function ProductManage(){
-        $data = $this->getData('productManage');
+    public function ProductManage($from){
+        // dd($from);
+        $data = $this->getData('productManage',$from);
 
         // dd($data[0]->id_product);
-        // dd($data[0]);
-        return view('ManageProduct',['routeForm'=>'/add-product', 'data'=>$data]);
+        $route = null;
+        $view = null;
+        $from!='Part' ? $Route='/addproduct' : $Route='/addPart';
+        $from!='Part' ? $view='ManageProduct' : $view='ManagePart';
+        // dd($data);
+        return view($view,['routeForm'=>$Route, 'data'=>$data]);
     }
 
     public function Product($wht){
@@ -121,7 +145,7 @@ class ProductsController extends Controller
         if($wht!='AllProduct'){
             $send = $wht;
         }
-        $data = $this->getData($send);
+        $data = $this->getData($send,'Product');
         // dd($data);
         return view ('Product', ['data'=>$data,'wht'=>$wht]);
     }

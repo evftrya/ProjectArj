@@ -36,6 +36,8 @@ $controller = new Controller();
 // ------------ SESSION -----------------
     //LOGIN
         Route::get('/Login', function (Controller $cont) {
+            // dd(session('direction'));
+
             if($cont->AuthSystem()>0){
                 // dd(session('direction'));
                 if(session('direction')!=null){
@@ -86,10 +88,15 @@ $controller = new Controller();
     });
     
     //MANAGE-PRODUCT
-    Route::get('/Product-Manage',[ProductsController::class, 'ProductManage']);
+    Route::get('/Product-Manage/{from}',[ProductsController::class, 'ProductManage']);
     
-    Route::post('add-product',[ProductsController::class,'store']);
-// -------------- END PRODUCT -----------------
+    // -------------- END PRODUCT -----------------
+    
+    //--------------PART -------------------
+    Route::get('/Part-Manage/{from}',[ProductsController::class, 'ProductManage']);
+    
+    Route::post('add-product/{wht}',[ProductsController::class,'store'])->name('add-product');
+//--------------END PART -------------------
 
 
 //PROFILE
@@ -104,13 +111,13 @@ $controller = new Controller();
 //CART
     Route::get('/Cart',[DetailTransactionController::class,'Cart']);
 
-    Route::post('Checkout', function(){
-        return redirect ('/Checkout');
-    });
+    // Route::post('Checkout', function(){
+    //     return redirect ('/Checkout');
+    // });
     Route::post('UpdateCart/{idproduct}/{idDT}',[DetailTransactionController::class,'UpdateCart']);
 
 //CHECKOUT
-    Route::get('/Checkout', [DetailTransactionController::class, 'CheckoutView']);
+    Route::get('/Checkout/{wht}/{qty}', [DetailTransactionController::class, 'CheckoutView']);
 
     Route::get('/tes', function(){
         return view('tes');
@@ -123,3 +130,12 @@ $controller = new Controller();
 
     Route::post('OrderDone',[TransaksiController::class,'store']);
 
+
+    Route::get('/Manage-User', [AccountController::class, 'manageUser']);
+
+
+//TRANSACTION
+    Route::get('/Manage/Transaction', [TransaksiController::class, 'ManageTransaction']);
+
+
+Route::get('/coba', [TransaksiController::class, 'Payment']);

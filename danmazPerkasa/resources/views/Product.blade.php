@@ -1,6 +1,7 @@
 @extends('layouts.BasicPage1')
 
 @section('css')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="" href="{{asset('css/product.css')}}">
 @endsection
 
@@ -21,7 +22,7 @@
             @foreach($data as $d)
             <a href="/Detil-Product/{{{$d->id_product}}}" class="TheProduk special">
                 <p class="nospecial"></p>
-                <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}');">
+                <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}')">
 
                 </div>
                 <div class="descProduct">
@@ -31,10 +32,10 @@
                 <div class="bottomProductArea">
                     <p>{{{$d->price}}}</p>
                     <div class="bottomButtonProduct">
-                        <Button onclick="window.open('')">
+                        <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)">
                             <p>ADD TO CART</p>
                         </Button>
-                        <Button class="BuyNow" onclick="window.open('')">
+                        <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)">
                             <p>BUY NOW</p>
                         </Button>
                     </div>
@@ -68,4 +69,32 @@
         </div>
     </div>
 </div>
+
+<script>
+    function goCheckout(idProduct, event){
+        event.preventDefault();
+        window.location.href='/Checkout/'+idProduct+'/1';
+    }
+
+    function AddToCart(elemen, id, event){
+        event.preventDefault();
+        id = parseInt(id);
+        fetch(('/AddToCart/'+id),{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                qty: 1,
+            })
+        }).then(response=>response.json()).then(data => {
+        console.log('Success:', data.message);
+        })
+
+        showPopup('successfully added to the cart');
+    }
+
+    
+</script>
 @endsection

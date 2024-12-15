@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id()->autoIncrement();
             $table->unsignedBigInteger('id_user');
             $table->integer('Total')->nullable();
+            $table->string('Shipping')->nullable();
+            $table->string('PaymentMethod')->nullable();
+            $table->string('Status_Pembayaran')->default('Pending');
+            $table->string('Status_Pengiriman')->nullable();
+            $table->string('Notes')->nullable();
             $table->timestamps();
 
 

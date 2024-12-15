@@ -29,15 +29,19 @@ class AccountController extends Controller
             return redirect('/Login');
         }
         else{
-            return redirect('/Login');
+            return redirect('/Login')->with('pesan', "Registration Succesfull");
         }
     }
 
 
     public function cekLogin(Request $req,$wht){
         // dd($req);
-        return ($this->cekExistEmail($req->el, $req->pu,$wht));
-
+        if($wht=='Login'){
+            return ($this->cekExistEmail($req->el, $req->pu,$wht));
+        }
+        else{
+            return ($this->cekExistEmail($req->el, null , $wht));
+        }
     }
     public function cekExistEmail($email, $password, $wht){
         $data = User::where('emailUser', $email)->first();
@@ -56,6 +60,9 @@ class AccountController extends Controller
                 else{
                     $hasil = 'Good';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                 }
+            }
+            else{
+                $hasil = 'Email have been Exist try another email...';
             }
         }
         else{
@@ -186,5 +193,27 @@ class AccountController extends Controller
         }
         $akun->Save();
         session(['user_name' => $akun->namaUser]);
+    }
+    public function getAllData(){
+        $data = DB::table('users as a')
+        ->select(
+            'a.id_User as id',
+            'a.namaUser as name',
+            'a.emailUser as email',
+            'a.passwordUser as pw',
+            'a.role',
+            'a.Phone',
+            'a.Gender',
+            'a.Address',
+    )->whereNot('a.id_User', session('user_id'))
+    ->get();
+
+    return $data;
+    }
+
+    public function manageUser(){
+        $data = $this->getAllData();
+        // dd($data);
+        return view('ManageUser',['data' => $data, 'whtRoute' => 'Manage User']);
     }
 }

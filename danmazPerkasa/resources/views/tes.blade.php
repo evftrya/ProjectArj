@@ -7,15 +7,15 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-    <form action="/cekLogin/Login" method="POST">
+    <form action="/cekLogin/Regis" method="POST">
     @csrf
-    <input type="checkbox">
+    <input type="checkbox" id="cb">
     <!-- <input type="text" name="qty" value="8">
 
     <input type="submit"> -->
 
     <input type="email" name="el" placeholder="" id="inputField">
-    <input type="password" name="pu" id="ThePassword" placeholder="">
+    <!-- <input type="password" name="pu" id="ThePassword" placeholder=""> -->
     <input type="submit">
     </form>
 

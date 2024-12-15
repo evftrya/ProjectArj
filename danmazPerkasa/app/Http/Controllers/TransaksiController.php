@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\ProductsController;
+use Illuminate\Support\Facades\DB;
 use App\Models\Transaksi;
+// require_once dirname(__FILE__) . '/pathofproject/Midtrans.php';
+
 
 class TransaksiController extends Controller
 {
@@ -33,5 +36,69 @@ class TransaksiController extends Controller
 
         return view('PaymentProses',['total'=>$total]);
         
+    }
+
+    public function ManageTransaction(){
+        
+        $data = $this->getAll();
+        // dd($Transaction);
+
+        return view('ManageTransaction',['data'=>$data]);
+    }
+
+    public function getAll(){
+        $Transaction = DB::table('transaksis as a')
+            ->select(
+                'a.id',
+                'a.created_at',
+                'b.namaUser',
+                'a.Total',
+                'a.Shipping',
+                'a.Notes',
+            )
+            ->join('users as b', 'a.id_user', '=', 'b.id_User')
+            ->get();
+        return $Transaction;
+    }
+
+    public function payment(){
+        /*Install Midtrans PHP Library (https://github.com/Midtrans/midtrans-php)
+        composer require midtrans/midtrans-php
+                                    
+        Alternatively, if you are not using **Composer**, you can download midtrans-php library 
+        (https://github.com/Midtrans/midtrans-php/archive/master.zip), and then require 
+        the file manually.   
+
+        require_once dirname(__FILE__) . '/pathofproject/Midtrans.php'; */
+
+        //SAMPLE REQUEST START HERE
+
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = 'Mid-server-6OM8JPnRPKl9AtrscMMGzsZY';
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = true;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => rand(),
+                'gross_amount' => 100,
+            ),
+            'customer_details' => array(
+                'first_name' => 'budi',
+                'last_name' => 'pratama',
+                'email' => 'budi.pra@example.com',
+                'phone' => '08111222333',
+            ),
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        // return $snapToken;
+        // dd($snapToken);
+
+        return view('coba',['snapToken'=>$snapToken]);
     }
 }

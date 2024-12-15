@@ -94,7 +94,7 @@
                 </div>
                 <p class="FinalSum" id="FinalSum">Rp. 0</p>
             </div>
-            <form action="/Checkout" method="POST" class="formCheckout">
+            <form action="/Checkout/null/null" method="POST" class="formCheckout">
                 
                 @csrf
                 <div class="inps" style="display: none;">
@@ -103,7 +103,7 @@
                     @endforeach
                 </div>
                 <input type="text" id="toCheckout" style="Display: none">
-                <button onclick="window.location.href='/Checkout';">Checkout</button>
+                <button onclick="gotoCheckout(event)">Checkout</button>
             </form>
         </div>
     </div>
@@ -114,6 +114,12 @@
     Count();
     allInputQty();
 
+
+    function gotoCheckout(event){
+        event.preventDefault();
+        console.log('tes')
+        window.location.href='/Checkout/null/null';
+    }
     function changeQty(wht, elemen,idproduct,idDT,maxstok){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
         // console.log(number.value)

@@ -12,7 +12,7 @@
     <body>
         <div class="allert" id="theAllert" style="display:none;">
             <div class="contAllert">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus qui nobis debitis magni itaque illum explicabo ab sapiente earum, eaque eos? Beatae repudiandae atque tempore accusamus quidem placeat illum mollitia?</p>
+                <p></p>
             </div>
             <div class="allertButton">
                 <button onclick="allert(null,'close')">Ok</button>
@@ -26,7 +26,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                 </svg>
-                <p>Back</p>
+                <p>Back </p>
             </a>
         </div>
         <div class="Container">
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <a href=""><p>Forgot Password?</p></a>
-                    <button>
+                    <button id="buttonForm" onclick="Login(event,this)">
                         <p>Login</p>
                     </button>
                     <div class="ToRegister">
@@ -103,21 +103,28 @@
             }
         }
         
-        function Login(event, elemen){
+        async function Login(event, elemen){
             event.preventDefault();
             let form = document.querySelector('form');
             let el = form.querySelector('.el').value;
             let pu = form.querySelector('.pu').value;
-            ElPu(el,pu);
-            // console.log(el);
-            // let respon = await ElPu(el,pu);
+            let respon = await ElPu(el,pu);
+            if(respon != null){
+                if(respon != 'Good'){
+                    allert(respon, null);
+                }
+                else{
+                    form.submit();
+                }
+
+            }
             
         }
         async function ElPu(el, pu){
             let form = document.querySelector('form');
 
 
-            let respon = null;
+            let response = await
             fetch(('cekLogin/Login'),{
                 method: 'POST',
                 headers: {
@@ -125,25 +132,20 @@
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({
-                    //el: email
                     el: el,
-                    //pw: password
                     pu: pu,
                     
                 })
-            }).then(response=>response.json()).then(data => {
-                // console.log('Success:', data.message);
-                if(data.message!=null){
-                    respon = data.message;
-                    
-                }
-                // return respon;
-                console.log('in : '+respon);
+            });
 
-                // return respon;
-            })
-            console.log('out : '+respon);
-            // return respon;
+            let data = await response.json();
+
+            if(data.message != null){
+                return data.message;
+            }
+            else{
+                return null;
+            }
         }
 
 
@@ -160,53 +162,18 @@
             }
         }
 
+
+        clickAuto();
+        function clickAuto(){
+            document.addEventListener('keydown', function(event){
+                if(event.key === 'Enter'){
+                    event.preventDefault();
+
+                    const button = document.getElementById('buttonForm');
+                    button.click();
+                }
+            })
+        }
+
     </script>
-    <style>
-        .allert{
-            font-size: 12px;
-            border-radius: 20px;
-            width: 300px;
-            height: 150px;
-            background-color: #9D5C0D;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            z-index: 100;
-            padding: 20px;
-            align-items: center;
-            justify-content: center;
-            border: white solid 0.5px;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
-        }
-        .contAllert{
-            height: 85%;
-            /* background-color: yellow; */
-            /* background-color: red; */
-            
-        }
-        .allertButton{
-            /* width: ; */
-            /* background-color: yellow; */
-        }
-        .allert>div{
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .contAllert p{
-            text-align: center;
-        }
-        .allert button{
-            width: fit-content;
-            height: fit-content;
-            padding: 5px 40px;
-            border-radius: 5px;
-            border: none;
-            background-color:white ;
-            outline: none;
-            color: #9D5C0D;
-        }
-    </style>
 </html>

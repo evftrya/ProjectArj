@@ -271,3 +271,50 @@ form p{
 
 
 /* ------ REGIS PAGE ---------- */
+
+.allert{
+    font-size: 12px;
+    border-radius: 10px;
+    width: 300px;
+    height: 150px;
+    background-color: #9D5C0D;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 100;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    border: white solid 0.5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+.contAllert{
+    height: 85%;
+    /* background-color: yellow; */
+    /* background-color: red; */
+    
+}
+.allertButton{
+    /* width: ; */
+    /* background-color: yellow; */
+}
+.allert>div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contAllert p{
+    text-align: center;
+}
+.allert button{
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 40px;
+    border-radius: 5px;
+    border: none;
+    background-color:white ;
+    outline: none;
+    color: #9D5C0D;
+}

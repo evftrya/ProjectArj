@@ -3,11 +3,21 @@
     <head>
         <title>Login Page</title>
         <meta charset="UTF-8">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="{{asset('css/LoginAndRegister.css')}}" rel="stylesheet">
 
     </head>
     <body>
+        <div class="allert" id="theAllert" style="display:none;">
+            <div class="contAllert">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus qui nobis debitis magni itaque illum explicabo ab sapiente earum, eaque eos? Beatae repudiandae atque tempore accusamus quidem placeat illum mollitia?</p>
+            </div>
+            <div class="allertButton">
+                <button id="buttonAllert" onclick="allert(null,'close')">Ok</button>
+
+            </div>
+        </div>
         <div class="BackButton">
             <a href="{{ url()->previous() }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
@@ -26,22 +36,22 @@
                     @csrf
                     <div class="nameArea">
                         <div class="input-container">
-                            <input type="text" name="firstName" id="" placeholder="" required>
+                            <input type="text" name="firstName" id="firstName" placeholder="" required>
                             <label for="inputField">First Name</label>
 
                         </div>
                         <div class="input-container">
-                            <input type="text" name="lastName" id="" placeholder="" required>
+                            <input type="text" name="lastName" id="lastName" placeholder="" required>
                             <label for="inputField">Last Name</label>
                         </div>
                     </div>
                     <div class="input-container">
-                        <input type="email" name="emailUser" id="" placeholder="" required>
+                        <input class="el" type="email" name="emailUser" id="email" placeholder="" required>
                         <label for="inputField">Email</label>
                     </div>
                     <div class="input-container" id="PasswordArea">
                             <!-- <p>Password</p> -->
-                            <input type="password" name="passwordUser" id="ThePassword" placeholder="">
+                            <input type="password" name="passwordUser" id="ThePassword" placeholder="" required>
                             <label for="inputField">Password</label>
                         <div class="ButtonArea">
                             <button id="See" onclick="Password('LetsSee')">
@@ -59,7 +69,7 @@
                             </button>
                         </div>
                     </div>
-                    <button>
+                    <button class="buttonForm" id="buttonForm" onclick="Regis(event, this)">
                         <p>Register</p>
                     </button>
                     <div class="ToRegister">
@@ -73,6 +83,21 @@
         <!-- <img src="asetfoto/login.jpg" alt=""> -->
     </body>
     <script>
+        clickAuto(null);
+        function clickAuto(wht){
+            document.addEventListener('keydown', function(event){
+                if(event.key === 'Enter'){
+                    event.preventDefault();
+                    let button = document.getElementById('buttonForm');
+                    if(wht!=null){
+                        button = document.getElementById(wht);
+                    }
+                    console.log('work');
+                    button.click();
+                }
+            })
+        }
+
         let seeBut = document.getElementById('See');
             seeBut.addEventListener("click", function(event){
                 event.preventDefault();
@@ -93,6 +118,91 @@
                 seeBut.style.display="flex";
                 unSeeBut.style.display="none"; 
                 pw.type="text";
+            }
+        }
+
+        async function Regis(event, elemen){
+            event.preventDefault();
+            let form = document.querySelector('form');
+            let el = form.querySelector('.el').value;
+            let inps = form.querySelectorAll('input');
+            console.log(inps[4])
+            let empty = null;
+            let pw = inps[4].value;
+            
+            // let pw = null;
+            inps.forEach(inp=>{
+                if(inp.value==""){
+                    empty = 'back';
+                }
+
+            })
+            
+            // console.log(el!=null)
+            
+            if(empty==null){
+                let respon = await ElPu(el,null);
+                if(respon != null){
+                    if(respon != 'Email Not Registered'){
+                        allert(respon, null);
+                    }
+                    else if(!pw.length>=8 || !/[A-Z]/.test(pw)||!/[a-z]/.test(pw)){
+                        let string= 'Your Password must be at least 8 Characters long \n Include at least an uppercase letter \n Include at least a lowercase letter ';
+                        allert(string, null);
+                    }
+                    else{
+                        form.submit();
+                    }
+
+                }
+            }
+            else{
+                allert('Please fill the fields..',null)
+                
+            }
+        }
+        async function ElPu(el, pu){
+            let form = document.querySelector('form');
+
+
+            let response = await
+            fetch(('cekLogin/Regist'),{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    el: el,
+                    
+                })
+            });
+
+            let data = await response.json();
+
+            if(data.message != null){
+                return data.message;
+            }
+            else{
+                return null;
+            }
+        }
+
+
+        function allert(alerted, wht){
+            let alert = document.getElementById('theAllert');
+            let dalert = alert.querySelector('.contAllert p');
+            
+            if(wht=="close"){
+                alert.style.display = "none"
+                // clickAuto('buttonForm');
+
+            }
+            else{
+                // clickAuto('buttonAllert');
+
+                alert.style.display = "flex"
+                dalert.innerHTML= alerted.replace(/\n/g, "<br>"); 
             }
         }
 

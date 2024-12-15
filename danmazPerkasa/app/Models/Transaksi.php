@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
+    protected $primaryKey = 'id';
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'id_user',
+        'Total',
+        'Shipping',
+        'PaymentMethod',
+        'Notes',
+    ];
 }

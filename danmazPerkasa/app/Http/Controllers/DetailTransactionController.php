@@ -24,11 +24,13 @@ class DetailTransactionController extends Controller
                 'a.Total',
         )->where('a.id_product', $idProduct)
         ->where('a.id_user',session("user_id"))
-        ->where('a.status','Pending')
+        ->where('a.status','Pending')->orWhere('a.status','Checkout')
         ->where('a.Transaksis_id',NULL)
         ->get();
+
+
         // dd("ms");
-        // dd(($products));
+        // dd(($products)); 
         if(isset($products[0]->qty)){
             $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
             if($old){
@@ -43,15 +45,15 @@ class DetailTransactionController extends Controller
         }
         else{
             $detil = new Detail_Transaction();
-        $detil->qty = $req->qty;
-        $detil->total = $total;
-        $detil->id_User = session("user_id");
-        // $detil->status = 0;
-        $detil->id_product = $idProduct;
-        // $detil->save();
-            if($detil->save()){
-                return response()->json(['message'=> 'success']);
-            }
+            $detil->qty = $req->qty;
+            $detil->total = $total;
+            $detil->id_User = session("user_id");
+            // $detil->status = 0;
+            $detil->id_product = $idProduct;
+            // $detil->save();
+                if($detil->save()){
+                    return response()->json(['message'=> 'success']);
+                }
         }
         
         
@@ -109,15 +111,44 @@ class DetailTransactionController extends Controller
             $old->Total = $old->qty*$product->price;
             if($old->save()){
                 return response()->json(['message'=> 'success']);
-            };
-            // dd($old);
-            // $old->Total =  
+            }; 
         }
     }
 
     // public function AddCart()
 
-    public function CheckoutView(){
+    public function CheckoutView($idProduct, $Newqty){
+        // dd($Newqty);
+        if($idProduct!='null' && $Newqty!='null'){
+            $Data = DB::table('detail__transactions as a')
+            ->select('*')
+            ->where('id_User', session('user_id'))
+            ->update(['Status'=> 'Pending']);
+
+            $Newqty = intval($Newqty);
+            // dd($Newqty);
+            // $this->UpdateStatus($wht,null);
+            $this->Cart();
+            $product = (new ProductsController())->getDataProduct($idProduct)[0][0];   
+            // dd($product);     
+            $old = Detail_Transaction::where('id_product', $idProduct)
+                                        ->where('id_User', session('user_id'))
+                                        ->first();
+            // dd($old);
+            if($old){
+                $old->qty = $Newqty;
+            }
+            else{
+                $detil = new Detail_Transaction();
+                $detil->qty = $Newqty;
+                $detil->id_User = session("user_id");
+                $detil->id_product = $idProduct;
+                $old = $detil;
+            }
+            $old->Total = $Newqty*$product->price;
+            $old->save();
+            $this->UpdateStatus($idProduct, '1');
+        }
         $data = $this->getAllData('Checkout');
         // dd($data);
         return view('Checkout',['data'=>$data]);

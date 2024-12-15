@@ -17,6 +17,8 @@ class Products extends Model
         'stok',
         'type',
         'price',
+        'isSpecial',
+        'weight',
         'Category',
         'detail_product',
         'Features',

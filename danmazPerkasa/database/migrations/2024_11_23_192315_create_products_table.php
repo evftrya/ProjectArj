@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('type');
             $table->integer('stok');
             $table->string('price');
-            $table->string('Category');
+            $table->string('isSpecial')->nullable();
+            $table->Integer('weight');
+            $table->string('Category')->nullable();
             $table->longText('detail_product');
-            $table->longText('Features');
+            $table->longText('Features')->nullable();
             $table->string('mainPhoto')->nullable();
             $table->timestamps();
         });

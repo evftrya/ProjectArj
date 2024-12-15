@@ -15,130 +15,214 @@ $AuthNeeded = ["Login","Register"];
     <link rel="stylesheet" type="" href="{{asset('css/LandingPage.css')}}">
     @yield('css')
     
-    <title>Document</title>
+    <title>Danmaz Perkasa</title>
 </head>
 <body>
+    
+
     @if(session('Role')==='Admin')
-    <div class="NewProduct" id="newProductNow" style="display: none;">
-        <div class="containerd">
-            <div class="theTitled">
-                <div class="forBack" onclick="ClosePopUp('close')">
-                    <svg width="15" height="30" viewBox="0 0 15 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.354257 15.9346L13.0833 29.6435C13.2957 29.8723 13.5778 30 13.8713 30C14.1647 30 14.4469 29.8723 14.6593 29.6435L14.673 29.628C14.7763 29.517 14.8586 29.3835 14.9148 29.2355C14.971 29.0875 15 28.9281 15 28.767C15 28.6059 14.971 28.4465 14.9148 28.2985C14.8586 28.1505 14.7763 28.0169 14.673 27.906L2.68627 14.9974L14.673 2.09402C14.7763 1.98307 14.8586 1.84953 14.9148 1.70151C14.971 1.5535 15 1.3941 15 1.23302C15 1.07194 14.971 0.912539 14.9148 0.764521C14.8586 0.616504 14.7763 0.482961 14.673 0.372016L14.6593 0.356525C14.4469 0.127669 14.1647 8.01564e-07 13.8713 8.01564e-07C13.5778 8.01564e-07 13.2957 0.127669 13.0833 0.356525L0.354257 14.0654C0.242311 14.186 0.153189 14.331 0.0922943 14.4916C0.0313997 14.6523 0 14.8252 0 15C0 15.1748 0.0313997 15.3477 0.0922943 15.5084C0.153189 15.669 0.242311 15.814 0.354257 15.9346Z" fill="black"/>
-                    </svg>
-                </div>
-                <p>Add Product</p>
-            </div>
-            
-            <form action="<?php if($url=="Product-Manage"){
-                echo $routeForm;
-            } ?>" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="PhotosAdds">
-                    <div  class="move lefted" onclick="scrollButtonPhotos('left')">
-                        <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.928329 20.131L12.2485 36.7247C12.4374 37.0017 12.6883 37.1563 12.9493 37.1563C13.2102 37.1563 13.4612 37.0017 13.65 36.7247L13.6622 36.706C13.7541 36.5717 13.8273 36.41 13.8773 36.2308C13.9273 36.0517 13.9531 35.8587 13.9531 35.6638C13.9531 35.4688 13.9273 35.2758 13.8773 35.0967C13.8273 34.9175 13.7541 34.7559 13.6622 34.6216L3.00223 18.9966L13.6622 3.37783C13.7541 3.24354 13.8273 3.08189 13.8773 2.90272C13.9273 2.72356 13.9531 2.53062 13.9531 2.33564C13.9531 2.14066 13.9273 1.94772 13.8773 1.76856C13.8273 1.58939 13.7541 1.42774 13.6622 1.29345L13.65 1.2747C13.4612 0.997686 13.2102 0.843151 12.9493 0.843151C12.6883 0.843151 12.4374 0.997686 12.2485 1.2747L0.928329 17.8685C0.828773 18.0144 0.749515 18.1899 0.69536 18.3843C0.641206 18.5788 0.613281 18.7882 0.613281 18.9997C0.613281 19.2113 0.641206 19.4206 0.69536 19.6151C0.749515 19.8095 0.828773 19.985 0.928329 20.131Z" fill="black"/>
-                        </svg>
+        @if($url!='Part-Manage')
+            <div class="NewProduct" id="newProductNow" style="display: none;">
+                <div class="containerd">
+                    <div class="theTitled">
+                        <div class="forBack" onclick="ClosePopUp('close')">
+                            <svg width="15" height="30" viewBox="0 0 15 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.354257 15.9346L13.0833 29.6435C13.2957 29.8723 13.5778 30 13.8713 30C14.1647 30 14.4469 29.8723 14.6593 29.6435L14.673 29.628C14.7763 29.517 14.8586 29.3835 14.9148 29.2355C14.971 29.0875 15 28.9281 15 28.767C15 28.6059 14.971 28.4465 14.9148 28.2985C14.8586 28.1505 14.7763 28.0169 14.673 27.906L2.68627 14.9974L14.673 2.09402C14.7763 1.98307 14.8586 1.84953 14.9148 1.70151C14.971 1.5535 15 1.3941 15 1.23302C15 1.07194 14.971 0.912539 14.9148 0.764521C14.8586 0.616504 14.7763 0.482961 14.673 0.372016L14.6593 0.356525C14.4469 0.127669 14.1647 8.01564e-07 13.8713 8.01564e-07C13.5778 8.01564e-07 13.2957 0.127669 13.0833 0.356525L0.354257 14.0654C0.242311 14.186 0.153189 14.331 0.0922943 14.4916C0.0313997 14.6523 0 14.8252 0 15C0 15.1748 0.0313997 15.3477 0.0922943 15.5084C0.153189 15.669 0.242311 15.814 0.354257 15.9346Z" fill="black"/>
+                            </svg>
+                        </div>
+                        <p>Add Product</p>
                     </div>
-                    <div class="move righted" onclick="scrollButtonPhotos('right')">
-                        <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.0717 17.869L1.75152 1.2753C1.56263 0.998283 1.31169 0.84375 1.05073 0.84375C0.789778 0.84375 0.538836 0.998283 0.349954 1.2753L0.337765 1.29405C0.245881 1.42834 0.172716 1.58998 0.12272 1.76915C0.0727231 1.94832 0.0469408 2.14126 0.0469408 2.33624C0.0469408 2.53121 0.0727231 2.72416 0.12272 2.90332C0.172716 3.08249 0.245881 3.24413 0.337765 3.37842L10.9978 19.0034L0.337765 34.6222C0.245881 34.7565 0.172716 34.9181 0.12272 35.0973C0.0727231 35.2764 0.0469408 35.4694 0.0469408 35.6644C0.0469408 35.8593 0.0727231 36.0523 0.12272 36.2314C0.172716 36.4106 0.245881 36.5723 0.337765 36.7065L0.349954 36.7253C0.538836 37.0023 0.789778 37.1568 1.05073 37.1568C1.31169 37.1568 1.56263 37.0023 1.75152 36.7253L13.0717 20.1315C13.1712 19.9856 13.2505 19.8101 13.3046 19.6157C13.3588 19.4212 13.3867 19.2118 13.3867 19.0003C13.3867 18.7887 13.3588 18.5794 13.3046 18.3849C13.2505 18.1905 13.1712 18.015 13.0717 17.869Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="buletan">
-                        <svg class="bulat first" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="7.5" cy="7.5" r="7.5" fill="#B17457"/>
-                        </svg>
-
-                    </div>
-                    <div class="PhotoAreaContainer">
-                        <input type="text" name="mainPhoto" value="foto1" style="display: none;">
-                        <div class="imageContainer nofill Main">
-                            <button class="forMainPhoto" onclick="makeItMain(this, event)">Main Photo</button>    
-                            <div class="theImage">
+                    <form action="{{ route('add-product', ['wht' => 'Product' ]) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="PhotosAdds">
+                            <div  class="move lefted" onclick="scrollButtonPhotos('left')">
+                                <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.928329 20.131L12.2485 36.7247C12.4374 37.0017 12.6883 37.1563 12.9493 37.1563C13.2102 37.1563 13.4612 37.0017 13.65 36.7247L13.6622 36.706C13.7541 36.5717 13.8273 36.41 13.8773 36.2308C13.9273 36.0517 13.9531 35.8587 13.9531 35.6638C13.9531 35.4688 13.9273 35.2758 13.8773 35.0967C13.8273 34.9175 13.7541 34.7559 13.6622 34.6216L3.00223 18.9966L13.6622 3.37783C13.7541 3.24354 13.8273 3.08189 13.8773 2.90272C13.9273 2.72356 13.9531 2.53062 13.9531 2.33564C13.9531 2.14066 13.9273 1.94772 13.8773 1.76856C13.8273 1.58939 13.7541 1.42774 13.6622 1.29345L13.65 1.2747C13.4612 0.997686 13.2102 0.843151 12.9493 0.843151C12.6883 0.843151 12.4374 0.997686 12.2485 1.2747L0.928329 17.8685C0.828773 18.0144 0.749515 18.1899 0.69536 18.3843C0.641206 18.5788 0.613281 18.7882 0.613281 18.9997C0.613281 19.2113 0.641206 19.4206 0.69536 19.6151C0.749515 19.8095 0.828773 19.985 0.928329 20.131Z" fill="black"/>
+                                </svg>
+                            </div>
+                            <div class="move righted" onclick="scrollButtonPhotos('right')">
+                                <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.0717 17.869L1.75152 1.2753C1.56263 0.998283 1.31169 0.84375 1.05073 0.84375C0.789778 0.84375 0.538836 0.998283 0.349954 1.2753L0.337765 1.29405C0.245881 1.42834 0.172716 1.58998 0.12272 1.76915C0.0727231 1.94832 0.0469408 2.14126 0.0469408 2.33624C0.0469408 2.53121 0.0727231 2.72416 0.12272 2.90332C0.172716 3.08249 0.245881 3.24413 0.337765 3.37842L10.9978 19.0034L0.337765 34.6222C0.245881 34.7565 0.172716 34.9181 0.12272 35.0973C0.0727231 35.2764 0.0469408 35.4694 0.0469408 35.6644C0.0469408 35.8593 0.0727231 36.0523 0.12272 36.2314C0.172716 36.4106 0.245881 36.5723 0.337765 36.7065L0.349954 36.7253C0.538836 37.0023 0.789778 37.1568 1.05073 37.1568C1.31169 37.1568 1.56263 37.0023 1.75152 36.7253L13.0717 20.1315C13.1712 19.9856 13.2505 19.8101 13.3046 19.6157C13.3588 19.4212 13.3867 19.2118 13.3867 19.0003C13.3867 18.7887 13.3588 18.5794 13.3046 18.3849C13.2505 18.1905 13.1712 18.015 13.0717 17.869Z" fill="black"/>
+                                </svg>
+                            </div>
+                            <div class="buletan">
+                                <svg class="bulat first" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="7.5" cy="7.5" r="7.5" fill="#B17457"/>
+                                </svg>
 
                             </div>
-                            <button class="forInputPhoto" onclick="fillInput(this, event)">
-                                <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
-                                </svg>
-                            </button>
-                            <input type="file" name="foto1" id="">
-                        </div>
+                            <div class="PhotoAreaContainer">
+                                <input type="text" name="mainPhoto" value="foto1" style="display: none;">
+                                <div class="imageContainer nofill Main">
+                                    <button class="forMainPhoto" onclick="makeItMain(this, event)">Main Photo</button>    
+                                    <div class="theImage">
 
+                                    </div>
+                                    <button class="forInputPhoto" onclick="fillInput(this, event)">
+                                        <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
+                                        </svg>
+                                    </button>
+                                    <input type="file" name="foto1" id="">
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                        <div class="productCategory">
+                            <p>Product Category</p>
+                            <select name="product" id="">
+                                <option value="Guitar">Guitar</option>
+                                <option value="Bass">Bass</option>
+                            </select>
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="text" name="ProductName" placeholder="" id="inputField">
+                            <label for="inputField">Product Name</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="text" name="ProductColor" placeholder="" id="inputField">
+                            <label for="inputField">Product Color</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="number" name="weight" placeholder="" id="inputField">
+                            <label for="inputField">Product Weight (gram)</label>
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="number" name="ProductPrice" placeholder="" id="inputField">
+                            <label for="inputField">Product Price</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        <div class="forQty">
+                            <p>Quantity</p>
+                            <div class="ProductQty">
+                                <div class="inside">
+                                    <button class="ActQty minus" onclick="changeQty('min',this,event)">
+                                        <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
+                                        </svg>
+                                    </button>
+                                    <div class="mid">
+                                        <input type="number" name="stock" value="1">
+                                    </div>
+                                    <button class="ActQty plus" onclick="changeQty('plus',this,event)">
+                                        <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-container desc">
+                        <!-- <p>Email</p> -->
+                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
+                            <textarea  rows="4" cols="60" name="Description" id=""></textarea>
+                            <label for="inputField">Description</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        <div class="input-container desc end">
+                        <!-- <p>Email</p> -->
+                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
+                            <textarea  rows="4" cols="60" name="Features" id="" ></textarea>
+                            <label for="inputField">Features</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
                         
+                        
+                    </form>
+                    <div class="TheButtons" onclick="formClick(this)">
+                        <button>Save Changes</button>
                     </div>
                 </div>
-                <div class="productCategory">
-                    <p>Product Category</p>
-                    <select name="product" id="">
-                        <option value="Guitar">Guitar</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
-                <div class="input-container">
-                <!-- <p>Email</p> -->
-                    <input type="email" name="ProductName" placeholder="" id="inputField">
-                    <label for="inputField">Product Name</label>
-                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                </div>
-                <div class="input-container">
-                <!-- <p>Email</p> -->
-                    <input type="email" name="ProductColor" placeholder="" id="inputField">
-                    <label for="inputField">Product Color</label>
-                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                </div>
-                <div class="input-container">
-                <!-- <p>Email</p> -->
-                    <input type="number" name="ProductPrice" placeholder="" id="inputField">
-                    <label for="inputField">Product Price</label>
-                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                </div>
-                <div class="forQty">
-                    <p>Quantity</p>
-                    <div class="ProductQty">
-                        <div class="inside">
-                            <button class="ActQty minus" onclick="changeQty('min',this,event)">
-                                <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
-                                </svg>
-                            </button>
-                            <div class="mid">
-                                <input type="number" name="stock" value="1">
-                            </div>
-                            <button class="ActQty plus" onclick="changeQty('plus',this,event)">
-                                <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-container desc">
-                <!-- <p>Email</p> -->
-                    <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
-                    <textarea  rows="4" cols="60" name="Description" id=""></textarea>
-                    <label for="inputField">Description</label>
-                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                </div>
-                <div class="input-container desc end">
-                <!-- <p>Email</p> -->
-                    <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
-                    <textarea  rows="4" cols="60" name="Features" id="" ></textarea>
-                    <label for="inputField">Features</label>
-                <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                </div>
-                
-                
-            </form>
-            <div class="TheButtons" onclick="formClick(this)">
-                <button>Save Changes</button>
             </div>
-        </div>
-        
-    </div>
+        @elseif($url=='Part-Manage')
+        <div class="NewProduct" id="newProductNow" style="display: none;">
+                <div class="containerd">
+                    <div class="theTitled">
+                        <div class="forBack" onclick="ClosePopUp('close')">
+                            <svg width="15" height="30" viewBox="0 0 15 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.354257 15.9346L13.0833 29.6435C13.2957 29.8723 13.5778 30 13.8713 30C14.1647 30 14.4469 29.8723 14.6593 29.6435L14.673 29.628C14.7763 29.517 14.8586 29.3835 14.9148 29.2355C14.971 29.0875 15 28.9281 15 28.767C15 28.6059 14.971 28.4465 14.9148 28.2985C14.8586 28.1505 14.7763 28.0169 14.673 27.906L2.68627 14.9974L14.673 2.09402C14.7763 1.98307 14.8586 1.84953 14.9148 1.70151C14.971 1.5535 15 1.3941 15 1.23302C15 1.07194 14.971 0.912539 14.9148 0.764521C14.8586 0.616504 14.7763 0.482961 14.673 0.372016L14.6593 0.356525C14.4469 0.127669 14.1647 8.01564e-07 13.8713 8.01564e-07C13.5778 8.01564e-07 13.2957 0.127669 13.0833 0.356525L0.354257 14.0654C0.242311 14.186 0.153189 14.331 0.0922943 14.4916C0.0313997 14.6523 0 14.8252 0 15C0 15.1748 0.0313997 15.3477 0.0922943 15.5084C0.153189 15.669 0.242311 15.814 0.354257 15.9346Z" fill="black"/>
+                            </svg>
+                        </div>
+                        <p>Add Part</p>
+                    </div>
+                    
+                    <form action="{{ route('add-product', ['wht' => 'Part' ]) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="productCategory">
+                            <p>Part Category</p>
+                            <select name="product" id="">
+                                <option value="Body Shape">Body Shape</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="text" name="ProductName" placeholder="" id="inputField">
+                            <label for="inputField">Part Name</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="text" name="ProductColor" placeholder="" id="inputField">
+                            <label for="inputField">Part Color</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="number" name="weight" placeholder="" id="inputField">
+                            <label for="inputField">Part Weight (gram)</label>
+                        </div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="number" name="ProductPrice" placeholder="" id="inputField">
+                            <label for="inputField">Part Price</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        <div class="forQty">
+                            <p>Quantity</p>
+                            <div class="ProductQty">
+                                <div class="inside">
+                                    <button class="ActQty minus" onclick="changeQty('min',this,event)">
+                                        <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
+                                        </svg>
+                                    </button>
+                                    <div class="mid">
+                                        <input type="number" name="stock" value="1">
+                                    </div>
+                                    <button class="ActQty plus" onclick="changeQty('plus',this,event)">
+                                        <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-container desc end">
+                        <!-- <p>Email</p> -->
+                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
+                            <textarea  rows="4" cols="60" name="Description" id=""></textarea>
+                            <label for="inputField">Description</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
+                        </div>
+                        
+                        
+                    </form>
+                    <div class="TheButtons" onclick="formClick(this)">
+                        <button>Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        @endif
     @endif
     <div class="Navbar">
         <div class="navleft">
@@ -228,12 +312,27 @@ $AuthNeeded = ["Login","Register"];
             <line y1="0.5" x2="375" y2="0.5" stroke="#4A4947" stroke-opacity="0.45"/>
         </svg>
         <div class="areaButton">
+            <a href="/Cart">
+                <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_88_2)">
+                    <path d="M10.9711 19.6656H29.8617V10.5836L8.69456 6.15156L7.94377 3.02734L4.89221 2.01016C4.89221 1.96172 4.91643 1.9375 4.91643 1.88906C4.91643 0.847656 4.06877 0 3.02737 0C1.98596 0 1.13831 0.847656 1.13831 1.88906C1.13831 2.93047 1.98596 3.77813 3.02737 3.77813C3.46331 3.77813 3.85081 3.63281 4.16565 3.39062L6.44221 4.52891L9.44534 18.8906L6.41799 21.1672V24.9453L7.79846 26.6648C7.41096 27.125 7.19299 27.7062 7.19299 28.3602C7.19299 29.8133 8.37971 31 9.83284 31C11.286 31 12.4727 29.8133 12.4727 28.3602C12.4727 26.907 11.286 25.7203 9.83284 25.7203C9.61487 25.7203 9.3969 25.7445 9.20315 25.793L8.69456 24.9695H24.5821L25.4539 26.4227C24.9211 26.907 24.5821 27.6094 24.5821 28.3844C24.5821 29.8375 25.7688 31.0242 27.2219 31.0242C28.675 31.0242 29.8617 29.8375 29.8617 28.3844C29.8617 26.9312 28.675 25.7445 27.2219 25.7445C27.1977 25.7445 27.1735 25.7445 27.1492 25.7445L26.8344 24.9937H29.8617V23.4922H7.94377V21.9906L10.9711 19.6656ZM10.9711 18.1398L9.85706 12.957L10.0024 13.6836L14.4828 14.0469L15.4031 18.1641H10.9711V18.1398ZM16.2508 18.1398L15.3547 14.0953L19.7383 14.4344L20.0774 18.1398H16.2508ZM20.8039 18.1398L20.4649 14.507L24.5821 14.8219V18.1398H20.8039ZM28.3602 14.3617V18.1398H25.3328V14.8945L28.3602 15.1367V14.3617L25.3328 14.1195V10.7531L28.3602 11.3344V14.3617ZM8.69456 7.55625L24.5821 10.6078V14.0469L20.3922 13.7078L20.0289 9.73594L19.2781 9.59062L19.6656 13.6594L15.1852 13.2961L14.1438 8.62187L13.2477 8.45234L14.3133 13.2234L9.83284 12.8602L8.69456 7.55625ZM27.2219 27.2219C27.8516 27.2219 28.3602 27.7305 28.3602 28.3602C28.3602 28.9898 27.8516 29.4984 27.2219 29.4984C26.5922 29.4984 26.0836 28.9898 26.0836 28.3602C26.0836 27.7305 26.5922 27.2219 27.2219 27.2219ZM9.83284 27.2219C10.4625 27.2219 10.9711 27.7305 10.9711 28.3602C10.9711 28.9898 10.4625 29.4984 9.83284 29.4984C9.20315 29.4984 8.69456 28.9898 8.69456 28.3602C8.69456 27.7305 9.20315 27.2219 9.83284 27.2219Z" fill="#020202"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_88_2">
+                    <rect width="31" height="31" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                <p>Cart</p>
+            </a>
+
             <a href="/Profile/Info">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2037 1.5H11.7963L10.99 4.7225L10.1813 4.9725C9.70998 5.11772 9.25339 5.30688 8.8175 5.5375L8.06875 5.93375L5.21875 4.22375L4.22375 5.22L5.93375 8.07L5.5375 8.8175C5.30645 9.25334 5.11687 9.70994 4.97125 10.1813L4.7225 10.99L1.5 11.7963V13.2037L4.7225 14.01L4.9725 14.8187C5.11667 15.2921 5.305 15.7467 5.5375 16.1825L5.93375 16.9312L4.22375 19.7812L5.22 20.7763L8.07 19.0662L8.8175 19.4625C9.25333 19.6942 9.70792 19.8829 10.1813 20.0288L10.99 20.2775L11.7963 23.5H13.2037L14.01 20.2775L14.8187 20.0275C15.29 19.8823 15.7466 19.6931 16.1825 19.4625L16.9312 19.0662L19.7812 20.7763L20.7763 19.78L19.0662 16.93L19.4625 16.1825C19.6942 15.7467 19.8829 15.2921 20.0288 14.8187L20.2775 14.01L23.5 13.2037V11.7963L20.2775 10.99L20.0275 10.1813C19.8823 9.70998 19.6931 9.25339 19.4625 8.8175L19.0662 8.06875L20.7763 5.21875L19.78 4.22375L16.93 5.93375L16.1825 5.5375C15.7467 5.30645 15.2901 5.11687 14.8187 4.97125L14.01 4.7225L13.2037 1.5ZM16.885 4.2125L19.1763 2.8375C19.4152 2.6942 19.6951 2.63482 19.9716 2.66879C20.2481 2.70276 20.5054 2.82814 20.7025 3.025L21.975 4.2975C22.1719 4.49463 22.2972 4.75187 22.3312 5.02838C22.3652 5.3049 22.3058 5.58484 22.1625 5.82375L20.7875 8.115C21.0625 8.63167 21.2875 9.17333 21.4625 9.74L24.0537 10.3888C24.3241 10.4565 24.564 10.6126 24.7354 10.8322C24.9069 11.0519 25 11.3226 25 11.6012V13.3988C25 13.6774 24.9069 13.9481 24.7354 14.1678C24.564 14.3874 24.3241 14.5435 24.0537 14.6112L21.4625 15.26C21.2875 15.8267 21.0625 16.3683 20.7875 16.885L22.1625 19.1763C22.3058 19.4152 22.3652 19.6951 22.3312 19.9716C22.2972 20.2481 22.1719 20.5054 21.975 20.7025L20.7025 21.975C20.5054 22.1719 20.2481 22.2972 19.9716 22.3312C19.6951 22.3652 19.4152 22.3058 19.1763 22.1625L16.885 20.7875C16.3683 21.0625 15.8267 21.2875 15.26 21.4625L14.6112 24.0537C14.5435 24.3241 14.3874 24.564 14.1678 24.7354C13.9481 24.9069 13.6774 25 13.3988 25H11.6012C11.3226 25 11.0519 24.9069 10.8322 24.7354C10.6126 24.564 10.4565 24.3241 10.3888 24.0537L9.74 21.4625C9.17837 21.2889 8.63431 21.0629 8.115 20.7875L5.82375 22.1625C5.58484 22.3058 5.3049 22.3652 5.02838 22.3312C4.75187 22.2972 4.49463 22.1719 4.2975 21.975L3.025 20.7025C2.82814 20.5054 2.70276 20.2481 2.66879 19.9716C2.63482 19.6951 2.6942 19.4152 2.8375 19.1763L4.2125 16.885C3.93705 16.3657 3.71106 15.8216 3.5375 15.26L0.94625 14.6112C0.676149 14.5436 0.436373 14.3877 0.264953 14.1683C0.0935337 13.9488 0.000285803 13.6784 0 13.4V11.6025C7.32554e-06 11.3238 0.0931277 11.0532 0.264569 10.8335C0.436011 10.6138 0.675942 10.4577 0.94625 10.39L3.5375 9.74125C3.7125 9.17458 3.9375 8.63292 4.2125 8.11625L2.8375 5.825C2.6942 5.58609 2.63482 5.30615 2.66879 5.02963C2.70276 4.75312 2.82814 4.49588 3.025 4.29875L4.2975 3.025C4.49463 2.82814 4.75187 2.70276 5.02838 2.66879C5.3049 2.63482 5.58484 2.6942 5.82375 2.8375L8.115 4.2125C8.63167 3.9375 9.17333 3.7125 9.74 3.5375L10.3888 0.94625C10.4564 0.676149 10.6123 0.436373 10.8317 0.264953C11.0512 0.0935337 11.3216 0.000285803 11.6 0H13.3975C13.6762 7.32554e-06 13.9468 0.0931277 14.1665 0.264569C14.3862 0.436011 14.5423 0.675942 14.61 0.94625L15.2587 3.5375C15.8254 3.7125 16.3671 3.9375 16.8838 4.2125H16.885ZM12.5 16C13.4283 16 14.3185 15.6313 14.9749 14.9749C15.6313 14.3185 16 13.4283 16 12.5C16 11.5717 15.6313 10.6815 14.9749 10.0251C14.3185 9.36875 13.4283 9 12.5 9C11.5717 9 10.6815 9.36875 10.0251 10.0251C9.36875 10.6815 9 11.5717 9 12.5C9 13.4283 9.36875 14.3185 10.0251 14.9749C10.6815 15.6313 11.5717 16 12.5 16ZM12.5 17.5C11.1739 17.5 9.90215 16.9732 8.96447 16.0355C8.02678 15.0979 7.5 13.8261 7.5 12.5C7.5 11.1739 8.02678 9.90215 8.96447 8.96447C9.90215 8.02678 11.1739 7.5 12.5 7.5C13.8261 7.5 15.0979 8.02678 16.0355 8.96447C16.9732 9.90215 17.5 11.1739 17.5 12.5C17.5 13.8261 16.9732 15.0979 16.0355 16.0355C15.0979 16.9732 13.8261 17.5 12.5 17.5Z" fill="black"/>
                 </svg>
                 <p>Account Settings</p>
             </a>
+            
             <a href="/Logout">
                 <svg width="21" height="25" viewBox="0 0 21 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2.32227 0H12.7725C13.3884 0 13.979 0.263392 14.4145 0.732233C14.8501 1.20107 15.0947 1.83696 15.0947 2.5V3.75C15.0947 4.08152 14.9724 4.39946 14.7546 4.63388C14.5369 4.8683 14.2415 5 13.9336 5C13.6256 5 13.3303 4.8683 13.1125 4.63388C12.8948 4.39946 12.7725 4.08152 12.7725 3.75V2.5H2.32227V22.5H12.7725V21.25C12.7725 20.9185 12.8948 20.6005 13.1125 20.3661C13.3303 20.1317 13.6256 20 13.9336 20C14.2415 20 14.5369 20.1317 14.7546 20.3661C14.9724 20.6005 15.0947 20.9185 15.0947 21.25V22.5C15.0947 23.163 14.8501 23.7989 14.4145 24.2678C13.979 24.7366 13.3884 25 12.7725 25H2.32227C1.70636 25 1.11568 24.7366 0.680176 24.2678C0.244666 23.7989 0 23.163 0 22.5V2.5C0 1.83696 0.244666 1.20107 0.680176 0.732233C1.11568 0.263392 1.70636 0 2.32227 0Z" fill="black"/>
@@ -242,6 +341,7 @@ $AuthNeeded = ["Login","Register"];
 
                 <p>Logout</p>
             </a>
+            
         </div>
     </div>
     @endif
@@ -255,7 +355,8 @@ $AuthNeeded = ["Login","Register"];
                         <a href="">
                             <button>
                                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M26 24.4127V10.9206C26 10.6742 25.9435 10.4312 25.835 10.2108C25.7266 9.99037 25.5691 9.79865 25.375 9.65079L14.4375 1.31746C14.167 1.11139 13.8381 1 13.5 1C13.1619 1 12.833 1.11139 12.5625 1.31746L1.625 9.65079C1.43094 9.79865 1.27344 9.99037 1.16496 10.2108C1.05648 10.4312 1 10.6742 1 10.9206V24.4127C1 24.8337 1.16462 25.2374 1.45765 25.5351C1.75067 25.8328 2.1481 26 2.5625 26H8.8125C9.2269 26 9.62433 25.8328 9.91735 25.5351C10.2104 25.2374 10.375 24.8337 10.375 24.4127V19.6508C10.375 19.2298 10.5396 18.8261 10.8326 18.5284C11.1257 18.2307 11.5231 18.0635 11.9375 18.0635H15.0625C15.4769 18.0635 15.8743 18.2307 16.1674 18.5284C16.4604 18.8261 16.625 19.2298 16.625 19.6508V24.4127C16.625 24.8337 16.7896 25.2374 17.0826 25.5351C17.3757 25.8328 17.7731 26 18.1875 26H24.4375C24.8519 26 25.2493 25.8328 25.5424 25.5351C25.8354 25.2374 26 24.8337 26 24.4127Z" stroke="#B17457" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M26 24.4127V10.9206C26 10.6742 25.9435 10.4312 25.835 10.2108C25.7266 9.99037 25.5691 9.79865 25.375 9.65079L14.4375 1.31746C14.167 1.11139 13.8381 1 13.5 1C13.1619 1 12.833 1.11139 12.5625 1.31746L1.625 9.65079C1.43094 9.79865 1.27344 9.99037 1.16496 10.2108C1.05648 10.4312 1 10.6742 1 10.9206V24.4127C1 24.8337 1.16462 25.2374 1.45765 25.5351C1.75067 25.8328 2.1481 26 2.5625 26H8.8125C9.2269 26 9.62433 25.8328 9.91735 25.5351C10.2104 25.2374 10.375 24.8337 10.375 24.4127V19.6508C10.375 19.2298 10.5396 18.8261 10.8326 18.5284C11.1257 18.2307 11.5231 18.0635 11.9375 18.0635H15.0625C15.4769 18.0635 15.8743 18.2307 16.1674 18.5284C16.4604 18.8261 16.625 19.2298 16.625 19.6508V24.4127C16.625 24.8337 16.7896 25.2374 17.0826 25.5351C17.3757 25.8328 17.7731 26 18.1875 26H24.4375C24.8519 26 25.2493 25.8328 25.5424 25.5351C25.8354 25.2374 26 24.8337 26 24.4127Z" stroke="#B17457" stroke-width="
+                                    " stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
 
                                 <p>Dashboard</p>
@@ -320,18 +421,25 @@ $AuthNeeded = ["Login","Register"];
 
                         </button>
                         <div class="ProductKategory" id="ProductKategory" style="display: none;">
-                            <a href="/Product-Manage">
+                            <a href="/Product-Manage/Product">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
                                 <p>Product</p>
                             </a>
-                            <a href="/Product/AllProduct">
+                            <a href="/Part-Manage/Part">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
                                 <p>Part</p>
                             </a>
+                            <a href="/Manage/Transaction">
+                                <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
+                                </svg>
+                                <p>Transaction</p>
+                            </a>
+                            
                         </div>
                     </div>
                     @else
@@ -381,7 +489,7 @@ $AuthNeeded = ["Login","Register"];
                 <div class="GapMenu">
                     <p>Account</p>
                     <div class="Submenu">
-                        <a href="">
+                        <a href="/Manage-User">
                             <button>
                                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.5 27C6.03529 27 0 20.9647 0 13.5C0 6.03529 6.03529 0 13.5 0C20.9647 0 27 6.03529 27 13.5C27 20.9647 20.8853 27 13.5 27ZM13.5 1.58824C6.90882 1.58824 1.58824 6.90882 1.58824 13.5C1.58824 20.0912 6.90882 25.4118 13.5 25.4118C20.0912 25.4118 25.4118 20.0912 25.4118 13.5C25.4118 6.90882 20.0118 1.58824 13.5 1.58824Z" fill="#B17457"/>
@@ -405,7 +513,11 @@ $AuthNeeded = ["Login","Register"];
                 @endif
             </div>
         </div>
+       
         <div class="maincontent" id="maincontent">
+            <div class="popup" id="popup">
+                Ini adalah pesan pop-up!
+            </div>`
             @yield('content')
         </div>
         <div class="footer">
@@ -415,7 +527,38 @@ $AuthNeeded = ["Login","Register"];
 
 </body>
 @yield('js')
+<script>
+    TideUp();
+    function TideUp(){
+        let products = document.querySelectorAll('.TheProduk');
+        products.forEach(p=>{
+            p.querySelector('.narateDesc').textContent = fixText(p.querySelector('.narateDesc').textContent)
+            p.querySelector('.bottomProductArea p').textContent = fixMoney(p.querySelector('.bottomProductArea p').textContent)
+
+        })
+    }
+    function fixText(text){
+        console.log(text.length);
+        let length = 70;
+        if(text.length>length){
+            return text.slice(0, length)+"....";
+        }
+        return text;
+    }
+    function fixMoney(number){
+        let angka = parseFloat(number);
+        if(isNaN(angka)){
+            return number;
+        }
+
+        let formattedAngka = angka.toLocaleString('id-ID',{minimumFractionDigits: 0});
+        let formatted = "Rp. " + formattedAngka;
+
+        return formatted;
+    }
+</script>
 @if(session('Role')==='Admin')
+
 <script>
     
     function formClick(elemen){
@@ -644,6 +787,17 @@ $AuthNeeded = ["Login","Register"];
 @endif
 <script>
     
+    function showPopup(wht) {
+      const popup = document.getElementById('popup');
+      console.log(popup);
+      popup.textContent = wht
+      popup.classList.add('show');
+
+      // Hilangkan pop-up setelah 3 detik
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 2000);
+    }
     function showProductCategory(what,elemen){
         let but = elemen;
         let submenu = elemen.closest('.Submenu');

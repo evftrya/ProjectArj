@@ -6,6 +6,7 @@
 @endsection
 
 @section('content')
+
 <div class="containerProductDetil">
     <div class="mainArea">
         <div class="PhotosArea">
@@ -64,11 +65,11 @@
             </div>
             <div class="buttonArea">
                 <!-- <form action=""></form> -->
-                <button class="atc" onclick="AddToCart(this, {{{$product->id_product}}})">
+                <button class="atc" onclick="AddToCart(this, '{{{$product->id_product}}}')">
                     <p>Add To Cart</p>
                 </button>
 
-                <button class="co">
+                <button class="co" onclick="goCheckout()">
                     <p>Checkout</p>
                 </button>
             </div>
@@ -82,13 +83,25 @@
     </div>
 </div>
 
+
 <script>
+
+    
+
+    // Tampilkan pop-up setelah halaman dimuat
+    
+    TideUp();
     function changeMainPhoto(e){
         let mainphoto = document.getElementById('MainPhoto');
         let change = (e.style.backgroundImage);
         mainphoto.style.backgroundImage = change;
     }
 
+    function goCheckout(){
+        let qty = document.querySelector('.mid p').textContent;
+        // console.log('/Checkout/{{{$product->id_product}}}/qty');
+        window.location.href='/Checkout/{{{$product->id_product}}}/'+qty;
+    }
     document.addEventListener('DOMContentLoaded',function(){
         const minusBtn = document.querySelector('.start.minus');
         const plusbtn = document.querySelector('.end.plus');
@@ -122,6 +135,7 @@
     }
 
     function AddToCart(elemen, id){
+        id = parseInt(id);
         let qty = document.querySelector('.qtynumbers .mid p');
         fetch(('/AddToCart/'+id),{
             method: 'POST',
@@ -133,9 +147,27 @@
                 qty: parseInt(qty.textContent),
             })
         }).then(response=>response.json()).then(data => {
-        console.log('Success:', data.message);
+            console.log('Success:', data.message);
+            showPopup('successfully added to the cart');
         })
-        
+
+    }
+
+
+    function TideUp(){
+        let price = document.querySelector('.ProductPrice');
+        price.textContent = fixMoney(price.textContent)
+    }
+    function fixMoney(number){
+        let angka = parseFloat(number);
+        if(isNaN(angka)){
+            return number;
+        }
+
+        let formattedAngka = angka.toLocaleString('id-ID',{minimumFractionDigits: 0});
+        let formatted = "Rp. " + formattedAngka;
+
+        return formatted;
     }
 </script>
 @endsection

@@ -233,6 +233,9 @@ html body{
  }
 
 
+
+
+
  /* ----------- DESC ------------- */
  .descArea{
     width: calc( 50% - 10px);
@@ -240,7 +243,6 @@ html body{
     font-size: 15px;
     text-align: justify;
  }
-
 
 
 
