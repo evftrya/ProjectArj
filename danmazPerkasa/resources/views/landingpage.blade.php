@@ -14,15 +14,11 @@
         </div>
         
         <div class="buletan">
+        @foreach($Content as $a)
             <svg class="bulat first" width="7" height="7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="7" cy="7" r="7" fill="#ffffff"/>
             </svg>
-            <svg class="bulat first" width="7" height="7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="7" cy="7" r="7" fill="#ffffff"/>
-            </svg>
-            <svg class="bulat first" width="7" height="7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="7" cy="7" r="7" fill="#ffffff"/>
-            </svg>
+        @endforeach
             
         </div>
     </div>
@@ -31,20 +27,21 @@
             <svg width="93" height="4" viewBox="0 0 93 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="50" height="2" rx="2" fill="#B17457"/>
             </svg>
-            <p>NEW PRODUCT</p>
+            <p>SPECIAL PRODUCT</p>
         </div>
         <div class="produks">
-            <a href="" class="TheProduk">
-                <p>NEW</p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
+            @foreach($Special as $s)
+            <a href="/Detil-Product/{{{$s->id_product}}}" class="TheProduk">
+                <p>{{{$s->isSpecial}}}</p>
+                <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$s->PhotosName)}}');">
 
                 </div>
                 <div class="descProduct">
-                    <p class="descName">Accoustic Guitar</p>
-                    <p class="narateDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+                    <p class="descName">{{{$s->nama_product}}}</p>
+                    <p class="narateDesc">{{{$s->detail_product}}}</p>
                 </div>
                 <div class="bottomProductArea">
-                    <p>Rp. 1.500.000</p>
+                    <p>{{{$s->price}}}</p>
                     <div class="bottomButtonProduct">
                         <Button onclick="window.open('')">
                             <p>ADD TO CART</p>
@@ -55,116 +52,7 @@
                     </div>
                 </div>
             </a>
-
-            <a href="" class="TheProduk">
-                <p>NEW</p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
-
-                </div>
-                <div class="descProduct">
-                    <p class="descName">Accoustic Guitar</p>
-                    <p class="narateDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                </div>
-                <div class="bottomProductArea">
-                    <p>Rp. 1.500.000</p>
-                    <div class="bottomButtonProduct">
-                        <Button onclick="window.open('')">
-                            <p>ADD TO CART</p>
-                        </Button>
-                        <Button class="BuyNow" onclick="window.open('')">
-                            <p>BUY NOW</p>
-                        </Button>
-                    </div>
-                </div>
-            </a>
-
-            <a href="" class="TheProduk">
-                <p>NEW</p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
-
-                </div>
-                <div class="descProduct">
-                    <p class="descName">Accoustic Guitar</p>
-                    <p class="narateDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                </div>
-                <div class="bottomProductArea">
-                    <p>Rp. 1.500.000</p>
-                    <div class="bottomButtonProduct">
-                        <Button onclick="window.open('')">
-                            <p>ADD TO CART</p>
-                        </Button>
-                        <Button class="BuyNow" onclick="window.open('')">
-                            <p>BUY NOW</p>
-                        </Button>
-                    </div>
-                </div>
-            </a>
-
-            <a href="" class="TheProduk">
-                <p>NEW</p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
-
-                </div>
-                <div class="descProduct">
-                    <p class="descName">Accoustic Guitar</p>
-                    <p class="narateDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                </div>
-                <div class="bottomProductArea">
-                    <p>Rp. 1.500.000</p>
-                    <div class="bottomButtonProduct">
-                        <Button onclick="window.open('')">
-                            <p>ADD TO CART</p>
-                        </Button>
-                        <Button class="BuyNow" onclick="window.open('')">
-                            <p>BUY NOW</p>
-                        </Button>
-                    </div>
-                </div>
-            </a>
-
-            <a href="" class="TheProduk">
-                <p>NEW</p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
-
-                </div>
-                <div class="descProduct">
-                    <p class="descName">Accoustic Guitar</p>
-                    <p class="narateDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                </div>
-                <div class="bottomProductArea">
-                    <p>Rp. 1.500.000</p>
-                    <div class="bottomButtonProduct">
-                        <Button onclick="window.open('')">
-                            <p>ADD TO CART</p>
-                        </Button>
-                        <Button class="BuyNow" onclick="window.open('')">
-                            <p>BUY NOW</p>
-                        </Button>
-                    </div>
-                </div>
-            </a>
-
-            <a href="" class="TheProduk">
-                <p>NEW</p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
-
-                </div>
-                <div class="descProduct">
-                    <p class="descName">Accoustic Guitar</p>
-                    <p class="narateDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                </div>
-                <div class="bottomProductArea">
-                    <p>Rp. 1.500.000</p>
-                    <div class="bottomButtonProduct">
-                        <Button onclick="window.open('')">
-                            <p>ADD TO CART</p>
-                        </Button>
-                        <Button class="BuyNow" onclick="window.open('')">
-                            <p>BUY NOW</p>
-                        </Button>
-                    </div>
-                </div>
-            </a>
+            @endforeach
         </div>
     </div>
 </div>

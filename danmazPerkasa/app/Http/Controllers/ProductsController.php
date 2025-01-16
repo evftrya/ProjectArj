@@ -292,7 +292,42 @@ class ProductsController extends Controller
         ->select('a.*', 'b.*') // Pilih kolom sesuai kebutuhan
         ->get();
 
-        return view('landingpage',['Content'=>$Contens]);
+        $Special = $this->refresh();
+
+        return view('landingpage',['Content'=>$Contens, 'Special'=>$Special]);
+    }
+    public function refresh(){
+        DB::table('products')->update(['isSpecial' => null]);
+
+        $news = $this->getDataNew();
+        foreach ($news as $item) {
+            $this->setNew($item->id_product);
+        }
+        
+
+        return $this->getDataRefresh();
+    }
+
+    public function getDataRefresh(){
+        $products = DB::table('products as a')
+            ->join('photos as b', 'b.id_Photo', '=', 'a.mainPhoto')
+            ->whereNotNull('a.isSpecial')
+            ->select('a.*', 'b.*') // Optional: Select specific columns if needed
+            ->get();
+        return $products;
+    }
+    public function getDataNew(){
+        $TopNew = $products = DB::table('products as a')
+        ->orderBy('a.created_at', 'desc')
+        ->limit(3)
+        ->get();
+        return $TopNew;
+    }
+
+    public function setNew($idProduct){
+        $product = Products::where('id_product', $idProduct)->first();
+        $product->isSpecial = 'NEW';
+        $product->save();
     }
 
     
