@@ -86,7 +86,7 @@
     /* background-color: aqua; */
 }
 .theItems>.theButtons{
-    width: 100px;
+    width: 200px;
     /* background-color: antiquewhite; */
     /* gap: 20px; */
     display: flex;
@@ -94,14 +94,28 @@
     justify-content: space-between;
 }
 
-.theItems>.theButtons>button{
+.theItems>.theButtons button{
     background-color: rgb(0,0,0,0);
     border: none;
     outline: none;
     /* border-bottom: 0.5px solid black; */
     text-decoration: underline;
     font-family: inherit;
+
+    
 }
+
+.IsContent{
+    outline: none !important;
+    text-decoration: none !important;
+    
+}
+.IsContent.on{
+    box-shadow:2px 2px 10px rgba(0, 0, 0, 0.3);
+    background-color: rgb(16, 207, 16) !important;
+    border-radius: 4px;
+}
+
 
 /* --------- ADD & EDIT ---------- */
 .NewProduct{
@@ -158,6 +172,7 @@
     color: white;
     padding: 10px 20px;
 }
+
 .theTitled{
     position:sticky;
     width: calc(100% - 40px);
@@ -415,7 +430,7 @@ input[type="number"]{
     white-space: normal;
     width: 100%;
     height: 100%;
-    padding: 16px 50px 8px 20px; /* Menambah padding kanan untuk tombol */
+    padding: 20px 50px 8px 20px; /* Menambah padding kanan untuk tombol */
     font-size: 16px;
     border: 2px solid #aaa;
     border-radius: 15px;
@@ -567,3 +582,5 @@ textarea{
     align-items: center;
     justify-content: center;
 }
+
+/* ---------------- */

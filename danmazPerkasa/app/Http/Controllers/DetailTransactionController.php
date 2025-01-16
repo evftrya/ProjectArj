@@ -95,7 +95,7 @@ class DetailTransactionController extends Controller
         $data = $this->getAllData('Pending');
         // dd($data);
 
-        return view('Cart',['data'=>$data]);
+        return view('User.Pelanggan.Cart',['data'=>$data]);
     }
 
     public function UpdateCart(Request $req, $idProduct,$idDT){
@@ -151,7 +151,7 @@ class DetailTransactionController extends Controller
         }
         $data = $this->getAllData('Checkout');
         // dd($data);
-        return view('Checkout',['data'=>$data]);
+        return view('User.Pelanggan.Checkout',['data'=>$data]);
     }
 
 
@@ -185,5 +185,14 @@ class DetailTransactionController extends Controller
         // dd($old);
         $old->Transaksis_id = $idTransaksi;
         $old->save();
+    }
+
+    public function DeleteCart(Request $req, $id){
+        // dd($req);
+
+        $data = Detail_Transaction::where('id_Detail_transaction', $id)->first()->delete();
+        return redirect ("/Cart");
+        
+
     }
 }

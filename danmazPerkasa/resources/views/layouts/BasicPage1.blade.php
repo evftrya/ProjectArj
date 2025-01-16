@@ -2,9 +2,10 @@
 $cont = app(\App\Http\Controllers\Controller::class);
 $url = $cont->GetUrl();
 
-$withBurger=["Index","/Landing-Page","Product","Custom","Product-Manage"];
+$withBurger=["Index","/Landing-Page","Product","Custom","Manage","db"];
 $noSearch = ["Info","Change-Password","Address","Detil-Product"];
 $AuthNeeded = ["Login","Register"];
+$NonPopUp = ["Profile"];
 @endphp
 <!DOCTYPE html>
 
@@ -32,113 +33,7 @@ $AuthNeeded = ["Login","Register"];
                         </div>
                         <p>Add Product</p>
                     </div>
-                    <form action="{{ route('add-product', ['wht' => 'Product' ]) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="PhotosAdds">
-                            <div  class="move lefted" onclick="scrollButtonPhotos('left')">
-                                <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0.928329 20.131L12.2485 36.7247C12.4374 37.0017 12.6883 37.1563 12.9493 37.1563C13.2102 37.1563 13.4612 37.0017 13.65 36.7247L13.6622 36.706C13.7541 36.5717 13.8273 36.41 13.8773 36.2308C13.9273 36.0517 13.9531 35.8587 13.9531 35.6638C13.9531 35.4688 13.9273 35.2758 13.8773 35.0967C13.8273 34.9175 13.7541 34.7559 13.6622 34.6216L3.00223 18.9966L13.6622 3.37783C13.7541 3.24354 13.8273 3.08189 13.8773 2.90272C13.9273 2.72356 13.9531 2.53062 13.9531 2.33564C13.9531 2.14066 13.9273 1.94772 13.8773 1.76856C13.8273 1.58939 13.7541 1.42774 13.6622 1.29345L13.65 1.2747C13.4612 0.997686 13.2102 0.843151 12.9493 0.843151C12.6883 0.843151 12.4374 0.997686 12.2485 1.2747L0.928329 17.8685C0.828773 18.0144 0.749515 18.1899 0.69536 18.3843C0.641206 18.5788 0.613281 18.7882 0.613281 18.9997C0.613281 19.2113 0.641206 19.4206 0.69536 19.6151C0.749515 19.8095 0.828773 19.985 0.928329 20.131Z" fill="black"/>
-                                </svg>
-                            </div>
-                            <div class="move righted" onclick="scrollButtonPhotos('right')">
-                                <svg width="14" height="38" viewBox="0 0 14 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.0717 17.869L1.75152 1.2753C1.56263 0.998283 1.31169 0.84375 1.05073 0.84375C0.789778 0.84375 0.538836 0.998283 0.349954 1.2753L0.337765 1.29405C0.245881 1.42834 0.172716 1.58998 0.12272 1.76915C0.0727231 1.94832 0.0469408 2.14126 0.0469408 2.33624C0.0469408 2.53121 0.0727231 2.72416 0.12272 2.90332C0.172716 3.08249 0.245881 3.24413 0.337765 3.37842L10.9978 19.0034L0.337765 34.6222C0.245881 34.7565 0.172716 34.9181 0.12272 35.0973C0.0727231 35.2764 0.0469408 35.4694 0.0469408 35.6644C0.0469408 35.8593 0.0727231 36.0523 0.12272 36.2314C0.172716 36.4106 0.245881 36.5723 0.337765 36.7065L0.349954 36.7253C0.538836 37.0023 0.789778 37.1568 1.05073 37.1568C1.31169 37.1568 1.56263 37.0023 1.75152 36.7253L13.0717 20.1315C13.1712 19.9856 13.2505 19.8101 13.3046 19.6157C13.3588 19.4212 13.3867 19.2118 13.3867 19.0003C13.3867 18.7887 13.3588 18.5794 13.3046 18.3849C13.2505 18.1905 13.1712 18.015 13.0717 17.869Z" fill="black"/>
-                                </svg>
-                            </div>
-                            <div class="buletan">
-                                <svg class="bulat first" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="7.5" cy="7.5" r="7.5" fill="#B17457"/>
-                                </svg>
-
-                            </div>
-                            <div class="PhotoAreaContainer">
-                                <input type="text" name="mainPhoto" value="foto1" style="display: none;">
-                                <div class="imageContainer nofill Main">
-                                    <button class="forMainPhoto" onclick="makeItMain(this, event)">Main Photo</button>    
-                                    <div class="theImage">
-
-                                    </div>
-                                    <button class="forInputPhoto" onclick="fillInput(this, event)">
-                                        <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
-                                        </svg>
-                                    </button>
-                                    <input type="file" name="foto1" id="">
-                                </div>
-
-                                
-                            </div>
-                        </div>
-                        <div class="productCategory">
-                            <p>Product Category</p>
-                            <select name="product" id="">
-                                <option value="Guitar">Guitar</option>
-                                <option value="Bass">Bass</option>
-                            </select>
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="text" name="ProductName" placeholder="" id="inputField">
-                            <label for="inputField">Product Name</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="text" name="ProductColor" placeholder="" id="inputField">
-                            <label for="inputField">Product Color</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="number" name="weight" placeholder="" id="inputField">
-                            <label for="inputField">Product Weight (gram)</label>
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="number" name="ProductPrice" placeholder="" id="inputField">
-                            <label for="inputField">Product Price</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        <div class="forQty">
-                            <p>Quantity</p>
-                            <div class="ProductQty">
-                                <div class="inside">
-                                    <button class="ActQty minus" onclick="changeQty('min',this,event)">
-                                        <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
-                                        </svg>
-                                    </button>
-                                    <div class="mid">
-                                        <input type="number" name="stock" value="1">
-                                    </div>
-                                    <button class="ActQty plus" onclick="changeQty('plus',this,event)">
-                                        <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-container desc">
-                        <!-- <p>Email</p> -->
-                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
-                            <textarea  rows="4" cols="60" name="Description" id=""></textarea>
-                            <label for="inputField">Description</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        <div class="input-container desc end">
-                        <!-- <p>Email</p> -->
-                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
-                            <textarea  rows="4" cols="60" name="Features" id="" ></textarea>
-                            <label for="inputField">Features</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        
-                        
-                    </form>
-                    <div class="TheButtons" onclick="formClick(this)">
-                        <button>Save Changes</button>
-                    </div>
+                    
                 </div>
             </div>
         @elseif($url=='Part-Manage')
@@ -421,13 +316,13 @@ $AuthNeeded = ["Login","Register"];
 
                         </button>
                         <div class="ProductKategory" id="ProductKategory" style="display: none;">
-                            <a href="/Product-Manage/Product">
+                            <a href="/Manage/Product/Product">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
                                 <p>Product</p>
                             </a>
-                            <a href="/Part-Manage/Part">
+                            <a href="/Manage/Product/Part">
                                 <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="2.5" cy="2.5" r="2.5" fill="#B17457"/>
                                 </svg>
@@ -489,7 +384,7 @@ $AuthNeeded = ["Login","Register"];
                 <div class="GapMenu">
                     <p>Account</p>
                     <div class="Submenu">
-                        <a href="/Manage-User">
+                        <a href="/Manage/User">
                             <button>
                                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.5 27C6.03529 27 0 20.9647 0 13.5C0 6.03529 6.03529 0 13.5 0C20.9647 0 27 6.03529 27 13.5C27 20.9647 20.8853 27 13.5 27ZM13.5 1.58824C6.90882 1.58824 1.58824 6.90882 1.58824 13.5C1.58824 20.0912 6.90882 25.4118 13.5 25.4118C20.0912 25.4118 25.4118 20.0912 25.4118 13.5C25.4118 6.90882 20.0118 1.58824 13.5 1.58824Z" fill="#B17457"/>
@@ -515,9 +410,11 @@ $AuthNeeded = ["Login","Register"];
         </div>
        
         <div class="maincontent" id="maincontent">
-            <div class="popup" id="popup">
-                Ini adalah pesan pop-up!
-            </div>`
+            @if(!in_array($url, $NonPopUp))
+                <div class="popup" id="popup">
+                    Ini adalah pesan pop-up!
+                </div>
+            @endif
             @yield('content')
         </div>
         <div class="footer">
@@ -571,51 +468,8 @@ $AuthNeeded = ["Login","Register"];
         form.submit();
         
     }
-    scrollPhotos();
-    function scrollPhotos() {
-        let photosCont = document.querySelector('.PhotoAreaContainer');
-        
-        let debounceTimeout;
-
-        photosCont.addEventListener('scroll', function() {
-            clearTimeout(debounceTimeout);
-
-            debounceTimeout = setTimeout(function() {
-                let closestPhoto = null;
-                let closestDistance = Infinity;
-                let closestIndex = -1;
-                let photos = photosCont.querySelectorAll('.imageContainer');
-                console.log("panjang photos: "+photos.length)
-                photos.forEach((p, index) => {
-                    let photoRect = p.getBoundingClientRect();
-                    let contRect = photosCont.getBoundingClientRect();
-                    // console.log('photorect: '+photoRect.width);
-                    // console.log('contrect: '+contRect.left);
-
-                    let distanceToCenter = Math.abs(photoRect.left + photoRect.width / 2 - (contRect.left + contRect.width / 2));
-
-                    if (distanceToCenter < closestDistance) {
-                        closestDistance = distanceToCenter;
-                        closestPhoto = p;
-                        closestIndex = index;
-                    }
-                });
-
-                if (closestPhoto) {
-                    let ScrollAmt = closestPhoto.offsetLeft - (photosCont.offsetWidth / 2) + (closestPhoto.offsetWidth / 2);
-                    console.log("closestPhoto.offsetLeft : "+closestPhoto.offsetLeft)
-                    console.log("photosCont.offsetWidth : "+photosCont.offsetWidth)
-                    console.log("closestPhoto.offsetWidth : "+closestPhoto.offsetWidth)
-                    // console.log("Scrolamt : "+ScrollAmt);
-                    photosCont.scrollLeft = ScrollAmt;
-
-                    // console.log("Indx: " + closestIndex);
-                    moveTobulat(closestIndex);
-                    
-                }
-            }, 100);
-        });
-    }
+    
+   
     function moveTobulat(theIndex){
         let photosCont = document.querySelector('.PhotoAreaContainer');
         let photos = photosCont.querySelectorAll('.imageContainer');
@@ -734,7 +588,7 @@ $AuthNeeded = ["Login","Register"];
                     </svg>
                 </button>
                 </button>
-                <input type="file" name="foto`+(indx+1)+`" id="">
+                <input type="file" name="foto`+(indx+1)+`" id="" required>
             `;
             photoArea.appendChild(newdiv);
             addBulat(photoArea);
@@ -787,17 +641,24 @@ $AuthNeeded = ["Login","Register"];
 @endif
 <script>
     
-    function showPopup(wht) {
-      const popup = document.getElementById('popup');
-      console.log(popup);
+    function showPopup(wht,which) {
+        const popup = document.getElementById('popup');
+        if(which==0){
+            popup.style.backgroundColor="#b32323";
+        }
+        else{
+            popup.style.backgroundColor="#4caf50";
+        }
+        console.log(popup);
       popup.textContent = wht
       popup.classList.add('show');
 
       // Hilangkan pop-up setelah 3 detik
       setTimeout(() => {
         popup.classList.remove('show');
-      }, 2000);
+      }, 1500);
     }
+
     function showProductCategory(what,elemen){
         let but = elemen;
         let submenu = elemen.closest('.Submenu');
@@ -834,24 +695,46 @@ $AuthNeeded = ["Login","Register"];
         let mainCont = document.getElementById('maincontent');
         let product = document.querySelectorAll('.LandingPage.product');
         let products = document.querySelector('.LandingPage');
+        let dbAdmin = document.querySelector('.frame');
         if(what=='show'){
             but.setAttribute("onclick", "hideLeftBar('hide')")
             leftBar.style.display = "flex";
             mainCont.style.margin = "20px";
-            products.style.marginLeft = "200px";
+            if(products){
 
-            if(product[0]){
-                product[0].style.height = "fit-content";
+                products.style.marginLeft = "200px";
+                if(product[0]){
+                    product[0].style.height = "fit-content";
+                }
             }
+
+            if(dbAdmin){
+                console.log('masukif')
+                dbAdmin.style.width = "calc(100% - 200px)";
+                console.log(dbAdmin.style.width)
+                dbAdmin.style.marginLeft = "200px";
+                console.log(dbAdmin.style.marginLeft)
+
+            }
+
         }
         else{
             but.setAttribute("onclick", "hideLeftBar('show')")
             leftBar.style.display = "none";
             mainCont.style.margin = "10px";
-            products.style.marginLeft = "0px";
+            if(products){
 
-            if(product[0]){
-                product[0].style.height = "calc(100% - 10px)";
+                products.style.marginLeft = "0px";
+    
+                if(product[0]){
+                    product[0].style.height = "calc(100% - 10px)";
+                }
+            }
+
+            if(dbAdmin){
+                console.log('masukelse')
+                dbAdmin.style.marginLeft = "0px";
+                dbAdmin.style.width = "100%";
             }
 
         }
@@ -868,5 +751,7 @@ $AuthNeeded = ["Login","Register"];
             miniMenu[0].style.display = 'none';
         }
     }
+
+    
 </script>
 </html>

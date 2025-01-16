@@ -214,6 +214,6 @@ class AccountController extends Controller
     public function manageUser(){
         $data = $this->getAllData();
         // dd($data);
-        return view('ManageUser',['data' => $data, 'whtRoute' => 'Manage User']);
+        return view('User.Admin.ManageUser',['data' => $data, 'whtRoute' => 'Manage User']);
     }
 }

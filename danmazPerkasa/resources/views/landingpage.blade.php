@@ -1,12 +1,30 @@
 @extends('layouts.BasicPage1')
 @section('content')
 <div class="LandingPage">
-    <div class="freePoster" style="background-image: url('{{asset('asetFoto/guitars1.jpg')}}');">
+    <div class="freePoster" >
+        <div class="contentContainer">
+            @foreach($Content as $a)
+            <div class="theContent" style="background-image: url('{{ asset('storage/images/' . $a->PhotosName) }}');">
+                <p>{{{$a->shortQuotes}}}</p>
+                <a href="/Detil-Product/{{{$a->id_product}}}">
+                    <p>SHOP NOW</p>
+                </a>
+            </div>
+            @endforeach
+        </div>
         
-        <p>Strings tell stories that words often cannot.</p>
-        <a href="">
-            <p>SHOP NOW</p>
-        </a>
+        <div class="buletan">
+            <svg class="bulat first" width="7" height="7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="7" cy="7" r="7" fill="#ffffff"/>
+            </svg>
+            <svg class="bulat first" width="7" height="7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="7" cy="7" r="7" fill="#ffffff"/>
+            </svg>
+            <svg class="bulat first" width="7" height="7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="7" cy="7" r="7" fill="#ffffff"/>
+            </svg>
+            
+        </div>
     </div>
     <div class="produkArea">
         <div class="subCaption">
@@ -150,4 +168,46 @@
         </div>
     </div>
 </div>
+
+<script>
+scrollPhotos();
+function scrollPhotos() {
+        let photosCont = document.querySelector('.contentContainer');
+        console.log(photosCont);
+        
+        let debounceTimeout;
+
+        photosCont.addEventListener('scroll', function() {
+            clearTimeout(debounceTimeout);
+
+            debounceTimeout = setTimeout(function() {
+                let closestPhoto = null;
+                let closestDistance = Infinity;
+                let closestIndex = -1;
+                let photos = photosCont.querySelectorAll('.theContent');
+                console.log("panjang photos: "+photos.length)
+                photos.forEach((p, index) => {
+                    let photoRect = p.getBoundingClientRect();
+                    let contRect = photosCont.getBoundingClientRect();
+                    // console.log('photorect: '+photoRect.width);
+                    // console.log('contrect: '+contRect.left);
+
+                    let distanceToCenter = Math.abs(photoRect.left + photoRect.width / 2 - (contRect.left + contRect.width / 2));
+
+                    if (distanceToCenter < closestDistance) {
+                        closestDistance = distanceToCenter;
+                        closestPhoto = p;
+                        closestIndex = index;
+                    }
+                });
+
+                if (closestPhoto) {
+                    let ScrollAmt = closestPhoto.offsetLeft - (photosCont.offsetWidth / 2) + (closestPhoto.offsetWidth / 2);
+                    photosCont.scrollLeft = ScrollAmt;
+                    
+                }
+            }, 100);
+        });
+    }
+</script>
 @endsection

@@ -57,7 +57,8 @@
                     Rp. 3.000.000
                 </div>
                 <div class="ProductAct">
-                    <form action="">
+                    <form action="/DeleteCart/{{{$d->id_Detail_transaction}}}" method="POST">
+                        @csrf
                         <button type="submit">Delete</button>
                     </form>
                 </div>
@@ -123,8 +124,15 @@
     }
     function gotoCheckout(event){
         event.preventDefault();
-        console.log('tes')
-        window.location.href='/Checkout/null/null';
+        let totalChecked = document.getElementById("totalChecked");
+        console.log("checkout :"+ !(totalChecked.textContent==0))
+        if(!(totalChecked.textContent==0)){
+            window.location.href='/Checkout/null/null';
+        }
+        else{
+            showPopup("Mohon pilih product untuk dicheckout terlebih dahulu!")
+        }
+        
     }
     function changeQty(wht, elemen,idproduct,idDT,maxstok){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
@@ -168,33 +176,53 @@
         let theCBs = document.querySelectorAll('.CartContainer .cb input[type="checkbox"]');
         let len = theCBs.length;
         let sumCheck = document.getElementById('totalChecked');
+        // console.log("total : "+sumCheck.textContent)
+        let cbTop = document.querySelectorAll(".forCBVar input");
+
+        
         let totalProduct = document.getElementById('qtys');
         let inpForm = document.querySelector('.formCheckout').querySelectorAll('.inps input');
+        // console.log(theCBs);
         theCBs.forEach(e=> {
+            // console.log(e.value);
             if(wht=="check"){
                 e.checked = true;
-                elemen.setAttribute("onclick", "checkedAll('uncheck', this)");
                 // sumCheck.textContent = len - 2;
+                console.log("inp: ",inpForm)
                 inpForm.forEach(i=>{
+                    // console.log(i);
                     // console.log('i: '+i.getAttribute('name'));
                     // console.log('bc: '+cb.value);
+                    console.log("i checked: "+i)
                     if(i.getAttribute('name')==e.value){
                         // console.log('masuk');
                         i.checked=true;
-                        let idproduct = e.closest('.cb').querySelector('.pdi').textContent; 
+                        // console.log(e.closest('.cb'))
+                        // console.log("nilai p: "+e.closest('.cb').querySelector('p').textContent)
+                        let idproduct = e.closest('.cb').querySelector('.Pdi').textContent; 
                         updateStatus(idproduct,e.checked);
                     }
                 })
+                cbTop.forEach(y=>{
+                    y.setAttribute("onclick", "checkedAll('uncheck', this)");
+                    y.checked=true;
+                })
+
 
             }
             else{
+                
                 inpForm.forEach(i=>{
                     i.checked=false;
                 })
                 e.checked = false;
-                let idproduct = e.closest('.cb').querySelector('.pdi').textContent; 
+                console.log()
+                let idproduct = e.closest('.cb').querySelector('.Pdi').textContent; 
                 updateStatus(idproduct,e.checked);
-                elemen.setAttribute("onclick", "checkedAll('check', this)");
+                cbTop.forEach(y=>{
+                    y.setAttribute("onclick", "checkedAll('check', this)");
+                    y.checked=false;
+                })
                 // sumCheck.textContent = 0;
             }
         });
@@ -220,9 +248,11 @@
     }
 
     function getChecked(){
+        console.log("getchecked aktif")
         let theqtys = document.getElementById('qtys')
         let TotalChecked = document.getElementById('totalChecked')
         let theFinalSum = document.getElementById('FinalSum')
+        console.log("the final sum: "+theFinalSum.textContent);
         let theCBs = document.querySelectorAll('.theProduct');
         let checked = 0;
         let qtys = 0;
@@ -235,42 +265,59 @@
 
                 checked+=1;
                 let qty = e.querySelector('.mid input')
+                console.log("qty")
+                console.log("qty val: "+qty.value);
                 let price =e.querySelector('.ProductPrice')
                 qtys+=parseInt(qty.value);
                 // console.log(price.textContent)
                 // console.log(idrToInt(price.textContent))
                 prices+=(parseInt(qty.value)*idrToInt(price.textContent));
                 inpForm.forEach(i=>{
-                    // console.log('i: '+i.getAttribute('name'));
+                    console.log('i: '+i.getAttribute('name'));
                     // console.log('bc: '+cb.value);
+                    console.log(i.getAttribute('name'));
                     if(i.getAttribute('name')==cb.value){
                         // console.log('masuk');
                         i.checked=true;
                     }
                 })
                 let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
-                // console.log(idProduct);
+                console.log(idProduct);
                 updateStatus(idProduct,(cb.checked));
             }
             else{
+                console.log((cb.closest('.cb')).querySelector('.Pdi'));
                 let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
                 console.log(idProduct);
                 
                 updateStatus(idProduct,(cb.checked));
             }
         });
-        if((qtys/2)==theCBs.length){
-            let theCBBs = document.querySelectorAll('.CartContainer input[type="checkbox"]');
-            // console.log(theCBBs[(theCBBs.length)-1].checked);
-            theCBBs[0].checked = true;
-            theCBBs[theCBBs.length-1].checked = true;
+        console.log("qtys: "+qtys);
+        let theCBBs = document.querySelectorAll('.CartContainer input[type="checkbox"]');
+        console.log("cbbs lenth: "+theCBBs.length);
+        if((checked+theCBs.length)!=0){
+            console.log("checked :"+checked)
+            console.log("cbs.length: "+theCBs.length);
+            // console.log("checked :"+checked)
+            let bool = (checked==theCBs.length);
+            theCBBs[0].checked = bool;
+            theCBBs[theCBBs.length-theCBs.length-1].checked = bool;
+            if(bool){
+                theCBBs[0].setAttribute("onclick", "checkedAll('uncheck', this)");
+                theCBBs[theCBBs.length-theCBs.length-1].setAttribute("onclick", "checkedAll('uncheck', this)");
+            }
+            else{
+                theCBBs[0].setAttribute("onclick", "checkedAll('check', this)");
+                theCBBs[theCBBs.length-theCBs.length-1].setAttribute("onclick", "checkedAll('check', this)");
+
+            }
         }
+        
         theqtys.textContent = qtys;
         TotalChecked.textContent = checked;
         // console.log(toIdr(prices))
         theFinalSum.textContent = toIdr(prices);
-
-        
     }
 
     function updateStatus(idProduct, wht){

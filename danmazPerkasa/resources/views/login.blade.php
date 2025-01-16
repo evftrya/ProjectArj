@@ -141,7 +141,7 @@
             let data = await response.json();
 
             if(data.message != null){
-                return data.message;
+                return data.message; 
             }
             else{
                 return null;

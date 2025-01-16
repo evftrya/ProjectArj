@@ -34,7 +34,7 @@ class TransaksiController extends Controller
         $Transaction->Total = $total;
         $Transaction->save();
 
-        return view('PaymentProses',['total'=>$total]);
+        return view('User.Pelanggan.PaymentProses',['total'=>$total]);
         
     }
 
@@ -43,7 +43,7 @@ class TransaksiController extends Controller
         $data = $this->getAll();
         // dd($Transaction);
 
-        return view('ManageTransaction',['data'=>$data]);
+        return view('User.Admin.ManageTransaction',['data'=>$data]);
     }
 
     public function getAll(){
@@ -85,7 +85,7 @@ class TransaksiController extends Controller
         $params = array(
             'transaction_details' => array(
                 'order_id' => rand(),
-                'gross_amount' => 100,
+                'gross_amount' => 105,
             ),
             'customer_details' => array(
                 'first_name' => 'budi',

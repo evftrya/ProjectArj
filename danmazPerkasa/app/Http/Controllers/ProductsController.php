@@ -27,6 +27,8 @@ class ProductsController extends Controller
         $Product->nama_product = $req->ProductName;
         $Product->stok = $req->stock;
         $Product->price = $req->ProductPrice;
+        $Product->color = $req->ProductColor;
+        $Product->shortQuotes = $req->shortQuotes;
         $Product->detail_product = $req->Description;
         $Product->weight= $req->weight;
         $Product->type = 'Part';
@@ -56,7 +58,7 @@ class ProductsController extends Controller
             $Product->save();
         }
         $from = null;
-        ($wht=='Part') ? $from = 'Part-Manage/Part' : $from = 'Product-Manage/Product';
+        ($wht=='Part') ? $from = 'Manage/Product/Part' : $from = 'Manage/Product/Product';
         
         return redirect('/'.$from);
     }
@@ -68,6 +70,7 @@ class ProductsController extends Controller
                 'a.id_product',
                 'a.nama_product',
                 'a.stok',
+                'a.isContent',
                 'a.Category',
                 'a.detail_product',
                 'a.weight',
@@ -106,6 +109,7 @@ class ProductsController extends Controller
                 'a.id_product',
                 'a.nama_product',
                 'a.stok',
+                'a.isContent',
                 'a.detail_product',
                 'a.Features',
                 'b.PhotosName',
@@ -124,7 +128,40 @@ class ProductsController extends Controller
         // dd($photos);
         // dd($product);
         return [$product, $photos];
+    }
 
+    public function getAllDataProductById($id){
+        $photos = DB::table('photos as a')
+        ->select(
+            'a.id_Photo',
+            'a.PhotosName',
+            'isMain'
+        )->where('a.id_product', $id)
+        ->get();
+
+        $product = DB::table('products as a')
+            ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+            ->select(
+                'a.id_product',
+                'a.nama_product',
+                'a.stok',
+                'a.type',
+                'a.shortQuotes',
+                'a.isContent',
+                'a.color',
+                'a.weight',
+                'a.weight',
+                'a.detail_product',
+                'a.Features',
+                'b.PhotosName',
+                'a.price'
+        )->where('a.id_product', $id)
+        // ->where('a.stok','>',0 )
+        ->get();
+
+        $data=[$product, $photos];
+        
+        return response()->json($data);
     }
     
     public function ProductManage($from){
@@ -137,7 +174,8 @@ class ProductsController extends Controller
         $from!='Part' ? $Route='/addproduct' : $Route='/addPart';
         $from!='Part' ? $view='ManageProduct' : $view='ManagePart';
         // dd($data);
-        return view($view,['routeForm'=>$Route, 'data'=>$data]);
+        // dd(("User.Admin.".$view));
+        return view(("User.Admin.".$view),['routeForm'=>$Route, 'data'=>$data]);
     }
 
     public function Product($wht){
@@ -147,7 +185,7 @@ class ProductsController extends Controller
         }
         $data = $this->getData($send,'Product');
         // dd($data);
-        return view ('Product', ['data'=>$data,'wht'=>$wht]);
+        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht]);
     }
     // Route::get('/Detil-Product', function(){
     //     return view('/ProductDetil');
@@ -157,7 +195,7 @@ class ProductsController extends Controller
     public function DetilProducts($idProduct){
         $data = ($this->getDataProduct($idProduct));
         // dd($data);
-        return view('/ProductDetil',['product'=>$data[0][0],'photos'=>$data[1]]);
+        return view('/User.Pelanggan.ProductDetil',['product'=>$data[0][0],'photos'=>$data[1]]);
 
     }
 
@@ -170,4 +208,93 @@ class ProductsController extends Controller
         $old->save();
         // dd($old->stok);
     }
+
+    public function delete($idProduct){
+        $product = Products::where('id_product', $idProduct)->first()->delete();
+        return redirect('/Manage/Product/Product');
+    }
+    public function updateProduct(Request $req, $idProduct){
+        $this->update($req, $idProduct,"Product");
+        return redirect('/Manage/Product/Product');
+
+    }
+
+    public function update(Request $req, $idProduct,$from){
+        // dd($req);
+        $Product = Products::where('id_product', $idProduct)->first();
+        $oldMain = $Product->mainPhoto;
+        // dd($oldMain);
+        $Product->nama_product = $req->ProductName;
+        $Product->stok = $req->stock;
+        $Product->price = $req->ProductPrice;
+        $Product->color = $req->ProductColor;
+        $Product->detail_product = $req->Description;
+        $Product->weight= $req->weight;
+        $Product->type = $from;
+        $Product->Category = $req->product;
+        $Product->save();
+
+        if($from=="Product"){
+            $photo = new PhotosController();
+            $main = null;
+            for($i = 0; $i < $req->TotalPhoto; $i++){
+                // dd('foto'.$i==$req->mainPhoto);
+                // if($photo->cekExist())
+                if($req->file('foto'.$i+1)!=null){
+                    // dd('masuk');
+                    $tes = $photo->store($req, $Product->id_product, $i+1);
+                    // dd($tes);
+                }
+
+
+                if($req->mainPhoto!='foto0'){
+                    // dd("masui");
+                    $main = substr($req->mainPhoto,4);
+                    // dd($main);
+                    $allPhotos = $photo->getSortPhotos($Product->id_product);
+                    // dd($allPhotos);
+                    for($i=0;$i<count($allPhotos);$i++){
+                        if($main==$i+1){
+                            // dd(",aasuk");
+                            $Product->mainPhoto = $allPhotos[$i]->id_Photo; 
+                            $photo->turnMain($allPhotos[$i]->id_Photo,$idProduct);
+                            $Product->save();
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+    public function ContentOn($idProduct){
+        return $this->ChangeContent($idProduct,'on');
+    }
+    public function ContentOff($idProduct){
+        return $this->ChangeContent($idProduct,'off');
+    }
+
+    public function ChangeContent($idProduct,$wht){
+        $data = null;
+        ($wht=='on') ? $data=1 : $data=0;
+        DB::table('products')
+            ->where('id_Product', $idProduct)
+            ->update(['isContent' => $data]);
+
+        return response()->json(['message' => 'success']);
+
+    }
+
+    public function LandingPage(){
+        $Contens = DB::table('products as a')
+        ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+        ->where('a.isContent', 1)
+        ->select('a.*', 'b.*') // Pilih kolom sesuai kebutuhan
+        ->get();
+
+        return view('landingpage',['Content'=>$Contens]);
+    }
+
+    
+    
 }

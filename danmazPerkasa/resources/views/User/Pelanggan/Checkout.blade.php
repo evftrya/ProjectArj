@@ -124,7 +124,7 @@
                 <p>Total Payment: </p>
                 <p class="FinalSum" id="FinalSum">Rp. 0</p>
             </div>
-            <form action="OrderDone" method="POST">
+            <form action="/OrderDone" method="POST">
                 @csrf
                 <input type="text" id="toCheckout" style="Display: none">
                 <button>Make Order</button>

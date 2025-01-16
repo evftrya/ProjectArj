@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\TransaksiController;
+use App\Models\Detail_Transaction;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +26,15 @@ $controller = new Controller();
         return redirect('/Index');
     });
 
-    Route::get('/Index', function (Controller $cont) {
-        // session_start();
-        // dd($_SESSION['user_id']);
-        // dd(session('user_id'));
-        return view('landingpage');
-    });
+    // Route::get('/Index', function (Controller $cont) {
+    //     // session_start();
+    //     // dd($_SESSION['user_id']);
+    //     // dd(session('user_id'));
+    //     return view('landingpage');
+    // });
+    Route::get('/Index', [ProductsController::class, 'LandingPage']);
+
+    
 
 
 // ------------ SESSION -----------------
@@ -81,14 +85,22 @@ $controller = new Controller();
     // Route::get('/Detil-Product', function(){
     //     return view('/ProductDetil');
     // });
+    Route::post('/deleteProduct/{id}',[ProductsController::class, 'delete']);
+    Route::post('/DeleteCart/{id}',[DetailTransactionController::class,'DeleteCart']);
+    Route::post('/editProduct/{id}',[ProductsController::class,'updateProduct']);
     
     //CUSTOM
     Route::get('/Custom', function(){
         return view('Custom');
     });
+
+    Route::get('/db', function(){
+        return view('User.Admin.AdminDashboard');
+    });
     
     //MANAGE-PRODUCT
-    Route::get('/Product-Manage/{from}',[ProductsController::class, 'ProductManage']);
+    Route::get('/Manage/Product/{from}',[ProductsController::class, 'ProductManage']);
+    Route::get('/getDataProduct/{idProduct}',[ProductsController::class, 'getAllDataProductById']);
     
     // -------------- END PRODUCT -----------------
     
@@ -128,10 +140,10 @@ $controller = new Controller();
     //     return view('PaymentProses');
     // });
 
-    Route::post('OrderDone',[TransaksiController::class,'store']);
+    Route::post('/OrderDone',[TransaksiController::class,'store']);
 
-
-    Route::get('/Manage-User', [AccountController::class, 'manageUser']);
+    Route::post('/ProductEdit/{idProduct}',[ProductsController::class, 'update']);
+    Route::get('/Manage/User', [AccountController::class, 'manageUser']);
 
 
 //TRANSACTION
@@ -139,3 +151,5 @@ $controller = new Controller();
 
 
 Route::get('/coba', [TransaksiController::class, 'Payment']);
+Route::get('/OnContent/{idproduct}', [ProductsController::class, 'ContentOn']);
+Route::get('/OffContent/{idproduct}', [ProductsController::class, 'ContentOff']);

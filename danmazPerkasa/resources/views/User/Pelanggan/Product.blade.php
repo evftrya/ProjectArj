@@ -42,27 +42,6 @@
                 </div>
             </a>
             @endforeach
-            <!-- <a href="" class="TheProduk special">
-                <p>NEW</p>
-                <div class="imageProduct" style="background-image: url('https://i.pinimg.com/564x/c8/74/92/c8749256de694117b358abb8be45b303.jpg');">
-
-                </div>
-                <div class="descProduct">
-                    <p class="descName">Accoustic Guitar</p>
-                    <p class="narateDesc">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-                </div>
-                <div class="bottomProductArea">
-                    <p>Rp. 1.500.000</p>
-                    <div class="bottomButtonProduct">
-                        <Button onclick="window.open('')">
-                            <p>ADD TO CART</p>
-                        </Button>
-                        <Button class="BuyNow" onclick="window.open('')">
-                            <p>BUY NOW</p>
-                        </Button>
-                    </div>
-                </div>
-            </a> -->
         </div>
         <div class="bottomProduct">
             <p>No More Result</p>

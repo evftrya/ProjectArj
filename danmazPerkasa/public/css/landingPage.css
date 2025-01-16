@@ -497,11 +497,47 @@ body p{
     flex-direction: column;
 }
 .freePoster{
-    height: calc(300px - 40px);
-    width: calc(100% - 20px);
+    position: relative;
+    
+    height: 100%;
+    width: 100%;
     border-radius: 15px;
     /* background-color: aqua; */
     -webkit-border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    /* display: flex; */
+    justify-content: center;
+    /* padding: 0;
+    margin: 0; */
+}
+.contentContainer{
+    -webkit-border-radius: 15px;
+
+    box-sizing: border-box;
+    border-radius: 15px;
+    scroll-behavior: smooth;
+
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    /* justify-content: center; */
+
+
+}
+.freePoster .contentContainer .theContent{
+    position: relative;
+    /* border-radius: 15px; */
+    /* margin: 0; */
+    /* padding: 0 !important; */
+    min-height: calc(300px - 40px);
+    height: calc(300px - 40px);
+    min-width: calc(100% - 20px);
+    width: calc(100% - 20px);
     background-size: 130%;
     background-position: 10% 75%;
     background-repeat: no-repeat;
@@ -512,6 +548,7 @@ body p{
     flex-direction: column;
     /* align-items: center; */
     justify-content: space-between;
+
 }
 .freePoster p{
     width: 40%;
@@ -520,7 +557,7 @@ body p{
     font-size: 35px;
     /* box-shadow:none 2px 2px 5px black; */
 }
-.freePoster>a{
+.freePoster a{
     text-decoration: none;
     /* padding: 20px; */
     background-color: #B17457;
@@ -530,11 +567,28 @@ body p{
     align-items: center;
     justify-content: center;
 }
-.freePoster>a>p{
+.freePoster a p{
     margin: 10px;
     font-size: 20px;
     width: 100%;
     text-align: center;
+    z-index: 1;
+}
+.buletan{
+    width: fit-content;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+    position: absolute;
+    /* background-color: aqua; */
+    width: fit-content;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
 
@@ -673,7 +727,6 @@ body p{
     top: -100px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #4caf50;
     color: white;
     padding: 15px 30px;
     border-radius: 5px;
