@@ -329,6 +329,9 @@
     justify-content: space-between;
     padding-right: 36px;
 }
+.line1.nonbottom{
+    border-bottom: none;
+}
 .line1>*{
     height: 100%;
 }
@@ -414,7 +417,7 @@
         width: 70px;
         /* background-color: antiquewhite; */
     }
-    .PayMed>div>div, .bank> select{
+    .PayMed>div>div, .bank> select,select{
         overflow-x: auto;
         width: fit-content;
         display: flex;
@@ -424,7 +427,7 @@
         /* padding: 0px 10px; */
         /* background-color: #D8D2C2; */
     }
-    .PayMed>div>div>button, .bank select{
+    .PayMed>div>div>button, .bank select,select{
         border: black 0.2px solid;
         border-radius: 3px;
         padding: 5px 10px;

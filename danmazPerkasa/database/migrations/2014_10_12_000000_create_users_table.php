@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('role');
             $table->string('Phone')->nullable();
             $table->string('Gender')->nullable();
-            $table->string('Address')->nullable();
             $table->timestamps();
         });
     }

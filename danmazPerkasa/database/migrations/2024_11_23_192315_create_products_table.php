@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('price');
             $table->string('color');
             $table->string('isContent')->nullable();
-            $table->string('shortQuotes');
+            $table->string('shortQuotes')->nullable();
             $table->string('isSpecial')->nullable();
             $table->Integer('weight');
             $table->string('Category')->nullable();

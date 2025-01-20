@@ -13,6 +13,7 @@
             <div class="forCBVar"><input type="checkbox" id="inCo" onclick="checkedAll('check', this)"></div>
             <div class="forProdVar">Product</div>
             <div class="forPriceVar">Unit Price</div>
+            <div class="forPriceVar">Unit Weight</div>
             <div class="forQtyVar">Quantity</div>
             <div class="forSumVar">Total Price</div>
             <div class="forActVar">Action</div>
@@ -32,9 +33,20 @@
                     <div class="ProductDesc">
                         <p>{{{$d->nama_product}}}</p>
                     </div>
+                    
                 </div>
                 <div class="ProductPrice" id="ProductPrice">
                     {{{$d->price}}}
+                </div>
+                <div class="ProductPrice weight" id="ProductPrice">
+                    <div class="text">
+                        <p class="weightProduct">{{{$d->weight}}}</p>
+                    </div>
+                    <div class="text">
+                        <p>kg</p>
+                    </div>
+                    
+                    
                 </div>
                 <div class="ProductQty">
                     <div class="inside">
@@ -89,8 +101,14 @@
                     </div>
                     
                     <div class="text">
-                        <p> product</p>
+                        <p> product &</p>
+                    
+                    </div >
+                    <div class="text">
+                        <p id="weights">0</p>
+                        <p> kg</p>
                         <p>) :</p>
+
                     </div>
                 </div>
                 <p class="FinalSum" id="FinalSum">Rp. 0</p>
@@ -110,6 +128,85 @@
     </div>
 </div>
 
+<script>
+    function initializeLoadingIndicator() {
+        console.log('Initializing loading indicator');
+
+        // Buat elemen loading indicator
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = 'loading-indicator';
+        loadingIndicator.style.display = 'none';
+        loadingIndicator.style.position = 'fixed';
+        loadingIndicator.style.top = '0';
+        loadingIndicator.style.left = '0';
+        loadingIndicator.style.width = '100%';
+        loadingIndicator.style.height = '100%';
+        loadingIndicator.style.background = 'rgba(0, 0, 0, 0.5)';
+        loadingIndicator.style.zIndex = '9999';
+        loadingIndicator.style.display = 'flex';
+        loadingIndicator.style.alignItems = 'center';
+        loadingIndicator.style.justifyContent = 'center';
+        loadingIndicator.style.flexDirection = 'column';
+        loadingIndicator.style.color = 'white';
+        loadingIndicator.style.fontFamily = 'Arial, sans-serif';
+        loadingIndicator.style.textAlign = 'center';
+
+        // Tambahkan spinner
+        const spinner = document.createElement('div');
+        spinner.style.border = '8px solid #f3f3f3';
+        spinner.style.borderTop = '8px solid #3498db';
+        spinner.style.borderRadius = '50%';
+        spinner.style.width = '60px';
+        spinner.style.height = '60px';
+        spinner.style.animation = 'spin 1s linear infinite';
+
+        // Tambahkan teks
+        const text = document.createElement('p');
+        text.textContent = 'We are preparing your data';
+        text.style.marginTop = '20px';
+        text.style.fontSize = '16px';
+
+        // Masukkan spinner dan teks ke dalam loading indicator
+        loadingIndicator.appendChild(spinner);
+        loadingIndicator.appendChild(text);
+
+        // Tambahkan loading indicator ke dalam body
+        document.body.appendChild(loadingIndicator);
+
+        const styleSheet = document.styleSheets[0];
+        styleSheet.insertRule(`
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `, styleSheet.cssRules.length);
+
+        // Event untuk menampilkan loading hanya jika bukan navigasi dari cache
+        window.addEventListener('pagehide', function () {
+            loadingIndicator.style.display = 'flex';
+            });
+
+            // Event untuk menyembunyikan loading saat halaman dimuat kembali
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    // Jika halaman dimuat dari cache, sembunyikan loading
+                    loadingIndicator.style.display = 'none';
+                }
+            });
+
+            // Event untuk navigasi biasa (bukan back/forward)
+            window.addEventListener('beforeunload', function () {
+                loadingIndicator.style.display = 'flex';
+            });
+    }
+
+
+
+
+    // Panggil function saat halaman selesai dimuat\
+    
+</script>
+
 
 <script>
     Count();
@@ -117,17 +214,32 @@
     tydeUp();
 
     function tydeUp(){
-        let individu = document.querySelectorAll('.ProductPrice');
+        let elements = document.querySelectorAll('.ProductPrice');
+
+        let individu = Array.from(elements).filter(element => !element.classList.contains('weight'));
+
+        // console.log(filteredElements);
+
+        
         individu.forEach(e=>{
             e.textContent = toIdr(e.textContent);
         })
     }
-    function gotoCheckout(event){
+    async function gotoCheckout(event){
         event.preventDefault();
         let totalChecked = document.getElementById("totalChecked");
         console.log("checkout :"+ !(totalChecked.textContent==0))
         if(!(totalChecked.textContent==0)){
-            window.location.href='/Checkout/null/null';
+            let adr = await fetch('/isNew');
+            let isnew = await adr.json();
+            if(isnew==1){
+                console.log('jalannnnn')
+                initializeLoadingIndicator();
+                window.location.href='/Checkout/null/null';
+            }
+            else{
+                showPopup("Please set the address first (Setting>Account Settings>Address)",0)
+            }
         }
         else{
             showPopup("Mohon pilih product untuk dicheckout terlebih dahulu!")
@@ -147,12 +259,17 @@
                 temp+=1;
                 number.value=temp;
             }
+            else{
+                showPopup('Only '+maxstok+' items left in stock!',0)
+            }
+            
         }
         else{
             if(temp!=0){
                 temp-=1;
                 number.value=temp;
             }
+            
         }
 
         fetch(('/UpdateCart/'+idproduct+'/'+idDT),{
@@ -180,7 +297,8 @@
         let cbTop = document.querySelectorAll(".forCBVar input");
 
         
-        let totalProduct = document.getElementById('qtys');
+        let totalProduct = document.getElementById('qtys');weights
+        let totalweight = document.getElementById('weights');
         let inpForm = document.querySelector('.formCheckout').querySelectorAll('.inps input');
         // console.log(theCBs);
         theCBs.forEach(e=> {
@@ -230,44 +348,52 @@
     }
     function toIdr(number){
         let angka = number;
-
+        
         let formattedAngka = angka.toLocaleString('id-ID');
         let formatted = "Rp. " + formattedAngka;
-
+        
         return formatted;
-
+        
     }
     function idrToInt(string){
         let str = string;
-
+        
         let angka = str.replace(/[^\d]/g, '');
-
+        
         let parsedAngka = parseInt(angka, 10);
-
+        
         return parsedAngka;
     }
-
+    
     function getChecked(){
         console.log("getchecked aktif")
         let theqtys = document.getElementById('qtys')
+        let weightd = document.getElementById('weights')
         let TotalChecked = document.getElementById('totalChecked')
         let theFinalSum = document.getElementById('FinalSum')
         console.log("the final sum: "+theFinalSum.textContent);
         let theCBs = document.querySelectorAll('.theProduct');
         let checked = 0;
         let qtys = 0;
+        let weigths = 0.0;
         let prices = 0;
         let inpForm = document.querySelector('.formCheckout').querySelectorAll('.inps input');
-
         theCBs.forEach(e=>{
             let cb = e.querySelector('.cb input[type="checkbox"]')
             if(cb.checked==true){
-
+                console.log('awal wg: '+weigths)
+                
                 checked+=1;
                 let qty = e.querySelector('.mid input')
-                console.log("qty")
-                console.log("qty val: "+qty.value);
+                // console.log("qty")
+                // console.log("qty val: "+qty.value);
                 let price =e.querySelector('.ProductPrice')
+                let wg =e.querySelector('.weightProduct')
+                console.log('wg: '+wg);
+                console.log('wg texc: '+wg.textContent);
+                console.log('parse wg: '+parseFloat(wg.textContent))
+                weigths+=parseFloat(wg.textContent.match(/\d+(\.\d+)?/g))*parseFloat(qty.value)
+                console.log(weights)
                 qtys+=parseInt(qty.value);
                 // console.log(price.textContent)
                 // console.log(idrToInt(price.textContent))
@@ -282,17 +408,21 @@
                     }
                 })
                 let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
-                console.log(idProduct);
+                // console.log(idProduct);
                 updateStatus(idProduct,(cb.checked));
             }
             else{
-                console.log((cb.closest('.cb')).querySelector('.Pdi'));
+                // console.log((cb.closest('.cb')).querySelector('.Pdi'));
                 let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
-                console.log(idProduct);
+                // console.log(idProduct);
                 
                 updateStatus(idProduct,(cb.checked));
             }
         });
+        if(weigths!=0){
+
+            weightd.textContent = weigths;
+        }
         console.log("qtys: "+qtys);
         let theCBBs = document.querySelectorAll('.CartContainer input[type="checkbox"]');
         console.log("cbbs lenth: "+theCBBs.length);
@@ -315,6 +445,7 @@
         }
         
         theqtys.textContent = qtys;
+        // console.log("weights: "+weights);
         TotalChecked.textContent = checked;
         // console.log(toIdr(prices))
         theFinalSum.textContent = toIdr(prices);

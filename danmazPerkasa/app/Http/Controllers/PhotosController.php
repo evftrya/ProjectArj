@@ -11,21 +11,23 @@ class PhotosController extends Controller
 {
     //
 
-    public function store(Request $req, $idProduct, $number){
+    public function store(Request $req, $idProduct, $number,$wht){
         // dd($req)->file('foto3');
         $photo = new Photos();
         // $photo->PhotosName = $req->file('foto'.$number)->getClientOriginalName().$idProduct;
         
         $photo->PhotosName = pathinfo($req->file('foto'.$number)->store('images','public'), PATHINFO_BASENAME);
         $photo->id_product = $idProduct;
-        if($req->mainPhoto=='foto'.$number){
-            $photo->isMain = 1;
-        }
-        $photo->save();
-        
-        if($req->mainPhoto=='foto'.$number){
-            return $photo->id_photo;
-        }
+        // if($wht!='Part'){
+            if($req->mainPhoto=='foto'.$number){
+                $photo->isMain = 1;
+            }
+            $photo->save();
+            
+            if($req->mainPhoto=='foto'.$number){
+                return $photo->id_photo;
+            }
+        // }
     }
 
     public function getAllProduct($id){

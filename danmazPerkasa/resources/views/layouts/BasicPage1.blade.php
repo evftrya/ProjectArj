@@ -2,10 +2,18 @@
 $cont = app(\App\Http\Controllers\Controller::class);
 $url = $cont->GetUrl();
 
-$withBurger=["Index","/Landing-Page","Product","Custom","Manage","db"];
+$withBurger=["Index","/Landing-Page","Product","Custom","Manage","db","Search"];
+$noScript=["Cart","Detil-Product"];
 $noSearch = ["Info","Change-Password","Address","Detil-Product"];
 $AuthNeeded = ["Login","Register"];
 $NonPopUp = ["Profile"];
+$searchThing = "";
+if(isset($forSearch)){
+    $searchThing=$forSearch;
+}
+else{
+    $searchThing="AllProduct";
+}
 @endphp
 <!DOCTYPE html>
 
@@ -22,7 +30,6 @@ $NonPopUp = ["Profile"];
     
 
     @if(session('Role')==='Admin')
-        @if($url!='Part-Manage')
             <div class="NewProduct" id="newProductNow" style="display: none;">
                 <div class="containerd">
                     <div class="theTitled">
@@ -31,93 +38,11 @@ $NonPopUp = ["Profile"];
                                 <path d="M0.354257 15.9346L13.0833 29.6435C13.2957 29.8723 13.5778 30 13.8713 30C14.1647 30 14.4469 29.8723 14.6593 29.6435L14.673 29.628C14.7763 29.517 14.8586 29.3835 14.9148 29.2355C14.971 29.0875 15 28.9281 15 28.767C15 28.6059 14.971 28.4465 14.9148 28.2985C14.8586 28.1505 14.7763 28.0169 14.673 27.906L2.68627 14.9974L14.673 2.09402C14.7763 1.98307 14.8586 1.84953 14.9148 1.70151C14.971 1.5535 15 1.3941 15 1.23302C15 1.07194 14.971 0.912539 14.9148 0.764521C14.8586 0.616504 14.7763 0.482961 14.673 0.372016L14.6593 0.356525C14.4469 0.127669 14.1647 8.01564e-07 13.8713 8.01564e-07C13.5778 8.01564e-07 13.2957 0.127669 13.0833 0.356525L0.354257 14.0654C0.242311 14.186 0.153189 14.331 0.0922943 14.4916C0.0313997 14.6523 0 14.8252 0 15C0 15.1748 0.0313997 15.3477 0.0922943 15.5084C0.153189 15.669 0.242311 15.814 0.354257 15.9346Z" fill="black"/>
                             </svg>
                         </div>
-                        <p>Add Product</p>
+                        <p class="titlePopUp">Add Product</p>
                     </div>
                     
                 </div>
             </div>
-        @elseif($url=='Part-Manage')
-        <div class="NewProduct" id="newProductNow" style="display: none;">
-                <div class="containerd">
-                    <div class="theTitled">
-                        <div class="forBack" onclick="ClosePopUp('close')">
-                            <svg width="15" height="30" viewBox="0 0 15 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0.354257 15.9346L13.0833 29.6435C13.2957 29.8723 13.5778 30 13.8713 30C14.1647 30 14.4469 29.8723 14.6593 29.6435L14.673 29.628C14.7763 29.517 14.8586 29.3835 14.9148 29.2355C14.971 29.0875 15 28.9281 15 28.767C15 28.6059 14.971 28.4465 14.9148 28.2985C14.8586 28.1505 14.7763 28.0169 14.673 27.906L2.68627 14.9974L14.673 2.09402C14.7763 1.98307 14.8586 1.84953 14.9148 1.70151C14.971 1.5535 15 1.3941 15 1.23302C15 1.07194 14.971 0.912539 14.9148 0.764521C14.8586 0.616504 14.7763 0.482961 14.673 0.372016L14.6593 0.356525C14.4469 0.127669 14.1647 8.01564e-07 13.8713 8.01564e-07C13.5778 8.01564e-07 13.2957 0.127669 13.0833 0.356525L0.354257 14.0654C0.242311 14.186 0.153189 14.331 0.0922943 14.4916C0.0313997 14.6523 0 14.8252 0 15C0 15.1748 0.0313997 15.3477 0.0922943 15.5084C0.153189 15.669 0.242311 15.814 0.354257 15.9346Z" fill="black"/>
-                            </svg>
-                        </div>
-                        <p>Add Part</p>
-                    </div>
-                    
-                    <form action="{{ route('add-product', ['wht' => 'Part' ]) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="productCategory">
-                            <p>Part Category</p>
-                            <select name="product" id="">
-                                <option value="Body Shape">Body Shape</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="text" name="ProductName" placeholder="" id="inputField">
-                            <label for="inputField">Part Name</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="text" name="ProductColor" placeholder="" id="inputField">
-                            <label for="inputField">Part Color</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="number" name="weight" placeholder="" id="inputField">
-                            <label for="inputField">Part Weight (gram)</label>
-                        </div>
-                        <div class="input-container">
-                        <!-- <p>Email</p> -->
-                            <input type="number" name="ProductPrice" placeholder="" id="inputField">
-                            <label for="inputField">Part Price</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        <div class="forQty">
-                            <p>Quantity</p>
-                            <div class="ProductQty">
-                                <div class="inside">
-                                    <button class="ActQty minus" onclick="changeQty('min',this,event)">
-                                        <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
-                                        </svg>
-                                    </button>
-                                    <div class="mid">
-                                        <input type="number" name="stock" value="1">
-                                    </div>
-                                    <button class="ActQty plus" onclick="changeQty('plus',this,event)">
-                                        <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-container desc end">
-                        <!-- <p>Email</p> -->
-                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
-                            <textarea  rows="4" cols="60" name="Description" id=""></textarea>
-                            <label for="inputField">Description</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
-                        </div>
-                        
-                        
-                    </form>
-                    <div class="TheButtons" onclick="formClick(this)">
-                        <button>Save Changes</button>
-                    </div>
-                </div>
-            </div>
-        @endif
     @endif
     <div class="Navbar">
         <div class="navleft">
@@ -154,8 +79,9 @@ $NonPopUp = ["Profile"];
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg>
-                    <form action="">
-                        <input type="text" name="" id="" placeholder="Search">
+                    <form action="/Search/{{{$searchThing}}}" method="post">
+                        @csrf
+                        <input type="text" name="search" class="searchInp" id="" placeholder="Search">
                     </form>
                     
                 </div>
@@ -457,7 +383,7 @@ $NonPopUp = ["Profile"];
 @if(session('Role')==='Admin')
 
 <script>
-    
+    @if(!in_array($url, $noScript))
     function formClick(elemen){
         let form = ((elemen.closest('.containerd')).querySelector('form'))
         let inp = document.createElement("input");
@@ -633,6 +559,7 @@ $NonPopUp = ["Profile"];
         element.textContent="Main Photo";
 
     }
+    @endif
 
 
 
@@ -750,6 +677,10 @@ $NonPopUp = ["Profile"];
             elemen.setAttribute("onclick", "MiniMenu('show',this)");
             miniMenu[0].style.display = 'none';
         }
+    }
+    function changeTitle(text){
+        let p = document.querySelector('.titlePopUp');
+        p.textContent=text;
     }
 
     

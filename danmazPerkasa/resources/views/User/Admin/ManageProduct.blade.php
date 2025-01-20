@@ -35,8 +35,7 @@ $url = $cont->GetUrl();
                                 }
                             }
                             @endphp
-                            <button class="IsContent {{{$st}}}"
-     onclick="turnContent('{{{$st2}}}',this,'{{{$d->id_product}}}')">Turn Content</button>
+                            <button class="IsContent {{{$st}}}" onclick="turnContent('{{{$st2}}}',this,'{{{$d->id_product}}}')">Turn Content</button>
                             <button onclick="TurnEdit('{{{$d->id_product}}}')">Edit</button>
                             <form action="/deleteProduct/{{{$d->id_product}}}" method="post">
                                 @csrf
@@ -132,6 +131,7 @@ $url = $cont->GetUrl();
         ClosePopUp('open');
     }
 
+    
     function FormAdd(){
         let container = document.querySelector(".NewProduct .containerd");
         let form = document.createElement('form');
@@ -139,6 +139,7 @@ $url = $cont->GetUrl();
         form.method = "POST";
         form.className = "formEditAdd";
         form.enctype = "multipart/form-data";
+        changeTitle('Add Product');
         form.innerHTML=`
             @csrf
             <div class="PhotosAdds">
@@ -161,7 +162,7 @@ $url = $cont->GetUrl();
                     <input type="text" name="mainPhoto" value="foto1" style="display: none;">
                     <div class="imageContainer nofill Main">
                         <button class="forMainPhoto" onclick="makeItMain(this, event)">Main Photo</button>    
-                        <div class="theImage">
+                        <div class="theImage" onclick="TurnInput(this)">
 
                         </div>
                         <button class="forInputPhoto" onclick="fillInput(this, event)">
@@ -258,6 +259,7 @@ $url = $cont->GetUrl();
 
     async function FormEdit(product, photos){
         console.log(product[0].id_product)
+            changeTitle('Edit Product');
         
             let container = document.querySelector(".NewProduct .containerd");
             let form = document.createElement('form');
@@ -324,7 +326,7 @@ $url = $cont->GetUrl();
                         thephoto+=`
                             <div class="imageContainer withfill ${main}">
                                 <button class="forMainPhoto" onclick="makeItMain(this, event)">Main Photo</button>    
-                                <div class="theImage" style="background-image: url('{{asset('storage/images')}}/${photos[i].PhotosName}'); display: flex;">
+                                <div class="theImage" onclick="TurnInput(this)" style="background-image: url('{{asset('storage/images')}}/${photos[i].PhotosName}'); display: flex;">
 
                                 </div>
                                 <button class="forInputPhoto" onclick="fillInput(this, event)">
@@ -480,6 +482,21 @@ $url = $cont->GetUrl();
                     
                 }
             }, 100);
+        });
+    }
+
+    function TurnInput(elemen){
+        let div = elemen.closest('.imageContainer')
+        let inp = div.querySelector('input');
+        let img = div.querySelector('.theImage');
+        inp.click();
+
+        inp.addEventListener('change', function() {
+            let file = URL.createObjectURL(inp.files[0]);  // Corrected file reference
+            if(file){
+                img.style.backgroundImage = `url(${file})`; 
+            }
+            
         });
     }
 

@@ -61,7 +61,10 @@
                         </svg>
                     </button>
                 </div>
-                <p class="withpad">{{{$product->stok}}} Unit left</p>
+                <div class="textDetil">
+                    <p class="withpad">{{{$product->stok}}} Unit left</p>
+                    <p class="withpad berat">({{{$product->weight_kg}}} kg/Product)</p>
+                </div>
             </div>
             <div class="buttonArea">
                 <!-- <form action=""></form> -->
@@ -135,6 +138,7 @@
     }
 
     function AddToCart(elemen, id){
+        console.log('id: '+id);
         id = parseInt(id);
         let qty = document.querySelector('.qtynumbers .mid p');
         fetch(('/AddToCart/'+id),{

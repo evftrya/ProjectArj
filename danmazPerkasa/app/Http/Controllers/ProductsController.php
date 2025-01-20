@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PhotosController;
+use App\Models\Photos;
 use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
@@ -40,26 +41,31 @@ class ProductsController extends Controller
         $Product->save();
         $id = $Product->id_product;
 
-        if($wht=='Product'){
             $photo = new PhotosController();
             $main = null;
             for($i = 1; $i <= $req->TotalPhoto; $i++){
                 // store(Request $req, $idProduct, $number)
-                if('foto'.$i==$req->mainPhoto){
-                    // dd('foto'.$i==$req->mainPhoto);
-                    $main = $photo->store($req, $id, $i);
-                }
-                else{
-                    $photo->store($req, $id, $i);
-                }
+                // if($wht=='Product'){
+
+                    if('foto'.$i==$req->mainPhoto){
+                        // dd('foto'.$i==$req->mainPhoto);
+                        $main = $photo->store($req, $id, $i,$wht);
+                    }
+                    else{
+                        $photo->store($req, $id, $i,$wht);
+                    }
+                // }
+                // else{
+                    // $photo->store($req, $id, $i,$wht);
+                    // dd('work');
+                // }
     
-            }
             $Product->mainPhoto = $main;
             $Product->save();
         }
         $from = null;
         ($wht=='Part') ? $from = 'Manage/Product/Part' : $from = 'Manage/Product/Product';
-        
+        // dd('stop bntr');
         return redirect('/'.$from);
     }
 
@@ -109,6 +115,7 @@ class ProductsController extends Controller
                 'a.id_product',
                 'a.nama_product',
                 'a.stok',
+                DB::raw('ROUND(a.weight / 1000, 2) as weight_kg'),
                 'a.isContent',
                 'a.detail_product',
                 'a.Features',
@@ -163,6 +170,33 @@ class ProductsController extends Controller
         
         return response()->json($data);
     }
+
+    public function getAllDataPartById($id){
+
+        $product = DB::table('products as a')
+            ->join('photos as b', 'a.id_product', '=', 'b.id_product')
+            ->select(
+                'a.id_product',
+                'a.nama_product',
+                'a.stok',
+                'a.type',
+                'a.color',
+                'a.weight',
+                'a.weight',
+                'a.detail_product',
+                'a.Features',
+                'b.PhotosName',
+                'a.price'
+        )->where('a.id_product', $id)
+        // ->where('a.stok','>',0 )
+        ->get();
+
+        // $data=[$product];
+        // dd($data);
+        
+        return response()->json($product);
+    }
+
     
     public function ProductManage($from){
         // dd($from);
@@ -185,7 +219,7 @@ class ProductsController extends Controller
         }
         $data = $this->getData($send,'Product');
         // dd($data);
-        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht]);
+        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht, 'forSearch'=>$wht]);
     }
     // Route::get('/Detil-Product', function(){
     //     return view('/ProductDetil');
@@ -208,15 +242,26 @@ class ProductsController extends Controller
         $old->save();
         // dd($old->stok);
     }
+    public function deleteProduct($idProduct){
+        return $this->delete($idProduct,'Product');
+    }
 
-    public function delete($idProduct){
+    public function deletePart($idProduct){
+        return $this->delete($idProduct,'Part');
+    }
+
+    public function delete($idProduct,$wht){
         $product = Products::where('id_product', $idProduct)->first()->delete();
-        return redirect('/Manage/Product/Product');
+        return redirect('/Manage/Product/'.$wht);
     }
     public function updateProduct(Request $req, $idProduct){
         $this->update($req, $idProduct,"Product");
         return redirect('/Manage/Product/Product');
+    }
 
+    public function updatePart(Request $req, $idProduct){
+        $this->update($req, $idProduct,"Part");
+        return redirect('/Manage/Product/Part');
     }
 
     public function update(Request $req, $idProduct,$from){
@@ -234,19 +279,20 @@ class ProductsController extends Controller
         $Product->Category = $req->product;
         $Product->save();
 
-        if($from=="Product"){
-            $photo = new PhotosController();
-            $main = null;
-            for($i = 0; $i < $req->TotalPhoto; $i++){
-                // dd('foto'.$i==$req->mainPhoto);
-                // if($photo->cekExist())
+        $photo = new PhotosController();
+        $main = null;
+        for($i = 0; $i < $req->TotalPhoto; $i++){
+            // dd('foto'.$i==$req->mainPhoto);
+            // if($photo->cekExist())
+            
+            
+            if($from=="Product"){
                 if($req->file('foto'.$i+1)!=null){
                     // dd('masuk');
-                    $tes = $photo->store($req, $Product->id_product, $i+1);
+                    $tes = $photo->store($req, $Product->id_product, $i+1,'Product');
+                    // dd($tes);
                     // dd($tes);
                 }
-
-
                 if($req->mainPhoto!='foto0'){
                     // dd("masui");
                     $main = substr($req->mainPhoto,4);
@@ -264,8 +310,25 @@ class ProductsController extends Controller
                 }
 
             }
+            else{
+                if($req->file('foto1')!=null){
+                    // dd('masuk');
+                    $photo = Photos::where('id_product', $idProduct)->first();
+                    // dd($photo);
+                    // $photo->PhotosName = pathinfo($req->file('foto1')->store('images','public'), PATHINFO_BASENAME);
+                    // $photo->forceFill(['PhotosName' => pathinfo($req->file('foto1')->store('images', 'public'), PATHINFO_BASENAME)]);
+                    $name = pathinfo($req->file('foto1')->store('images', 'public'), PATHINFO_BASENAME);
+                    Photos::where('id_product', $idProduct)
+                    ->update(['PhotosName' => $name]);
+                    $photo->save();
+                }
+            }
 
         }
+    }
+
+    public function clearPhotoDump($idProduct){
+
     }
     public function ContentOn($idProduct){
         return $this->ChangeContent($idProduct,'on');
@@ -328,6 +391,13 @@ class ProductsController extends Controller
         $product = Products::where('id_product', $idProduct)->first();
         $product->isSpecial = 'NEW';
         $product->save();
+    }
+
+    public function search(Request $req,$wht){
+        $send=$wht;
+        $data = $this->getData($send,'Product');
+        // dd($data);
+        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht,'search'=>$req->search,'forSearch'=>$wht]);
     }
 
     

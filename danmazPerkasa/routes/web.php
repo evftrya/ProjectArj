@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\Controller;
@@ -25,6 +26,7 @@ $controller = new Controller();
     Route::get('/', function (Controller $cont) {
         return redirect('/Index');
     });
+    Route::get('/Ongkir',[AccountController::class,'Ongkir']);
 
     // Route::get('/Index', function (Controller $cont) {
     //     // session_start();
@@ -33,8 +35,10 @@ $controller = new Controller();
     //     return view('landingpage');
     // });
     Route::get('/Index', [ProductsController::class, 'LandingPage']);
+    Route::get('/getCity/{idProvince}', [AddressController::class, 'getCity']);
 
-    
+    // Route::post('//Address/{$id}')
+
 
 
 // ------------ SESSION -----------------
@@ -72,7 +76,6 @@ $controller = new Controller();
 
 
 
-
 // --------- PRODUCT ----------------
     Route::get('/Product',function(){
         return redirect('/Product/Info');
@@ -85,9 +88,11 @@ $controller = new Controller();
     // Route::get('/Detil-Product', function(){
     //     return view('/ProductDetil');
     // });
-    Route::post('/deleteProduct/{id}',[ProductsController::class, 'delete']);
+    Route::post('/deleteProduct/{id}',[ProductsController::class, 'deleteProduct']);
+    Route::post('/deletePart/{id}',[ProductsController::class, 'deletePart']);
     Route::post('/DeleteCart/{id}',[DetailTransactionController::class,'DeleteCart']);
     Route::post('/editProduct/{id}',[ProductsController::class,'updateProduct']);
+    Route::post('/editPart/{id}',[ProductsController::class,'updatePart']);
     
     //CUSTOM
     Route::get('/Custom', function(){
@@ -101,6 +106,7 @@ $controller = new Controller();
     //MANAGE-PRODUCT
     Route::get('/Manage/Product/{from}',[ProductsController::class, 'ProductManage']);
     Route::get('/getDataProduct/{idProduct}',[ProductsController::class, 'getAllDataProductById']);
+    Route::get('/getDataPart/{idProduct}',[ProductsController::class, 'getAllDataPartById']);
     
     // -------------- END PRODUCT -----------------
     
@@ -142,6 +148,7 @@ $controller = new Controller();
 
     Route::post('/OrderDone',[TransaksiController::class,'store']);
 
+    Route::post('/Search/{wht}',[ProductsController::class,'search']);
     Route::post('/ProductEdit/{idProduct}',[ProductsController::class, 'update']);
     Route::get('/Manage/User', [AccountController::class, 'manageUser']);
 
@@ -150,6 +157,8 @@ $controller = new Controller();
     Route::get('/Manage/Transaction', [TransaksiController::class, 'ManageTransaction']);
 
 
-Route::get('/coba', [TransaksiController::class, 'Payment']);
+Route::get('/coba', [DetailTransactionController::class, 'getcek']);
+Route::get('/midtrans', [TransaksiController::class, 'payment']);
 Route::get('/OnContent/{idproduct}', [ProductsController::class, 'ContentOn']);
 Route::get('/OffContent/{idproduct}', [ProductsController::class, 'ContentOff']);
+Route::get('/isNew',[AddressController::class,'isNew']);

@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductsController;
 class DetailTransactionController extends Controller
 {
     public function store(Request $req,$idProduct){
+        // dd(session("user_id"));
         // dd($idProduct);
         $Cont = new ProductsController();
         $product = $Cont->getDataProduct($idProduct)[0][0];
@@ -18,27 +19,26 @@ class DetailTransactionController extends Controller
         // dd($product->price);
         
         $products = DB::table('detail__transactions as a')
-            ->select(
-                'a.id_Detail_transaction',
-                'a.qty',
-                'a.Total',
-        )->where('a.id_product', $idProduct)
-        ->where('a.id_user',session("user_id"))
-        ->where('a.status','Pending')->orWhere('a.status','Checkout')
-        ->where('a.Transaksis_id',NULL)
+        ->where('a.id_product', $idProduct)
+        ->where('a.id_user', session("user_id"))
+        ->where(function ($query) {
+            $query->where('a.status', 'Pending')
+                  ->orWhere('a.status', 'Checkout');
+        })
+        ->whereNull('a.Transaksis_id')
         ->get();
 
 
         // dd("ms");
         // dd(($products)); 
-        if(isset($products[0]->qty)){
+        if((isset($products[0]->qty))){
             $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
             if($old){
                 // dd($old);
                 $old->qty = $old->qty+$req->qty;
                 $old->Total = $old->qty*$product->price;
                 if($old->save()){
-                    return response()->json(['message'=> 'success']);
+                    return response()->json(['message'=> 'successOld'.$products[0]->qty]);
                 };
                 // $old->Total =  
             }
@@ -52,14 +52,17 @@ class DetailTransactionController extends Controller
             $detil->id_product = $idProduct;
             // $detil->save();
                 if($detil->save()){
-                    return response()->json(['message'=> 'success']);
+                    return response()->json(['message'=> 'successNew'.$detil->id_Detail_transaction]);
                 }
         }
         
         
     }
 
+    
+
     public function getAllData($wht){
+        // dd(session('user_id'));
         $Data = DB::table('detail__transactions as a')
             ->join('products as b', 'a.id_product', '=', 'b.id_product')
             ->join('photos as c', 'b.mainPhoto', '=', 'c.id_Photo')
@@ -69,6 +72,7 @@ class DetailTransactionController extends Controller
                 'b.nama_product',
                 'b.price',
                 'a.qty',
+                DB::raw('ROUND(b.weight / 1000, 2) as weight'),
                 'b.id_product',
                 'a.id_User',
                 'b.stok',
@@ -150,8 +154,16 @@ class DetailTransactionController extends Controller
             $this->UpdateStatus($idProduct, '1');
         }
         $data = $this->getAllData('Checkout');
-        // dd($data);
-        return view('User.Pelanggan.Checkout',['data'=>$data]);
+
+        $addr = new AddressController();
+        $userData = $addr->getDataById();
+        // dd($userData[0]->city_id);
+        $cont = new Controller();
+        $ships = ($cont->getOngkir($userData[0]->city_id));
+        $shipjs = $ships[0];
+        $ship = $ships[1];
+        // dd($ship);
+        return view('User.Pelanggan.Checkout',['data'=>$data,'userData'=>$userData,'ship'=>$ship,'shipjs'=>$shipjs]);
     }
 
 

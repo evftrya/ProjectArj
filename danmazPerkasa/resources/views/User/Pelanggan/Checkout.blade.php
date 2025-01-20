@@ -12,6 +12,7 @@
             <!-- <div class="forCBVar"><input type="checkbox" id="inCo" onclick="checkedAll('check', this)"></div> -->
             <div class="forProdVar">Product</div>
             <div class="forPriceVar">Unit Price</div>
+            <div class="forPriceVar">Unit Weight</div>
             <div class="forQtyVar">Quantity</div>
             <div class="forSumVar">Total Price</div>
         </div>
@@ -31,21 +32,15 @@
                     <div class="ProductPrice" id="ProductPrice">
                         {{{$d->price}}}
                     </div>
+                    <div class="ProductPrice weight">
+                        <p class="berat">{{{$d->weight}}}</p>
+                        <p>Kg</p>
+                    </div>
                     <div class="ProductQty">
                         <div class="inside">
-                            <button class="ActQty minus">
-                                <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
-                                </svg>
-                            </button>
                             <div class="mid">
                                 <input type="text" value="{{{$d->qty}}}" disabled>
                             </div>
-                            <button class="ActQty plus">
-                                <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
-                                </svg>
-                            </button>
                         </div>
                     </div>
                     <div class="ProductTotal">
@@ -55,19 +50,64 @@
                 @endforeach
             </div>
             <div class="detilTransaksi">
-                <div class="line1">
+                <div class="line1 nonbottom">
                     <div class="notes">
                         <p>Notes:</p>
                         <input type="text" name="" placeholder="Optional">
                     </div>
                     <div class="Ship">
+                        <div style="display: flex;flex-direction:row;gap:5px;align-items:center;">
+                            <p>Total Weight</p>
+                            <p style="font-size: 10px;">(with packing +1kg/Product)</p>
+                        </div>
+                        <div style="display: flex; flex-direction:row;gap:5px;">
+                            <p class="weigthTotal">130</p>
+                            <p>Kg</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="line1 nonbottom">
+                    <div class="notes">
+                        <!-- <p>Notes:</p> -->
+                        <!-- <input type="text" name="" placeholder="Optional"> -->
+                    </div>
+                    <div class="Ship">
                         <p>Opsi Pengiriman:</p>
                         <div class="text">
-                            <p>Banter Express</p>
-                            <p class="tiny">Change</p>
+                            <select name="" id="" class="selectShip" onchange="ChangeNominal(this)">
+                                <option value="0">Pilih Kurir</option>
+                                @foreach($ship as $a)
+                                    @foreach($a[0]['costs'] as $b)
+                                        @if(!in_array($b['service'],['T15','T25','T60']))
+                                            <option value="{{{$a[0]['code']}}}|{{{$b['service']}}}">{{{strtoupper($a[0]['code'])}}} ({{{$b['description']}}})</option>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </select>
+                            <!-- <p class="tiny" onclick="selectActive('open')">Change</p> -->
                         </div>
                         
-                        <p>Rp. 100.000</p>
+                        <p class="costsWeight">Rp. 0</p>
+                        
+                    </div>
+                    
+                </div>
+                <div class="line1">
+                    <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
+                        <p>Alamat tujuan (click to edit):</p>
+                        <a href="/Profile/Address" style="text-decoration:none;color:green;">
+                            <p style="font-size:15px;">60271, Jl. Keputran Panjunan III/No. 84, RT. 012, Kel. Gumah, Kec. Genteng, Kota Jambi, Prov. Jambi, Indonesia</p>
+                        </a>
+                    </div>
+                    <div class="Ship">
+                        <p>Estimasi Pengiriman:</p>
+                        <div style="display:flex;flex-direction:row;gap:10px;">
+                            <p class="daysEstimate">-</p>
+                            <p>Hari</p>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="PayMed">
@@ -101,7 +141,7 @@
                         </div>
                         <div class="subCont">
                             <p>Total Shipping Price</p>
-                            <p class="totalShippingPrice">Rp. 100.000</p>
+                            <p class="totalShippingPrice">Rp. 0</p>
                         </div>
                         <div class="subCont">
                             <p>Service Fee</p>
@@ -135,11 +175,18 @@
 
 
 <script>
+
+
     CountAll();
     tydeUp();
 
+    
     function tydeUp(){
-        let individu = document.querySelectorAll('.ProductPrice');
+        let elements = document.querySelectorAll('.ProductPrice');
+        
+        console.log(elements);
+        let individu = Array.from(elements).filter(element => !element.classList.contains('weight'));
+        console.log(individu);
         individu.forEach(e=>{
             e.textContent = toIdr(e.textContent);
         })
@@ -148,6 +195,25 @@
         Count();
         countTotalProductPrice();
         countTotalPayment();
+        countWeight();
+    }
+
+
+    function countWeight(){
+        // let wg = document.querySelectorAll('.ProductPrice.weight .berat');
+        // let wg = document.querySelectorAll('.ProductPrice.weight .berat');
+        let product = document.querySelectorAll('.theProduct')
+        console.log(product)
+        let sum = 0;
+        product.forEach(a=>{
+            let wg = document.querySelector('.ProductPrice.weight .berat')
+            let inp = document.querySelector('.ProductQty .mid input')
+            sum+=((parseFloat(wg.textContent)*inp.value)+(inp.value*1));
+            console.log(sum);
+        })
+        console.log('weight : '+sum);
+        let weightTotal =document.querySelector('.weigthTotal')
+        weightTotal.textContent = sum;
     }
     
     function countTotalProductPrice(){
@@ -180,8 +246,54 @@
         FS.textContent = toIdr(total);
         
     }
-    
+    function getKurir(kode){
+        // console.log(@json($ship))
+        // console.log('tipe: '+typeof(@json($ship)))
+        let kurir = JSON.parse(@json($shipjs));
+        let cost = document.querySelector('.costsWeight')
+        let days = document.querySelector('.daysEstimate')
+        let sumWeight = document.querySelector('.weigthTotal')
+        let shipPrice = document.querySelector('.totalShippingPrice');
 
+        // console.log(kurir);
+        kurir.forEach(e=>{
+            e.forEach(f=>{
+                f.costs.forEach(g=>{
+                    if((f.code+"|"+g.service)==kode){
+                        console.log(f.code);
+                        // console.log(f.costs);
+                        console.log(g.service)
+                        console.log(g.cost[0].etd)
+                        console.log(g.cost[0].value)
+                        cost.textContent=toIdr((g.cost[0].value)*parseFloat(sumWeight.textContent))
+                        shipPrice.textContent=toIdr((g.cost[0].value)*parseFloat(sumWeight.textContent))
+                        days.textContent = g.cost[0].etd;
+
+                    }
+                })
+            })
+        })
+    }
+    console.log(inGramRounUp(534.2));
+    function inGramRounUp(weight){
+        gram = weight*1000;
+        return Math.ceil(gram / 1000) * 1000;
+    }
+
+    function ChangeNominal(elemen){
+        let weight = document.querySelector('.weightTotal');
+        let kode = document.querySelector('.selectShip');
+        if(elemen.value!=0){
+
+            getKurir(kode.value);
+            countTotalPayment();
+
+        }
+        else{
+            showPopup('Please select a shipping method first.',0)
+        }
+
+    }
     function changeQty(wht, elemen){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
         // console.log(number.value)
@@ -254,7 +366,9 @@
             if(cb.checked==true){
                 checked+=1;
                 let qty = e.querySelector('.mid input')
-                let price =e.querySelector('.ProductPrice')
+                let priceAll =e.querySelector('.ProductPrice')
+                let price = Array.from(priceAll).filter(priceAll => !priceAll.classList.contains('weight'));
+
                 qtys+=parseInt(qty.value);
                 // console.log(price.textContent)
                 // console.log(idrToInt(price.textContent))
@@ -302,6 +416,12 @@
         getChecked()
     }
     
+
+    function selectActive(wht){
+        let select = document.querySelector('.selectShip');
+        console.log(select);
+
+    }
     
 </script>
 @endsection

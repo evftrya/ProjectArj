@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\DB;
+use App\Models\address;
+use Illuminate\Http\Request;
+use stdClass;
+
+class AddressController extends Controller
+{
+    //
+    public function store(Request $req,$detil){
+        $data=null;
+        $data = Address::where('id_user', session('user_id'))->first();
+        // dd($email);
+        if($data==null){
+                $data = new address();
+        }
+        // dd($data);
+        // if($wht=='new'){
+
+        // }
+        // else{
+        //     // $data=
+        // }
+
+        $data->Provinsi = $req->provinsi;
+        $data->KotaKabupaten = $req->KotaKabupaten;
+        $data->Kecamatan = $req->Kecamatan;
+        $data->Kelurahan = $req->Kelurahan;
+        $data->RT = $req->RT;
+        $data->RW = $req->RW;
+        $data->KodePos = $req->KodePos;
+        $data->AlamatDetil = $req->AlamatDetail;
+        $data->Detil = $detil;
+        $data->id_user = session('user_id');
+        $data->save();        
+    }
+
+    public function getDataById(){
+        $data = Address::where('id_user', session('user_id'))->first();
+        if($data!=null){
+
+            $data = DB::table('addresses as a')
+                ->join('provinces as b', 'b.province_id', '=', 'a.Provinsi')
+                ->join('cities as c', 'c.city_id', '=', 'a.KotaKabupaten')
+                ->where('a.id_user', session('user_id'))
+                ->select('a.*', 'b.*', 'c.*')
+                ->get();
+            $back = $data[0];
+            // dd($data[0]);
+        }
+        else{
+            $data = [];
+            $data[0] = new stdClass(); // Pastikan elemen pertama adalah objek
+            $data[0]->Detil = 'The address has not been set.';
+            $data[0]->AlamatDetil = null;
+
+        }
+        // dd($data);
+        return $data;   
+    
+    }
+
+    public function isNew(){
+        $data = Address::where('id_user', session('user_id'))->first();
+        if($data!=null){
+            return response()->json(1);
+        }
+        else{
+            return response()->json(0);
+        }
+    }
+
+    public function getCitiesName($id){
+        $data = DB::table('cities as c')
+        ->where('c.city_id', $id)
+        ->select('c.city_name')
+        ->first();
+        // dd($data->city_name);
+        return $data->city_name;
+    }
+    public function getProvinceName($id){
+        $data =  DB::table('provinces as c')
+        ->where('c.province_id', $id)
+        ->select('c.province_name')
+        ->first();
+        return $data->province_name;
+    }
+
+}

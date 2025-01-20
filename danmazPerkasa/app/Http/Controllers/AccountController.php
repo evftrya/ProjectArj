@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\AddressController;
+use App\Models\address;
+// namespace App\Http\Controllers\;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+
 use App\Models\User;
 
 class AccountController extends Controller
@@ -151,6 +155,7 @@ class AccountController extends Controller
             }
         }
         else if($wht=="Address"){
+            $addrs = new AddressController();
             // $urutanAddress = [$req->AlamatDetail, $req->];
             $urutanAddress = [];
             // $req->RTRW = "tes";
@@ -168,9 +173,14 @@ class AccountController extends Controller
                 
                 // dd($key."|".$value);
                 if($value!=null){
-                    ($key=="provinsi") ? $value="Prov. ".$value : null;
+                    ($key=="provinsi") ? $value="Prov. ".$addrs->getProvinceName(intval($value)) : null;
+                    // ($key=="provinsi") ? dd(intval($value)) : null;
+                    ($key=="KotaKabupaten") ? $value=$addrs->getCitiesName(intval($value)) : null;
+                    // ($key == "KotaKabupaten") ? dd(gettype($addrs->getCitiesName(intval($value)))) : null;
+
                     ($key=="Kecamatan") ? $value="Kec. ".$value : null;
                     ($key=="Kelurahan") ? $value="Kel. ".$value : null;
+                    
                     
     
                     // dd($key!="RT");
@@ -186,8 +196,12 @@ class AccountController extends Controller
                 
                 
             }
+            // dd($urutanAddress);     
             $address = implode(", ", $urutanAddress).", Indonesia";
-            $akun->Address = $address;
+            // dd($address);
+            $conAdd = new AddressController();
+            $conAdd->store($req,$address);
+            //$akun->Address = $address;
             // dd($address);
 
         }
@@ -196,6 +210,7 @@ class AccountController extends Controller
     }
     public function getAllData(){
         $data = DB::table('users as a')
+        ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
         ->select(
             'a.id_User as id',
             'a.namaUser as name',
@@ -204,11 +219,14 @@ class AccountController extends Controller
             'a.role',
             'a.Phone',
             'a.Gender',
-            'a.Address',
-    )->whereNot('a.id_User', session('user_id'))
-    ->get();
+            'b.Detil as address'
+        )
+        ->where('a.id_User', '!=', 1)
+        ->get();
+    
+    
 
-    return $data;
+        return $data;
     }
 
     public function manageUser(){
@@ -216,4 +234,6 @@ class AccountController extends Controller
         // dd($data);
         return view('User.Admin.ManageUser',['data' => $data, 'whtRoute' => 'Manage User']);
     }
+
+    
 }

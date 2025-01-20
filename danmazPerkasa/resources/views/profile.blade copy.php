@@ -171,20 +171,14 @@
                     <div class="lefts">
                         <div class="BodyFill">
                             <div class="input-container">
-                                <p>Province </p>
-                                <select name="provinsi" id="" onchange="ChangeCity(this.value)">
-                                    @foreach($data->Province as $a)
-                                    <option value="{{{$a['province_id']}}}">{{{$a['province']}}}</option>
-                                    @endforeach
-                                </select>
+                                    <input type="text" name="provinsi" placeholder="Jawa Timur" id="inputField">
+                                    <label for="inputField">Provinsi</label>
                             </div>
                         </div>
                         <div class="BodyFill">
                             <div class="input-container">
-                                <p>Kota / Kabupaten</p>
-                                <select name="KotaKabupaten" class="KotaKabupaten" id="">
-                                    <option value="Guitar">Pilih Provinsi Dahulu</option>
-                                </select>
+                                    <input type="text" name="KotaKabupaten" placeholder="Bondowoso" id="inputField">
+                                    <label for="inputField">Kota / Kabupaten*</label>
                             </div>
                         </div>
                         <div class="BodyFill">
@@ -234,7 +228,8 @@
                 </div>
                 <div class ="containerbody second">
                     <div>
-                        <p>{{($data->address[0]->Detil)}}</p>
+                        {{{dd($data->detil)}}}
+                        <p>{{{$data->Address}}}</p>
                     </div>
                 </div>
                 <div class="containerButton">
@@ -264,54 +259,16 @@
 
         // EditProfileInfo('non-edit',event);
 
-        async function editAddress(event,button){
+        function editAddress(event,button){
             event.preventDefault();
-
             let editSpace = document.querySelectorAll('#formProfileAddress>.containerbody');
             if(button.textContent=="Edit Address"){
-                
-                let data = await fetch('/isNew');
-                let isnew = await data.json();
-                // console.log(isnew);
-                @if(isset($data->address))
-                    @if(($data->address[0]->Detil)!='The address has not been set.')
-                        if(isnew==1){
-                            // Mendapatkan semua elemen input, textarea, dan select
-                            let elementsWithName = Array.from(document.querySelectorAll('[name]'));
-                            for(let i=4;i<elementsWithName.length;i++){
-                                // console.log(elementsWithName[i]);
-                                (i==4)? elementsWithName[i].value = '{{$data->address[0]->province_id}}' : 0; 
-                                (i==4)? changeValueCity(elementsWithName[i],elementsWithName[i+1],'{{$data->address[0]->province_id}}','{{$data->address[0]->city_id}}'):null;
-                                (i==6)? elementsWithName[i].value = '{{$data->address[0]->Kecamatan}}' : 0; 
-                                (i==7)? elementsWithName[i].value = '{{$data->address[0]->Kelurahan}}' : 0; 
-                                (i==8)? elementsWithName[i].value = '{{$data->address[0]->RT}}' : 0; 
-                                (i==9)? elementsWithName[i].value = '{{$data->address[0]->RW}}' : 0; 
-                                (i==10)? elementsWithName[i].value = '{{$data->address[0]->AlamatDetil}}' : 0; 
-                                (i==11)? elementsWithName[i].value = '{{$data->address[0]->KodePos}}' : 0; 
-                            }
-
-                        }
-                    @endif
-                @endif
                 button.textContent = "Save Changes";
                 editSpace[0].style.display = "flex";
                 editSpace[1].style.display = "none";
             }
             else{
                 formSubmit('Address',event);
-            }
-        }
-        async function changeValueCity(province,city, idProvince, id){
-
-            if(await ChangeCity(idProvince)==1){
-                province.value = idProvince;
-                // setTimeout(()=>{
-                console.log(id)
-                    console.log(city.value)
-                    city.value=id;
-                    console.log(id)
-                    console.log(city.value)
-                // },3000)
             }
         }
         function formSubmit(wht, event){
@@ -400,46 +357,6 @@
             else{
                 inp[0].type="password";
                 elemen.textContent = "Show";
-            }
-        }
-
-        
-        async function ChangeCity($idProvince){
-            let response = await fetch('/getCity/'+$idProvince);
-            let data = await response.json();
-            $back = 0;
-            if(fillCity(data)==1){
-                $back = 1;
-            }
-            else{
-                $back= 0;
-            }
-            console.log($back)
-            return $back;
-            
-        // console.log(data);
-
-            // console.log('masuk')
-        }
-
-        function fillCity(data){
-            let select = document.querySelector('.KotaKabupaten');
-            ClearCity(select);
-            data.forEach(item => {
-                let option = document.createElement('option'); // Buat elemen <option>
-                option.value = item.city_id; // Atur atribut value
-                option.textContent = item.city_name; // Atur teks yang ditampilkan
-                select.appendChild(option); // Tambahkan opsi ke <select>
-            });
-            return 1;
-
-
-        }
-
-        function ClearCity(select){
-            // let select = document.querySelector('.KotaKabupaten');
-            while (select.firstChild) {
-                select.removeChild(select.firstChild);
             }
         }
 

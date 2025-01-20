@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
-  <script type="text/javascript"type="text/javascript" src="https://app.midtrans.com/snap/snap.js" data-client-key="Mid-client-5wsJjRjdZY0Kt2AD"></script>
+  <script type="text/javascript"type="text/javascript" src="https://app.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-cQI2GxNVuoIGpZSr"></script>
   <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
 </head>
 

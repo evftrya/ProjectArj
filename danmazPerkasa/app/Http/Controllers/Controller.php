@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\AccountController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class Controller extends BaseController
@@ -54,11 +55,11 @@ class Controller extends BaseController
     }
 
     public function Profile($wht,AccountController $acc){
+        // dd($wht);
         // if($wht=="Info"){
         //     return view('profile',['wht'=>$wht]);
         // }
         $accInfo = $acc->getProfile(session('user_id'));
-        
 
 
         //pisah nama depan n blakang
@@ -78,6 +79,17 @@ class Controller extends BaseController
             $cp = "Change Password";
 
         }
+        $datas=null;
+        if($wht=='Address'){
+            // $city = $this->getCity();
+            $province = $this->getProvince();
+            $address = new AddressController();
+            $accInfo['address'] = $address->getDataById();
+            $accInfo['Province'] = $province;
+            // $city = $this->getCity();
+        }
+        // dd($accInfo);
+
         return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp]);
     }
     
@@ -87,4 +99,105 @@ class Controller extends BaseController
         $acc->update($req,$wht);
         return redirect('/Profile/'.$wht);
     }
-}
+
+    public function getCity($province){
+
+        $cities = DB::table('cities as a')
+            ->where('a.province_id', $province)
+            ->get();
+        
+        return response()->json($cities);
+
+        // return $response;
+    }
+
+    public function getProvince(){
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            $this->ApiKeyRajaOngkir()
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        
+        return ($this->toJson($response)['rajaongkir']['results']);
+
+    }
+
+    public function CekOngkir($kurir,$tujuan){
+        
+        $curl = curl_init();
+        
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "origin=154&destination=".$tujuan."&weight=1000&courier=".$kurir,
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/x-www-form-urlencoded",
+                $this->ApiKeyRajaOngkir()
+                
+            ),
+        ));
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        
+        curl_close($curl);
+        
+        
+        // dd($response);
+        
+        
+        return ($this->toJson($response)['rajaongkir']['results']);
+    }
+    
+    public function getOngkir($tujuan){
+        $kurir = ['jne','pos','tiki'];
+        $data=[];
+        for($i=0;$i<count($kurir);$i++){
+            array_push($data,$this->CekOngkir($kurir[$i],$tujuan));
+        }
+        $back = [json_encode($data),$data];
+        return $back;
+    }
+    
+    public function Ongkir(){
+        // dd($this->getCity());
+        // $City = ($this->getCity(21));
+        // $Province = ($this->getProvince());
+        // dd($Province);
+        // dd($this->toJson($data)['rajaongkir']['results']);
+        // return view();
+        // return $this->CekOngkir();getOngkir
+        // return $this->getOngkir();
+    }
+
+    public function toJson($ary){
+        $array = json_decode($ary, true);
+        return $array;
+    }
+
+    public function ApiKeyRajaOngkir(){
+        return 'key: e180111ce91e552a41ff1e7a7bbb198e';
+    }
+}   
+
