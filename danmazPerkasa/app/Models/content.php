@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class content extends Model
 {
+    protected $primaryKey = 'idContent';
+
     use HasFactory;
 }

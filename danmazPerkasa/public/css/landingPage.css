@@ -167,7 +167,7 @@ body p{
     align-items: center;
     display: flex;
     flex-direction: row;
-    gap: 10%;
+    gap: 10px;
     color:  rgba(0, 0, 0, 0.669);
 
     /* padding-right: 30px; */
@@ -182,6 +182,32 @@ body p{
     border-radius: 30px;
     gap: 50px;
     align-items: center;
+}
+.AfterLogin.notif{
+    position: relative;
+    padding: 10px 10px;
+    border-radius: 10px;
+
+    svg{
+        width: 20px;
+        height: 18px;
+    }
+
+    .notif-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: rgb(215, 66, 66);
+        color: white;
+        font-size: 9px;
+        font-weight: bold;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 .AfterLogin>svg{
     width: 35px;
@@ -214,6 +240,117 @@ body p{
     border-radius: 20px;
     border: #4A4947 solid 0.5px;
     stroke-opacity: 0.45;
+}
+.NotifDetil{
+    z-index: 1000;
+    margin-top: 50px;
+    font-size: 15px;
+    font-family: 'normalPublica';
+    background-color: white;
+    position: fixed;
+    right: 6%;
+    top: 7%;
+    height: fit-content;
+    min-height: 400px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px 20px;
+    border-radius: 20px;
+    border: #4A4947 solid 0.5px;
+    stroke-opacity: 0.45;
+    justify-content: space-between;
+
+    
+    .top{
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        font-weight: bolder;
+        font-size: larger;
+        padding-bottom: 3px;
+        border-bottom: black 1px solid !important ;
+        
+    }
+
+    .bot{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        height: fit-content;
+    }
+    .Notifs{
+        display: flex;
+        flex-direction: column;
+        /* background-color: rgba(0, 0, 0, 0.301); */
+        height: 350px;
+        overflow-y: scroll;
+        /* align-items: center; */
+        justify-content: first baseline;
+        gap: 10px;
+        
+        .TheNotif{
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            /* background-color: #e3e0d7; */
+            background-color: #00000015;
+            /* background-color: aqua; */
+            border-radius: 10px;
+            align-items: center;
+            padding: 10px 10px;
+            gap: 10px;
+            /* margin: 10px 0px; */
+
+            .svg{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px;
+                svg{
+                    width: 25px;
+                    height: 25px;
+                    /* background-color:#B17457 ; */
+                    align-items: center;
+                    justify-content: center;
+                    
+                    path{
+                        /* fill: rgba(0, 0, 0, 0.87); */
+                        fill: #843d1c;
+
+                    }
+                }
+            }
+
+            .detil{
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-content: center;
+                font-size: 13px;
+                /* background-color: aqua; */
+                width: 60%;
+                gap: 5px;
+                .name{
+                    color: rgba(0, 0, 0, 0.843);
+                    /* font-weight: ; */
+                }
+                .dtil{
+                    font-size: 10px;
+                    color: rgba(0, 0, 0, 0.48);
+
+                }
+            }
+            .time{
+                color: rgba(0, 0, 0, 0.283);
+                font-size: 12px;
+            }
+        }
+    }
 }
 .AccountDetil>.top{
     display: flex;

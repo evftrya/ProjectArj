@@ -1,3 +1,10 @@
+INSERT INTO `users` (`id_User`,`namaUser`, `emailUser`, `passwordUser`,`role`) VALUES
+  (1,'Admin 1','a@a','123','Admin'),
+  (2,'User 1','q@q','123','User'),
+  (3,'User 2','w@w','123','User')
+;
+
+
 DROP TABLE IF EXISTS `cities`;
 CREATE TABLE `cities` (
   `city_id` int(11) NOT NULL,
@@ -6,6 +13,7 @@ CREATE TABLE `cities` (
   `postal_code` char(5) DEFAULT NULL,
   PRIMARY KEY (`city_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 INSERT INTO `cities` (`city_id`, `province_id`, `city_name`, `postal_code`) VALUES
   (1,	21,	'Kabupaten Aceh Barat',	'23681'),

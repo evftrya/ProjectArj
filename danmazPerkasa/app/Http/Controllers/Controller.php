@@ -64,6 +64,7 @@ class Controller extends BaseController
 
         //pisah nama depan n blakang
         $fullname = explode(" ", $accInfo->namaUser);
+        // dd($fullname);
         $accInfo->firstName = trim($fullname[0]);
         $accInfo->lastName = trim($fullname[1]);
         // dd($accInfo->fisrtName."||".$accInfo->lastName);
@@ -86,11 +87,14 @@ class Controller extends BaseController
             $address = new AddressController();
             $accInfo['address'] = $address->getDataById();
             $accInfo['Province'] = $province;
+            $notif = new NotificationController();
+            $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
             // $city = $this->getCity();
         }
         // dd($accInfo);
 
-        return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp]);
+        return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp,'notif'=>$notifs]);
     }
     
 

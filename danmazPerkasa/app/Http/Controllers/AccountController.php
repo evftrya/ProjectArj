@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\NotificationController;
 use App\Models\address;
 // namespace App\Http\Controllers\;
 use Illuminate\Http\Request;
@@ -119,13 +120,15 @@ class AccountController extends Controller
                 $user->role = 'User';
                 $user->save();
 
+                $notif = new NotificationController();
+                $notif->store(4,0,$user->id_User);
+
                 return redirect('/Login');
             }
             else{
                 return redirect('/Register');
             }
         }
-
         
     }
     public function update(Request $req,$wht){
@@ -231,8 +234,11 @@ class AccountController extends Controller
 
     public function manageUser(){
         $data = $this->getAllData();
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($data);
-        return view('User.Admin.ManageUser',['data' => $data, 'whtRoute' => 'Manage User']);
+        return view('User.Admin.ManageUser',['data' => $data, 'whtRoute' => 'Manage User','notif'=>$notifs]);
     }
 
     

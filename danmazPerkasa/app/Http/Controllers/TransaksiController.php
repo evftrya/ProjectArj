@@ -33,17 +33,23 @@ class TransaksiController extends Controller
 
         $Transaction->Total = $total;
         $Transaction->save();
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
 
-        return view('User.Pelanggan.PaymentProses',['total'=>$total]);
+        return view('User.Pelanggan.PaymentProses',['total'=>$total,'notif'=>$notifs]);
         
     }
 
     public function ManageTransaction(){
         
         $data = $this->getAll();
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($Transaction);
 
-        return view('User.Admin.ManageTransaction',['data'=>$data]);
+        return view('User.Admin.ManageTransaction',['data'=>$data,'notif'=>$notifs]);
     }
 
     public function getAll(){

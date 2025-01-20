@@ -97,9 +97,12 @@ class DetailTransactionController extends Controller
 
     public function Cart(){
         $data = $this->getAllData('Pending');
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($data);
 
-        return view('User.Pelanggan.Cart',['data'=>$data]);
+        return view('User.Pelanggan.Cart',['data'=>$data,'notif'=>$notifs]);
     }
 
     public function UpdateCart(Request $req, $idProduct,$idDT){
@@ -162,8 +165,11 @@ class DetailTransactionController extends Controller
         $ships = ($cont->getOngkir($userData[0]->city_id));
         $shipjs = $ships[0];
         $ship = $ships[1];
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($ship);
-        return view('User.Pelanggan.Checkout',['data'=>$data,'userData'=>$userData,'ship'=>$ship,'shipjs'=>$shipjs]);
+        return view('User.Pelanggan.Checkout',['data'=>$data,'userData'=>$userData,'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
     }
 
 

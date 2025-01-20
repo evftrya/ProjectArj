@@ -207,9 +207,12 @@ class ProductsController extends Controller
         $view = null;
         $from!='Part' ? $Route='/addproduct' : $Route='/addPart';
         $from!='Part' ? $view='ManageProduct' : $view='ManagePart';
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($data);
         // dd(("User.Admin.".$view));
-        return view(("User.Admin.".$view),['routeForm'=>$Route, 'data'=>$data]);
+        return view(("User.Admin.".$view),['routeForm'=>$Route, 'data'=>$data,'notif'=>$notifs]);
     }
 
     public function Product($wht){
@@ -218,8 +221,11 @@ class ProductsController extends Controller
             $send = $wht;
         }
         $data = $this->getData($send,'Product');
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($data);
-        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht, 'forSearch'=>$wht]);
+        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht, 'forSearch'=>$wht,'notif'=>$notifs]);
     }
     // Route::get('/Detil-Product', function(){
     //     return view('/ProductDetil');
@@ -228,8 +234,11 @@ class ProductsController extends Controller
 
     public function DetilProducts($idProduct){
         $data = ($this->getDataProduct($idProduct));
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($data);
-        return view('/User.Pelanggan.ProductDetil',['product'=>$data[0][0],'photos'=>$data[1]]);
+        return view('/User.Pelanggan.ProductDetil',['product'=>$data[0][0],'photos'=>$data[1],'notif'=>$notifs]);
 
     }
 
@@ -356,8 +365,11 @@ class ProductsController extends Controller
         ->get();
 
         $Special = $this->refresh();
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
 
-        return view('landingpage',['Content'=>$Contens, 'Special'=>$Special]);
+        return view('landingpage',['Content'=>$Contens, 'Special'=>$Special,'notif'=>$notifs]);
     }
     public function refresh(){
         DB::table('products')->update(['isSpecial' => null]);
@@ -396,8 +408,11 @@ class ProductsController extends Controller
     public function search(Request $req,$wht){
         $send=$wht;
         $data = $this->getData($send,'Product');
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
         // dd($data);
-        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht,'search'=>$req->search,'forSearch'=>$wht]);
+        return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht,'search'=>$req->search,'forSearch'=>$wht,'notif'=>$notifs]);
     }
 
     
