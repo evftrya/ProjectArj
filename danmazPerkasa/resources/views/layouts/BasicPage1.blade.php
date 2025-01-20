@@ -436,7 +436,27 @@ else{
         inp.type = "text";
         inp.value = (form.querySelectorAll('.PhotosAdds .imageContainer.withfill')).length;
         form.appendChild(inp);
-        form.submit();
+        
+        // Mendapatkan semua elemen dengan atribut name di dalam elemen .NewProduct
+        let elementsWithName = Array.from(document.querySelectorAll('.NewProduct [name]'));
+
+        // Filter untuk memastikan name tidak kosong
+        let elementsWithNonEmptyName = elementsWithName.filter(el => el.getAttribute('name').trim() !== "");
+        let needFill = 0;
+        elementsWithNonEmptyName.forEach(y=>{
+            if(y.value==""){
+                needFill+=1;
+            }
+        })
+        // Menampilkan elemen yang memenuhi kriteria
+        console.log(needFill)
+        if(needFill==0){
+            form.submit();
+        }
+        else{
+            showPopup('There are still empty fields.',0)
+        }
+
         
     }
     
@@ -629,13 +649,13 @@ else{
     }
     function showPopup(wht,which) {
         const popup = document.getElementById('popup');
+        console.log(popup);
         if(which==0){
             popup.style.backgroundColor="#b32323";
         }
         else{
             popup.style.backgroundColor="#4caf50";
         }
-        console.log(popup);
       popup.textContent = wht
       popup.classList.add('show');
 

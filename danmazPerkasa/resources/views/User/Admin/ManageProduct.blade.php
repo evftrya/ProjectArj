@@ -159,7 +159,7 @@ $url = $cont->GetUrl();
                     </svg>
                 </div>
                 <div class="PhotoAreaContainer">
-                    <input type="text" name="mainPhoto" value="foto1" style="display: none;">
+                    <input type="text" name="mainPhoto" value="foto1" style="display: none;" required>
                     <div class="imageContainer nofill Main">
                         <button class="forMainPhoto" onclick="makeItMain(this, event)">Main Photo</button>    
                         <div class="theImage" onclick="TurnInput(this)">
@@ -182,31 +182,24 @@ $url = $cont->GetUrl();
                 </select>
             </div>
             <div class="input-container">
-            <!-- <p>Email</p> -->
-                <input type="text" name="ProductName" placeholder="" id="inputField">
+                <input required type="text" name="ProductName" placeholder="" id="inputField">
                 <label for="inputField">Product Name</label>
-            <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
             </div>
             <div class="input-container">
-                <input type="text" name="shortQuotes" placeholder="" id="inputField">
+                <input required type="text" name="shortQuotes" placeholder="" id="inputField">
                 <label for="inputField">Short Quotes About This Product</label>
             </div>
             <div class="input-container">
-            <!-- <p>Email</p> -->
-                <input type="text" name="ProductColor" placeholder="" id="inputField">
+                <input required type="text" name="ProductColor" placeholder="" id="inputField">
                 <label for="inputField">Product Color</label>
-            <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
             </div>
             <div class="input-container">
-            <!-- <p>Email</p> -->
-                <input type="number" name="weight" placeholder="" id="inputField">
+                <input required type="number" name="weight" placeholder="" id="inputField">
                 <label for="inputField">Product Weight (gram)</label>
             </div>
             <div class="input-container">
-            <!-- <p>Email</p> -->
-                <input type="number" name="ProductPrice" placeholder="" id="inputField">
+                <input required type="number" name="ProductPrice" placeholder="" id="inputField">
                 <label for="inputField">Product Price</label>
-            <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
             </div>
             <div class="forQty">
                 <p>Quantity</p>
@@ -218,7 +211,7 @@ $url = $cont->GetUrl();
                             </svg>
                         </button>
                         <div class="mid">
-                            <input type="number" name="stock" value="1">
+                            <input required type="number" name="stock" value="1">
                         </div>
                         <button class="ActQty plus" onclick="changeQty('plus',this,event)">
                             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -229,18 +222,11 @@ $url = $cont->GetUrl();
                 </div>
             </div>
             <div class="input-container desc">
-            <!-- <p>Email</p> -->
-                <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
                 <textarea  rows="4" cols="60" name="Description" id=""></textarea>
                 <label for="inputField">Description</label>
-            <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
             </div>
-            <div class="input-container desc end">
-            <!-- <p>Email</p> -->
-                <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
                 <textarea  rows="4" cols="60" name="Features" id="" ></textarea>
                 <label for="inputField">Features</label>
-            <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
             </div>
         `;
 
@@ -271,7 +257,7 @@ $url = $cont->GetUrl();
                 let html = ""
                 html+=`
                 @csrf
-                    <input type="text" name="FotoAwal" placeholder="" id="inputField" value="${photos.length}" style="display:none;">
+                    <input required type="text" name="FotoAwal" placeholder="" id="inputField" value="${photos.length}" style="display:none;">
 
                     <div class="PhotosAdds">
                         <div  class="move lefted" onclick="scrollButtonPhotos('left')">
@@ -301,7 +287,7 @@ $url = $cont->GetUrl();
                 
                     html+=`
                         <div class="PhotoAreaContainer">
-                            <input type="text" name="mainPhoto" value="foto0" style="display: none;">
+                            <input required type="text" name="mainPhoto" value="foto0" style="display: none;">
                     `
                 let thephoto = "";
                 for(let i =0;i<=photos.length;i++){
@@ -352,7 +338,7 @@ $url = $cont->GetUrl();
                                     </svg>
                                 </button>
                                 
-                                <input type="file" name="foto${(i+1)}" id="" required="">
+                                <input type="file" name="foto${(i+1)}" id="" required>
                             </div>
                         `
                     }
@@ -372,25 +358,25 @@ $url = $cont->GetUrl();
                             </select>
                         </div>
                         <div class="input-container">
-                            <input type="text" name="ProductName" placeholder="" id="inputField" value="${product[0].nama_product}">
+                            <input required type="text" name="ProductName" placeholder="" id="inputField" value="${product[0].nama_product}">
                             <label for="inputField">Product Name</label>
                         </div>
 
                         <div class="input-container">
-                            <input type="text" name="shortQuotes" placeholder="" id="inputField" value="${product[0].shortQuotes}">
+                            <input required type="text" name="shortQuotes" placeholder="" id="inputField" value="${product[0].shortQuotes}">
                             <label for="inputField">Short Quotes About This Product</label>
                         </div>
 
                         <div class="input-container">
-                            <input type="text" name="ProductColor" placeholder="" id="inputField" value="${product[0].nama_product}">
+                            <input required type="text" name="ProductColor" placeholder="" id="inputField" value="${product[0].nama_product}">
                             <label for="inputField">Product Color</label>
                         </div>
                         <div class="input-container">
-                            <input type="number" name="weight" placeholder="" id="inputField" value="${product[0].weight}">
+                            <input required type="number" name="weight" placeholder="" id="inputField" value="${product[0].weight}">
                             <label for="inputField">Product Weight (gram)</label>
                         </div>
                         <div class="input-container">
-                            <input type="number" name="ProductPrice" placeholder="" id="inputField" value="${product[0].price}">
+                            <input required type="number" name="ProductPrice" placeholder="" id="inputField" value="${product[0].price}">
                             <label for="inputField">Product Price</label>
                         </div>
                         <div class="forQty">
@@ -403,7 +389,7 @@ $url = $cont->GetUrl();
                                         </svg>
                                     </button>
                                     <div class="mid">
-                                        <input type="number" name="stock" value="${product[0].stok}">
+                                        <input required type="number" name="stock" value="${product[0].stok}">
                                     </div>
                                     <button class="ActQty plus" onclick="changeQty('plus',this,event)">
                                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">

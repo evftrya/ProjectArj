@@ -869,10 +869,11 @@ body p{
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: top 0.5s ease-in-out;
-    z-index: 2000;
+    z-index: 100000;
   }
 
   .popup.show {
+    z-index: 100000;
     top: 20%;
   }
 
