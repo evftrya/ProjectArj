@@ -66,6 +66,16 @@ class ProductsController extends Controller
         $from = null;
         ($wht=='Part') ? $from = 'Manage/Product/Part' : $from = 'Manage/Product/Product';
         // dd('stop bntr');
+        // dd($Product);
+        $notif = new NotificationController();
+        $allUser = DB::table('users')
+            ->select('id_User')
+            ->where('role', 'User')
+            ->get();
+        foreach($allUser as $u){
+            $notif->store(1,$Product->id_product,$u->id_User);
+        }
+        // dd($allUser);
         return redirect('/'.$from);
     }
 

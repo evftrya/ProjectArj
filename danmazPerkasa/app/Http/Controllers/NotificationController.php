@@ -14,7 +14,7 @@ class NotificationController extends Controller
         $tipe= [['Product','/Detil-Product/',1,'Hi, We Have New Product','Come take a look it will make you amaze'], ['Transaction','',0,'',''], ['Progress','',0,'',''], ['Address','/Profile/Address',0,'Dont Forget to Fill Your Profile','Your Address is important for making some transaction']];
         // dd($notif);
         $notif->type=$tipe[$idx][0];
-        $notif->link= ($tipe[$idx][1]==1)? $tipe[$idx][1].$id:$tipe[$idx][1];
+        $notif->link= ($tipe[$idx][2]==1)? $tipe[$idx][1].$id:$tipe[$idx][1];
         $notif->Icon=$idx;
         $notif->Title=$tipe[$idx][3];
         $notif->Detil=$tipe[$idx][4];
