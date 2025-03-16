@@ -7,12 +7,15 @@ html body{
     width: 100%;
     height: max-content;
     display: flex;
+    flex-wrap: wrap;
+
     flex-direction: column;
     margin-left: 10px;
 }
 
 .mainArea{
     display: flex;
+    flex-wrap: wrap-reverse;
     flex-direction: row;
     /* background-color: bisque; */
     justify-content: space-between;
@@ -28,12 +31,16 @@ html body{
     width: 100%;
     /* background-color: aqua; */
     display: flex;
+    flex-wrap: wrap;
+
     flex-direction: column;
     justify-content: space-between;
     /* gap: 10px; */
 }
 .MainPhotos{
     display: flex;
+    flex-wrap: wrap;
+
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -58,6 +65,8 @@ html body{
     width: 100%;
     height: 100px;
     display: flex;
+    flex-wrap: wrap;
+
     flex-direction: row;
     /* overflow-x: auto; */
     align-items: center;
@@ -69,6 +78,7 @@ html body{
     padding: 3px;
     height: fit-content;
     width: fit-content;
+    flex-wrap: wrap;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,6 +93,7 @@ html body{
     width: calc(100% - 10px - 6px - 10px - 6px -10px - 10px);
     /* background-color: bisque; */
     height: 100%;
+    flex-wrap: wrap;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -99,6 +110,8 @@ html body{
     align-items: center;
     justify-content: start;
     display: flex;
+    flex-wrap: wrap;
+
     flex-direction: row;
     /* box-sizing: border-box; */
     padding: 0;
@@ -126,6 +139,8 @@ html body{
  /* ------------- PRODUCT NAME AREA ------------- */
  .ActionArea{
     display: flex;
+    flex-wrap: wrap;
+
     flex-direction: column;
     /* background-color: aqua; */
     font-family:'normalPublica';
@@ -157,18 +172,23 @@ html body{
     width: 320px;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
     align-items: center;
     justify-content: center;
  }
  .qtynumbers{
+    flex-wrap: wrap;
     display: flex;
+
     flex-direction: row;
     border-radius: 5px;
     border: black 0.8px solid;
  }
  .qtynumbers>*{
     display: flex;
+    flex-wrap: wrap;
+
     justify-content: center;
     align-items: center;
  }
@@ -206,8 +226,10 @@ html body{
     height: 50px;
     font-family: inherit;
     width: 100%;
+    flex-wrap: wrap;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     align-items: center;
     justify-content: start;
@@ -245,6 +267,8 @@ html body{
  }
  .textDetil{
    display: flex;
+   flex-wrap: wrap;
+
    flex-direction: column;
 
    .withpad.berat{

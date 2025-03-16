@@ -56,7 +56,7 @@
                             </svg>
                         </button>
                         <div class="mid">
-                            <input type="text" value="{{{$d->qty}}}">
+                            <input type="text" onchange="changeQty('inp',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')" value="{{{$d->qty}}}">
                         </div>
                         <button class="ActQty plus" onclick="changeQty('plus',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')">
                             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +130,7 @@
 
 <script>
     function initializeLoadingIndicator() {
-        console.log('Initializing loading indicator');
+        //console.log('Initializing loading indicator');
 
         // Buat elemen loading indicator
         const loadingIndicator = document.createElement('div');
@@ -212,13 +212,14 @@
     Count();
     allInputQty();
     tydeUp();
+    
 
     function tydeUp(){
         let elements = document.querySelectorAll('.ProductPrice');
 
         let individu = Array.from(elements).filter(element => !element.classList.contains('weight'));
 
-        // console.log(filteredElements);
+        // //console.log(filteredElements);
 
         
         individu.forEach(e=>{
@@ -228,12 +229,12 @@
     async function gotoCheckout(event){
         event.preventDefault();
         let totalChecked = document.getElementById("totalChecked");
-        console.log("checkout :"+ !(totalChecked.textContent==0))
+        //console.log("checkout :"+ !(totalChecked.textContent==0))
         if(!(totalChecked.textContent==0)){
             let adr = await fetch('/isNew');
             let isnew = await adr.json();
             if(isnew==1){
-                console.log('jalannnnn')
+                //console.log('jalannnnn')
                 initializeLoadingIndicator();
                 window.location.href='/Checkout/null/null';
             }
@@ -248,12 +249,12 @@
     }
     function changeQty(wht, elemen,idproduct,idDT,maxstok){
         let number = (elemen.closest('.theProduct')).querySelector('.ProductQty .mid input');
-        // console.log(number.value)
+        // //console.log(number.value)
         let temp = parseInt(number.value);
-        console.log('temp: '+temp);
-        console.log('max: '+parseInt(maxstok));
-        console.log('bool: '+temp<=parseInt(maxstok));
-        if(wht!='min'){
+        //console.log('temp: '+temp);
+        //console.log('max: '+parseInt(maxstok));
+        //console.log('bool: '+temp<=parseInt(maxstok));
+        if(wht=='plus'){
             
             if(temp<parseInt(maxstok)){
                 temp+=1;
@@ -264,12 +265,15 @@
             }
             
         }
-        else{
+        else if(wht=='min'){
             if(temp!=0){
                 temp-=1;
                 number.value=temp;
             }
             
+        }
+        else{
+            temp = elemen.value
         }
 
         fetch(('/UpdateCart/'+idproduct+'/'+idDT),{
@@ -282,7 +286,7 @@
                 qty: temp,
             })
         }).then(response=>response.json()).then(data => {
-        console.log('Success:', data.message);
+        //console.log('Success:', data.message);
         })
 
         Count();
@@ -293,30 +297,30 @@
         let theCBs = document.querySelectorAll('.CartContainer .cb input[type="checkbox"]');
         let len = theCBs.length;
         let sumCheck = document.getElementById('totalChecked');
-        // console.log("total : "+sumCheck.textContent)
+        // //console.log("total : "+sumCheck.textContent)
         let cbTop = document.querySelectorAll(".forCBVar input");
 
         
         let totalProduct = document.getElementById('qtys');weights
         let totalweight = document.getElementById('weights');
         let inpForm = document.querySelector('.formCheckout').querySelectorAll('.inps input');
-        // console.log(theCBs);
+        // //console.log(theCBs);
         theCBs.forEach(e=> {
-            // console.log(e.value);
+            // //console.log(e.value);
             if(wht=="check"){
                 e.checked = true;
                 // sumCheck.textContent = len - 2;
-                console.log("inp: ",inpForm)
+                //console.log("inp: ",inpForm)
                 inpForm.forEach(i=>{
-                    // console.log(i);
-                    // console.log('i: '+i.getAttribute('name'));
-                    // console.log('bc: '+cb.value);
-                    console.log("i checked: "+i)
+                    // //console.log(i);
+                    // //console.log('i: '+i.getAttribute('name'));
+                    // //console.log('bc: '+cb.value);
+                    //console.log("i checked: "+i)
                     if(i.getAttribute('name')==e.value){
-                        // console.log('masuk');
+                        // //console.log('masuk');
                         i.checked=true;
-                        // console.log(e.closest('.cb'))
-                        // console.log("nilai p: "+e.closest('.cb').querySelector('p').textContent)
+                        // //console.log(e.closest('.cb'))
+                        // //console.log("nilai p: "+e.closest('.cb').querySelector('p').textContent)
                         let idproduct = e.closest('.cb').querySelector('.Pdi').textContent; 
                         updateStatus(idproduct,e.checked);
                     }
@@ -334,7 +338,7 @@
                     i.checked=false;
                 })
                 e.checked = false;
-                console.log()
+                //console.log()
                 let idproduct = e.closest('.cb').querySelector('.Pdi').textContent; 
                 updateStatus(idproduct,e.checked);
                 cbTop.forEach(y=>{
@@ -366,12 +370,12 @@
     }
     
     function getChecked(){
-        console.log("getchecked aktif")
+        // //console.log("getchecked aktif")
         let theqtys = document.getElementById('qtys')
         let weightd = document.getElementById('weights')
         let TotalChecked = document.getElementById('totalChecked')
         let theFinalSum = document.getElementById('FinalSum')
-        console.log("the final sum: "+theFinalSum.textContent);
+        // //console.log("the final sum: "+theFinalSum.textContent);
         let theCBs = document.querySelectorAll('.theProduct');
         let checked = 0;
         let qtys = 0;
@@ -381,55 +385,60 @@
         theCBs.forEach(e=>{
             let cb = e.querySelector('.cb input[type="checkbox"]')
             if(cb.checked==true){
-                console.log('awal wg: '+weigths)
+                // //console.log('awal wg: '+weigths)
                 
                 checked+=1;
                 let qty = e.querySelector('.mid input')
-                // console.log("qty")
-                // console.log("qty val: "+qty.value);
+                // //console.log("qty")
+                // //console.log("qty val: "+qty.value);
                 let price =e.querySelector('.ProductPrice')
                 let wg =e.querySelector('.weightProduct')
-                console.log('wg: '+wg);
-                console.log('wg texc: '+wg.textContent);
-                console.log('parse wg: '+parseFloat(wg.textContent))
-                weigths+=parseFloat(wg.textContent.match(/\d+(\.\d+)?/g))*parseFloat(qty.value)
-                console.log(weights)
+                //console.log('wg: '+wg);
+                //console.log('wg texc: '+wg.textContent);
+                //console.log('parse wg: '+parseFloat(wg.textContent))
+                weigths+=(parseFloat(wg.textContent.match(/\d+(\.\d+)?/g)).toFixed(2)*parseFloat(qty.value))
+                console.log('typeof: '+(parseFloat(weigths)))
+                console.log()
                 qtys+=parseInt(qty.value);
-                // console.log(price.textContent)
-                // console.log(idrToInt(price.textContent))
+                // //console.log(price.textContent)
+                // //console.log(idrToInt(price.textContent))
                 prices+=(parseInt(qty.value)*idrToInt(price.textContent));
                 inpForm.forEach(i=>{
-                    console.log('i: '+i.getAttribute('name'));
-                    // console.log('bc: '+cb.value);
-                    console.log(i.getAttribute('name'));
+                    //console.log('i: '+i.getAttribute('name'));
+                    // //console.log('bc: '+cb.value);
+                    //console.log(i.getAttribute('name'));
                     if(i.getAttribute('name')==cb.value){
-                        // console.log('masuk');
+                        // //console.log('masuk');
                         i.checked=true;
                     }
                 })
                 let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
-                // console.log(idProduct);
+                // //console.log(idProduct);
                 updateStatus(idProduct,(cb.checked));
             }
             else{
-                // console.log((cb.closest('.cb')).querySelector('.Pdi'));
+                // //console.log((cb.closest('.cb')).querySelector('.Pdi'));
                 let idProduct = ((cb.closest('.cb')).querySelector('.Pdi')).textContent;
-                // console.log(idProduct);
+                // //console.log(idProduct);
                 
                 updateStatus(idProduct,(cb.checked));
             }
         });
         if(weigths!=0){
 
-            weightd.textContent = weigths;
+            weightd.textContent = (Math.ceil(weigths * 100) / 100)
         }
-        console.log("qtys: "+qtys);
+        else{
+            weightd.textContent = 0
+            
+        }
+        //console.log("qtys: "+qtys);
         let theCBBs = document.querySelectorAll('.CartContainer input[type="checkbox"]');
-        console.log("cbbs lenth: "+theCBBs.length);
+        //console.log("cbbs lenth: "+theCBBs.length);
         if((checked+theCBs.length)!=0){
-            console.log("checked :"+checked)
-            console.log("cbs.length: "+theCBs.length);
-            // console.log("checked :"+checked)
+            //console.log("checked :"+checked)
+            //console.log("cbs.length: "+theCBs.length);
+            // //console.log("checked :"+checked)
             let bool = (checked==theCBs.length);
             theCBBs[0].checked = bool;
             theCBBs[theCBBs.length-theCBs.length-1].checked = bool;
@@ -445,9 +454,9 @@
         }
         
         theqtys.textContent = qtys;
-        // console.log("weights: "+weights);
+        // //console.log("weights: "+weights);
         TotalChecked.textContent = checked;
-        // console.log(toIdr(prices))
+        // //console.log(toIdr(prices))
         theFinalSum.textContent = toIdr(prices);
     }
 
@@ -464,7 +473,7 @@
                     'Content-Type': 'application/json',
                 },
             }).then(response=>response.json()).then(data => {
-            console.log('Success:', data.message);
+            //console.log('Success:', data.message);
         })
     }
     function onEditInput(elemen){
@@ -475,7 +484,7 @@
             let total = toIdr(price*elemen.value);
             let totalProduct = theproduct.querySelector('.ProductTotal');
             totalProduct.textContent = total;
-            // console.log(totalProduct.textContent)
+            // //console.log(totalProduct.textContent)
         })
     }
     function allInputQty(){

@@ -22,6 +22,7 @@ body{
     /* background-color: aqua; */
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     padding: 0%;
@@ -39,6 +40,7 @@ body{
     height: 80%;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     gap: 20px;
     align-items: center;
     justify-content: center;
@@ -51,6 +53,8 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+
 }
 .Container>*>*{
     width: 100%;

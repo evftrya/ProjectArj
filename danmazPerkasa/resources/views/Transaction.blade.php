@@ -53,7 +53,8 @@
                 <div class="line1 nonbottom">
                     <div class="notes">
                         <p>Notes:</p>
-                        <input type="text" class="notesTemp" onchange="changeNotes(this)" name="" placeholder="Optional">
+                        <p> @if(isset($data->Notes)) $data->Notes @endif </p>
+                        <!-- <input type="text" class="notesTemp" onchange="changeNotes(this)" name="" placeholder="Optional"> -->
                     </div>
                     <div class="Ship">
                         <div style="display: flex;flex-direction:row;gap:5px;align-items:center;">
@@ -74,38 +75,24 @@
                         <!-- <input type="text" name="" placeholder="Optional"> -->
                     </div>
                     <div class="Ship">
-                        <p>Opsi Pengiriman:</p>
-                        <div class="text">
-                            <select name="" id="" class="selectShip" required onchange="ChangeNominal(this)">
-                                <option value="0" selected>Pilih Kurir</option>
-                                @foreach($ship as $a)
-                                    @foreach($a[0]['costs'] as $b)
-                                        @if(!in_array($b['service'],['T15','T25','T60']))
-                                            <option value="{{{$a[0]['code']}}}|{{{$b['service']}}}">{{{strtoupper($a[0]['code'])}}} ({{{$b['description']}}})</option>
-                                        @endif
-                                    @endforeach
-                                @endforeach
-                            </select>
-                            <!-- <p class="tiny" onclick="selectActive('open')">Change</p> -->
-                        </div>
+                        <p>Opsi Pengiriman: {{{$data[0]->Shipping}}}</p>
                         
-                        <p class="costsWeight">Rp. 0</p>
-                        
+                        <p class="costsWeightSum">{{{$data[0]->TotalShipping}}}</p>
                     </div>
                     
                 </div>
                 <div class="line1">
                     <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
-                        <p>Alamat tujuan (click to edit):</p>
+                        <p>Alamat tujuan:</p>
                         <a href="/Profile/Address" style="text-decoration:none;color:green;">
-                            <p style="font-size:12px;">{{{$userData->Detil}}}</p>
+                            <p style="font-size:12px;">{{{$userData[0]->Detil}}}</p>
                         </a>
                     </div>
                     <div class="Ship">
                         <p>Estimasi Pengiriman:</p>
-                        <div style="display:flex;flex-direction:row;gap:10px;">
-                            <p class="daysEstimate">-</p>
-                            <p>Hari</p>
+                        <div style="display:flex;flex-direction:row;gap:10px; ">
+                            <p class="daysEstimate"></p>
+                            <p>{{{$data[0]->shippingEstimate}}} Hari</p>
                         </div>
                         
                     </div>
@@ -115,33 +102,22 @@
                         <!-- <input type="text"> -->
                     <p>Payment Method</p>
                         <div class="ListPayMed">
-                            <button class="butOption" onclick="changePM('Bank Transfer',this)"><p>Bank Transfer</p></button>
-                            <button class="butOption" onclick="changePM('Pay Cash at Partner',this)"><p>Pay Cash at Partner</p></button>
-                            <button class="butOption" onclick="changePM('Credit Card',this)"><p>Credit Card</p></button>
+                            <p>{{{$data[0]->PaymentMethod}}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="bank" style="display: none;">
-                    <div>
-                        <p>Choose Bank</p>
-                        <select name="" id="" onchange="ChangeBank(this)" required>
-                            <option value="0">Pilih Bank</option>
-                            <option value="BCA">Bank BCA</option>
-                            <option value="BRI">Bank BRI</option>
-                            <option value="BNI">Bank BNI</option>
-                        </select>
-                    </div>
-                    
-                </div>
-                <div class="theDetil">
+                <div class="theDetil transaction">
                     <div class="cont">
+                        <div class="subCont">
+                            <p>Id Transaction:   {{{$data[0]->id}}}</p>
+                        </div>
                         <div class="subCont">
                             <p>Total Product Price</p>
                             <p class="totalProductPrice">Rp. 4.000.000</p>
                         </div>
                         <div class="subCont">
                             <p>Total Shipping Price</p>
-                            <p class="totalShippingPrice">Rp. 0</p>
+                            <p class="totalShippingPrice">{{{$data[0]->TotalShipping}}}</p>
                         </div>
                         <div class="subCont">
                             <p>Service Fee</p>
@@ -151,36 +127,127 @@
                             <p>Handling Fee</p>
                             <p class="HandlingFee">Rp. 1.000</p>
                         </div>
+                        <div class="subCont">
+                            <p>Total Payment</p>
+                            <p class="FinalSum">{{{$data[0]->TotalShopping}}}</p>
+                        </div>
+                        <div class="subCont">
+                            <p>Payment Status</p>
+                            <p class="PaymentStatus">{{{$data[0]->Status_Pembayaran}}}</p>
+                        </div>
                     </div>
                 </div>
+                
             </div>
 
             
         </div>
-    </div>
-    <div class="toCheckout">
-        <div class="sidE">
-            <div class="text roboto" style="gap: 5px;">
-                <p>Total Payment: </p>
-                <p class="FinalSum" id="FinalSum">Rp. 0</p>
+    </div> 
+    <div class="toCheckout transaction">
+        <div class="warningTeks">
+            <div>
+                <p class="deadline" style="display:none;">{{{$data[0]->Deadline}}}</p>
+                <p>Segera Lakukan pembayaran sebelum</p>
+                <p class="time">{{{$data[0]->Deadline}}}</p>
             </div>
-            <form action="/OrderDone/{{{$routeChekcout}}}" class="theforms" method="POST">
-                @csrf 
-                <input type="text" name="shippingCost" class="shippingCost" required style="display: none;"   >
-                <input type="text" name="shippingEstimate" class="shippingEstimate" required style="display: none;"   >
-                <input type="text" name="bankMethod" class="bankMethod" style="display: none;"    >
-                <input type="text" name="ship" class="shipUse" style="display: none;" required>
-                <input type="text" name="paymentMethod" class="paymentMethodInp" style="display: none;" required>
-                <input type="text" name="toCheckout" id="toCheckout" style="display: none;" value="">
-                <input type="text" name="ntoes" id="notesClient" style="display: none;" value="">
-                <button onclick="ToForm(this,event)">Make Order</button>
+            <div class="thewarning">
+                <p>- Apabila melebihi batas waktu Transaksi ini akan dianggap gagal</p>
+                <p>- Pembatalan hanya bisa dilakukan apabila belum melakukan pembayaran</p>
+            </div>
+        </div>
+        <div class="sidE">
+            <form action="" class="theforms" method="POST">
+                @csrf
+                <button onclick="ToForm(this,event)">Cancel Order</button>
             </form>
         </div>
     </div>
 </div>
 
-
 <script>
+
+    function formattedDateTime(time){
+        console.log(time)
+        return time.replace(" ", "T").replace("09:08:41", "09:05:39");
+    }
+    newDeadline();
+    function newDeadline(){
+        const dateTime = '{{{$data[0]->created_at}}}';
+
+        // Konversi string ke objek Date
+        const date = new Date(dateTime.replace(" ", "T")); // Mengganti spasi menjadi 'T' agar dikenali oleh Date
+
+        // Tambahkan 30 menit
+        date.setMinutes(date.getMinutes() + 30);
+
+        // Format kembali ke string jika diperlukan (YYYY-MM-DD HH:mm:ss)
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        const newDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        let time = document.querySelector('.warningTeks .time');
+        if(time!=null){
+
+            time.textContent = newDateTime;
+            return (newDateTime);
+        }
+        return null;
+        // console.log(time.textContent);
+        // console.log(newDateTime); // Output: 2025-01-23 09:38:41
+        // console.log('new date: '+newDateTime);
+        // return formattedDateTime(newDateTime);
+
+    }
+    
+    // setInterval(RefreshPage, 1000);
+    RefreshPage()
+
+    async function RefreshPage(){
+        let idTransaction = "{{$data[0]->id}}";
+        let timepurchase = newDeadline()
+        let now = new Date();
+        let deadline = new Date(timepurchase)
+        let bottom = document.querySelector('.toCheckout.transaction')
+        console.log(bottom)
+        // bottom.style.display ='none'
+        // let container = document.querySelector('.CartContainer');
+        console.log('masuk luar')
+        if((now.getTime()>=deadline.getTime())){
+            // let PaymentStatus = document.querySelector('.PaymentStatus')
+            // if(PaymentStatus!='Done'){
+                // container.remove(bottom)
+                // }
+                if(bottom.style.display!='none'){
+                    clearBottom()
+                    // container.remove(bottom)
+                }
+        }
+        else{
+            // console.log('masuk')
+            let response = await fetch('/PaymentStatus/'+'{{$data[0]->id}}');
+            let data = await response.json();
+            if(data=='Done'){
+                clearBottom()
+            }
+            // console.log(data); 
+        }
+    }
+
+    function clearBottom(){
+        let bottom = document.querySelector('.toCheckout.transaction')
+        let divs = bottom.querySelectorAll('div')
+            divs.forEach(e=>{
+                bottom.remove(e)
+            })
+        
+    }
+    
+
+    
 
 
     CountAll();
@@ -216,6 +283,27 @@
         individu.forEach(e=>{
             e.textContent = toIdr(e.textContent);
         })
+
+        pmStatus();
+        repairWeight()
+    }
+
+    function repairWeight(){
+        let weight = document.querySelectorAll('.ProductPrice.weight')
+        weight.forEach(t=>{
+            t.textContent = (Math.ceil(parseFloat(t.textContent)/1000 * 100) / 100)+" Kg"
+        })
+
+        let sumWeight = document.querySelector('.weigthTotal')
+        sumWeight.textContent = (Math.ceil(parseFloat(sumWeight.textContent)/1000 * 100) / 100)+" Kg"
+
+    }
+
+    function pmStatus(){
+        let status = document.querySelector('.PaymentStatus')
+        if(status.textContent=='Waiting'){
+            status.textContent = 'Waiting For Payment'
+        }
     }
     function CountAll(){
         Count();
@@ -246,18 +334,24 @@
     function countTotalProductPrice(){
         let allproduct = document.querySelectorAll('.theProduct .ProductTotal');
         let total = 0;
-        //console.log(allproduct.length)
+        console.log(allproduct.length)
         allproduct.forEach(dtotal=>{
             //console.log(dtotal.textContent);
             //console.log(idrToInt(dtotal.textContent));
             total +=idrToInt(dtotal.textContent);
         })
-
-        let TSP = document.querySelector('.totalProductPrice');
-        TSP.textContent = toIdr(total);
+        console.log(total)
+        let TPP = document.querySelector('.totalProductPrice');
+        TPP.textContent = toIdr(total);
         //console.log(TSP);
-    }
 
+        /////////////////// shipping price ///////////////////
+        let  shippingSum = document.querySelector('.totalShippingPrice');
+        console.log('shipping : '+shippingSum.textContent);
+        let shipping = toIdr(parseInt(shippingSum.textContent))
+        shippingSum.textContent = shipping
+        document.querySelector('.costsWeightSum').textContent = shipping
+    }
 
     function changePM(text,elemen){
         let all = document.querySelectorAll('.ListPayMed button')
@@ -302,38 +396,6 @@
         FS.textContent = toIdr(total);
         
     }
-    function getKurir(kode){
-        // //console.log(@json($ship))
-        // //console.log('tipe: '+typeof(@json($ship)))
-        let kurir = JSON.parse(@json($shipjs));
-        let cost = document.querySelector('.costsWeight')
-        let inpcost = document.querySelector('.shippingCost')
-        let days = document.querySelector('.daysEstimate')
-        let dayForm = document.querySelector('.shippingEstimate')
-        let sumWeight = document.querySelector('.weigthTotal')
-        let shipPrice = document.querySelector('.totalShippingPrice');
-
-        // //console.log(kurir);
-        kurir.forEach(e=>{
-            e.forEach(f=>{
-                f.costs.forEach(g=>{
-                    if((f.code+"|"+g.service)==kode){
-                        //console.log(f.code);
-                        // //console.log(f.costs);
-                        //console.log(g.service)
-                        //console.log(g.cost[0].etd)
-                        //console.log(g.cost[0].value)
-                        cost.textContent=toIdr((g.cost[0].value)*parseFloat(sumWeight.textContent))
-                        inpcost.value = (g.cost[0].value)*parseFloat(sumWeight.textContent)
-                        shipPrice.textContent=cost.textContent;
-                        days.textContent = g.cost[0].etd;
-                        dayForm.value = g.cost[0].etd;
-
-                    }
-                })
-            })
-        })
-    }
     //console.log(inGramRounUp(534.2));
     function inGramRounUp(weight){
         gram = weight*1000;
@@ -344,8 +406,6 @@
         let weight = document.querySelector('.weightTotal');
         let kode = document.querySelector('.selectShip');
         if(elemen.value!=0){
-
-            getKurir(kode.value);
             countTotalPayment();
 
             let inp = document.querySelector('.shipUse')
@@ -423,12 +483,12 @@
         let parsedAngka = parseInt(angka, 10);
 
         return parsedAngka;
-}
+    }
 
     function getChecked(){
         // let theqtys = document.getElementById('qtys')
         // let TotalChecked = document.getElementById('totalChecked')
-        let theFinalSum = document.getElementById('FinalSum')
+        let theFinalSum = document.querySelector('.FinalSum')
         let theCBs = document.querySelectorAll('.theProduct');
         let checked = 0;
         let qtys = 0;
@@ -495,6 +555,6 @@
         //console.log(select);
 
     }
-    
 </script>
+
 @endsection

@@ -170,9 +170,10 @@
                 <div class ="containerbody TwoSpace first" style="display: none">
                     <div class="lefts">
                         <div class="BodyFill">
-                            <div class="input-container">
+                            <div class="input-container select">
                                 <p>Province </p>
-                                <select name="provinsi" id="" onchange="ChangeCity(this.value)">
+                                <select name="provinsi" class="Provinces" id="" onchange="ChangeCity(this.value)">
+                                    <option value="0" selected>Pilih Provinsi Dahulu</option>
                                     @foreach($data->Province as $a)
                                     <option value="{{{$a['province_id']}}}">{{{$a['province']}}}</option>
                                     @endforeach
@@ -180,10 +181,10 @@
                             </div>
                         </div>
                         <div class="BodyFill">
-                            <div class="input-container">
+                            <div class="input-container select">
                                 <p>Kota / Kabupaten</p>
                                 <select name="KotaKabupaten" class="KotaKabupaten" id="">
-                                    <option value="Guitar">Pilih Provinsi Dahulu</option>
+                                    <option value="0" selected>Pilih Provinsi Dahulu</option>
                                 </select>
                             </div>
                         </div>
@@ -315,8 +316,28 @@
             }
         }
         function formSubmit(wht, event){
+            // console.log(wht);
             event.preventDefault();
-            document.getElementById('formProfile'+wht).submit();
+            if(wht=='Address'){
+                let prov = document.querySelector('.Provinces')
+                let kota = document.querySelector('.KotaKabupaten')
+
+                if(prov.value==0){
+                    showPopup('Please select a province first.',0)
+                }
+                else if(kota.value==0){
+                    showPopup('Please select a city first.',0)
+                }
+                else{
+                    document.getElementById('formProfile'+wht).submit();
+                }
+                // if(Check.)
+                console.log(Check.value);
+            }
+            else{
+
+                document.getElementById('formProfile'+wht).submit();
+            }
         }
         function EditProfileInfo(wht,event,button){
             event.preventDefault();
@@ -425,6 +446,12 @@
         function fillCity(data){
             let select = document.querySelector('.KotaKabupaten');
             ClearCity(select);
+                let option = document.createElement('option'); // Buat elemen <option>
+                option.value = '0';
+                option.textContent = 'Pilih Kota atau Kabupaten'
+                option.selected = true;
+            select.appendChild(option);
+
             data.forEach(item => {
                 let option = document.createElement('option'); // Buat elemen <option>
                 option.value = item.city_id; // Atur atribut value

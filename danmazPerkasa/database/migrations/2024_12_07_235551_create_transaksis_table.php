@@ -14,14 +14,17 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->unsignedBigInteger('id_user');
-            $table->integer('Total')->nullable();
+            $table->integer('TotalShopping')->nullable();
+            $table->integer('TotalShipping')->nullable();
             $table->string('Shipping')->nullable();
             $table->string('PaymentMethod')->nullable();
             $table->string('Status_Pembayaran')->default('Pending');
+            $table->string('Kode_Pembayaran')->nullable();
             $table->string('Status_Pengiriman')->nullable();
             $table->string('Notes')->nullable();
+            $table->string('shippingEstimate')->nullable();
+            
             $table->timestamps();
-
 
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
 

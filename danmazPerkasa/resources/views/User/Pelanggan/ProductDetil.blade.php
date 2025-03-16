@@ -45,22 +45,24 @@
             <p class="ProductName">{{{$product->nama_product}}}</p>
             <p class="ProductPrice">{{{$product->price}}}</p>
             <div class="ProductQty">
-                <p>Quantity</p>
-                <div class="qtynumbers">
-                    <button class="start minus">
-                        <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
-                        </svg>
-                    </button>
-                    <div class="mid">
-                        <p>1</p>
+                @if(session('user_id')!=0)
+                    <p>Quantity</p>
+                    <div class="qtynumbers">
+                        <button class="start minus">
+                            <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
+                            </svg>
+                        </button>
+                        <div class="mid">
+                            <p>1</p>
+                        </div>
+                        <button class="end plus" >
+                            <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
+                            </svg>
+                        </button>
                     </div>
-                    <button class="end plus" >
-                        <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
-                        </svg>
-                    </button>
-                </div>
+                @endif
                 <div class="textDetil">
                     <p class="withpad">{{{$product->stok}}} Unit left</p>
                     <p class="withpad berat">({{{$product->weight_kg}}} kg/Product)</p>
@@ -68,13 +70,20 @@
             </div>
             <div class="buttonArea">
                 <!-- <form action=""></form> -->
-                <button class="atc" onclick="AddToCart(this, '{{{$product->id_product}}}')">
-                    <p>Add To Cart</p>
-                </button>
+                 @if(session('user_id')==0)
+                    <button onclick="toLogin(event)" style="margin-left:50px; background-Color: #B17457;color: white;">
+                        Login to Buy
+                    </button>
+                 @else
+                    <button class="atc" onclick="AddToCart(this, '{{{$product->id_product}}}')">
+                        <p>Add To Cart</p>
+                    </button>
 
-                <button class="co" onclick="goCheckout()">
-                    <p>Checkout</p>
-                </button>
+                    <button class="co" onclick="goCheckout('{{{$product->id_product}}}',event)">
+                        <p>Checkout</p>
+                    </button>
+                 @endif
+                
             </div>
         </div>
     </div>
@@ -94,16 +103,106 @@
     // Tampilkan pop-up setelah halaman dimuat
     
     TideUp();
+
+    DeleteTempCheckout();
+
+    function toLogin(event){
+        event.preventDefault();
+        window.location.href='/Login';
+    }
+
+    async function DeleteTempCheckout(){
+        let response = await fetch('/deleteTempCheckout');
+    }
     function changeMainPhoto(e){
         let mainphoto = document.getElementById('MainPhoto');
         let change = (e.style.backgroundImage);
         mainphoto.style.backgroundImage = change;
     }
 
-    function goCheckout(){
-        let qty = document.querySelector('.mid p').textContent;
-        // console.log('/Checkout/{{{$product->id_product}}}/qty');
-        window.location.href='/Checkout/{{{$product->id_product}}}/'+qty;
+    async function goCheckout(idProduct, event){
+        event.preventDefault();
+        let adr = await fetch('/isNew');
+        let isnew = await adr.json();
+        if(isnew==1){
+            console.log('jalannnnn')
+            initializeLoadingIndicator();
+            window.location.href='/Checkout-view-direct/'+idProduct;
+        }
+        else{
+            showPopup("Please set the address first (Setting>Account Settings>Address)",0)
+        }
+    }
+
+    function initializeLoadingIndicator() {
+        console.log('Initializing loading indicator');
+
+        // Buat elemen loading indicator
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.id = 'loading-indicator';
+        loadingIndicator.style.display = 'none';
+        loadingIndicator.style.position = 'fixed';
+        loadingIndicator.style.top = '0';
+        loadingIndicator.style.left = '0';
+        loadingIndicator.style.width = '100%';
+        loadingIndicator.style.height = '100%';
+        loadingIndicator.style.background = 'rgba(0, 0, 0, 0.5)';
+        loadingIndicator.style.zIndex = '9999';
+        loadingIndicator.style.display = 'flex';
+        loadingIndicator.style.alignItems = 'center';
+        loadingIndicator.style.justifyContent = 'center';
+        loadingIndicator.style.flexDirection = 'column';
+        loadingIndicator.style.color = 'white';
+        loadingIndicator.style.fontFamily = 'Arial, sans-serif';
+        loadingIndicator.style.textAlign = 'center';
+
+        // Tambahkan spinner
+        const spinner = document.createElement('div');
+        spinner.style.border = '8px solid #f3f3f3';
+        spinner.style.borderTop = '8px solid #3498db';
+        spinner.style.borderRadius = '50%';
+        spinner.style.width = '60px';
+        spinner.style.height = '60px';
+        spinner.style.animation = 'spin 1s linear infinite';
+
+        // Tambahkan teks
+        const text = document.createElement('p');
+        text.textContent = 'We are preparing your data';
+        text.style.marginTop = '20px';
+        text.style.fontSize = '16px';
+
+        // Masukkan spinner dan teks ke dalam loading indicator
+        loadingIndicator.appendChild(spinner);
+        loadingIndicator.appendChild(text);
+
+        // Tambahkan loading indicator ke dalam body
+        document.body.appendChild(loadingIndicator);
+
+        const styleSheet = document.styleSheets[0];
+        styleSheet.insertRule(`
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `, styleSheet.cssRules.length);
+
+        // Event untuk menampilkan loading hanya jika bukan navigasi dari cache
+        window.addEventListener('pagehide', function () {
+            loadingIndicator.style.display = 'flex';
+            });
+
+            // Event untuk menyembunyikan loading saat halaman dimuat kembali
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    // Jika halaman dimuat dari cache, sembunyikan loading
+                    loadingIndicator.style.display = 'none';
+                }
+            });
+
+            // Event untuk navigasi biasa (bukan back/forward)
+            window.addEventListener('beforeunload', function () {
+                loadingIndicator.style.display = 'flex';
+            });
     }
     document.addEventListener('DOMContentLoaded',function(){
         const minusBtn = document.querySelector('.start.minus');

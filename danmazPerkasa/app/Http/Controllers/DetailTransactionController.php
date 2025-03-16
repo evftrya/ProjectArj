@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Detail_Transaction;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProductsController;
@@ -81,6 +82,9 @@ class DetailTransactionController extends Controller
             if($wht=='Checkout'){
                 $Data->where('a.status','Checkout');
             }
+            else if ($wht=='TempCheckout') {
+                $Data->where('a.status','TempCheckout');
+            }
             else if($wht=='Pending'){
                 $Data->where(function($query){
                     $query->where('a.status','Pending')
@@ -96,13 +100,32 @@ class DetailTransactionController extends Controller
     }
 
     public function Cart(){
-        $data = $this->getAllData('Pending');
-        $notif = new NotificationController();
-        $notifs = $notif->getAllNotif();
-        // ,'notif'=>$notifs
-        // dd($data);
+        // dd($cont->AuthSystem()>0);
 
-        return view('User.Pelanggan.Cart',['data'=>$data,'notif'=>$notifs]);
+
+        if($this->AuthSystem()>0){
+            // dd('masuk');
+            if(session('direction')!=null){
+                $tempDirection = session('direction');
+                session(['direction' => null]);
+                return redirect($tempDirection);
+
+            }
+            else{
+                // dd(session('direction'));
+                $data = $this->getAllData('Pending');
+                $notif = new NotificationController();
+                $notifs = $notif->getAllNotif();
+                // ,'notif'=>$notifs
+                // dd($data);
+                return view('User.Pelanggan.Cart',['data'=>$data,'notif'=>$notifs]);
+            }
+        }
+        else{
+            session(['direction' => '/Cart']);
+            return redirect('/Login');
+        }
+        
     }
 
     public function UpdateCart(Request $req, $idProduct,$idDT){
@@ -122,54 +145,134 @@ class DetailTransactionController extends Controller
         }
     }
 
+    
+
     // public function AddCart()
 
     public function CheckoutView($idProduct, $Newqty){
-        // dd($Newqty);
-        if($idProduct!='null' && $Newqty!='null'){
-            $Data = DB::table('detail__transactions as a')
-            ->select('*')
-            ->where('id_User', session('user_id'))
-            ->update(['Status'=> 'Pending']);
-
-            $Newqty = intval($Newqty);
-            // dd($Newqty);
-            // $this->UpdateStatus($wht,null);
-            $this->Cart();
-            $product = (new ProductsController())->getDataProduct($idProduct)[0][0];   
-            // dd($product);     
-            $old = Detail_Transaction::where('id_product', $idProduct)
-                                        ->where('id_User', session('user_id'))
-                                        ->first();
-            // dd($old);
-            if($old){
-                $old->qty = $Newqty;
+        if($this->AuthSystem()>0){
+            // dd(session('direction'));
+            if(session('direction')!=null){
+                $tempDirection = session('direction');
+                session(['direction' => null]);
+                return redirect($tempDirection);
             }
             else{
-                $detil = new Detail_Transaction();
-                $detil->qty = $Newqty;
-                $detil->id_User = session("user_id");
-                $detil->id_product = $idProduct;
-                $old = $detil;
             }
-            $old->Total = $Newqty*$product->price;
-            $old->save();
-            $this->UpdateStatus($idProduct, '1');
+                // dd(session());
+                // dd($Newqty);
+                if($idProduct!='null' && $Newqty!='null'){
+                    $Data = DB::table('detail__transactions as a')
+                    ->select('*')
+                    ->where('id_User', session('user_id'))
+                    ->update(['Status'=> 'Pending']);
+        
+                    $Newqty = intval($Newqty);
+                    // dd($Newqty);
+                    // $this->UpdateStatus($wht,null);
+                    $this->Cart();
+                    $product = (new ProductsController())->getDataProduct($idProduct)[0][0];   
+                    // dd($product);     
+                    $old = Detail_Transaction::where('id_product', $idProduct)
+                                                ->where('id_User', session('user_id'))
+                                                ->first();
+                    // dd($old);
+                    if($old){
+                        $old->qty = $Newqty;
+                    }
+                    else{
+                        $detil = new Detail_Transaction();
+                        $detil->qty = $Newqty;
+                        $detil->id_User = session("user_id");
+                        $detil->id_product = $idProduct;
+                        $old = $detil;
+                    }
+                    $old->Total = $Newqty*$product->price;
+                    $old->save();
+                    $this->UpdateStatus($idProduct, '1');
+                }
+                $data = $this->getAllData('Checkout');
+        
+                $addr = new AddressController();
+                $userData = $addr->getDataById();
+                // dd($userData[0]->city_id);
+                $cont = new Controller();
+                $ships = ($cont->getOngkir($userData[0]->city_id));
+                $shipjs = $ships[0];
+                $ship = $ships[1];
+                $notif = new NotificationController();
+                $notifs = $notif->getAllNotif();
+                $routeChekcout = 'Default';
+                // 'routeChekcout'=>$routeChekcout,
+                // ,'notif'=>$notifs
+                // dd($ship);
+                return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
         }
-        $data = $this->getAllData('Checkout');
+        else{
+            session(['direction' => '/Cart']);
+            return redirect('/login');
+        }
+    }
 
-        $addr = new AddressController();
-        $userData = $addr->getDataById();
-        // dd($userData[0]->city_id);
-        $cont = new Controller();
-        $ships = ($cont->getOngkir($userData[0]->city_id));
-        $shipjs = $ships[0];
-        $ship = $ships[1];
-        $notif = new NotificationController();
-        $notifs = $notif->getAllNotif();
-        // ,'notif'=>$notifs
-        // dd($ship);
-        return view('User.Pelanggan.Checkout',['data'=>$data,'userData'=>$userData,'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
+    public function CheckoutViewDirect($idProduct){
+        if($this->AuthSystem()>0){
+            // dd(session('direction'));
+            if(session('direction')!=null){
+                $tempDirection = session('direction');
+                session(['direction' => null]);
+                return redirect($tempDirection);
+            }
+            else{
+                session(['direction' => '/Cart']);
+                return redirect('/login');
+            }
+        }
+        else{
+            // dd($Newqty);
+            if($idProduct!='null'){
+    
+                $product = (new ProductsController())->getDataProduct($idProduct)[0][0];   
+    
+                // dd($product);
+                $new = new Detail_Transaction();
+                $new->qty = 1;
+                $new->id_product = $idProduct;
+                $new->Total = $product->price;
+                $new->Status = 'TempCheckout';
+                $new->id_User = session("user_id");
+                $new->save();
+            }
+            $data = $this->getAllData('TempCheckout');
+    
+            $addr = new AddressController();
+            $userData = $addr->getDataById();
+            // dd($userData[0]->city_id);
+            $cont = new Controller();
+            $ships = ($cont->getOngkir($userData[0]->city_id));
+            $shipjs = $ships[0];
+            $ship = $ships[1];
+            $notif = new NotificationController();
+            $notifs = $notif->getAllNotif();
+            $routeChekcout = 'Temp';
+            // 
+            // ,'notif'=>$notifs
+            // dd($ship);
+            return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
+        }
+    }
+
+    public function deleteTempCheckout(){
+        $data = DB::table('detail__transactions')
+        ->where('Status', 'TempCheckout')
+        ->where('id_User', session('user_id'))
+        ->get();
+
+        foreach($data as $d){
+            // dd($d);
+            $this->DeleteCart($d->id_Detail_transaction);
+        }
+        // dd($data);
+    
     }
 
 
@@ -181,7 +284,15 @@ class DetailTransactionController extends Controller
             ->first();
         // dd($old);
         if($wht=="1"){
-            $old->status = "Checkout";
+            if($old!=null){
+                $old->status = "Checkout";
+            }
+            else{
+                return response()->json(['message'=> 'There Something Transaction Not Done Yet with the Same Product']);
+            }
+        }
+        elseif($wht=='WFP'){
+            $old->status = $wht;
         }
         elseif($wht=='donePayment'){
             $old->status = "Done";
@@ -205,7 +316,7 @@ class DetailTransactionController extends Controller
         $old->save();
     }
 
-    public function DeleteCart(Request $req, $id){
+    public function DeleteCart($id){
         // dd($req);
 
         $data = Detail_Transaction::where('id_Detail_transaction', $id)->first()->delete();

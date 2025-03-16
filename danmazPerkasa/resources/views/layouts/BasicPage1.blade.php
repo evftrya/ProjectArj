@@ -6,7 +6,7 @@ $withBurger=["Index","/Landing-Page","Product","Custom","Manage","db","Search"];
 $noScript=["Cart","Detil-Product"];
 $noSearch = ["Info","Change-Password","Address","Detil-Product"];
 $AuthNeeded = ["Login","Register"];
-$NonPopUp = ["Profile"];
+$NonPopUp = [];
 $searchThing = "";
 if(isset($forSearch)){
     $searchThing=$forSearch;
@@ -27,6 +27,11 @@ else{
     <title>Danmaz Perkasa</title>
 </head>
 <body>
+    @if(!in_array($url, $NonPopUp))
+        <div class="popup" id="popup">
+            Ini adalah pesan pop-up!
+        </div>
+    @endif
     
 
     @if(session('Role')==='Admin')
@@ -144,19 +149,22 @@ else{
             <line y1="0.5" x2="375" y2="0.5" stroke="#4A4947" stroke-opacity="0.45"/>
         </svg>
         <div class="areaButton">
-            <a href="/Cart">
-                <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_88_2)">
-                    <path d="M10.9711 19.6656H29.8617V10.5836L8.69456 6.15156L7.94377 3.02734L4.89221 2.01016C4.89221 1.96172 4.91643 1.9375 4.91643 1.88906C4.91643 0.847656 4.06877 0 3.02737 0C1.98596 0 1.13831 0.847656 1.13831 1.88906C1.13831 2.93047 1.98596 3.77813 3.02737 3.77813C3.46331 3.77813 3.85081 3.63281 4.16565 3.39062L6.44221 4.52891L9.44534 18.8906L6.41799 21.1672V24.9453L7.79846 26.6648C7.41096 27.125 7.19299 27.7062 7.19299 28.3602C7.19299 29.8133 8.37971 31 9.83284 31C11.286 31 12.4727 29.8133 12.4727 28.3602C12.4727 26.907 11.286 25.7203 9.83284 25.7203C9.61487 25.7203 9.3969 25.7445 9.20315 25.793L8.69456 24.9695H24.5821L25.4539 26.4227C24.9211 26.907 24.5821 27.6094 24.5821 28.3844C24.5821 29.8375 25.7688 31.0242 27.2219 31.0242C28.675 31.0242 29.8617 29.8375 29.8617 28.3844C29.8617 26.9312 28.675 25.7445 27.2219 25.7445C27.1977 25.7445 27.1735 25.7445 27.1492 25.7445L26.8344 24.9937H29.8617V23.4922H7.94377V21.9906L10.9711 19.6656ZM10.9711 18.1398L9.85706 12.957L10.0024 13.6836L14.4828 14.0469L15.4031 18.1641H10.9711V18.1398ZM16.2508 18.1398L15.3547 14.0953L19.7383 14.4344L20.0774 18.1398H16.2508ZM20.8039 18.1398L20.4649 14.507L24.5821 14.8219V18.1398H20.8039ZM28.3602 14.3617V18.1398H25.3328V14.8945L28.3602 15.1367V14.3617L25.3328 14.1195V10.7531L28.3602 11.3344V14.3617ZM8.69456 7.55625L24.5821 10.6078V14.0469L20.3922 13.7078L20.0289 9.73594L19.2781 9.59062L19.6656 13.6594L15.1852 13.2961L14.1438 8.62187L13.2477 8.45234L14.3133 13.2234L9.83284 12.8602L8.69456 7.55625ZM27.2219 27.2219C27.8516 27.2219 28.3602 27.7305 28.3602 28.3602C28.3602 28.9898 27.8516 29.4984 27.2219 29.4984C26.5922 29.4984 26.0836 28.9898 26.0836 28.3602C26.0836 27.7305 26.5922 27.2219 27.2219 27.2219ZM9.83284 27.2219C10.4625 27.2219 10.9711 27.7305 10.9711 28.3602C10.9711 28.9898 10.4625 29.4984 9.83284 29.4984C9.20315 29.4984 8.69456 28.9898 8.69456 28.3602C8.69456 27.7305 9.20315 27.2219 9.83284 27.2219Z" fill="#020202"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_88_2">
-                    <rect width="31" height="31" fill="white"/>
-                    </clipPath>
-                    </defs>
-                </svg>
-                <p>Cart</p>
-            </a>
+            @if(session('Role')!=='Admin')
+
+                <a href="/Cart">
+                    <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_88_2)">
+                        <path d="M10.9711 19.6656H29.8617V10.5836L8.69456 6.15156L7.94377 3.02734L4.89221 2.01016C4.89221 1.96172 4.91643 1.9375 4.91643 1.88906C4.91643 0.847656 4.06877 0 3.02737 0C1.98596 0 1.13831 0.847656 1.13831 1.88906C1.13831 2.93047 1.98596 3.77813 3.02737 3.77813C3.46331 3.77813 3.85081 3.63281 4.16565 3.39062L6.44221 4.52891L9.44534 18.8906L6.41799 21.1672V24.9453L7.79846 26.6648C7.41096 27.125 7.19299 27.7062 7.19299 28.3602C7.19299 29.8133 8.37971 31 9.83284 31C11.286 31 12.4727 29.8133 12.4727 28.3602C12.4727 26.907 11.286 25.7203 9.83284 25.7203C9.61487 25.7203 9.3969 25.7445 9.20315 25.793L8.69456 24.9695H24.5821L25.4539 26.4227C24.9211 26.907 24.5821 27.6094 24.5821 28.3844C24.5821 29.8375 25.7688 31.0242 27.2219 31.0242C28.675 31.0242 29.8617 29.8375 29.8617 28.3844C29.8617 26.9312 28.675 25.7445 27.2219 25.7445C27.1977 25.7445 27.1735 25.7445 27.1492 25.7445L26.8344 24.9937H29.8617V23.4922H7.94377V21.9906L10.9711 19.6656ZM10.9711 18.1398L9.85706 12.957L10.0024 13.6836L14.4828 14.0469L15.4031 18.1641H10.9711V18.1398ZM16.2508 18.1398L15.3547 14.0953L19.7383 14.4344L20.0774 18.1398H16.2508ZM20.8039 18.1398L20.4649 14.507L24.5821 14.8219V18.1398H20.8039ZM28.3602 14.3617V18.1398H25.3328V14.8945L28.3602 15.1367V14.3617L25.3328 14.1195V10.7531L28.3602 11.3344V14.3617ZM8.69456 7.55625L24.5821 10.6078V14.0469L20.3922 13.7078L20.0289 9.73594L19.2781 9.59062L19.6656 13.6594L15.1852 13.2961L14.1438 8.62187L13.2477 8.45234L14.3133 13.2234L9.83284 12.8602L8.69456 7.55625ZM27.2219 27.2219C27.8516 27.2219 28.3602 27.7305 28.3602 28.3602C28.3602 28.9898 27.8516 29.4984 27.2219 29.4984C26.5922 29.4984 26.0836 28.9898 26.0836 28.3602C26.0836 27.7305 26.5922 27.2219 27.2219 27.2219ZM9.83284 27.2219C10.4625 27.2219 10.9711 27.7305 10.9711 28.3602C10.9711 28.9898 10.4625 29.4984 9.83284 29.4984C9.20315 29.4984 8.69456 28.9898 8.69456 28.3602C8.69456 27.7305 9.20315 27.2219 9.83284 27.2219Z" fill="#020202"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_88_2">
+                        <rect width="31" height="31" fill="white"/>
+                        </clipPath>
+                        </defs>
+                    </svg>
+                    <p>Cart</p>
+                </a>
+            @endif
 
             <a href="/Profile/Info">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -201,7 +209,7 @@ else{
                 </a>
                 @endforeach
             @else
-                <p>Nothing new./p>
+                <p>Nothing new. </p>
             
             @endif
             
@@ -211,6 +219,7 @@ else{
         </div>
     </div>
     @endif
+    
     <div class="content" id="content">
         
         <div class="leftbar" id="leftbar" style="display: none;">
@@ -320,17 +329,19 @@ else{
                 <div class="GapMenu">
                     <p>Shop</p>
                     <div class="Submenu">
-                        <a href="\Cart">
-                            <button>
-                                <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.8749 27.9988C13.3246 27.9988 14.4998 26.8238 14.4998 25.3744C14.4998 23.925 13.3246 22.75 11.8749 22.75C10.4252 22.75 9.25 23.925 9.25 25.3744C9.25 26.8238 10.4252 27.9988 11.8749 27.9988Z" stroke="#B17457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M23.3124 27.9988C24.7621 27.9988 25.9373 26.8238 25.9373 25.3744C25.9373 23.925 24.7621 22.75 23.3124 22.75C21.8627 22.75 20.6875 23.925 20.6875 25.3744C20.6875 26.8238 21.8627 27.9988 23.3124 27.9988Z" stroke="#B17457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M5.793 4.55628L8.89471 14.375C9.37154 15.8839 9.60918 16.6384 10.0675 17.1969C10.4687 17.6906 10.9918 18.0717 11.5829 18.3077C12.2541 18.5747 13.0442 18.5747 14.6275 18.5747H20.5763C22.1595 18.5747 22.9496 18.5747 23.6194 18.3077C24.2119 18.0717 24.7335 17.6906 25.1363 17.1969C25.593 16.6384 25.8307 15.8839 26.3091 14.375L26.9402 12.3755L27.3106 11.1936L27.8213 9.57365C28.0036 8.99585 28.0472 8.38325 27.9485 7.78547C27.8499 7.1877 27.6118 6.62157 27.2535 6.13295C26.8952 5.64432 26.4269 5.24695 25.8864 4.97303C25.3459 4.69911 24.7485 4.55633 24.1425 4.55628H5.793ZM5.793 4.55628L5.77602 4.4992C5.71086 4.28097 5.63881 4.06486 5.55998 3.8512C5.24757 3.06055 4.71779 2.37441 4.03185 1.87206C3.34591 1.36972 2.53181 1.07166 1.68361 1.01234C1.52467 1 1.35029 1 1 1" stroke="#B17457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                        @if(session('Role')!=='Admin')
+                            <a href="\Cart">
+                                <button>
+                                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11.8749 27.9988C13.3246 27.9988 14.4998 26.8238 14.4998 25.3744C14.4998 23.925 13.3246 22.75 11.8749 22.75C10.4252 22.75 9.25 23.925 9.25 25.3744C9.25 26.8238 10.4252 27.9988 11.8749 27.9988Z" stroke="#B17457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M23.3124 27.9988C24.7621 27.9988 25.9373 26.8238 25.9373 25.3744C25.9373 23.925 24.7621 22.75 23.3124 22.75C21.8627 22.75 20.6875 23.925 20.6875 25.3744C20.6875 26.8238 21.8627 27.9988 23.3124 27.9988Z" stroke="#B17457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M5.793 4.55628L8.89471 14.375C9.37154 15.8839 9.60918 16.6384 10.0675 17.1969C10.4687 17.6906 10.9918 18.0717 11.5829 18.3077C12.2541 18.5747 13.0442 18.5747 14.6275 18.5747H20.5763C22.1595 18.5747 22.9496 18.5747 23.6194 18.3077C24.2119 18.0717 24.7335 17.6906 25.1363 17.1969C25.593 16.6384 25.8307 15.8839 26.3091 14.375L26.9402 12.3755L27.3106 11.1936L27.8213 9.57365C28.0036 8.99585 28.0472 8.38325 27.9485 7.78547C27.8499 7.1877 27.6118 6.62157 27.2535 6.13295C26.8952 5.64432 26.4269 5.24695 25.8864 4.97303C25.3459 4.69911 24.7485 4.55633 24.1425 4.55628H5.793ZM5.793 4.55628L5.77602 4.4992C5.71086 4.28097 5.63881 4.06486 5.55998 3.8512C5.24757 3.06055 4.71779 2.37441 4.03185 1.87206C3.34591 1.36972 2.53181 1.07166 1.68361 1.01234C1.52467 1 1.35029 1 1 1" stroke="#B17457" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
 
-                                <p>Cart</p>
-                            </button>
-                        </a>
+                                    <p>Cart</p>
+                                </button>
+                            </a>
+                        @endif
                         <a href="/Custom">
                             <button>
                                 <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -381,11 +392,7 @@ else{
         </div>
        
         <div class="maincontent" id="maincontent">
-            @if(!in_array($url, $NonPopUp))
-                <div class="popup" id="popup">
-                    Ini adalah pesan pop-up!
-                </div>
-            @endif
+            
             @yield('content')
         </div>
         <div class="footer">
@@ -406,7 +413,7 @@ else{
         })
     }
     function fixText(text){
-        console.log(text.length);
+        //console.log(text.length);
         let length = 70;
         if(text.length>length){
             return text.slice(0, length)+"....";
@@ -443,18 +450,35 @@ else{
         // Filter untuk memastikan name tidak kosong
         let elementsWithNonEmptyName = elementsWithName.filter(el => el.getAttribute('name').trim() !== "");
         let needFill = 0;
+        let wht = null;
         elementsWithNonEmptyName.forEach(y=>{
             if(y.value==""){
-                needFill+=1;
+                //console.log(y.name.includes('foto'))
+                if(y.name.includes('foto')){
+                    if(y.name.replace('foto', '')==1){
+                        needFill+=1;
+                        wht = y;
+                        //console.log(y)
+                        //console.log('needfill tambah: '+needFill)
+                    }
+                }
+                else{
+                    needFill+=1;
+                    wht = y;
+                    //console.log(y)
+                    //console.log('needfill tambah: '+needFill)
+                }
             }
         })
         // Menampilkan elemen yang memenuhi kriteria
-        console.log(needFill)
-        if(needFill==0){
+        //console.log('needfill: '+needFill)
+        if(needFill==0||needFill=='0'){
             form.submit();
+            // //console.log('masuk if')
         }
         else{
-            showPopup('There are still empty fields.',0)
+            //console.log('masuk else')
+            showPopup('There are still empty fields',0)
         }
 
         
@@ -469,10 +493,10 @@ else{
         for(let i=0; i<bulats.length;i++){
             // bulats[i].style.backgroundColor = '#D8D2C2';
             bulats[i].setAttribute('fill', '#D8D2C2');
-            // console.log("i = "+i)
+            // //console.log("i = "+i)
             if(i==(theIndex)){
                 // bulats[i].style.backgroundColor = '#B17457';
-                // console.log("bulat : "+bulats[i]+"| index = "+theIndex-1)
+                // //console.log("bulat : "+bulats[i]+"| index = "+theIndex-1)
                 bulats[i].setAttribute('fill', '#B17457');
                 
 
@@ -481,15 +505,15 @@ else{
     }
 
     function scrollButtonPhotos(what){
-        // console.log('masuk | '+what)
+        // //console.log('masuk | '+what)
         // let photosCont = document.querySelector('.PhotoAreaContainer');
         // let photos = photosCont.querySelectorAll('.imageContainer');
         // let theIndex = null;
         // photos.forEach((p, index) => {
-        //     console.log('masuk photos : '+p.getAttribute('fill'))
+        //     //console.log('masuk photos : '+p.getAttribute('fill'))
         //     if(p.getAttribute('fill') == '#B17457'){
         //         theIndex = index;
-        //         console.log('index tombol '+what+" : "+theIndex);
+        //         //console.log('index tombol '+what+" : "+theIndex);
         //     }
         // });
 
@@ -498,15 +522,15 @@ else{
         let photosAdds = (photosCont.closest('.PhotosAdds'));
         let bulats = photosAdds.querySelectorAll('.bulat>circle');
         bulats.forEach((bulat, index)=>{
-            // console.log('bulat warna : '+bulat.getAttribute('fill'))
+            // //console.log('bulat warna : '+bulat.getAttribute('fill'))
             if(bulat.getAttribute('fill') == '#B17457'){
                 theIndex = index;
-                // console.log('index tombol '+what+" : "+theIndex);
-                // console.log("the index: "+theIndex);
+                // //console.log('index tombol '+what+" : "+theIndex);
+                // //console.log("the index: "+theIndex);
 
             }
         })
-        // console.log("sebelum : "+theIndex)
+        // //console.log("sebelum : "+theIndex)
 
         if(what=="left"){
             if(theIndex!=0){
@@ -517,7 +541,7 @@ else{
                 (theIndex+=1)
             }
         }
-        // console.log("sesudah : "+theIndex)
+        // //console.log("sesudah : "+theIndex)
         photosCont.scrollLeft = (theIndex*437);
         moveTobulat(theIndex)
 
@@ -525,7 +549,7 @@ else{
     function changeQty(wht, elemen,event){
         event.preventDefault();
         let number = (elemen.closest('.ProductQty')).querySelector('.mid input');
-        // console.log(number.value)
+        // //console.log(number.value)
         let temp = parseInt(number.value);
         
         if(wht!='min'){
@@ -548,14 +572,14 @@ else{
         let inp = cont.querySelector('input')
         inp.click();
         cont.classList.replace('nofill', 'withfill');
-        console.log(e.style.display)
+        //console.log(e.style.display)
         let img = cont.querySelector('.theImage');  // Corrected class name here
         inp.addEventListener('change', function() {
             let file = URL.createObjectURL(inp.files[0]);  // Corrected file reference
             if(file){
                 img.style.backgroundImage = `url(${file})`; 
                 let len = (cont.closest('.PhotoAreaContainer')).querySelectorAll('.imageContainer');
-                // console.log('panjang image : '+len.length);
+                // //console.log('panjang image : '+len.length);
                 if(len.length<10){
                     addPhoto(cont, len.length);
                 }
@@ -635,9 +659,14 @@ else{
     function Notif($wht,elemen){
         let notif = document.querySelector('.NotifDetil')
         let count = document.querySelector('.notif-count')
+        //console.log(notif)
+        // //console.log(count)
         if($wht=='open'){
             elemen.setAttribute('onclick',"Notif('close',this)");
-            count.style.display='none';
+            if(count){
+
+                count.style.display='none';
+            }
             notif.style.display='flex';
         }
         else{
@@ -649,7 +678,7 @@ else{
     }
     function showPopup(wht,which) {
         const popup = document.getElementById('popup');
-        console.log(popup);
+        //console.log(popup);
         if(which==0){
             popup.style.backgroundColor="#b32323";
         }
@@ -671,7 +700,7 @@ else{
         let prodCat = submenu.querySelector('#ProductKategory');
 
         let svgToOpen = submenu.querySelector('#ProdCatOpen')
-        // console.log(svgToOpen);
+        // //console.log(svgToOpen);
 
         let svgToClose = submenu.querySelector('#ProdCatClose')
         // htg+1;
@@ -715,11 +744,11 @@ else{
             }
 
             if(dbAdmin){
-                console.log('masukif')
+                //console.log('masukif')
                 dbAdmin.style.width = "calc(100% - 200px)";
-                console.log(dbAdmin.style.width)
+                //console.log(dbAdmin.style.width)
                 dbAdmin.style.marginLeft = "200px";
-                console.log(dbAdmin.style.marginLeft)
+                //console.log(dbAdmin.style.marginLeft)
 
             }
 
@@ -738,7 +767,7 @@ else{
             }
 
             if(dbAdmin){
-                console.log('masukelse')
+                //console.log('masukelse')
                 dbAdmin.style.marginLeft = "0px";
                 dbAdmin.style.width = "100%";
             }
@@ -764,11 +793,11 @@ else{
     
     MakeUp();
     function MakeUp(){
-        console.log('jalann')
+        //console.log('jalann')
         let allTime = document.querySelectorAll('.time .clock')
-        console.log(allTime);
+        //console.log(allTime);
         allTime.forEach(o=>{
-            console.log(o);
+            //console.log(o);
 
             timeSince(o);
         })
@@ -802,7 +831,7 @@ else{
         } else {
             $text = `${months} months ago`
         }
-        console.log('text: '+$text);
+        //console.log('text: '+$text);
         elemen.textContent= $text;
     }
 

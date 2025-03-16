@@ -4,6 +4,324 @@ INSERT INTO `users` (`id_User`,`namaUser`, `emailUser`, `passwordUser`,`role`) V
   (3,'User 2','w@w','123','User')
 ;
 
+INSERT INTO `products` (`id_product`, `nama_product`, `type`, `stok`, `price`, `color`, `isContent`, `shortQuotes`, `isSpecial`, `weight`, `Category`, `detail_product`, `Features`, `mainPhoto`, `created_at`, `updated_at`) 
+VALUES
+(NULL, 'Electric Guitar', 'Part', '30', '3000000', '-', NULL, NULL, NULL, '2000', '1', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Acoustic Guitar', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '1', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Bass Guitar', 'Part', '30', '4000000', '-', NULL, NULL, NULL, '2000', '1', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Semi-Hollow Guitar', 'Part', '30', '5000000', '-', NULL, NULL, NULL, '2000', '1', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Lap Steel Guitar', 'Part', '30', '6000000', '-', NULL, NULL, NULL, '2000', '1', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Right-handed', 'Part', '30', '0', '-', NULL, NULL, NULL, '2000', '2', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Left-handed', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '2', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ambidextrous', 'Part', '30', '5000000', '-', NULL, NULL, NULL, '2000', '2', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Reversible', 'Part', '30', '6000000', '-', NULL, NULL, NULL, '2000', '2', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Setup', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '2', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Stratocaster', 'Part', '30', '4000000', '-', NULL, NULL, NULL, '2000', '3', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Les Paul', 'Part', '30', '5000000', '-', NULL, NULL, NULL, '2000', '3', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Telecaster', 'Part', '30', '4000000', '-', NULL, NULL, NULL, '2000', '3', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Flying V', 'Part', '30', '6000000', '-', NULL, NULL, NULL, '2000', '3', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Explorer', 'Part', '30', '7000000', '-', NULL, NULL, NULL, '2000', '3', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Bolt-on', 'Part', '30', '3000000', '-', NULL, NULL, NULL, '2000', '4', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Set Neck', 'Part', '30', '4000000', '-', NULL, NULL, NULL, '2000', '4', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Neck-through', 'Part', '30', '5000000', '-', NULL, NULL, NULL, '2000', '4', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Glued-in', 'Part', '30', '4500000', '-', NULL, NULL, NULL, '2000', '4', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Hybrid', 'Part', '30', '5500000', '-', NULL, NULL, NULL, '2000', '4', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Alder', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '5', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ash', 'Part', '30', '3000000', '-', NULL, NULL, NULL, '2000', '5', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Mahogany', 'Part', '30', '3500000', '-', NULL, NULL, NULL, '2000', '5', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Maple', 'Part', '30', '4000000', '-', NULL, NULL, NULL, '2000', '5', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Basswood', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '5', '', NULL, NULL, NULL, NULL),
+ 
+(NULL, '24.75"', 'Part', '30', '3000000', '-', NULL, NULL, NULL, '2000', '6', '', NULL, NULL, NULL, NULL), 
+(NULL, '25.5"', 'Part', '30', '3500000', '-', NULL, NULL, NULL, '2000', '6', '', NULL, NULL, NULL, NULL), 
+(NULL, '27" (Baritone)', 'Part', '30', '4000000', '-', NULL, NULL, NULL, '2000', '6', '', NULL, NULL, NULL, NULL), 
+(NULL, '22"', 'Part', '30', '2800000', '-', NULL, NULL, NULL, '2000', '6', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Multi-scale', 'Part', '30', '4500000', '-', NULL, NULL, NULL, '2000', '6', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Flat-top', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '7', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Carved-top', 'Part', '30', '2500000', '-', NULL, NULL, NULL, '2000', '7', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Beveled-edge', 'Part', '30', '2200000', '-', NULL, NULL, NULL, '2000', '7', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Arm contour', 'Part', '30', '2100000', '-', NULL, NULL, NULL, '2000', '7', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Belly cut', 'Part', '30', '2300000', '-', NULL, NULL, NULL, '2000', '7', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'H-S-S', 'Part', '30', '3000000', '-', NULL, NULL, NULL, '2000', '8', '', NULL, NULL, NULL, NULL), 
+(NULL, 'H-H', 'Part', '30', '3200000', '-', NULL, NULL, NULL, '2000', '8', '', NULL, NULL, NULL, NULL), 
+(NULL, 'S-S-S', 'Part', '30', '2900000', '-', NULL, NULL, NULL, '2000', '8', '', NULL, NULL, NULL, NULL), 
+(NULL, 'H-H-H', 'Part', '30', '3500000', '-', NULL, NULL, NULL, '2000', '8', '', NULL, NULL, NULL, NULL), 
+(NULL, 'P90', 'Part', '30', '3300000', '-', NULL, NULL, NULL, '2000', '8', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Sunburst', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '9', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Vintage White', 'Part', '30', '1600000', '-', NULL, NULL, NULL, '2000', '9', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Metallic Blue', 'Part', '30', '1800000', '-', NULL, NULL, NULL, '2000', '9', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Natural Wood', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '9', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Black Glossy', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '9', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Sunburst', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '10', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Glossy Black', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '10', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Vintage Natural', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '10', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Satin Black', 'Part', '30', '1800000', '-', NULL, NULL, NULL, '2000', '10', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Glossy White', 'Part', '30', '1600000', '-', NULL, NULL, NULL, '2000', '10', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Glossy', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '11', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Satin', 'Part', '30', '1600000', '-', NULL, NULL, NULL, '2000', '11', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Matte', 'Part', '30', '1700000', '-', NULL, NULL, NULL, '2000', '11', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Natural', 'Part', '30', '1400000', '-', NULL, NULL, NULL, '2000', '11', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Textured', 'Part', '30', '1800000', '-', NULL, NULL, NULL, '2000', '11', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Single Binding', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '12', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Double Binding', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '12', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ivory Binding', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '12', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Cream Binding', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '12', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Color Binding', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '12', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Single Binding', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '13', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Double Binding', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '13', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ivory Binding', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '13', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Cream Binding', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '13', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Color Binding', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '13', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Chrome', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '14', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Gold', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '14', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Black Nickel', 'Part', '30', '1800000', '-', NULL, NULL, NULL, '2000', '14', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Brushed Aluminum', 'Part', '30', '1600000', '-', NULL, NULL, NULL, '2000', '14', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Satin Chrome', 'Part', '30', '1700000', '-', NULL, NULL, NULL, '2000', '14', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Tortoise', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '15', '', NULL, NULL, NULL, NULL), 
+(NULL, 'White', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '15', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Black', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '15', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Mint Green', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '15', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Transparent', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '15', '', NULL, NULL, NULL, NULL),
+ 
+(NULL, 'Fixed Bridge', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '16', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Tremolo Bridge', 'Part', '30', '2500000', '-', NULL, NULL, NULL, '2000', '16', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Floyd Rose', 'Part', '30', '3000000', '-', NULL, NULL, NULL, '2000', '16', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Bigsby', 'Part', '30', '3500000', '-', NULL, NULL, NULL, '2000', '16', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Wraparound', 'Part', '30', '2200000', '-', NULL, NULL, NULL, '2000', '16', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Humbucker', 'Part', '30', '3000000', '-', NULL, NULL, NULL, '2000', '17', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Single Coil', 'Part', '30', '2500000', '-', NULL, NULL, NULL, '2000', '17', '', NULL, NULL, NULL, NULL), 
+(NULL, 'P90', 'Part', '30', '2800000', '-', NULL, NULL, NULL, '2000', '17', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Active Pickup', 'Part', '30', '3500000', '-', NULL, NULL, NULL, '2000', '17', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Mini Humbucker', 'Part', '30', '3200000', '-', NULL, NULL, NULL, '2000', '17', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Plastic Rings', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '18', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Metal Rings', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '18', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Wood Rings', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '18', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Design Rings', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '18', '', NULL, NULL, NULL, NULL), 
+(NULL, 'No Rings', 'Part', '30', '400000', '-', NULL, NULL, NULL, '2000', '18', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Dome Knobs', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '19', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Speed Knobs', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '19', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Bell Knobs', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '19', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Skirt Knobs', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '19', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Design Knobs', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '19', '', NULL, NULL, NULL, NULL),
+
+(NULL, '3-way Switch', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '20', '', NULL, NULL, NULL, NULL), 
+(NULL, '5-way Switch', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '20', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Toggle Switch', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '20', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Rotary Switch', 'Part', '30', '1700000', '-', NULL, NULL, NULL, '2000', '20', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Switch', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '20', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Oval Jackplate', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '21', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Square Jackplate', 'Part', '30', '600000', '-', NULL, NULL, NULL, '2000', '21', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Recessed Jackplate', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '21', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Shape Jackplate', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '21', '', NULL, NULL, NULL, NULL), 
+(NULL, 'No Jackplate', 'Part', '30', '300000', '-', NULL, NULL, NULL, '2000', '21', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Plastic Backplate', 'Part', '30', '300000', '-', NULL, NULL, NULL, '2000', '22', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Metal Backplate', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '22', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Engraved Backplate', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '22', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Transparent Backplate', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '22', '', NULL, NULL, NULL, NULL), 
+(NULL, 'No Backplate', 'Part', '30', '200000', '-', NULL, NULL, NULL, '2000', '22', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Bone Nut', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '23', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Plastic Nut', 'Part', '30', '200000', '-', NULL, NULL, NULL, '2000', '23', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Graphite Nut', 'Part', '30', '400000', '-', NULL, NULL, NULL, '2000', '23', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Brass Nut', 'Part', '30', '600000', '-', NULL, NULL, NULL, '2000', '23', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Stainless Steel Nut', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '23', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Locking Tuners', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '24', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Vintage Tuners', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '24', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Sealed Tuners', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '24', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Open Gear Tuners', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '24', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Tuners', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '24', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'C-Shape', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '25', '', NULL, NULL, NULL, NULL), 
+(NULL, 'D-Shape', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '25', '', NULL, NULL, NULL, NULL), 
+(NULL, 'U-Shape', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '25', '', NULL, NULL, NULL, NULL), 
+(NULL, 'V-Shape', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '25', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Slim Taper', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '25', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Maple', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '26', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Mahogany', 'Part', '30', '1800000', '-', NULL, NULL, NULL, '2000', '26', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Rosewood', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '26', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Walnut', 'Part', '30', '1700000', '-', NULL, NULL, NULL, '2000', '26', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ebony', 'Part', '30', '2200000', '-', NULL, NULL, NULL, '2000', '26', '', NULL, NULL, NULL, NULL),
+
+(NULL, '1.65"', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '27', '', NULL, NULL, NULL, NULL), 
+(NULL, '1.68"', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '27', '', NULL, NULL, NULL, NULL), 
+(NULL, '1.69"', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '27', '', NULL, NULL, NULL, NULL), 
+(NULL, '1.75"', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '27', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Width', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '27', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Rosewood', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '28', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Maple', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '28', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ebony', 'Part', '30', '2200000', '-', NULL, NULL, NULL, '2000', '28', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Walnut', 'Part', '30', '1700000', '-', NULL, NULL, NULL, '2000', '28', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Pau Ferro', 'Part', '30', '1800000', '-', NULL, NULL, NULL, '2000', '28', '', NULL, NULL, NULL, NULL),
+
+(NULL, '7.25"', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '29', '', NULL, NULL, NULL, NULL), 
+(NULL, '9.5"', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '29', '', NULL, NULL, NULL, NULL), 
+(NULL, '12"', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '29', '', NULL, NULL, NULL, NULL), 
+(NULL, '14"', 'Part', '30', '950000', '-', NULL, NULL, NULL, '2000', '29', '', NULL, NULL, NULL, NULL), 
+(NULL, '16"', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '29', '', NULL, NULL, NULL, NULL),
+
+(NULL, '21 Frets', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '30', '', NULL, NULL, NULL, NULL), 
+(NULL, '22 Frets', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '30', '', NULL, NULL, NULL, NULL), 
+(NULL, '24 Frets', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '30', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Jumbo Frets', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '30', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Medium Frets', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '30', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Medium Frets', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '31', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Jumbo Frets', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '31', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Narrow Frets', 'Part', '30', '600000', '-', NULL, NULL, NULL, '2000', '31', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Wide Frets', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '31', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Frets', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '31', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Rounded End', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '32', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Flat End', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '32', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Scalloped End', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '32', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Pointed End', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '32', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom End', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '32', '', NULL, NULL, NULL, NULL), 
+
+(NULL, 'Dot Inlays', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '33', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Block Inlays', 'Part', '30', '600000', '-', NULL, NULL, NULL, '2000', '33', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Triangle Inlays', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '33', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Inlays', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '33', '', NULL, NULL, NULL, NULL), 
+(NULL, 'No Inlays', 'Part', '30', '400000', '-', NULL, NULL, NULL, '2000', '33', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Mother of Pearl', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '34', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Abalone', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '34', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Acrylic', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '34', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Wood', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '34', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Material', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '34', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Standard Side Dots', 'Part', '30', '300000', '-', NULL, NULL, NULL, '2000', '35', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Luminous Side Dots', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '35', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Side Dots', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '35', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Offset Side Dots', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '35', '', NULL, NULL, NULL, NULL), 
+(NULL, 'No Side Dots', 'Part', '30', '400000', '-', NULL, NULL, NULL, '2000', '35', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Standard Headstock', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '36', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Reverse Headstock', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '36', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Headstock', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '36', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Inline Headstock', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '36', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Tilt-back Headstock', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '36', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Standard Reverse Headstock', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '37', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Reverse Headstock', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '37', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Offset Reverse Headstock', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '37', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Inline Reverse Headstock', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '37', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Scalloped Reverse Headstock', 'Part', '30', '950000', '-', NULL, NULL, NULL, '2000', '37', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Standard Tilt-back', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '38', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Extreme Tilt-back', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '38', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Tilt-back', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '38', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Scalloped Tilt-back', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '38', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Inline Tilt-back', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '38', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Glossy Finish', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '39', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Satin Finish', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '39', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Matte Finish', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '39', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Natural Finish', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '39', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Finish', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '39', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Glossy Finish', 'Part', '30', '700000', '-', NULL, NULL, NULL, '2000', '40', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Satin Finish', 'Part', '30', '750000', '-', NULL, NULL, NULL, '2000', '40', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Matte Finish', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '40', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Natural Finish', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '40', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Finish', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '40', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Single Binding', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '41', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Double Binding', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '41', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ivory Binding', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '41', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Cream Binding', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '41', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Binding', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '41', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Single Binding', 'Part', '30', '800000', '-', NULL, NULL, NULL, '2000', '42', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Double Binding', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '42', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Ivory Binding', 'Part', '30', '900000', '-', NULL, NULL, NULL, '2000', '42', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Cream Binding', 'Part', '30', '850000', '-', NULL, NULL, NULL, '2000', '42', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Binding', 'Part', '30', '1200000', '-', NULL, NULL, NULL, '2000', '42', '', NULL, NULL, NULL, NULL),
+
+(NULL, 'Standard Logo', 'Part', '30', '500000', '-', NULL, NULL, NULL, '2000', '43', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Custom Logo', 'Part', '30', '1500000', '-', NULL, NULL, NULL, '2000', '43', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Engraved Logo', 'Part', '30', '1000000', '-', NULL, NULL, NULL, '2000', '43', '', NULL, NULL, NULL, NULL), 
+(NULL, 'Mother of Pearl Logo', 'Part', '30', '2000000', '-', NULL, NULL, NULL, '2000', '43', '', NULL, NULL, NULL, NULL), 
+(NULL, 'No Logo', 'Part', '30', '0', '-', NULL, NULL, NULL, '2000', '43', '', NULL, NULL, NULL, NULL)
+;
+
+DROP TABLE IF EXISTS `CategoryPart`;
+CREATE TABLE `CategoryPart` (
+  `id` int(11) NOT NULL,
+  `Area` varchar(255) DEFAULT NULL,
+  `Category` varchar(255) DEFAULT NULL,
+  `Count` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `CategoryPart` (`id`, `area`,`Category`) VALUES
+  (1,'General','Instrument Type'),
+(2,'General','Orientation'),
+(3,'Body','Shape'),
+(4,'Body','Neck Set'),
+(5,'Body','Material'),
+(6,'Body','Scale Length'),
+(7,'Body','Countours'),
+(8,'Body','Pickup Route'),
+(9,'Body','Front Color'),
+(10,'Body','Back Color'),
+(11,'Body','Finish Type'),
+(12,'Body','Front Binding'),
+(13,'Body','Back Binding'),
+(14,'Parts','Hardware Color'),
+(15,'Parts','Pickguard'),
+(16,'Parts','Bridge'),
+(17,'Parts','Pickups'),
+(18,'Parts','Mounting Rings'),
+(19,'Parts','Control Knobs'),
+(20,'Parts','Switch'),
+(21,'Parts','Jackplate'),
+(22,'Parts','Backplate'),
+(23,'Parts','Nut'),
+(24,'Parts','Tuners'),
+(25,'Neck','Neck Shape'),
+(26,'Neck','Material'),
+(27,'Neck','Neck Width'),
+(28,'Neck','Fingerboard'),
+(29,'Neck','Fingerboard Radius'),
+(30,'Neck','Number Of Frets'),
+(31,'Neck','Fret Size'),
+(32,'Neck','Fingerboard end'),
+(33,'Neck','Inlays'),
+(34,'Neck','Inlays Material'),
+(35,'Neck','Side Dots'),
+(36,'Neck','Headstock Shape'),
+(37,'Neck','Reverse Headstock'),
+(38,'Neck','Tilt Back Headstock'),
+(39,'Neck','Neck Finish'),
+(40,'Neck','Headstock Finish'),
+(41,'Neck','Fingerboard Binding'),
+(42,'Neck','Headstock Binding'),
+(43,'Neck','Logo Special Instruction')
+;
+
+
+
 
 DROP TABLE IF EXISTS `cities`;
 CREATE TABLE `cities` (

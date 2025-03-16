@@ -147,6 +147,26 @@ class ProductsController extends Controller
         return [$product, $photos];
     }
 
+    public function getAllPart(){
+        $data = DB::table('products as a')
+        ->join('categorypart as b', 'a.Category', '=', 'b.id')
+        ->select('a.*', 'b.category as category_name', 'b.area as category_description')
+        ->get();
+
+        $area = DB::table('categorypart as a')
+        ->select('a.Area')
+        ->distinct()
+        ->get();
+
+        // dd($area);
+        $category = DB::table('categorypart as a')
+        ->select('a.CAtegory', 'a.Area')
+        ->distinct()
+        ->get();
+
+        return [$data,$area,$category];
+    }
+
     public function getAllDataProductById($id){
         $photos = DB::table('photos as a')
         ->select(
@@ -209,23 +229,31 @@ class ProductsController extends Controller
 
     
     public function ProductManage($from){
-        // dd($from);
-        $data = $this->getData('productManage',$from);
-
+        $from!='Part' ? $data = $this->getData('productManage',$from) : $data=$this->getAllPart();
+        // dd($data);
         // dd($data[0]->id_product);
         $route = null;
         $view = null;
+        $category = null;
         $from!='Part' ? $Route='/addproduct' : $Route='/addPart';
         $from!='Part' ? $view='ManageProduct' : $view='ManagePart';
+        $from!='Part' ? $category=null : $category=$this->GetPartCategory();
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
         // ,'notif'=>$notifs
         // dd($data);
         // dd(("User.Admin.".$view));
-        return view(("User.Admin.".$view),['routeForm'=>$Route, 'data'=>$data,'notif'=>$notifs]);
+        // dd($category);
+        return view(("User.Admin.".$view),['routeForm'=>$Route, 'data'=>$data,'notif'=>$notifs,'Category'=>$category]);
+    }
+
+    public function GetPartCategory(){
+        $data = DB::table('categorypart')->get();
+        return $data;
     }
 
     public function Product($wht){
+        
         $send=null;
         if($wht!='AllProduct'){
             $send = $wht;
@@ -368,18 +396,22 @@ class ProductsController extends Controller
     }
 
     public function LandingPage(){
-        $Contens = DB::table('products as a')
-        ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
-        ->where('a.isContent', 1)
-        ->select('a.*', 'b.*') // Pilih kolom sesuai kebutuhan
-        ->get();
-
-        $Special = $this->refresh();
-        $notif = new NotificationController();
-        $notifs = $notif->getAllNotif();
-        // ,'notif'=>$notifs
-
-        return view('landingpage',['Content'=>$Contens, 'Special'=>$Special,'notif'=>$notifs]);
+        if(session('Role')!='Admin'){
+            $Contens = DB::table('products as a')
+            ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+            ->where('a.isContent', 1)
+            ->select('a.*', 'b.*') // Pilih kolom sesuai kebutuhan
+            ->get();
+    
+            $Special = $this->refresh();
+            $notif = new NotificationController();
+            $notifs = $notif->getAllNotif();
+            // ,'notif'=>$notifs
+            return view('landingpage',['Content'=>$Contens, 'Special'=>$Special,'notif'=>$notifs]);    
+        }
+        else{
+            return view('User.Admin.dashboard');
+        }
     }
     public function refresh(){
         DB::table('products')->update(['isSpecial' => null]);

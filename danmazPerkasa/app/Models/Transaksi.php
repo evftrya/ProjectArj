@@ -16,5 +16,6 @@ class Transaksi extends Model
         'Shipping',
         'PaymentMethod',
         'Notes',
+        'Kode_Pembayaran',
     ];
 }

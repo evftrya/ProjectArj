@@ -615,6 +615,7 @@ body p{
 /* ------------- main content --------------- */
 .maincontent{
     width: 100%;
+    flex-wrap: wrap;
     height: calc(100% - 40px);
     /* height: fit-content; */
     margin: 10px;
@@ -631,6 +632,7 @@ body p{
     border-radius: 20px 20px 0 0;
     height: fit-content;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
 }
 .freePoster{

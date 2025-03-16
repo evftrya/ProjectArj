@@ -64,6 +64,10 @@
 </div>
 
 <script>
+    DeleteTempCheckout()
+    async function DeleteTempCheckout(){
+        let response = await fetch('/deleteTempCheckout');
+    }
 
     function AddToCart(elemen, id, event){
         event.preventDefault();
@@ -91,7 +95,7 @@
         if(isnew==1){
             console.log('jalannnnn')
             initializeLoadingIndicator();
-            window.location.href='/Checkout/'+idProduct+'/1';
+            window.location.href='/Checkout-view-direct/'+idProduct;
         }
         else{
             showPopup("Please set the address first (Setting>Account Settings>Address)",0)

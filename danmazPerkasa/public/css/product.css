@@ -36,3 +36,10 @@ p.nospecial{
     height: 250px !important;
     background-position: center 15px;
 }
+
+.bottomButtonProduct{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

@@ -87,11 +87,11 @@ class Controller extends BaseController
             $address = new AddressController();
             $accInfo['address'] = $address->getDataById();
             $accInfo['Province'] = $province;
-            $notif = new NotificationController();
-            $notifs = $notif->getAllNotif();
-        // ,'notif'=>$notifs
+            // ,'notif'=>$notifs
             // $city = $this->getCity();
         }
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
         // dd($accInfo);
 
         return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp,'notif'=>$notifs]);

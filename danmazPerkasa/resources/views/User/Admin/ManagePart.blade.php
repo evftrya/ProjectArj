@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
 <div class="LandingPage">
     <div class="titled">
         Part
@@ -13,27 +12,39 @@
     <div class="bottonsArea">
         <button onclick="TurnFormAdd()">Add Part</button>
     </div>
-    <div class="theMainList">
-        <div class="TheList">
-            @foreach($data as $d)
-            <div class="theItems">
-                <p>{{{$d->nama_product}}}</p>
-                <p>{{{$d->Category}}}</p>
-                <p>{{{$d->price}}}</p>
-                <p>{{{$d->stok}}} Items</p>
-                <div class="theButtons">
-                    <button></button>
-                    <button onclick="TurnEdit('{{{$d->id_product}}}')">Edit</button>
-                    <form action="/deletePart/{{{$d->id_product}}}" method="post">
-                        @csrf
-                        <button>Delete</button>
-                    </form>
+    <div class="theMainList part">
+        @foreach($data[1] as $t)
+        <div class="category1"  onclick="HideArea(this, 'hide')">
+            <p>▾ {{{$t->Area}}}</p>
+            @foreach($data[2] as $q)
+                @if($q->Area==$t->Area)
+                <div class="category2 {{{$t->Area}}}" onclick="HideCategory(this, 'hide', event)">
+                    <p>▾ {{{$q->CAtegory}}}</p>
+                    <div class="TheList" onclick="Demand(event)">
+                        @foreach($data[0] as $d)
+                           @if($d->category_description==$t->Area && $d->category_name==$q->CAtegory)
+                                <div class="theItems">
+                                    <p>{{{$d->nama_product}}}</p>
+                                    <p>{{{$d->category_name}}}</p>
+                                    <p>{{{$d->price}}}</p>
+                                    <p>{{{$d->stok}}} Items</p>
+                                    <div class="theButtons">
+                                        <button></button>
+                                        <button onclick="TurnEdit('{{{$d->id_product}}}')">Edit</button>
+                                        <form action="/deletePart/{{{$d->id_product}}}" method="post">
+                                            @csrf
+                                            <button>Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-            @endforeach
-            
-
+                @endif
+            @endforeach 
         </div>
+        @endforeach
         
         <div class="bottomsArea">
             <p>No More Part</p>
@@ -41,6 +52,54 @@
     </div>
 </div>
 <script>
+
+    function Demand(event){
+        event.stopPropagation();
+    }
+    function HideArea(elemen, wht){
+        console.log(elemen);
+        let divs = elemen.querySelectorAll(':scope > div')
+        console.log(divs)
+        let p = elemen.querySelector('p')
+
+        divs.forEach(k=>{
+            if(wht=='hide'){
+                k.style.display = 'none'
+                elemen.setAttribute('onclick', "HideArea(this, 'open')");
+                p.textContent = p.textContent.replace("▾","▸")
+
+            }
+            else{
+                k.style.display = 'flex'
+                elemen.setAttribute('onclick', "HideArea(this, 'hide')");
+                p.textContent = p.textContent.replace("▸","▾")
+
+            }
+        })
+    }
+
+    function HideCategory(elemen, wht, event){
+        event.stopPropagation();
+        console.log(elemen);
+        let divs = elemen.querySelectorAll(':scope > div')
+        console.log(divs)
+        let p = elemen.querySelector('p')
+
+        divs.forEach(k=>{
+            if(wht=='hide'){
+                k.style.display = 'none'
+                elemen.setAttribute('onclick', "HideCategory(this, 'open', event)");
+                p.textContent = p.textContent.replace("▾","▸")
+            }
+            else{
+                k.style.display = 'flex'
+                elemen.setAttribute('onclick', "HideCategory(this, 'hide', event)");
+                p.textContent = p.textContent.replace("▸","▾")
+            }
+        })
+        // let category1 = elemen.closest('category1')
+        // category1.setAttribute(category1.getAttribute('onclick'))
+    }
     async function TurnEdit(idProduct){
 
         let response = await fetch('/getDataPart/'+idProduct);
@@ -58,7 +117,7 @@
     async function FormEdit(product, photos){
         // console.log(product[0].id_product)
             changeTitle('Edit Part');
-        
+            
             let container = document.querySelector(".NewProduct .containerd");
             let form = document.createElement('form');
             form.action = "/editPart/"+product[0].id_product;
@@ -86,10 +145,7 @@
                         <div class="productCategory">
                             <p>Part Category</p>
                             <select name="product" id="">
-                                <option value="Body Shape">Body Shape</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                
                             </select>
                         </div>
                         <div class="input-container">
@@ -181,6 +237,8 @@ function TurnFormAdd(){
         }
     }
 function FormAdd(){
+        let category = @json($Category);
+        console.log(category);
         let container = document.querySelector(".NewProduct .containerd");
         let form = document.createElement('form');
         form.action = "{{ route('add-product', ['wht' => 'Part' ]) }}";
@@ -204,20 +262,37 @@ function FormAdd(){
                                     <input type="file" name="foto1" id="" required>
                                 </div>                                
                             </div>
-                        </div>
-                        <div class="productCategory">
-                            <p>Part Category</p>
-                            <select name="product" id="">
-                                <option value="Body Shape">Body Shape</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
+                        </div>`
+                        let div = document.createElement('div')
+                        div.className="productCategory"
+                        let p = document.createElement('p');
+                        p.textContent="Part Category";
+                        div.appendChild(p);
+
+                            let select = document.createElement('select')
+                            select.name = 'product'
+                            for(let i=0;i<category.length;i++){
+                                if(i==0){
+                                    let option = document.createElement('option')
+                                    option.value = "0"
+                                    option.textContent = "Select Category"
+                                    select.appendChild(option)
+                                }
+
+                                let y = category[i]
+                                let option = document.createElement('option')
+                                option.value = `${y.id}`
+                                option.textContent = `${y.Area} - ${y.Category}`
+                                select.appendChild(option)
+                            }
+                            div.appendChild(select);
+                            form.appendChild(div)
+
+                        form.innerHTML+=`</div>
                         <div class="input-container">
                         <!-- <p>Email</p> -->
                             <input type="text" name="ProductName" placeholder="" id="inputField">
-                            <label for="inputField">Part Name</label>
+                            <label for="inputField">Part Name ("," for same category with different color)</label>
                         <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                         </div>
                         <div class="input-container">
@@ -258,11 +333,8 @@ function FormAdd(){
                             </div>
                         </div>
                         <div class="input-container desc end">
-                        <!-- <p>Email</p> -->
-                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
                             <textarea  rows="4" cols="60" name="Description" id=""></textarea>
                             <label for="inputField">Description</label>
-                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                         </div>
         `;
 
@@ -275,6 +347,7 @@ function FormAdd(){
         `;
         container.appendChild(form);
         container.appendChild(theButton);
+        console.log(form.innerHTML)
         // scrollPhotos();
 
     }

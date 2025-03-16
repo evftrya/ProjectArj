@@ -225,6 +225,7 @@ $url = $cont->GetUrl();
                 <textarea  rows="4" cols="60" name="Description" id=""></textarea>
                 <label for="inputField">Description</label>
             </div>
+            <div class="input-container desc end">
                 <textarea  rows="4" cols="60" name="Features" id="" ></textarea>
                 <label for="inputField">Features</label>
             </div>

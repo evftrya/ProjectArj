@@ -33,12 +33,18 @@
                 <div class="bottomProductArea">
                     <p>{{{$d->price}}}</p>
                     <div class="bottomButtonProduct">
-                        <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)">
-                            <p>ADD TO CART</p>
-                        </Button>
-                        <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)">
-                            <p>BUY NOW</p>
-                        </Button>
+                        @if(session('user_id')==0)
+                            <button onclick="toLogin(event)">
+                                Login to Buy
+                            </button>
+                        @else
+                            <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)">
+                                <p>ADD TO CART</p>
+                            </Button>
+                            <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)">
+                                <p>BUY NOW</p>
+                            </Button>
+                        @endif
                     </div>
                 </div>
             </a>
@@ -51,6 +57,10 @@
 </div>
 
 <script>
+    function toLogin(event){
+        event.preventDefault();
+        window.location.href='/Login';
+    }
     async function goCheckout(idProduct, event){
         event.preventDefault();
         let adr = await fetch('/isNew');
@@ -58,7 +68,7 @@
         if(isnew==1){
             console.log('jalannnnn')
             initializeLoadingIndicator();
-            window.location.href='/Checkout/'+idProduct+'/1';
+            window.location.href='/Checkout-view-direct/'+idProduct;
         }
         else{
             showPopup("Please set the address first (Setting>Account Settings>Address)",0)
@@ -160,6 +170,12 @@
 </script>
 
 <script>
+
+    DeleteTempCheckout();
+    DeleteTempCheckout()
+    async function DeleteTempCheckout(){
+        let response = await fetch('/deleteTempCheckout');
+    }
     // search 
     @if(isset($search))
     fillSearch('{{$search}}');
@@ -171,12 +187,12 @@
     }
     @endif
     function searchProduct(search){
+        search = search.toLowerCase();
         let a = document.querySelectorAll('.TheProduk');
         a.forEach(r=>{
-
-            let text = r.textContent.trim();
+            let text = r.textContent.trim().toLowerCase();
             console.log(text);
-            if(text.includes(search)){
+            if(text.indexOf(search)>0){
                 r.style.display = 'flex';
             }
             else{

@@ -12,32 +12,61 @@ use App\Models\Transaksi;
 
 class TransaksiController extends Controller
 {
-    public function store(Request $req){
+    public function store(Request $req,$wht){
+        // dd($req);
         $Transaction = new Transaksi();
         $Transaction->id_user = session('user_id');
         $Transaction->save();
         $total = 0;
         // dd($Transaction);
         $contDT = new DetailTransactionController();
-        $Checkout = $contDT->getAllData('Checkout');
+        if($wht=='Default'){
+            $Checkout = $contDT->getAllData('Checkout');
+        }
+        else{
+            $Checkout = $contDT->getAllData('TempCheckout');
+
+        }
         // dd($Checkout);
 
         $contProd = new ProductsController();
         foreach($Checkout as $c){
             $contProd->CheckoutProduct($c->qty,$c->id_product);
-            $contDT->UpdateStatus($c->id_product, 'donePayment');
+            $contDT->UpdateStatus($c->id_product, 'WFP');
             $contDT->SetTransaction($c->id_Detail_transaction, $Transaction->id);
             $total+=(intval($c->price)*$c->qty);
         }
-        $total+=102000;
+        $total+=2000;
 
-        $Transaction->Total = $total;
+        // dd($req->shippingCost."and".$total);
+        $Transaction->TotalShopping = ($total + $req->shippingCost);
+        $payment = $req->paymentMethod;
+        if($req->bankMethod!=null){
+            $payment = $req->paymentMethod." ".$req->bankMethod;
+        }
+        $Transaction->PaymentMethod = $payment;
+        if($req->ntoes!=null){
+            $Transaction->Notes = $req->ntoes;
+        }
+        $ship = (explode('|', $req->ship));
+        $Transaction->Shipping = strtoupper($ship[0]." (".$ship[1].")");
+        
+        $Transaction->shippingEstimate = $req->shippingEstimate;
+        $Transaction->Status_Pembayaran = "Waiting";
+        $Transaction->Status_Pengiriman = "Waiting";
+        $Transaction->TotalShipping = $req->shippingCost;
+        // dd($Transaction);
         $Transaction->save();
+        
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
-        // ,'notif'=>$notifs
+        
+        $addr = new AddressController();
+        $userData = $addr->getDataById();
 
-        return view('User.Pelanggan.PaymentProses',['total'=>$total,'notif'=>$notifs]);
+        
+        // ,'notif'=>$notifs
+        return redirect('Transaction/'.$Transaction->id);
         
     }
 
@@ -67,47 +96,48 @@ class TransaksiController extends Controller
         return $Transaction;
     }
 
-    public function payment(){
-        /*Install Midtrans PHP Library (https://github.com/Midtrans/midtrans-php)
-        composer require midtrans/midtrans-php
-                                    
-        Alternatively, if you are not using **Composer**, you can download midtrans-php library 
-        (https://github.com/Midtrans/midtrans-php/archive/master.zip), and then require 
-        the file manually.   
-
-        require_once dirname(__FILE__) . '/pathofproject/Midtrans.php'; */
-
-        //SAMPLE REQUEST START HERE
-
-        // Set your Merchant Server Key
-        // \Midtrans\Config::$serverKey = 'SB-Mid-server-DF9qJOSdrGs6DB01TgtG5AX1';
-        // // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        // \Midtrans\Config::$isProduction = true;
-        // // Set sanitization on (default)
-        // \Midtrans\Config::$isSanitized = true;
-        // // Set 3DS transaction for credit card to true
-        // \Midtrans\Config::$is3ds = true;
-
-        // $params = array(
-        //     'transaction_details' => array(
-        //         'order_id' => rand(),
-        //         'gross_amount' => 105,
-        //     ),
-        //     'customer_details' => array(
-        //         'first_name' => 'budi',
-        //         'last_name' => 'pratama',
-        //         'email' => 'budi.pra@example.com',
-        //         'phone' => '08111222333',
-        //     ),
-        // );
-
-        // $snapToken = \Midtrans\Snap::getSnapToken($params);
-        // // return $snapToken;
-        // // dd($snapToken);
-
-        // return view('coba',['snapToken'=>$snapToken]);
-
-
+    public function toTransaction($idT){
+        dd($idT);
+        $Data = DB::table('transaksis as a')
+        ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+        ->join('products as c', 'b.id_product', '=', 'c.id_product')
+        ->join('photos as d', 'c.mainPhoto', '=', 'd.id_Photo')
+        ->where('a.id', $idT)
+        ->select('a.*', 'b.*', 'c.*', 'd.*', 'a.created_at as Deadline')
+        ->get();
+    
+        // dd($Data);
         
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        
+        $addr = new AddressController();
+        $userData = $addr->getDataById();
+        // dd($userData);
+
+        return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData]);
+
+    }
+
+    public function Bayar(){
+        $data = Transaksi::where('Status_Pembayaran', 'Waiting')->get();
+        // dd($data);
+        return view('apiPembayaran',['data'=>$data]);
+    }
+
+    public function payment(Request $req){
+        // dd($req->all());
+        $transaction = Transaksi::where('id', $req->idTransaction)->get()->first();
+        // dd($transaction);
+        $transaction->Status_Pembayaran = 'Done';
+        $transaction->save();
+
+        return redirect('/Bayar');
+        
+    }
+
+    public function cekStatus($idTransaction){
+        $data = Transaksi::where('id', $idTransaction)->get()->first();
+        return response()->json($data->Status_Pembayaran);
     }
 }
