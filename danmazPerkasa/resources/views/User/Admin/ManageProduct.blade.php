@@ -12,7 +12,7 @@ $url = $cont->GetUrl();
 @section('content')
 <div class="LandingPage">
     <div class="titled">
-        Manage Product
+        Manage Product CEK
     </div>
     <div class="bottonsArea">
         <button onclick="TurnFormAdd()">Add Product</button>
