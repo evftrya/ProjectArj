@@ -92,6 +92,7 @@ class AccountController extends Controller
 
     public function Logout(){
         session_abort();
+        Auth::logout();
         session(['user_id' => 0]);
         session(['direction'=>null]);
         session(['Role'=>null]);

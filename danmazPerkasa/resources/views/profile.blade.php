@@ -403,13 +403,19 @@
         let old = document.querySelector('#OldPassword').value;
         let Neww = document.querySelector('#NewPassword').value;
         let retype = document.querySelector('#RetypeNewpassword').value;
+        console.log((!Neww.length>=8 || !/[A-Z]/.test(Neww)||!/[a-z]/.test(Neww)));
         if(old==Neww){
-            showPopup("New Password cannot same as old Password",0);
             event.preventDefault();
+            showPopup("New Password cannot same as old Password",0);
         }
         else if(Neww!=retype){
-            showPopup("new Password and Retype Password are not same",0);
             event.preventDefault();
+            showPopup("new Password and Retype Password are not same",0);
+        }
+        else if(!Neww.length>=8 || !/[A-Z]/.test(Neww)||!/[a-z]/.test(Neww)){
+            event.preventDefault();
+            let string= 'Your Password must be at least 8 Characters long \n Include at least an uppercase letter \n Include at least a lowercase letter ';
+            showPopup(string,0);
         }
     }
 

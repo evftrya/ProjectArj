@@ -378,17 +378,22 @@ input:disabled{
     font-size: 20px;
 }
 
-@media screen and (max-width: 662px) {
+@media screen and (max-width: 520px) {
     .containerbody.TwoSpace{
         flex-direction: column;
         gap: 20px;
         justify-content: space-between;
     }
     .container{
+        display: flex;
+        flex-direction: column !important;
         flex-wrap: wrap !important;
 
     }
-
+    .maincontent{
+        display: flex;
+        flex-wrap: wrap !important;
+    }
     div#content.content{
         width: 100% !important;
         
@@ -399,7 +404,10 @@ input:disabled{
             max-width: 190px !important;
         }
         .container2{
+            display: flex;
+
             padding-left: 0;
+            flex-wrap: wrap !important;
     
             .input-container{
                 width: 100% !important;

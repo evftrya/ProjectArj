@@ -11,52 +11,74 @@ use App\Http\Controllers\ProductsController;
 class DetailTransactionController extends Controller
 {
     public function store(Request $req,$idProduct){
-        // dd(session("user_id"));
-        // dd($idProduct);
-        $Cont = new ProductsController();
-        $product = $Cont->getDataProduct($idProduct)[0][0];
-        // echo $product;
-        $total = $product->price*$req->qty;
-        // dd($product->price);
+        // $id = null;
+
+        if($this->AuthSystem()>0){
+            // dd(session('direction'));
+            if(session('direction')==null){
+                
+                // dd(session("user_id"));
+                // dd($idProduct);
+                $Cont = new ProductsController();
+                $product = $Cont->getDataProduct($idProduct)[0][0];
+                // echo $product;
+                $total = $product->price*$req->qty;
+                // dd($product->price);
+                
+                $products = DB::table('detail__transactions as a')
+                ->where('a.id_product', $idProduct)
+                ->where('a.id_user', session("user_id"))
+                ->where(function ($query) {
+                    $query->where('a.status', 'Pending')
+                          ->orWhere('a.status', 'Checkout');
+                })
+                ->whereNull('a.Transaksis_id')
+                ->get();
         
-        $products = DB::table('detail__transactions as a')
-        ->where('a.id_product', $idProduct)
-        ->where('a.id_user', session("user_id"))
-        ->where(function ($query) {
-            $query->where('a.status', 'Pending')
-                  ->orWhere('a.status', 'Checkout');
-        })
-        ->whereNull('a.Transaksis_id')
-        ->get();
-
-
-        // dd("ms");
-        // dd(($products)); 
-        if((isset($products[0]->qty))){
-            $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
-            if($old){
-                // dd($old);
-                $old->qty = $old->qty+$req->qty;
-                $old->Total = $old->qty*$product->price;
-                if($old->save()){
-                    return response()->json(['message'=> 'successOld'.$products[0]->qty]);
-                };
-                // $old->Total =  
+        
+                // dd("ms");
+                // dd(($products)); 
+                if((isset($products[0]->qty))){
+                    $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
+                    if($old){
+                        // dd($old);
+                        $old->qty = $old->qty+$req->qty;
+                        $old->Total = $old->qty*$product->price;
+                        if($old->save()){
+                            return response()->json(['message'=> 'successOld'.$products[0]->qty]);
+                        }
+                        else{
+                            return response()->json(['message'=> 'false'.$detil->id_Detail_transaction]);
+                        }
+                        // $old->Total =  
+                    }
+                }
+                else{
+                    $detil = new Detail_Transaction();
+                    $detil->qty = $req->qty;
+                    $detil->total = $total;
+                    $detil->id_User = session("user_id");
+                    // $detil->status = 0;
+                    $detil->id_product = $idProduct;
+                    // $detil->save();
+                        if($detil->save()){
+                            return response()->json(['message'=> 'successNew'.$detil->id_Detail_transaction]);
+                        }
+                        else{
+                            return response()->json(['message'=> 'false'.$detil->id_Detail_transaction]);
+                        }
+                }
+                
+                //ISIII------------------------
             }
         }
         else{
-            $detil = new Detail_Transaction();
-            $detil->qty = $req->qty;
-            $detil->total = $total;
-            $detil->id_User = session("user_id");
-            // $detil->status = 0;
-            $detil->id_product = $idProduct;
-            // $detil->save();
-                if($detil->save()){
-                    return response()->json(['message'=> 'successNew'.$detil->id_Detail_transaction]);
-                }
+            session(['direction' => '/']);
+            return response()->json(['message'=> 'false']);
         }
-        
+
+
+
         
     }
 
@@ -125,6 +147,8 @@ class DetailTransactionController extends Controller
             session(['direction' => '/Cart']);
             return redirect('/Login');
         }
+
+        
         
     }
 

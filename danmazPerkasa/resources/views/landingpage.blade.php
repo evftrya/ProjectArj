@@ -69,10 +69,11 @@
         let response = await fetch('/deleteTempCheckout');
     }
 
-    function AddToCart(elemen, id, event){
+    async function AddToCart(elemen, id, event){
         event.preventDefault();
         id = parseInt(id);
-        fetch(('/AddToCart/'+id),{
+        let cek = null;
+        let response = await fetch(('/AddToCart/'+id),{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,14 +82,22 @@
             body: JSON.stringify({
                 qty: 1,
             })
-        }).then(response=>response.json()).then(data => {
-        console.log('Success:', data.message);
-        })
+        });
 
-        showPopup('successfully added to the cart');
+        let data = await response.json();
+        
+        if((data.message.includes('success'))){
+            showPopup('successfully added to the cart');
+        }
+        else{
+            showPopup('Please log in first to perform this action',0);
+        }
+        // showPopup('Please log in first to perform this action',0);
     }
 
     async function goCheckout(idProduct, event){
+        // let session = "{{session('Role')}}";
+        
         event.preventDefault();
         let adr = await fetch('/isNew');
         let isnew = await adr.json();
@@ -96,6 +105,10 @@
             console.log('jalannnnn')
             initializeLoadingIndicator();
             window.location.href='/Checkout-view-direct/'+idProduct;
+        }
+        else if(document.querySelector('.auth')){
+
+            showPopup("Please log in first to perform this action)",0)
         }
         else{
             showPopup("Please set the address first (Setting>Account Settings>Address)",0)

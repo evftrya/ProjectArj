@@ -98,6 +98,9 @@ class ProductsController extends Controller
                             ->addSelect('b.PhotosName',
                                 'a.Features',
                     );
+                if($wht=='AllProduct'){
+                    return $products->get();
+                }
             }
             
             if($wht!=null && $wht!='productManage'){
@@ -115,7 +118,6 @@ class ProductsController extends Controller
                 $products = $products->where('a.type','Part' );
             }
             $products = $products->get();
-            // dd($products);
         return $products;
     }
     public function getDataProduct($idProduct){
@@ -204,10 +206,11 @@ class ProductsController extends Controller
     public function getAllDataPartById($id){
 
         $product = DB::table('products as a')
-            ->join('photos as b', 'a.id_product', '=', 'b.id_product')
+            ->LeftJoin('photos as b', 'a.id_product', '=', 'b.id_product')
             ->select(
                 'a.id_product',
                 'a.nama_product',
+                'a.Category',
                 'a.stok',
                 'a.type',
                 'a.color',
@@ -217,9 +220,11 @@ class ProductsController extends Controller
                 'a.Features',
                 'b.PhotosName',
                 'a.price'
-        )->where('a.id_product', $id)
-        // ->where('a.stok','>',0 )
+        )
+        ->where('a.id_product', $id)
+        ->where('a.type','Part' )
         ->get();
+        // dd($product);
 
         // $data=[$product];
         // dd($data);
@@ -276,8 +281,12 @@ class ProductsController extends Controller
         $notifs = $notif->getAllNotif();
         // ,'notif'=>$notifs
         // dd($data);
-        return view('/User.Pelanggan.ProductDetil',['product'=>$data[0][0],'photos'=>$data[1],'notif'=>$notifs]);
-
+        // dd($data[0]);
+        // dd($data);
+        if($data[0]!=null){
+            return view('/User.Pelanggan.ProductDetil',['isNull'=>0,'product'=>$data[0][0],'photos'=>$data[1],'notif'=>$notifs]);
+        }
+        return view('/User.Pelanggan.ProductDetil',['isNull'=>1]);
     }
 
     public function CheckoutProduct($qty, $idProduct){
@@ -294,12 +303,17 @@ class ProductsController extends Controller
     }
 
     public function deletePart($idProduct){
-        return $this->delete($idProduct,'Part');
+        return ($this->delete($idProduct,'Part'));
+
     }
 
     public function delete($idProduct,$wht){
-        $product = Products::where('id_product', $idProduct)->first()->delete();
-        return redirect('/Manage/Product/'.$wht);
+        $product = Products::where('id_product', $idProduct)->first();
+        // $product = Products::where('id_product', $idProduct)->first()->delete();
+        // dd($product);
+        $name = $product->nama_product;
+        $product->delete();
+        return redirect('/Manage/Product/'.$wht)->with('pesan', "Delete ".$name." Successfully");
     }
     public function updateProduct(Request $req, $idProduct){
         $this->update($req, $idProduct,"Product");
@@ -307,6 +321,7 @@ class ProductsController extends Controller
     }
 
     public function updatePart(Request $req, $idProduct){
+        // dd($req->foto1);
         $this->update($req, $idProduct,"Part");
         return redirect('/Manage/Product/Part');
     }
@@ -361,12 +376,21 @@ class ProductsController extends Controller
                 if($req->file('foto1')!=null){
                     // dd('masuk');
                     $photo = Photos::where('id_product', $idProduct)->first();
-                    // dd($photo);
-                    // $photo->PhotosName = pathinfo($req->file('foto1')->store('images','public'), PATHINFO_BASENAME);
-                    // $photo->forceFill(['PhotosName' => pathinfo($req->file('foto1')->store('images', 'public'), PATHINFO_BASENAME)]);
                     $name = pathinfo($req->file('foto1')->store('images', 'public'), PATHINFO_BASENAME);
-                    Photos::where('id_product', $idProduct)
-                    ->update(['PhotosName' => $name]);
+                    if(!$photo){
+                        $photo = new Photos();
+                        $photo->id_product = $idProduct;
+                        $photo->isMain = 1;
+                        $photo->PhotosName = $name;
+                    }
+                    else{
+                        Photos::where('id_product', $idProduct)
+                        ->update(['PhotosName' => $name]);    
+                    }
+                    // dd($photo);
+                        // $photo->PhotosName = pathinfo($req->file('foto1')->store('images','public'), PATHINFO_BASENAME);
+                        // $photo->forceFill(['PhotosName' => pathinfo($req->file('foto1')->store('images', 'public'), PATHINFO_BASENAME)]);
+                    // dd($photo);
                     $photo->save();
                 }
             }
@@ -448,7 +472,9 @@ class ProductsController extends Controller
     }
 
     public function search(Request $req,$wht){
+        // dd($req);
         $send=$wht;
+        // dd($wht);
         $data = $this->getData($send,'Product');
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();

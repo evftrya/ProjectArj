@@ -189,6 +189,7 @@
     function searchProduct(search){
         search = search.toLowerCase();
         let a = document.querySelectorAll('.TheProduk');
+        console.log(a);
         a.forEach(r=>{
             let text = r.textContent.trim().toLowerCase();
             console.log(text);

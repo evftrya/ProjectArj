@@ -53,13 +53,37 @@
 </div>
 <script>
 
+
+    @if(session('pesan'))
+        let pesan = "{{ session('pesan') }}";
+        showPopup(pesan, 1);
+
+        function showPopup(wht,which) {
+            const popup = document.getElementById('popup');
+            //console.log(popup);
+            if(which==0){
+                popup.style.backgroundColor="#b32323";
+            }
+            else{
+                popup.style.backgroundColor="#4caf50";
+            }
+            popup.textContent = wht
+            popup.classList.add('show');
+
+            // Hilangkan pop-up setelah 3 detik
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 1500);
+        }
+    @endif
+
     function Demand(event){
         event.stopPropagation();
     }
     function HideArea(elemen, wht){
-        console.log(elemen);
+        // console.log(elemen);
         let divs = elemen.querySelectorAll(':scope > div')
-        console.log(divs)
+        // console.log(divs)
         let p = elemen.querySelector('p')
 
         divs.forEach(k=>{
@@ -80,9 +104,9 @@
 
     function HideCategory(elemen, wht, event){
         event.stopPropagation();
-        console.log(elemen);
+        // console.log(elemen);
         let divs = elemen.querySelectorAll(':scope > div')
-        console.log(divs)
+        // console.log(divs)
         let p = elemen.querySelector('p')
 
         divs.forEach(k=>{
@@ -109,14 +133,23 @@
         // console.log(data)
         // let photos = data[1]
         resetForm();
+        // console.log(data);
 
-        FormEdit(data, null);
+        FormEdit(data, null,data);
+
+
+        // // console.log(response);
         ClosePopUp('open');
     }
 
-    async function FormEdit(product, photos){
+    
+
+    async function FormEdit(product, photos, data){
         // console.log(product[0].id_product)
             changeTitle('Edit Part');
+
+            let category = @json($Category);
+
             
             let container = document.querySelector(".NewProduct .containerd");
             let form = document.createElement('form');
@@ -125,12 +158,12 @@
             form.className = "formEditAdd";
             form.enctype = "multipart/form-data";
         
-                let html = `
-                @csrf
+            form.innerHTML=`
+            @csrf
                         <div class="PhotosAdds">
                             <div class="PhotoAreaContainer">
-                                <div class="imageContainer withfill Main">
-                                    <div class="theImage" onclick="TurnInput(this)" style="background-image: url('{{asset('storage/images')}}/${product[0].PhotosName}'); display: flex;">
+                                <div class="imageContainer nofill Main">
+                                    <div class="theImage" data-base-url="{{ asset('storage/images') }}" onclick="TurnInput(this)">
 
                                     </div>
                                     <button class="forInputPhoto" onclick="fillInput(this, event)">
@@ -141,28 +174,55 @@
                                     <input type="file" name="foto1" id="" required>
                                 </div>                                
                             </div>
-                        </div>
-                        <div class="productCategory">
-                            <p>Part Category</p>
-                            <select name="product" id="">
-                                
-                            </select>
+                        </div>`
+                        let div = document.createElement('div')
+                        div.className="productCategory"
+                        let p = document.createElement('p');
+                        p.textContent="Part Category";
+                        div.appendChild(p);
+
+                            let select = document.createElement('select')
+                            select.name = 'product'
+                            for(let i=0;i<category.length;i++){
+                                if(i==0){
+                                    let option = document.createElement('option')
+                                    option.value = "0"
+                                    option.textContent = "Select Category"
+                                    select.appendChild(option)
+                                }
+
+                                let y = category[i]
+                                let option = document.createElement('option')
+                                option.value = `${y.id}`
+                                option.textContent = `${y.Area} - ${y.Category}`
+                                select.appendChild(option)
+                            }
+                            div.appendChild(select);
+                            form.appendChild(div)
+
+                        form.innerHTML+=`</div>
+                        <div class="input-container">
+                        <!-- <p>Email</p> -->
+                            <input type="text" name="ProductName" placeholder="" id="inputField">
+                            <label for="inputField">Part Name ("," for same category with different color)</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                         </div>
                         <div class="input-container">
-                            <input type="text" name="ProductName" placeholder="" id="inputField" value="${product[0].nama_product}">
-                            <label for="inputField">Part Name</label>
-                        </div>
-                        <div class="input-container">
-                            <input type="text" name="ProductColor" value="${product[0].color}" placeholder="" id="inputField">
+                        <!-- <p>Email</p> -->
+                            <input type="text" name="ProductColor" placeholder="" id="inputField">
                             <label for="inputField">Part Color</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                         </div>
                         <div class="input-container">
-                            <input type="number" name="weight" placeholder="" value="${product[0].weight}" id="inputField">
+                        <!-- <p>Email</p> -->
+                            <input type="number" name="weight" placeholder="" id="inputField">
                             <label for="inputField">Part Weight (gram)</label>
                         </div>
                         <div class="input-container">
-                            <input type="number" name="ProductPrice" value="${product[0].price}" placeholder="" id="inputField">
+                        <!-- <p>Email</p> -->
+                            <input type="number" name="ProductPrice" placeholder="" id="inputField">
                             <label for="inputField">Part Price</label>
+                        <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                         </div>
                         <div class="forQty">
                             <p>Quantity</p>
@@ -174,7 +234,7 @@
                                         </svg>
                                     </button>
                                     <div class="mid">
-                                        <input type="number" name="stock" value="${product[0].stok}">
+                                        <input type="number" name="stock" value="1">
                                     </div>
                                     <button class="ActQty plus" onclick="changeQty('plus',this,event)">
                                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -185,13 +245,10 @@
                             </div>
                         </div>
                         <div class="input-container desc end">
-                            <!-- <input style="display:none;" type="email" name="emailUser" placeholder="" id="inputField"> -->
-                            <textarea  rows="4" cols="60" name="Description" id="">${product[0].detail_product}</textarea>
+                            <textarea  rows="4" cols="60" name="Description" id=""></textarea>
                             <label for="inputField">Description</label>
                         </div>
-                
-                `
-            form.innerHTML = html;
+        `;
 
             let theButton = document.createElement('div');
                 theButton.className = 'TheButtons';
@@ -201,10 +258,59 @@
                 `;
             container.appendChild(form);
             container.appendChild(theButton);
-        
-    
+        // console.log(form);
+                            
+        fillForm(data, form);
+
+
     // console.log("photo1 : "+photos[0].id_Photo)
     }
+
+    function fillForm(data, form){
+        let go = data[0];
+        console.log(go)
+
+        // let inpPhoto = form.querySelector('.imageContainer>input');
+        // let Ctgr = document.querySelector('')
+        let inps = form.querySelectorAll('input');
+        // console.log(inps);
+        // console.log(inps[0]);
+
+        (go.nama_product!=null)? inps[2].value = go.nama_product : null;
+        (go.color!=null || go.color!="-")? inps[3].value = go.color : null;
+        (go.weight!=null)? inps[4].value = go.weight : null;
+        (go.price!=null)? inps[5].value = go.price : null;
+        (go.stok!=null)? inps[6].value = go.stok : null;
+        let desc = form.querySelector('textarea');
+        let types = form.querySelector('select');
+        (go.Category!=null)? types.value = go.Category : null;
+        
+        // console.log(desc);
+        (go.detail_product!=null)? desc.value = go.detail_product : null;
+        (go.PhotosName!=null)? setPhoto() : null ;
+        
+        
+        function setPhoto(){
+            let photo = form.querySelector('.theImage');
+            let baseURL = photo.getAttribute("data-base-url");
+            photo.style.backgroundImage = `url(${baseURL}/${go.PhotosName})`;
+            photo.style.display="flex";
+
+            let cont = photo.closest('.imageContainer');
+            cont.classList.replace('nofill', 'withfill');
+        }
+        
+
+        
+        
+        
+        // Name.value = go.nama_product;
+        
+        
+        
+    }
+
+    
     function TurnInput(elemen){
         let div = elemen.closest('.imageContainer')
         let inp = div.querySelector('input');
@@ -238,7 +344,7 @@ function TurnFormAdd(){
     }
 function FormAdd(){
         let category = @json($Category);
-        console.log(category);
+        // console.log(category);
         let container = document.querySelector(".NewProduct .containerd");
         let form = document.createElement('form');
         form.action = "{{ route('add-product', ['wht' => 'Part' ]) }}";
@@ -347,7 +453,7 @@ function FormAdd(){
         `;
         container.appendChild(form);
         container.appendChild(theButton);
-        console.log(form.innerHTML)
+        // console.log(form.innerHTML)
         // scrollPhotos();
 
     }

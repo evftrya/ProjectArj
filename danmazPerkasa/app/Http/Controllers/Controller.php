@@ -55,46 +55,59 @@ class Controller extends BaseController
     }
 
     public function Profile($wht,AccountController $acc){
-        // dd($wht);
-        // if($wht=="Info"){
-        //     return view('profile',['wht'=>$wht]);
-        // }
-        $accInfo = $acc->getProfile(session('user_id'));
+
+        //------------------------------------------------------------------------
+
+        if($this->AuthSystem()>0){
+            // dd(session('direction'));
+            if(session('direction')==null){
+                
+                $accInfo = $acc->getProfile(session('user_id'));
 
 
-        //pisah nama depan n blakang
-        $fullname = explode(" ", $accInfo->namaUser);
-        // dd($fullname);
-        $accInfo->firstName = trim($fullname[0]);
-        $accInfo->lastName = trim($fullname[1]);
-        // dd($accInfo->fisrtName."||".$accInfo->lastName);
-        for($i=1;$i<=strlen($accInfo->passwordUser);$i++){
-            $lenpw = str_repeat('*',$i);
+                //pisah nama depan n blakang
+                $fullname = explode(" ", $accInfo->namaUser);
+                // dd($fullname);
+                $accInfo->firstName = trim($fullname[0]);
+                $accInfo->lastName = trim($fullname[1]);
+                // dd($accInfo->fisrtName."||".$accInfo->lastName);
+                for($i=1;$i<=strlen($accInfo->passwordUser);$i++){
+                    $lenpw = str_repeat('*',$i);
+                }
+                $accInfo->lenPassword = $lenpw;
+                // dd($accInfo->lenPassword);
+
+                
+                $cp = $wht;
+                if($wht=="Change-Password"){
+                    $cp = "ChangePassword";
+
+                }
+                $datas=null;
+                if($wht=='Address'){
+                    // $city = $this->getCity();
+                    $province = $this->getProvince();
+                    $address = new AddressController();
+                    $accInfo['address'] = $address->getDataById();
+                    $accInfo['Province'] = $province;
+                    // ,'notif'=>$notifs
+                    // $city = $this->getCity();
+                }
+                $notif = new NotificationController();
+                $notifs = $notif->getAllNotif();
+                // dd($accInfo);
+
+                return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp,'notif'=>$notifs]);
+            }
         }
-        $accInfo->lenPassword = $lenpw;
-        // dd($accInfo->lenPassword);
+        else{
+            session(['direction' => '/Profile/Info']);
+            return redirect('/Login');
+        }
+
+
 
         
-        $cp = $wht;
-        if($wht=="Change-Password"){
-            $cp = "ChangePassword";
-
-        }
-        $datas=null;
-        if($wht=='Address'){
-            // $city = $this->getCity();
-            $province = $this->getProvince();
-            $address = new AddressController();
-            $accInfo['address'] = $address->getDataById();
-            $accInfo['Province'] = $province;
-            // ,'notif'=>$notifs
-            // $city = $this->getCity();
-        }
-        $notif = new NotificationController();
-        $notifs = $notif->getAllNotif();
-        // dd($accInfo);
-
-        return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp,'notif'=>$notifs]);
     }
     
 

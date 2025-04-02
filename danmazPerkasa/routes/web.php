@@ -57,7 +57,10 @@ $controller = new Controller();
             if($cont->AuthSystem()>0){
                 // dd(session('direction'));
                 if(session('direction')!=null){
-                    return redirect(session('direction'));
+                    $save = session('direction');
+                    session(['direction' => null]);
+
+                    return redirect($save);
                 }
                 else{
                     return redirect('/');
@@ -80,12 +83,13 @@ $controller = new Controller();
      Route::get('/Logout',[AccountController::class, 'Logout']);
 
      Route::post('cekLogin/{wht}',[AccountController::class, 'cekLogin']);
+     Route::post('/Search/{wht}',[ProductsController::class,'search']);
+     
 // -------------- END SESSION ------------------
 
 
 //With Login
     //Public
-        Route::post('/Search/{wht}',[ProductsController::class,'search']);
         Route::post('/OrderDone/{wht}',[TransaksiController::class,'store']);
         Route::post('AddToCart/{idProduct}',[DetailTransactionController::class, 'store']);
         Route::post('/DeleteCart/{id}',[DetailTransactionController::class,'DeleteCart']);
@@ -207,4 +211,15 @@ Route::get('/tes', function(){
 });
 
 
-
+// TEMPLATE ROUTE:
+// if($this->AuthSystem()>0){
+//     // dd(session('direction'));
+//     if(session('direction')==null){
+        
+//         //ISIII------------------------
+//     }
+// }
+// else{
+//     session(['direction' => '/Profile/Info']);
+//     return redirect('/Login');
+// }
