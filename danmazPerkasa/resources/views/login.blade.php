@@ -31,7 +31,7 @@
         </div>
         <div class="Container">
             <div class="namaCv">
-                <p>CV. Danmaz Perkasa</p>
+                <a href="/"><p>CV. Danmaz Perkasa</p></a>
             </div>
             <p>Welcome back</p>
             <div class="InputArea ">

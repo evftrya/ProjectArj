@@ -77,7 +77,7 @@ class Controller extends BaseController
         
         $cp = $wht;
         if($wht=="Change-Password"){
-            $cp = "Change Password";
+            $cp = "ChangePassword";
 
         }
         $datas=null;
@@ -100,8 +100,7 @@ class Controller extends BaseController
 
     public function ProfileUpdate(Request $req,AccountController $acc,$wht){
         // dd($req);
-        $acc->update($req,$wht);
-        return redirect('/Profile/'.$wht);
+        return $acc->update($req,$wht);
     }
 
     public function getCity($province){

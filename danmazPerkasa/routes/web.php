@@ -160,6 +160,7 @@ $controller = new Controller();
                 $cont->authRoute('/Profile/Info');
             });
             Route::post('/Profile/{wht}-Update',[Controller::class,'ProfileUpdate']);
+            // Route::post('/Profile/Update/ChangePassword',[AccountController::class,'ChangePassword']);
 
 
             

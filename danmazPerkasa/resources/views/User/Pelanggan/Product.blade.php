@@ -192,7 +192,8 @@
         a.forEach(r=>{
             let text = r.textContent.trim().toLowerCase();
             console.log(text);
-            if(text.indexOf(search)>0){
+            console.log("BOOL: "+text.includes(search));
+            if(text.includes(search)){
                 r.style.display = 'flex';
             }
             else{
@@ -201,5 +202,7 @@
             }
         })
     }
+
+    
 </script>
 @endsection

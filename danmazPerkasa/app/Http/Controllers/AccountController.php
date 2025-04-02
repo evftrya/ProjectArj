@@ -135,6 +135,7 @@ class AccountController extends Controller
         // dd(session('user_id'));
         // dd($req);
         $akun = $this->getProfile(session('user_id'));
+        $Allert = null;
         // dd($akun);
         if($wht=="Info"){
             // dd(($req->firstName && $req->lastName)."f=".$req->firstName."|". $req->lastName);
@@ -144,18 +145,28 @@ class AccountController extends Controller
             ($req->emailUser) ? $akun->emailUser = $req->emailUser: null;
             ($req->Phone) ? $akun->Phone = $req->Phone : null;
             ($req->Gender) ? $akun->Gender = $req->Gender: null;
+            $Allert = "Info change succesfull";
             // dd($akun);
             // dd($wht);
         }
         else if($wht=="ChangePassword"){
-            // dd($req);
-            if($req->currentPassword){
+            // dd($req->currentPassword===$akun->passwordUser);
+            if($req->currentPassword!=null){
                 if($req->currentPassword===$akun->passwordUser){
-                    if($req->newPassword===$req->RetypeNewPassword){
-                        $akun->passwordUser = $req->newPassword;
+                    if($req->NewPassword==$req->RetypeNewPassword){
+                        $akun->passwordUser = $req->NewPassword;
                     }
+                    $Allert = "Password change succesfull1";
+                }
+                else{
+                    $Allert = "The old password is not the same as the previous password0";
+                    
                 }
             }
+            
+            $wht = "Change-Password";
+
+
         }
         else if($wht=="Address"){
             $addrs = new AddressController();
@@ -206,10 +217,14 @@ class AccountController extends Controller
             $conAdd->store($req,$address);
             //$akun->Address = $address;
             // dd($address);
+            $Allert = "Address change succesfull1";
 
         }
         $akun->Save();
         session(['user_name' => $akun->namaUser]);
+        // dd('/Profile/'.$wht);
+        return redirect('/Profile/'.$wht)->with('message', $Allert);
+
     }
     public function getAllData(){
         $data = DB::table('users as a')
@@ -239,6 +254,11 @@ class AccountController extends Controller
         // ,'notif'=>$notifs
         // dd($data);
         return view('User.Admin.ManageUser',['data' => $data, 'whtRoute' => 'Manage User','notif'=>$notifs]);
+    }
+
+    public function ChangePassword(Request $req){
+        // \Log::info('Request received:', ['request' => $req->all()]);
+        dd($req);
     }
 
     

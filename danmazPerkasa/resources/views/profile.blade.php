@@ -10,7 +10,7 @@
     <div class="Text">
 
         <p>My Profile</p>
-        <svg width="100%" height="1" viewBox="0 0 100% 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="theSvgLine" height="1" viewBox="0 0 100% 1" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line y1="0.5" x2="100%" y2="0.5" stroke="#B17457"/>
         </svg>
     </div>
@@ -44,7 +44,7 @@
         <div class="container2">
             <div class="Text2">
                 <p>{{{$cp}}}</p>
-                <svg width="100%" height="1" viewBox="0 0 100% 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="theSvgLine" width="100%" height="1" viewBox="0 0 100% 1" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <line y1="0.5" x2="100%" y2="0.5" stroke="#B17457"/>
                 </svg>
             </div>
@@ -160,7 +160,8 @@
                     </div>
                 </div>
                 <div class="containerButton Info">
-                    <button type="submit" onclick="formSubmit('ChangePassword',event)">Update</button>
+                    <button type="Submit" onclick="checkPassword(event, this)">Update</button>
+                    <!-- <button type="submit" onclick="formSubmit('ChangePassword',event)">Update</button> -->
                 </div>
 
             </form>
@@ -251,224 +252,221 @@
 
 @section('js')
 <script>
-        // function ChangeText2(elemen){
-        //     let theName = elemen.querySelectorAll("P");
-        //     let theText = document.querySelectorAll(".container2>.Text2>p")
-        //     theText[0].textContent = theName[0].textContent;
-        //     document.querySelectorAll(".formProfile").forEach(function(element){
-        //         element.style.display="none";
-        //     })
+    // setInterval(cekwidth, 500);
+    // function cekwidth(){
+    //     let text = document.querySelector('.Text');
+    //     let cont = document.querySelector('.container');
+    //     let yut = null;
+    //     if (window.innerWidth <= 662) {
+    //         yut = "aktif";
+    //     }
+    //     text.textContent = window.innerWidth+" "+yut+" Container 2: "+cont.clientWidth;
+    // }
+    function formPassword(elemen){
+        let form = elemen.closest('form')
+        form.submit();
+    }
+    async function editAddress(event,button){
+        event.preventDefault();
 
-        //     let theForm = document.querySelector(("#formProfile"+theName[0].textContent.replace(/\s+/g, '')));
-        //     theForm.style.display = "flex";
-        // }
-
-        // EditProfileInfo('non-edit',event);
-
-        async function editAddress(event,button){
-            event.preventDefault();
-
-            let editSpace = document.querySelectorAll('#formProfileAddress>.containerbody');
-            if(button.textContent=="Edit Address"){
-                
-                let data = await fetch('/isNew');
-                let isnew = await data.json();
-                // console.log(isnew);
-                @if(isset($data->address))
-                    @if(($data->address[0]->Detil)!='The address has not been set.')
-                        if(isnew==1){
-                            // Mendapatkan semua elemen input, textarea, dan select
-                            let elementsWithName = Array.from(document.querySelectorAll('[name]'));
-                            for(let i=4;i<elementsWithName.length;i++){
-                                // console.log(elementsWithName[i]);
-                                (i==4)? elementsWithName[i].value = '{{$data->address[0]->province_id}}' : 0; 
-                                (i==4)? changeValueCity(elementsWithName[i],elementsWithName[i+1],'{{$data->address[0]->province_id}}','{{$data->address[0]->city_id}}'):null;
-                                (i==6)? elementsWithName[i].value = '{{$data->address[0]->Kecamatan}}' : 0; 
-                                (i==7)? elementsWithName[i].value = '{{$data->address[0]->Kelurahan}}' : 0; 
-                                (i==8)? elementsWithName[i].value = '{{$data->address[0]->RT}}' : 0; 
-                                (i==9)? elementsWithName[i].value = '{{$data->address[0]->RW}}' : 0; 
-                                (i==10)? elementsWithName[i].value = '{{$data->address[0]->AlamatDetil}}' : 0; 
-                                (i==11)? elementsWithName[i].value = '{{$data->address[0]->KodePos}}' : 0; 
-                            }
-
+        let editSpace = document.querySelectorAll('#formProfileAddress>.containerbody');
+        if(button.textContent=="Edit Address"){
+            
+            let data = await fetch('/isNew');
+            let isnew = await data.json();
+            @if(isset($data->address))
+                @if(($data->address[0]->Detil)!='The address has not been set.')
+                    if(isnew==1){
+                        // Mendapatkan semua elemen input, textarea, dan select
+                        let elementsWithName = Array.from(document.querySelectorAll('[name]'));
+                        for(let i=4;i<elementsWithName.length;i++){
+                            // console.log(elementsWithName[i]);
+                            (i==4)? elementsWithName[i].value = '{{$data->address[0]->province_id}}' : 0; 
+                            (i==4)? changeValueCity(elementsWithName[i],elementsWithName[i+1],'{{$data->address[0]->province_id}}','{{$data->address[0]->city_id}}'):null;
+                            (i==6)? elementsWithName[i].value = '{{$data->address[0]->Kecamatan}}' : 0; 
+                            (i==7)? elementsWithName[i].value = '{{$data->address[0]->Kelurahan}}' : 0; 
+                            (i==8)? elementsWithName[i].value = '{{$data->address[0]->RT}}' : 0; 
+                            (i==9)? elementsWithName[i].value = '{{$data->address[0]->RW}}' : 0; 
+                            (i==10)? elementsWithName[i].value = '{{$data->address[0]->AlamatDetil}}' : 0; 
+                            (i==11)? elementsWithName[i].value = '{{$data->address[0]->KodePos}}' : 0; 
                         }
-                    @endif
+
+                    }
                 @endif
-                button.textContent = "Save Changes";
-                editSpace[0].style.display = "flex";
-                editSpace[1].style.display = "none";
-            }
-            else{
-                formSubmit('Address',event);
-            }
+            @endif
+            button.textContent = "Save Changes";
+            editSpace[0].style.display = "flex";
+            editSpace[1].style.display = "none";
         }
-        async function changeValueCity(province,city, idProvince, id){
+        else{
+            formSubmit('Address',event);
+        }
+    }
+    async function changeValueCity(province,city, idProvince, id){
 
-            if(await ChangeCity(idProvince)==1){
-                province.value = idProvince;
-                // setTimeout(()=>{
+        if(await ChangeCity(idProvince)==1){
+            province.value = idProvince;
+            console.log(id)
+                console.log(city.value)
+                city.value=id;
                 console.log(id)
-                    console.log(city.value)
-                    city.value=id;
-                    console.log(id)
-                    console.log(city.value)
-                // },3000)
-            }
+                console.log(city.value)
         }
-        function formSubmit(wht, event){
-            // console.log(wht);
-            event.preventDefault();
-            if(wht=='Address'){
-                let prov = document.querySelector('.Provinces')
-                let kota = document.querySelector('.KotaKabupaten')
+    }
+    function formSubmit(wht, event){
+        event.preventDefault();
+        if(wht=='Address'){
+            let prov = document.querySelector('.Provinces')
+            let kota = document.querySelector('.KotaKabupaten')
 
-                if(prov.value==0){
-                    showPopup('Please select a province first.',0)
-                }
-                else if(kota.value==0){
-                    showPopup('Please select a city first.',0)
-                }
-                else{
-                    document.getElementById('formProfile'+wht).submit();
-                }
-                // if(Check.)
-                console.log(Check.value);
+            if(prov.value==0){
+                showPopup('Please select a province first.',0)
+            }
+            else if(kota.value==0){
+                showPopup('Please select a city first.',0)
             }
             else{
-
                 document.getElementById('formProfile'+wht).submit();
             }
+            console.log(Check.value);
         }
-        function EditProfileInfo(wht,event,button){
-            event.preventDefault();
-            if(button.textContent=="Save Changes"){
-                document.getElementById('formProfileInfo').submit();
-            }
-            let input = document.querySelectorAll('#formProfileInfo input');
-            input.forEach(e => {
-                e.disabled = ((wht!=='edit'));
-                if(wht==='edit'){
-                    button.textContent="Save Changes";
-                }
-                else{
-                    button.textContent="Update Profile"
-                }
-            });
-        }
-        let seeBut = document.getElementById('See');
-            seeBut.addEventListener("click", function(event){
-                event.preventDefault();
-            })
+        else{
 
-        let unSeeBut = document.getElementById('UnSee');
-        unSeeBut.addEventListener("click", function(event){
-            event.preventDefault();
-        })
-        function Password(a){
-            const pw = document.getElementById('newPassword');
-            if(a=="LetsSee"){
-                seeBut.style.display="none";
-                unSeeBut.style.display="flex";
-                pw.type="password";
+            document.getElementById('formProfile'+wht).submit();
+        }
+    }
+
+
+    thePop()
+
+    //untuk menampilkan kiriman message dari controller
+    function thePop(){
+        let msg = "{{ session('message') }}";
+        if(msg){
+            parsePopUp(msg);
+        }
+    }
+
+    //mengecek tipe pop up
+    function parsePopUp(wht){
+        let bool = wht[wht.length-1];
+        let send = wht.slice(0, -1);
+        if(bool=="0"){
+            showPopup(send, 0);
+        }
+        else{
+            showPopup(send, 1);
+        }
+
+    }
+
+
+    function showPopup(wht,which) {
+
+        setTimeout(() => {
+            const popup = document.getElementById('popup');
+            if(which==0){
+                popup.style.backgroundColor="#b32323";
             }
             else{
-                seeBut.style.display="flex";
-                unSeeBut.style.display="none"; 
-                pw.type="text";
+                popup.style.backgroundColor="#4caf50";
             }
-        }
+            popup.textContent = wht
+            popup.classList.add('show');
 
-        function ChangePassword(what){
-            let but1 = document.getElementById('See');
-            let but2 = document.getElementById('UnSee');
-            let desc = document.getElementById('descPass');
-            const labels = document.querySelectorAll('#PasswordArea label');
-            const inputs = document.querySelectorAll('#PasswordArea input');
-
-            if(what=='change'){
-                labels[1].style.display = "flex";
-                inputs[1].style.display = "flex";
-                inputs[1].type = "password";
-                labels[0].style.display = "none";
-                inputs[0].style.display = "none";
-                console.log('masuk')
-                but1.style.display = "none";
-                but2.style.display = "flex";
-                desc.textContent = "Cancel";
-                desc.setAttribute("onclick", "ChangePassword('cancel')")
-
-            }
-            else{
-                labels[1].style.display = "none";
-                inputs[1].style.display = "none";
-                labels[0].style.display = "flex";
-                inputs[0].style.display = "flex";
-                but1.style.display = "none";
-                but2.style.display = "none";
-                desc.textContent = "Change";
-                desc.setAttribute("onclick", "ChangePassword('change')")
-            }
-
-        }
-
-        function ChangePasswordInfo(elemen, idinput){
-            let inp = document.querySelectorAll(("#PasswordArea #"+idinput));
-            console.log(inp[0].value);
-            if(elemen.textContent=="Show"){
-                inp[0].type="text";
-                elemen.textContent = "Hide";
-            }
-            else{
-                inp[0].type="password";
-                elemen.textContent = "Show";
-            }
-        }
-
+            // Hilangkan pop-up setelah 3 detik
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 1500);
+        }, 50); 
         
-        async function ChangeCity($idProvince){
-            let response = await fetch('/getCity/'+$idProvince);
-            let data = await response.json();
-            $back = 0;
-            if(fillCity(data)==1){
-                $back = 1;
+    }
+    function EditProfileInfo(wht,event,button){
+        event.preventDefault();
+        if(button.textContent=="Save Changes"){
+            document.getElementById('formProfileInfo').submit();
+        }
+        let input = document.querySelectorAll('#formProfileInfo input');
+        input.forEach(e => {
+            e.disabled = ((wht!=='edit'));
+            if(wht==='edit'){
+                button.textContent="Save Changes";
             }
             else{
-                $back= 0;
+                button.textContent="Update Profile"
             }
-            console.log($back)
-            return $back;
-            
-        // console.log(data);
-
-            // console.log('masuk')
+        });
+    }
+    
+    function checkPassword(event, elemen){
+        
+        let old = document.querySelector('#OldPassword').value;
+        let Neww = document.querySelector('#NewPassword').value;
+        let retype = document.querySelector('#RetypeNewpassword').value;
+        if(old==Neww){
+            showPopup("New Password cannot same as old Password",0);
+            event.preventDefault();
         }
+        else if(Neww!=retype){
+            showPopup("new Password and Retype Password are not same",0);
+            event.preventDefault();
+        }
+    }
 
-        function fillCity(data){
-            let select = document.querySelector('.KotaKabupaten');
-            ClearCity(select);
-                let option = document.createElement('option'); // Buat elemen <option>
-                option.value = '0';
-                option.textContent = 'Pilih Kota atau Kabupaten'
-                option.selected = true;
+    function ChangePasswordInfo(elemen, idinput){
+        let inp = document.querySelectorAll(("#PasswordArea #"+idinput));
+        console.log(inp[0].value);
+        if(elemen.textContent=="Show"){
+            inp[0].type="text";
+            elemen.textContent = "Hide";
+        }
+        else{
+            inp[0].type="password";
+            elemen.textContent = "Show";
+        }
+    }
+
+    
+    async function ChangeCity($idProvince){
+        let response = await fetch('/getCity/'+$idProvince);
+        let data = await response.json();
+        $back = 0;
+        if(fillCity(data)==1){
+            $back = 1;
+        }
+        else{
+            $back= 0;
+        }
+        console.log($back)
+        return $back;
+    }
+
+    function fillCity(data){
+        let select = document.querySelector('.KotaKabupaten');
+        ClearCity(select);
+            let option = document.createElement('option'); 
+            option.value = '0';
+            option.textContent = 'Pilih Kota atau Kabupaten'
+            option.selected = true;
+        select.appendChild(option);
+
+        data.forEach(item => {
+            let option = document.createElement('option'); 
+            option.value = item.city_id; 
+            option.textContent = item.city_name;
             select.appendChild(option);
-
-            data.forEach(item => {
-                let option = document.createElement('option'); // Buat elemen <option>
-                option.value = item.city_id; // Atur atribut value
-                option.textContent = item.city_name; // Atur teks yang ditampilkan
-                select.appendChild(option); // Tambahkan opsi ke <select>
-            });
-            return 1;
+        });
+        return 1;
 
 
+    }
+
+    function ClearCity(select){
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
         }
+    }
 
-        function ClearCity(select){
-            // let select = document.querySelector('.KotaKabupaten');
-            while (select.firstChild) {
-                select.removeChild(select.firstChild);
-            }
-        }
 
-    </script>
+</script>
 @endsection

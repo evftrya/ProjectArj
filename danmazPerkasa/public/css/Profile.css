@@ -2,7 +2,10 @@
     /* display: none !important; */
 }
 .maincontent{
+    width: 100vw;
     margin: 0px 20px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
     /* background-color: aqua; */
 }
 .maincontent>div{
@@ -30,8 +33,11 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    min-width: 100%;
+    /* flex-wrap: wrap; */
     height: calc(100% - 20px);
     margin-top: 10px;
+    /* flex-wrap: wrap !important; */
 
     /* background-color: aquamarine; */
 }
@@ -41,6 +47,9 @@
     display: flex;
     flex-direction: column;
     width: 190px;
+    width: 190px !important;
+    min-width: 190px !important;
+    max-width: 190px !important;
     gap: 20px;
     border-radius: 10px;
     padding: 20px;
@@ -48,12 +57,14 @@
     height: calc(100% - 40px);
 }
 .sideBar>div{
+    /* width: 100%; */
     display: flex;
     flex-direction: row;
     gap: 5px;
     justify-content: start;
     align-items: center;
 }
+
 
 .sideBar>div:hover{
     color: #ae8673;
@@ -72,8 +83,9 @@
 .container2{
     display: flex;
     flex-direction: column;
-    width: 80%;
-    min-width: fit-content;
+    width: calc(100% - 40px - 190px - 40px) !important;
+    max-width: calc(100% - 40px - 190px - 40px) !important;
+    min-width: calc(100% - 40px - 190px - 40px) !important;
     padding-left: 40px;
     height: 100%;
 }
@@ -82,6 +94,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 100%;
 }
 .Text2>p{
     padding: 12px 0px;
@@ -93,11 +106,12 @@
     letter-spacing: 0.5px;
     font-size: 30px;
 }
-.form{
+.formProfile{
     height: 100%;
+    width: 100% !important;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    /* width: calc(100% - 190px) !important; */
     font-family: 'normalPublica';
     /* background-color: blueviolet; */
     /* padding-top: 20px; */
@@ -108,17 +122,25 @@
     font-family: 'normalPublica';
     padding-top: 30px;
     width: 100%;
+    /* width: 100%; */
     height: fit-content;
     min-height: 300px;
     /* background-color: aqua; */
     display: flex;
     /* gap: 40px; */
     /* justify-content:space-around; */
-
+    
+}
+.containerbody.vertical{
+    font-family: inherit;
+    flex-direction: column;
+    gap: 50px;
 }
 .containerbody.horizontal{
+    width: 100% !important;
+    max-width: 100% !important;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
     gap: 40px;
     justify-content: space-between;
 }
@@ -164,7 +186,7 @@ input:disabled{
 
     select{
         width: fit-content;
-        width: 70%;
+        width: calc(70% - 70px);
         color: #000000;
         background-color: white;
         /* padding: 0 10px; */
@@ -180,7 +202,7 @@ input:disabled{
 .input-container label {
     width: fit-content;
     position: absolute;
-    width: 70%;
+    width: calc(70% - 20px);
     /* margin-bottom: 10px !important; */
     /* padding-top: 20px; */
     top: 50%;
@@ -287,6 +309,8 @@ input:disabled{
     justify-content: end;
     /* background-color: antiquewhite; */
     height:fit-content;
+    width: 100%;
+    min-width: 50%;
 }
 .containerButton button{
     font-family: inherit;
@@ -304,15 +328,10 @@ input:disabled{
 
 /* ---------- Change Password --------- */
 
-.containerbody.vertical{
-    font-family: inherit;
-    flex-direction: column;
-    gap: 50px;
-}
 .containerButton.Info{
     font-family: 'normalPublica';
     letter-spacing: 1px;
-
+    
 }
 .containerButton.Info button{
     font-family: inherit;
@@ -326,20 +345,20 @@ input:disabled{
     /* flex-direction: column; */
     justify-content: space-between;
 }
- .containerbody>.lefts,
- .containerbody>.rights{
+.containerbody>.lefts,
+.containerbody>.rights{
     display: flex;
     flex-direction: column !important;
     /* justify-content:space-evenly; */
-    gap: 40px;
-
+    gap: 40px !important;
+    
     /* width: 100%; */
     height: 300px;
     /* background-color: aqua; */
     display: flex;
     /* gap: 40px; */
     /* justify-content:space-around; */
- }
+}
 
 .containerbody.TwoSpace .input-container label{
     /* font-size: 15px; */
@@ -365,7 +384,39 @@ input:disabled{
         gap: 20px;
         justify-content: space-between;
     }
+    .container{
+        flex-wrap: wrap !important;
 
+    }
+
+    div#content.content{
+        width: 100% !important;
+        
+        .sideBar{
+            height: fit-content;
+            width: 190px !important;
+            min-width: 190px !important;
+            max-width: 190px !important;
+        }
+        .container2{
+            padding-left: 0;
+    
+            .input-container{
+                width: 100% !important;
+                
+                input{
+                    width: 100% !important;
+                }
+                
+            } 
+        }
+    }
+    
+}
+
+.theSvgLine{
+    width: 100%;
+    min-width: 100%;
 }
 
 
