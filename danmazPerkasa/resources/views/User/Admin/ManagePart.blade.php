@@ -457,6 +457,24 @@ function FormAdd(){
         // scrollPhotos();
 
     }
+    document.querySelector(".searchInp").addEventListener("input", searchItems);
+    
+    function searchItems(){
+        let text = document.querySelector('.searchInp');
+        let allItems = document.querySelectorAll('.theItems');
+        // console.log(allItems);
+        allItems.forEach(item=>{
+            let alltext = item.textContent.trim().toLowerCase();
+            console.log(alltext.includes(text.value.toLowerCase()));
+            if(alltext.includes(text.value.toLowerCase())){
+                item.style.display = "flex";
+            }
+            else{
+                item.style.display = "none";
+            }
+        })
+        
+    }
     
 </script>
 @endsection

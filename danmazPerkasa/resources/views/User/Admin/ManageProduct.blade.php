@@ -12,7 +12,7 @@ $url = $cont->GetUrl();
 @section('content')
 <div class="LandingPage">
     <div class="titled">
-        Manage Product CEK
+        Manage Product
     </div>
     <div class="bottonsArea">
         <button onclick="TurnFormAdd()">Add Product</button>
@@ -486,6 +486,17 @@ $url = $cont->GetUrl();
             
         });
     }
+
+    
+    // document.getElementById("myInput").addEventListener("input", a);
+    searchItems();
+    function searchItems(){
+        let text = document.querySelector('.searchInp');
+        let allItems = document.querySelectorAll('.theMainList theItems');
+        console.log(allItems);
+    }
+
+    
 
     
 
