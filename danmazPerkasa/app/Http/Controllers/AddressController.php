@@ -89,4 +89,10 @@ class AddressController extends Controller
         return $data->province_name;
     }
 
+    public function getDetil($idUser){
+        $detil = Address::where('id_User', $idUser)->first();
+        // dd($detil);
+        return $detil->Detil;
+    }
+
 }

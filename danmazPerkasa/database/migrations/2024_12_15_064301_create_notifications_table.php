@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id('idNotification')->autoIncrement();
-            $table->enum('type', ['Product', 'Transaction', 'Progress', 'Address'])->nullable();
+            $table->enum('type', ['Product', 'Transaction-Customer','Transaction-Admin', 'Progress', 'Address'])->nullable();
             $table->string('link')->nullable();
             $table->string('Icon')->nullable();
             $table->string('Title')->nullable();

@@ -109,7 +109,7 @@ $controller = new Controller();
                 
                 //
                 Route::get('/UpdateStatus/{idproduct}/{wht}',[DetailTransactionController::class, 'UpdateStatus']);
-                Route::get('Transaction', function(Controller $cont){
+                Route::get('/Transaction', function(Controller $cont){
 
                     if($cont->AuthSystem()>0){
                         // dd(session('direction'));
@@ -132,9 +132,13 @@ $controller = new Controller();
                 Route::get('/OrderDone',function(){
                     return view('PaymentProses');
                 });
-                    //PAYMENT
-                    Route::get('/Payment/{snapToken}',[TransaksiController::class,'PaymentTransaction']);
-                    Route::get('/RedirectNewestTransaction',[TransaksiController::class,'RedirectNewestTransaction']);
+                //PAYMENT
+                Route::get('/Payment/{snapToken}',[TransaksiController::class,'PaymentTransaction']);
+                Route::get('/RedirectNewestTransaction',[TransaksiController::class,'RedirectNewestTransaction']);
+                
+                //ADMIN
+                    Route::get('/Transaction/AcceptOrder/{idTransaction}',[TransaksiController::class, 'AcceptOrder']);
+                    Route::get('/Transaction/RejectOrder/{idTransaction}',[TransaksiController::class, 'RejectOrder']);
 
     
     
@@ -153,7 +157,7 @@ $controller = new Controller();
             Route::get('/getDataProduct/{idProduct}',[ProductsController::class, 'getAllDataProductById']);
             // Route::post('/ProductEdit/{idProduct}',[ProductsController::class, 'update']);
             Route::post('/editProduct/{id}',[ProductsController::class,'updateProduct']);
-            Route::post('/deleteProduct/{id}',[ProductsController::class, 'deleteProduct']);
+            Route::get('/deleteProduct/{id}',[ProductsController::class, 'deleteProduct']);
         
         //--------------PART -------------------
             Route::get('/Part-Manage/{from}',[ProductsController::class, 'ProductManage']);

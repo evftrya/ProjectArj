@@ -2,7 +2,10 @@
 
 @section('css')
 <!-- <link rel="stylesheet" type="" href="{{asset('css/ManageProduct.css')}}"> -->
-<link rel="stylesheet" href="{{ secure_asset('css/ManageProduct.css') }}">
+<!-- <link rel="stylesheet" href="{{ secure_asset('css/ManageProduct.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ app()->environment('local')? asset('css/ManageProduct.css') : secure_asset('css/ManageProduct.css') }}"> -->
+<link rel="stylesheet" href="{{ app()->environment('local')? asset('css/ManageProduct.css') : secure_asset('css/ManageProduct.css') }}">
+
 
 @endsection
 
@@ -246,8 +249,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="input-container desc end">
-                            <textarea  rows="4" cols="60" name="Description" id=""></textarea>
+                        <div class="input-container desc end part">
+                            <textarea  rows="4" cols="60" name="Description" id="" style="padding-top: 40px !important;"></textarea>
                             <label for="inputField">Description</label>
                         </div>
         `;
@@ -440,7 +443,7 @@ function FormAdd(){
                                 </div>
                             </div>
                         </div>
-                        <div class="input-container desc end">
+                        <div class="input-container desc end part">
                             <textarea  rows="4" cols="60" name="Description" id=""></textarea>
                             <label for="inputField">Description</label>
                         </div>

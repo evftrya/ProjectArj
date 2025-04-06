@@ -7,7 +7,10 @@ $url = $cont->GetUrl();
 
 <!-- @section('css')
 <link rel="stylesheet" type="" href="{{asset('css/ManageProduct.css')}}"> -->
-<link rel="stylesheet" href="{{ secure_asset('css/ManageProduct.css') }}">
+<!-- <link rel="stylesheet" href="{{ secure_asset('css/ManageProduct.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ app()->environment('local')? asset('css/ManageProudct.css') : secure_asset('css/ManageProduct.css') }}"> -->
+<link rel="stylesheet" href="{{ app()->environment('local')? asset('css/ManageProduct.css') : secure_asset('css/ManageProduct.css') }}">
+
 
 @endsection
 
@@ -38,12 +41,12 @@ $url = $cont->GetUrl();
                             }
                             @endphp
                             <button class="IsContent {{{$st}}}" onclick="turnContent('{{{$st2}}}',this,'{{{$d->id_product}}}')">Turn Content</button>
-                            <button onclick="TurnEdit('{{{$d->id_product}}}')">Edit</button>
-                            <form action="/deleteProduct/{{{$d->id_product}}}" method="post">
+                            <button class="justButton" onclick="TurnEdit('{{{$d->id_product}}}')">Edit</button>
+                            <!-- <form action="/deleteProduct/{{{$d->id_product}}}" method="post">
                                 @csrf
                                 <button>Delete</button>
-                            </form>
-                            <!-- <button onclick="DeleteProduct('{{{$d->id_product}}}')">Delete</button> -->
+                            </form> -->
+                            <button onclick="DeleteProduct('{{{$d->id_product}}}')">Delete</button>
                         </div>
                     </div>
                 @endforeach
@@ -58,7 +61,9 @@ $url = $cont->GetUrl();
     </div>
 </div>
 <script>
-    
+    function DeleteProduct($idProduct){
+        window.location.href='/deleteProduct/'+$idProduct;
+    }
     function turnContent(wht,elemen,id){
         let content= document.querySelectorAll('.theButtons .IsContent.on');
         if(wht=='on'){
@@ -136,6 +141,7 @@ $url = $cont->GetUrl();
     
     function FormAdd(){
         let container = document.querySelector(".NewProduct .containerd");
+        container.style.displat = "flex !improtant";
         let form = document.createElement('form');
         form.action = "{{ route('add-product', ['wht' => 'Product' ]) }}";
         form.method = "POST";
@@ -238,7 +244,7 @@ $url = $cont->GetUrl();
         theButton.className = 'TheButtons';
         theButton.setAttribute('onclick', 'formClick(this)');
         theButton.innerHTML = `
-            <button>Save Changes</button>
+            <button class="Save" >Save Changes</button>
         `;
         container.appendChild(form);
         container.appendChild(theButton);
@@ -418,7 +424,7 @@ $url = $cont->GetUrl();
                 theButton.className = 'TheButtons';
                 theButton.setAttribute('onclick', 'formClick(this)');
                 theButton.innerHTML = `
-                    <button>Save Changes</button>
+                    <button class="Save">Save Changes</button>
                 `;
             container.appendChild(form);
             container.appendChild(theButton);

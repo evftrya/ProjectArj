@@ -16,6 +16,35 @@ use Illuminate\Support\Facades\Http;
 class TransaksiController extends Controller
 {
 
+    public function AcceptOrder($idTransaction){
+        $transaction = Transaksi::where('id', $idTransaction)->get()->first();
+        $transaction->Status_Pengiriman = 'Acceptted';
+        // dd($transaction);
+        $notif = new NotificationController();
+        $notif->store(10,$transaction->id,$transaction->id_user);
+        $transaction->save();
+        
+        // dd('Masuk');
+        // return redirect('/Transaction/'.$idTransaction);
+        return response()->json('Success');
+        
+    }
+    
+    public function RejectOrder($idTransaction){
+        $transaction = Transaksi::where('id', $idTransaction)->get()->first();
+        $transaction->Status_Pengiriman = 'Rejected';
+        
+        $notif = new NotificationController();
+        $notif->store(11,$transaction->id,$transaction->id_user);
+        $transaction->save();
+        
+        // return redirect('/Transaction/'.$idTransaction);
+        // return response()->json('The transaction has been canceled due to exceeding the payment deadline');
+        return response()->json('Success');
+        // return response()->json('Reject');
+
+    }
+
     public function GetSnapToken($Data){
         // dd($Data);
         $data = $Data[0];
@@ -28,16 +57,16 @@ class TransaksiController extends Controller
             $item_details[] = [
                 'id' => null,
                 'price' => intval($item->price),
-                'quantity' => $item->qty,
+                'quantity' => intval($item->qty),
                 'name' => substr($item->nama_product, 0, 50)
             ];
         }
-
+        // dd( $data->weight/1000);
         $item_details[] = [
             'id' => null,
-            'price' => intval($data->TotalShipping/($data->weight/1000)),
-            'quantity' => $data->weight/1000,
-            'name' => 'Shipping by '.$data->Shipping
+            'price' => intval($data->TotalShipping/intval(ceil($Data[0]->weight/1000))),
+            'quantity' => intval(ceil($Data[0]->weight/1000)),
+            'name' => 'Kg Shipping by '.$data->Shipping
         ];
 
         $item_details[] = [
@@ -70,7 +99,7 @@ class TransaksiController extends Controller
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => $data->id,
+                'order_id' => $data->id."A",
                 'gross_amount'=>$data->id+$data->TotalShopping+$data->TotalShipping,
 
             ),
@@ -209,11 +238,18 @@ class TransaksiController extends Controller
         }
         // dd($idT);
         $Data = DB::table('transaksis as a')
-        ->join('photos as d', 'c.mainPhoto', '=', 'd.id_Photo')
-        ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+        ->join('detail__transactions as b', 'b.Transaksis_id', '=', 'a.id')
         ->join('products as c', 'b.id_product', '=', 'c.id_product')
+        ->join('photos as d', 'c.mainPhoto', '=', 'd.id_Photo')
+        ->select(
+            'a.*',
+            DB::raw('a.created_at as Dibuat'),
+            DB::raw('a.created_at as Deadline'),
+            'b.*',
+            'c.*',
+            'd.*'
+        )
         ->where('a.id', $idT)
-        ->select('a.*', 'b.*', 'c.*', 'd.*', 'a.created_at as Dibuat', 'a.created_at as Deadline')
         ->get();
     
         // dd($Data);
@@ -230,8 +266,17 @@ class TransaksiController extends Controller
         }
 
         // dd($Data);
+        if(session('Role')=="Admin"){
+            $Address = new AddressController();
+            $detil = $Address->getDetil($Data[0]->id_user);
+            // dd($detil);
 
-        return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST]);
+            return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil]);
+        }
+        else{
+
+            return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST]);
+        }
 
     }
 
@@ -275,7 +320,7 @@ class TransaksiController extends Controller
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => "Basic $auth",
-            ])->get("https://api.sandbox.midtrans.com/v2/".$transaction->id."/status");
+            ])->get("https://api.sandbox.midtrans.com/v2/".$transaction->id."A"."/status");
             // dd($response);
             $response = json_decode($response->body());
             // dd($response);
@@ -284,7 +329,12 @@ class TransaksiController extends Controller
                 $transaction->save();
 
                 $notif = new NotificationController();
+                //notif to Customer
                 $notif->store(2,$transaction->id,session('user_id'));
+                
+                //notif to Admin
+                $notif->store(7,$transaction->id,1);
+
                 return redirect('/Transaction/'.$transaction->id)->with('notif','Pembayaran berhasil');
             }
 

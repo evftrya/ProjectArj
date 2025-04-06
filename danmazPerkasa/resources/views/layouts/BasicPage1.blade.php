@@ -23,8 +23,10 @@ else{
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="" href="{{asset('css/LandingPage.css')}}"> -->
-    <link rel="stylesheet" href="{{ secure_asset('css/LandingPage.css') }}">
-
+    <!-- <link rel="stylesheet" href="{{ secure_asset('css/LandingPage.css') }}"> -->
+    <link rel="stylesheet" href="{{ app()->environment('local')? asset('css/LandingPage.css') : secure_asset('css/LandingPage.css') }}">
+    
+    
     @yield('css')
     
     <title>Danmaz Perkasa</title>

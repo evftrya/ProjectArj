@@ -2,7 +2,8 @@
 
 @section('css')
 <!-- <link rel="stylesheet" type="" href="{{asset('css/Checkout.css')}}"> -->
-<link rel="stylesheet" href="{{ secure_asset('css/Checkout.css') }}">
+<!-- <link rel="stylesheet" href="{{ secure_asset('css/Checkout.css') }}"> -->
+<link rel="stylesheet" href="{{ app()->environment('local')? asset('css/Checkout.css') : secure_asset('css/Checkout.css') }}">
 
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SET_YOUR_CLIENT_KEY_HERE"></script>
 
@@ -87,9 +88,13 @@
                 <div class="line1">
                     <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
                         <p>Alamat tujuan:</p>
+                        @if(session('Role')!="Admin")
                         <a href="/Profile/Address" style="text-decoration:none;color:green;">
                             <p style="font-size:12px;">{{{$userData[0]->Detil}}}</p>
                         </a>
+                        @else
+                        {{{$Address}}}
+                        @endif
                     </div>
                     <div class="Ship">
                         <p>Estimasi Pengiriman:</p>
@@ -140,6 +145,12 @@
                             <p>Payment Status</p>
                             <p class="PaymentStatus">{{{$data[0]->Status_Pembayaran}}}</p>
                         </div>
+                        @if(session('Role')=="Admin")
+                        <div class="subCont">
+                            <p>Order Status</p>
+                            <p class="OrderStatus">{{{$data[0]->Status_Pengiriman}}}</p>
+                        </div>
+                        @endif
                     </div>
                 </div>
                 
@@ -148,48 +159,104 @@
             
         </div>
     </div>  
-    @if(!($data[0]->Status_Pembayaran=='Cancel'))
-    <div class="toCheckout transaction">
-        <div class="warningTeks">
-            <div>
-                <p class="deadline" style="display:none;">{{{($data[0]->Deadline)}}}</p>
-                <p>Segera Lakukan pembayaran sebelum</p>
-                <p class="time">{{{($data[0]->Deadline)}}}</p>
+    @if(session('Role')!="Admin")   
+        @if(!($data[0]->Status_Pembayaran=='Cancel'||$data[0]->Status_Pembayaran=='Done'))
+        <div class="toCheckout transaction">
+            <div class="warningTeks">
+                <div>
+                    <p class="deadline" style="display:none;">{{{($data[0]->Deadline)}}}</p>
+                    <p>Segera Lakukan pembayaran sebelum</p>
+                    <p class="time">{{{($data[0]->Deadline)}}}</p>
+                </div>
+                <div class="thewarning">
+                    <p>- Apabila melebihi batas waktu Transaksi ini akan dianggap gagal</p>
+                    <p>- Pembatalan hanya bisa dilakukan apabila belum melakukan pembayaran</p>
+                </div>
             </div>
-            <div class="thewarning">
-                <p>- Apabila melebihi batas waktu Transaksi ini akan dianggap gagal</p>
-                <p>- Pembatalan hanya bisa dilakukan apabila belum melakukan pembayaran</p>
+            <div class="sidE">
+                @if(session('Role')!="Admin")
+                <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
+                    @csrf
+                    <button id="pay-button" onclick="Payment(event,'{{{$snapToken}}}')">Pay Now</button>
+                    <button onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
+                </form>
+                @endif
+                
             </div>
         </div>
-        <div class="sidE">
-            <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
-                @csrf
-                <button id="pay-button" onclick="Payment(event,'{{{$snapToken}}}')">Pay Now</button>
-                <button onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
-            </form>
-        </div>
-    </div>
+        @endif
+    @else
+        @if($data[0]->Status_Pengiriman=='Waiting')
+            <div class="toCheckout transaction">
+                <div class="warningTeks">
+                    <!-- <div>
+                        <p class="deadline" style="display:none;">{{{($data[0]->Deadline)}}}</p>
+                        <p>Segera Lakukan pembayaran sebelum</p>
+                        <p class="time">{{{($data[0]->Deadline)}}}</p>
+                    </div>
+                    <div class="thewarning">
+                        <p>- Apabila melebihi batas waktu Transaksi ini akan dianggap gagal</p>
+                        <p>- Pembatalan hanya bisa dilakukan apabila belum melakukan pembayaran</p>
+                    </div> -->
+                </div>
+                <div class="sidE">
+                    
+                    <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
+                        @csrf
+                        <button onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
+                        <button onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
+                    </form>
+                    
+                </div>
+            </div>
+        @endif
     @endif
 </div>
 
 <script>
-
-    ///FOR PAYMENT
-    var payButton = document.getElementById('pay-button');
-      // For example trigger on button clicked, or any time you need
-      payButton.addEventListener('click', function() {
-        var snapToken = document.getElementById('snap-token').value;
-        snap.pay(snapToken);
-      });
-
     
 
+    @if(session('Role')=="Admin")
+        async function AcceptOrder(event,idTransaction){
+            event.preventDefault();
+            let response = await fetch('/Transaction/AcceptOrder/'+idTransaction);
+            let data = await response.json();
+            if(data=='Success'){
+                let OrderStatus = document.querySelector('.OrderStatus')
+                OrderStatus.textContent = "Accept";
+                clearBottom()
+            }
+        }
+        async function RejectOrder(event,idTransaction){
+            event.preventDefault();
+            let response = await fetch('/Transaction/RejectOrder/'+idTransaction);
+            let data = await response.json();
+            if(data=='Success'){
+                let OrderStatus = document.querySelector('.OrderStatus')
+                OrderStatus.textContent = "Rejected";
+                clearBottom()
+            }
+        }
+    @endif
+    ///FOR PAYMENT
+    @if(session('Role')!="Admin")
+        var payButton = document.getElementById('pay-button');
+        // For example trigger on button clicked, or any time you need
+        payButton.addEventListener('click', function() {
+            var snapToken = document.getElementById('snap-token').value;
+            snap.pay(snapToken);
+        });
 
-    function Payment(event,snapToken){
-        event.preventDefault();
-        // window.location.href = '/Payment/'+snapToken;
-        snap.pay(snapToken)
-    }
+        
+
+
+        function Payment(event,snapToken){
+            event.preventDefault();
+            // window.location.href = '/Payment/'+snapToken;
+            snap.pay(snapToken)
+        }
+    @endif
+
     @if(session('message')=='NoBack')
         let historyList = JSON.parse(localStorage.getItem('app_history'));
         let lastUrl = historyList[historyList.length - 2]; // ambil URL sebelumnya
@@ -261,6 +328,7 @@
         // return formattedDateTime(newDateTime);
 
     }
+    @if(session('Role'!="Admin"))
     runRefresh(2)
     setInterval(runRefresh(1), 1000);
     // RefreshPage()
@@ -329,6 +397,8 @@
         }
     }
 
+    @endif
+    
     function clearBottom(){
         console.log('clear bottom run')
         let bottom = document.querySelector('.toCheckout.transaction')
@@ -338,7 +408,6 @@
             })
         
     }
-    
 
     
 

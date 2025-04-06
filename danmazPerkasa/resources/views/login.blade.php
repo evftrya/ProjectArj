@@ -6,7 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- <link href="{{asset('css/LoginAndRegister.css')}}" rel="stylesheet"> -->
-        <link rel="stylesheet" href="{{ secure_asset('css/LoginAndRegister.css') }}">
+        <!-- <link rel="stylesheet" href="{{ request()->secure() ? secure_asset('css/LoginAndRegister.css') : asset('css/LoginAndRegister.css') }}"> -->
+        <link rel="stylesheet" href="{{ app()->environment('local')? asset('css/LoginAndRegister.css') : secure_asset('css/LoginAndRegister.css') }}">
+
+        <!-- <link rel="stylesheet" href="{{ secure_asset('css/LoginAndRegister.css') }}"> -->
 
         <!-- <link href="login.css" rel="stylesheet"> -->
 

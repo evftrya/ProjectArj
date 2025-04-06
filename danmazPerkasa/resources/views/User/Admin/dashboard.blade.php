@@ -2,7 +2,8 @@
 
 @section('css')
 <!-- <link rel="stylesheet" type="" href="{{asset('css/dashboardAdmin.css')}}"> -->
-<link rel="stylesheet" href="{{ secure_asset('css/dashboardAdmin.css') }}">
+<!-- <link rel="stylesheet" href="{{ secure_asset('css/dashboardAdmin.css') }}"> -->
+<link rel="stylesheet" href="{{ app()->environment('local')? asset('css/dashboardAdmin.css') : secure_asset('css/dashboardAdmin.css') }}">
 
 @endsection
 

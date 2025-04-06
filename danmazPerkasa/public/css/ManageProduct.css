@@ -30,7 +30,7 @@
     /* flex-direction: ; */
     /* justify-content: end; */
     align-items: center;
-    border-bottom: 0.5px #B17457 solid;
+    border-bottom: 0.5px #B17457 solid !important;
 }
 .bottonsArea{
     align-items: center;
@@ -124,6 +124,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    form{
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        /* width: 100%; */
+        /* height: 100%; */
+    }
 }
 
 .theItems>.theButtons button{
@@ -137,14 +144,15 @@
     
 }
 
-.IsContent{
+.IsContent.off{
+    background-color: none !important;
     outline: none !important;
     text-decoration: none !important;
     
 }
 .IsContent.on{
     box-shadow:2px 2px 10px rgba(0, 0, 0, 0.3);
-    background-color: rgb(16, 207, 16) !important;
+    background-color: rgb(140, 222, 140) !important;
     border-radius: 4px;
 }
 
@@ -178,8 +186,7 @@
 .NewProduct>div>*{
     width: 100%;
 }
-.TheButtons{
-    background-color: white;
+.containerd .TheButtons{
     /* padding: 0px 20px; */
     padding-top: 20px;
     padding-bottom: 20px;
@@ -188,21 +195,26 @@
     z-index: 999;
     bottom: 0;
     left: 0;
+    gap: 10px;
     width: calc(100% - 40px);
-    min-width: calc(100% - 40px);
+    min-width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-top: 0.5px solid #B17457;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-top: 0.5px solid #B17457 !important;
+    background-color: white !important;
+    
+    
 }   
-.TheButtons button{
-    background-color: #B17457;
+.containerd .TheButtons button{
+    background-color: #B17457 !important;
     border: none;
     border-radius: 10px;
     outline: none;
     color: white;
     padding: 10px 20px;
+
 }
 
 .theTitled{
@@ -328,7 +340,6 @@
 .PhotoAreaContainer::-webkit-scrollbar{
     width: 0px;
     height: 0px;
-    /* background-image: url('https://i.pinimg.com/736x/8a/db/bd/8adbbddd23d9bf88258b393a21b9ca0f.jpg'); */
 }
 .imageContainer{
     min-width: 100%;
@@ -338,10 +349,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    /* border-radius: 10px; */
-    /* background-color: aqua; */
-    /* transition: all 0.3s ease-in-out; */
-    /* position: relative; */
+   
 }
 .imageContainer>.theImage{
     background-size: contain;
@@ -359,12 +367,9 @@
     padding: 5px 10px;
     background-color: #4C7130 !important;
     color: white;
-    /* height: 20px; */
     border: none;
     border-radius: 5px;
     position:absolute;
-    /* top: 10px; */
-    /* left: 10px; */
     margin-top: 10px;
     margin-left: 10px;
     z-index: 500;
@@ -379,14 +384,12 @@
     opacity: 50%;
 }
 .imageContainer.nofill>button{
-    /* position: absolute; */
     top: 0;
     width: 100%;
     height: 100%;
     background-color: white;
     border: none;
-    /* z-index: 200; */
-    /* border-radius: ; */
+   
 }
 .imageContainer.nofill>.theImage{
     display: none;
@@ -410,14 +413,11 @@ input[type="number"]{
 }
 
 .productCategory{
-    /* font-family:inherit; */
     font-family: 'normalPublica';
     width: 100%;
     height: fit-content;
     min-height: fit-content;
-    /* min-height: 60px; */
-    /* border-radius: 15px; */
-    /* background-color: aqua; */
+    
     display: flex;
     flex-direction: column;
     align-items: start !important;
@@ -453,16 +453,27 @@ input[type="number"]{
     margin-bottom: 80px;
 }
 .input-container.desc.end{
-    margin-bottom: 190px;
+    margin-bottom: 210px;
     height: 100px !important;
     min-height: 100px !important;
+
+    textarea{
+        margin-top: 40px;
+    }
+}
+
+.input-container.desc.end.part{
+    margin-bottom: 220px;
+    textarea{
+        margin-top: 70px !important;
+    }
 }
 .input-container input, .input-container textarea {
     word-wrap: break-word; /* Membuat teks panjang terputus dan dibungkus */
     white-space: normal;
     width: 100%;
-    height: 100%;
-    padding: 20px 50px 8px 20px; /* Menambah padding kanan untuk tombol */
+    height: 60px;
+    padding: 20px 50px 8px 20px !important; /* Menambah padding kanan untuk tombol */
     font-size: 16px;
     border: 2px solid #aaa;
     border-radius: 15px;
@@ -472,10 +483,8 @@ textarea{
     padding-top: 40PX !important;
 }
 .input-container.desc textarea{
-    /* height: calc(100% - 35px); */
     margin-top: 20px;
-    /* padding-top: 20px !important; */
-    height: 150px !important;
+    height: 200px !important;
 }
 
 .input-container label {
@@ -517,28 +526,23 @@ textarea{
 }
 .ProductQty{
     width: fit-content;
-    /* min-width: 15%; */
     display: flex;
     align-items: center;
     justify-content: center;
     border: 0.5px solid black;
     border-radius: 5px;
-    /* background-color: bisque; */
 }
 .ProductQty{
     font-family:'Roboto', sans-serif;
     font-size: 12px;
     height: 25px;
-    /* background-color: aqua; */
 }
 .ProductQty input{
     height: 100%;
     border: none;
     outline: none;
     width: 30px;
-    /* background-color: #B17457; */
     display: flex;
-    /* flex-direction: ; */
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -546,14 +550,11 @@ textarea{
 }
 .ProductQty>.inside{
     height: 100%;
-    /* width: 100%; */
-    /* height: 100%; */
     display: flex;
     flex-direction: row;
     gap: 5px;
     height: fit-content;
     width: fit-content;
-    /* border: black 1px solid; */
     align-items: center;
     justify-content: center;
     border-radius: 5px;
@@ -589,17 +590,14 @@ textarea{
 .theItems p:nth-child(3){
     width: calc(20% - 30px);
     padding-left: 15px;
-    /* width: 20%; */
 }
 .theItems p:nth-child(4){
     padding-left: 10px;
     width: calc(10% - 10px);
-    /* width: 10%; */
 }
 .theItems p:nth-child(5){
     padding-left: 10px;
     width: calc(10% - 10px);
-    /* width: 10%; */
 }
 
 .Detil{

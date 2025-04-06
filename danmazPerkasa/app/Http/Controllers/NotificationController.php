@@ -20,46 +20,46 @@ class NotificationController extends Controller
                 'subtitle' => 'Come take a look it will make you amaze'
             ],
             [
-                'type' => 'Transaction',
+                'type' => 'Transaction-Customer',
                 'link' => '/Transaction/',
                 'status' => 2,
                 'title' => 'Transaction Successful',
                 'subtitle' => 'Your transaction was successful. Thank you!'
             ],
             [
-                'type' => 'Transaction',
+                'type' => 'Transaction-Customer',
                 'link' => '/Transaction/',
                 'status' => 3,
                 'title' => 'Transaction Passed Deadline',
                 'subtitle' => "This transaction has passed the deadline and can no longer be processed."
             ],
             [
-                'type' => 'Transaction',
+                'type' => 'Transaction-Customer',
                 'link' => '/Transaction/',
                 'status' => 4,
                 'title' => 'Transaction Cancelled',
                 'subtitle' => "Your transaction has been cancelled."
             ],
             [
-                'type' => 'Transaction',
+                'type' => 'Transaction-Customer',
                 'link' => '/Transaction/',
                 'status' => 5,
                 'title' => "Thank you! Your payment was successful.",
                 'subtitle' => 'Tap for detail'
             ],
             [
-                'type' => 'Transaction',
+                'type' => 'Transaction-Customer',
                 'link' => '/Transaction/',
                 'status' => 6,
                 'title' => "Sorry, your payment could not be processed. Please try again or use a different payment method.",
                 'subtitle' => 'Tap for detail'
             ],
             [
-                'type' => 'Transaction',
+                'type' => 'Transaction-Admin',
                 'link' => '/Transaction/',
                 'status' => 7,
                 'title' => "New Order!",
-                'subtitle' => 'Tap for detail'
+                'subtitle' => 'Check For Details.'
             ],
             [
                 'type' => 'Progress',
@@ -74,7 +74,21 @@ class NotificationController extends Controller
                 'status' => 8,
                 'title' => 'Don’t Forget to Fill Your Profile',
                 'subtitle' => 'Your Address is important for making some transaction'
-            ]
+            ],
+            [
+                'type' => 'Transaction-Customer',
+                'link' => '/Transaction/',
+                'status' => 9,
+                'title' => 'Order Accepted',
+                'subtitle' => 'please wait for the next confirmation!'
+            ],
+            [
+                'type' => 'Transaction-Customer',
+                'link' => '/Transaction/',
+                'status' => 10,
+                'title' => "Sorry, your order couldn't be processed",
+                'subtitle' => 'Check the Detils'
+            ],
         ];
         
         
@@ -87,7 +101,12 @@ class NotificationController extends Controller
         ($tipe[$idx]['status']==1)? $link=$tipe[$idx]['link'].$id:null;
         
         //Transaction
-        ($tipe[$idx]['status']>=2&&$tipe[$idx]['status']<=6)? $link=$tipe[$idx]['link'].$id:null;
+            //Customer
+            ($tipe[$idx]['status']>=2&&$tipe[$idx]['status']<=7)? $link=$tipe[$idx]['link'].$id:null;
+            ($tipe[$idx]['status']>=10&&$tipe[$idx]['status']<=11)? $link=$tipe[$idx]['link'].$id:null;
+            // Admin
+            // ($tipe[$idx]['status']==7)? $link=$tipe[$idx]['link']:null;
+
         
         //Address
         ($tipe[$idx]['status']==8)? $link=$tipe[$idx]['link']:null;

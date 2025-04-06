@@ -420,6 +420,8 @@ class ProductsController extends Controller
     }
 
     public function LandingPage(){
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
         if(session('Role')!='Admin'){
             $Contens = DB::table('products as a')
             ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
@@ -428,13 +430,11 @@ class ProductsController extends Controller
             ->get();
     
             $Special = $this->refresh();
-            $notif = new NotificationController();
-            $notifs = $notif->getAllNotif();
             // ,'notif'=>$notifs
             return view('landingpage',['Content'=>$Contens, 'Special'=>$Special,'notif'=>$notifs]);    
         }
         else{
-            return view('User.Admin.dashboard');
+            return view('User.Admin.dashboard',['notif'=>$notifs]);
         }
     }
     public function refresh(){
