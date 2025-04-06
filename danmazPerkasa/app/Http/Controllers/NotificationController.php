@@ -11,25 +11,107 @@ class NotificationController extends Controller
     public function store($type,$id,$idUser){
         $idx = $type-1;
         $notif = new notification();
-        $tipe= [['Product','/Detil-Product/',1,'Hi, We Have New Product','Come take a look it will make you amaze'], ['Transaction','',0,'',''], ['Progress','',0,'',''], ['Address','/Profile/Address',0,'Dont Forget to Fill Your Profile','Your Address is important for making some transaction']];
+        $tipe = [
+            [
+                'type' => 'Product',
+                'link' => '/Detil-Product/',
+                'status' => 1,
+                'title' => 'Hi, We Have New Product',
+                'subtitle' => 'Come take a look it will make you amaze'
+            ],
+            [
+                'type' => 'Transaction',
+                'link' => '/Transaction/',
+                'status' => 2,
+                'title' => 'Transaction Successful',
+                'subtitle' => 'Your transaction was successful. Thank you!'
+            ],
+            [
+                'type' => 'Transaction',
+                'link' => '/Transaction/',
+                'status' => 3,
+                'title' => 'Transaction Passed Deadline',
+                'subtitle' => "This transaction has passed the deadline and can no longer be processed."
+            ],
+            [
+                'type' => 'Transaction',
+                'link' => '/Transaction/',
+                'status' => 4,
+                'title' => 'Transaction Cancelled',
+                'subtitle' => "Your transaction has been cancelled."
+            ],
+            [
+                'type' => 'Transaction',
+                'link' => '/Transaction/',
+                'status' => 5,
+                'title' => "Thank you! Your payment was successful.",
+                'subtitle' => 'Tap for detail'
+            ],
+            [
+                'type' => 'Transaction',
+                'link' => '/Transaction/',
+                'status' => 6,
+                'title' => "Sorry, your payment could not be processed. Please try again or use a different payment method.",
+                'subtitle' => 'Tap for detail'
+            ],
+            [
+                'type' => 'Transaction',
+                'link' => '/Transaction/',
+                'status' => 7,
+                'title' => "New Order!",
+                'subtitle' => 'Tap for detail'
+            ],
+            [
+                'type' => 'Progress',
+                'link' => '',
+                'status' => 0,
+                'title' => '',
+                'subtitle' => ''
+            ],
+            [
+                'type' => 'Address',
+                'link' => '/Profile/Address',
+                'status' => 8,
+                'title' => 'Don’t Forget to Fill Your Profile',
+                'subtitle' => 'Your Address is important for making some transaction'
+            ]
+        ];
+        
+        
+        
         // dd($notif);
-        $notif->type=$tipe[$idx][0];
-        $notif->link= ($tipe[$idx][2]==1)? $tipe[$idx][1].$id:$tipe[$idx][1];
+        // dd($tipe[$idx]['type']);
+        $notif->type=$tipe[$idx]['type'];
+        $link=null;
+        //Add Product
+        ($tipe[$idx]['status']==1)? $link=$tipe[$idx]['link'].$id:null;
+        
+        //Transaction
+        ($tipe[$idx]['status']>=2&&$tipe[$idx]['status']<=6)? $link=$tipe[$idx]['link'].$id:null;
+        
+        //Address
+        ($tipe[$idx]['status']==8)? $link=$tipe[$idx]['link']:null;
+
+        
+
+
+        $notif->link=$link;
         $notif->Icon=$idx;
-        $notif->Title=$tipe[$idx][3];
-        $notif->Detil=$tipe[$idx][4];
+        $notif->Title=$tipe[$idx]['title'];
+        $notif->Detil=$tipe[$idx]['subtitle'];
         $notif->isRead=0;
         $notif->id_user=$idUser;
         // dd($notif);
-
+        // dd($notif);
         $notif->save();
     }
 
     public function getAllNotif(){
         $data = DB::table('notifications as a')
-        ->where('a.id_User', session('user_id'))
-        ->select('*')
-        ->get();
+            ->where('a.id_User', session('user_id'))
+            ->orderBy('a.created_at', 'desc')
+            ->select('*')
+            ->get();
 
         return $data;
     }

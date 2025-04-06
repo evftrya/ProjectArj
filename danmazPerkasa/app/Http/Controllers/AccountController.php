@@ -122,7 +122,7 @@ class AccountController extends Controller
                 $user->save();
 
                 $notif = new NotificationController();
-                $notif->store(4,0,$user->id_User);
+                $notif->store(9,0,$user->id_User);
 
                 return redirect('/Login');
             }

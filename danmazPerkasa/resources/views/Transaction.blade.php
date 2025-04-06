@@ -1,12 +1,15 @@
 @extends('layouts.BasicPage1')
 
 @section('css')
-<link rel="stylesheet" type="" href="{{asset('css/Checkout.css')}}">
+<!-- <link rel="stylesheet" type="" href="{{asset('css/Checkout.css')}}"> -->
+<link rel="stylesheet" href="{{ secure_asset('css/Checkout.css') }}">
+
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SET_YOUR_CLIENT_KEY_HERE"></script>
+
 @endsection
 
 @section('content')
 <div class="CartContainer">
-    
     <div class="Tables">
         <div class="THead" id="thead">
             <!-- <div class="forCBVar"><input type="checkbox" id="inCo" onclick="checkedAll('check', this)"></div> -->
@@ -63,7 +66,7 @@
                         </div>
                         <div style="display: flex; flex-direction:row;gap:5px;">
                             <p class="weigthTotal">130</p>
-                            <p>Kg</p>
+                            <p></p>
                         </div>
                     </div>
                     
@@ -109,7 +112,9 @@
                 <div class="theDetil transaction">
                     <div class="cont">
                         <div class="subCont">
-                            <p>Id Transaction:   {{{$data[0]->id}}}</p>
+                            <p>Id Transaction:   {{{$data[0]->id}}} </p>
+                            <p>{{{$data[0]->Dibuat}}}</p>
+
                         </div>
                         <div class="subCont">
                             <p>Total Product Price</p>
@@ -142,13 +147,14 @@
 
             
         </div>
-    </div> 
+    </div>  
+    @if(!($data[0]->Status_Pembayaran=='Cancel'))
     <div class="toCheckout transaction">
         <div class="warningTeks">
             <div>
-                <p class="deadline" style="display:none;">{{{$data[0]->Deadline}}}</p>
+                <p class="deadline" style="display:none;">{{{($data[0]->Deadline)}}}</p>
                 <p>Segera Lakukan pembayaran sebelum</p>
-                <p class="time">{{{$data[0]->Deadline}}}</p>
+                <p class="time">{{{($data[0]->Deadline)}}}</p>
             </div>
             <div class="thewarning">
                 <p>- Apabila melebihi batas waktu Transaksi ini akan dianggap gagal</p>
@@ -156,29 +162,80 @@
             </div>
         </div>
         <div class="sidE">
-            <form action="" class="theforms" method="POST">
+            <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
                 @csrf
-                <button onclick="ToForm(this,event)">Cancel Order</button>
+                <button id="pay-button" onclick="Payment(event,'{{{$snapToken}}}')">Pay Now</button>
+                <button onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
             </form>
         </div>
     </div>
+    @endif
 </div>
 
 <script>
 
+    ///FOR PAYMENT
+    var payButton = document.getElementById('pay-button');
+      // For example trigger on button clicked, or any time you need
+      payButton.addEventListener('click', function() {
+        var snapToken = document.getElementById('snap-token').value;
+        snap.pay(snapToken);
+      });
+
+    
+
+
+    function Payment(event,snapToken){
+        event.preventDefault();
+        // window.location.href = '/Payment/'+snapToken;
+        snap.pay(snapToken)
+    }
+    @if(session('message')=='NoBack')
+        let historyList = JSON.parse(localStorage.getItem('app_history'));
+        let lastUrl = historyList[historyList.length - 2]; // ambil URL sebelumnya
+        window.location.href = lastUrl ?? '/';
+    @endif
+    
+
+    @if(session('message')&&session('message')!='NoBack')
+        showPopup({!! json_encode(session('message')) !!});
+    @endif
+    function showPopup(wht,which) {
+
+        setTimeout(() => {
+            const popup = document.getElementById('popup');
+            if(which==0){
+                popup.style.backgroundColor="#b32323";
+            }
+            else{
+                popup.style.backgroundColor="#4caf50";
+            }
+            popup.textContent = wht
+            popup.classList.add('show');
+
+            // Hilangkan pop-up setelah 3 detik
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 1500);
+        }, 50); 
+
+    }
+    function cancelOrder(event,idT){
+        event.preventDefault();
+        window.location.href='/Transaction/Cancel/'+idT+"1";
+    }
     function formattedDateTime(time){
         console.log(time)
         return time.replace(" ", "T").replace("09:08:41", "09:05:39");
     }
-    newDeadline();
     function newDeadline(){
-        const dateTime = '{{{$data[0]->created_at}}}';
+        const dateTime = '{{{$data[0]->Deadline}}}';
 
         // Konversi string ke objek Date
         const date = new Date(dateTime.replace(" ", "T")); // Mengganti spasi menjadi 'T' agar dikenali oleh Date
 
         // Tambahkan 30 menit
-        date.setMinutes(date.getMinutes() + 30);
+        date.setMinutes(date.getMinutes()+30);
 
         // Format kembali ke string jika diperlukan (YYYY-MM-DD HH:mm:ss)
         const year = date.getFullYear();
@@ -190,9 +247,11 @@
 
         const newDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         let time = document.querySelector('.warningTeks .time');
+        console.log('time sebelum:   '+time.textContent);
         if(time!=null){
-
+            console.log('newDateTime : '+newDateTime);
             time.textContent = newDateTime;
+            console.log('time setelah:   '+time.textContent);
             return (newDateTime);
         }
         return null;
@@ -202,9 +261,22 @@
         // return formattedDateTime(newDateTime);
 
     }
-    
-    // setInterval(RefreshPage, 1000);
-    RefreshPage()
+    runRefresh(2)
+    setInterval(runRefresh(1), 1000);
+    // RefreshPage()
+
+    function runRefresh(wht){
+        let cek = document.querySelector('.toCheckout');
+        if(cek){
+            if(wht==1){
+
+                RefreshPage();
+            }
+            else{
+                newDeadline();
+            }
+        }
+    }
 
     async function RefreshPage(){
         let idTransaction = "{{$data[0]->id}}";
@@ -216,28 +288,49 @@
         // bottom.style.display ='none'
         // let container = document.querySelector('.CartContainer');
         console.log('masuk luar')
+        let response = await fetch('/PaymentStatus/'+'{{$data[0]->id}}');
+        
+        let data = await response.json();
         if((now.getTime()>=deadline.getTime())){
+            console.log('masuk dalam if')
             // let PaymentStatus = document.querySelector('.PaymentStatus')
             // if(PaymentStatus!='Done'){
                 // container.remove(bottom)
                 // }
-                if(bottom.style.display!='none'){
-                    clearBottom()
+                console.log("now:   "+now.getTime())
+                console.log("deadline:   "+deadline.getTime())
+                if(bottom){
+                    console.log('masuk dalam if bottom')
+                    
+                    if(data!='Done'){
+                        if(bottom.style.display!='none'){
+                            console.log('masuk dalam if bottom 2')
+                            let msg = await fetch('/Transaction/Cancel/'+'{{$data[0]->id}}'+0);
+                            let trueMsg = await msg.json();
+                            console.log(trueMsg);
+                            showPopup(trueMsg,0);
+
+                            let status = document.querySelector('.PaymentStatus')
+                            status.textContent = 'Cancel';
+                            clearBottom();
+                    }
                     // container.remove(bottom)
                 }
+            }
         }
         else{
-            // console.log('masuk')
-            let response = await fetch('/PaymentStatus/'+'{{$data[0]->id}}');
-            let data = await response.json();
+            console.log('masuk dalam else')
+            console.log('data:   ------------- '+data);
             if(data=='Done'){
+                console.log('masuk dalam else if done')
                 clearBottom()
             }
-            // console.log(data); 
+        // console.log(data); 
         }
     }
 
     function clearBottom(){
+        console.log('clear bottom run')
         let bottom = document.querySelector('.toCheckout.transaction')
         let divs = bottom.querySelectorAll('div')
             divs.forEach(e=>{

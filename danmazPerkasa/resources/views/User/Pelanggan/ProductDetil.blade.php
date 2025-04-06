@@ -1,7 +1,9 @@
 @extends('layouts.BasicPage1')
 
 @section('css')
-<link rel="stylesheet" type="" href="{{asset('css/productDetil.css')}}">
+<!-- <link rel="stylesheet" type="" href="{{asset('css/productDetil.css')}}"> -->
+<link rel="stylesheet" href="{{ secure_asset('css/productDetil.css') }}">
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 

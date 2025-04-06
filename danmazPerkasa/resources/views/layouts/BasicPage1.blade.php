@@ -22,7 +22,9 @@ else{
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="" href="{{asset('css/LandingPage.css')}}">
+    <!-- <link rel="stylesheet" type="" href="{{asset('css/LandingPage.css')}}"> -->
+    <link rel="stylesheet" href="{{ secure_asset('css/LandingPage.css') }}">
+
     @yield('css')
     
     <title>Danmaz Perkasa</title>
@@ -58,8 +60,7 @@ else{
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.05388 12L12 22.0002L10.211 24L0.370429 12.9999C0.133243 12.7347 0 12.375 0 12C0 11.625 0.133243 11.2653 0.370429 11.0001L10.211 0L12 1.99976L3.05388 12Z" fill="black"/>
                     </svg>
                     </button>
-                @endif    
-            
+                @endif                
             <a href="/">
                 <p>CV. Danmaz Perkasa</p>
             </a>
@@ -85,10 +86,14 @@ else{
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                     </svg>
-                    <form action="/Search/{{{$searchThing}}}" method="post">
-                        @csrf
-                        <input type="text" name="search" class="searchInp" id="" placeholder="Search">
-                    </form>
+                    @if(session('user_id')!=1)
+                        <form action="/Search/{{{$searchThing}}}" method="post">
+                            @csrf
+                    @endif
+                            <input type="text" name="search" class="searchInp" id="" placeholder="Search">
+                    @if(session('user_id')!=1)
+                        </form>
+                    @endif
                     
                 </div>
             @endif

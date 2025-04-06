@@ -48,7 +48,7 @@ class DetailTransactionController extends Controller
                             return response()->json(['message'=> 'successOld'.$products[0]->qty]);
                         }
                         else{
-                            return response()->json(['message'=> 'false'.$detil->id_Detail_transaction]);
+                            return response()->json(['message'=> 'false'.$products[0]->id_Detail_transaction]);
                         }
                         // $old->Total =  
                     }
@@ -177,6 +177,7 @@ class DetailTransactionController extends Controller
         if($this->AuthSystem()>0){
             // dd(session('direction'));
             if(session('direction')!=null){
+                // dd('masuk if');
                 $tempDirection = session('direction');
                 session(['direction' => null]);
                 return redirect($tempDirection);
@@ -233,6 +234,7 @@ class DetailTransactionController extends Controller
                 return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
         }
         else{
+            // dd('masuk');
             session(['direction' => '/Cart']);
             return redirect('/login');
         }
@@ -247,41 +249,42 @@ class DetailTransactionController extends Controller
                 return redirect($tempDirection);
             }
             else{
-                session(['direction' => '/Cart']);
-                return redirect('/login');
+                if($idProduct!='null'){
+        
+                    $product = (new ProductsController())->getDataProduct($idProduct)[0][0];   
+        
+                    // dd($product);
+                    $new = new Detail_Transaction();
+                    $new->qty = 1;
+                    $new->id_product = $idProduct;
+                    $new->Total = $product->price;
+                    $new->Status = 'TempCheckout';
+                    $new->id_User = session("user_id");
+                    $new->save();
+                }
+                $data = $this->getAllData('TempCheckout');
+        
+                $addr = new AddressController();
+                $userData = $addr->getDataById();
+                // dd($userData[0]->city_id);
+                $cont = new Controller();
+                $ships = ($cont->getOngkir($userData[0]->city_id));
+                $shipjs = $ships[0];
+                $ship = $ships[1];
+                $notif = new NotificationController();
+                $notifs = $notif->getAllNotif();
+                $routeChekcout = 'Temp';
+                // 
+                // ,'notif'=>$notifs
+                // dd($ship);
+                return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
             }
         }
         else{
+
+            session(['direction' => '/Cart']);
+                return redirect('/login');
             // dd($Newqty);
-            if($idProduct!='null'){
-    
-                $product = (new ProductsController())->getDataProduct($idProduct)[0][0];   
-    
-                // dd($product);
-                $new = new Detail_Transaction();
-                $new->qty = 1;
-                $new->id_product = $idProduct;
-                $new->Total = $product->price;
-                $new->Status = 'TempCheckout';
-                $new->id_User = session("user_id");
-                $new->save();
-            }
-            $data = $this->getAllData('TempCheckout');
-    
-            $addr = new AddressController();
-            $userData = $addr->getDataById();
-            // dd($userData[0]->city_id);
-            $cont = new Controller();
-            $ships = ($cont->getOngkir($userData[0]->city_id));
-            $shipjs = $ships[0];
-            $ship = $ships[1];
-            $notif = new NotificationController();
-            $notifs = $notif->getAllNotif();
-            $routeChekcout = 'Temp';
-            // 
-            // ,'notif'=>$notifs
-            // dd($ship);
-            return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
         }
     }
 
@@ -347,5 +350,16 @@ class DetailTransactionController extends Controller
         return redirect ("/Cart");
         
 
+    }
+
+    public function getDetilTransactionsByIdTransaction($idTransaction){
+        $data = DB::table('detail__transactions as a')
+        ->join('products as b', 'a.id_product', '=', 'b.id_product')
+        ->where('a.Transaksis_id', 37)
+        ->select('a.*', 'b.*')
+        ->get();
+        // dd($data);
+        return ($data);
+        
     }
 }

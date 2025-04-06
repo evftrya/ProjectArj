@@ -2,7 +2,9 @@
 
 @section('css')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<link rel="stylesheet" type="" href="{{asset('css/Cart.css')}}">
+<!-- <link rel="stylesheet" type="" href="{{asset('css/Cart.css')}}"> -->
+<link rel="stylesheet" href="{{ secure_asset('css/Cart.css') }}">
+
 @endsection
 
 @section('content')

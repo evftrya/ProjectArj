@@ -1,7 +1,9 @@
 @extends('layouts.BasicPage1')
 
 @section('css')
-<link rel="stylesheet" type="" href="{{asset('css/Checkout.css')}}">
+<!-- <link rel="stylesheet" type="" href="{{asset('css/Checkout.css')}}"> -->
+<link rel="stylesheet" href="{{ secure_asset('css/Checkout.css') }}">
+
 @endsection
 
 @section('content')

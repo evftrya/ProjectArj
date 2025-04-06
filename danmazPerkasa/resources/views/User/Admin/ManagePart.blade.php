@@ -1,7 +1,9 @@
 @extends('layouts.BasicPage1')
 
 @section('css')
-<link rel="stylesheet" type="" href="{{asset('css/ManageProduct.css')}}">
+<!-- <link rel="stylesheet" type="" href="{{asset('css/ManageProduct.css')}}"> -->
+<link rel="stylesheet" href="{{ secure_asset('css/ManageProduct.css') }}">
+
 @endsection
 
 @section('content')
@@ -457,6 +459,17 @@ function FormAdd(){
         // scrollPhotos();
 
     }
+
+    document.querySelector(".searchInp").setAttribute("onclick", "holdSearch(event)");
+    function holdSearch(event){
+        event.preventDefault()
+    }
+
+    // document.querySelector(".searchInp").setAttribute("onclick", "holdSearch(event)");
+
+    // function holdSearch(event) {
+    //     event.preventDefault();
+    // }
     document.querySelector(".searchInp").addEventListener("input", searchItems);
     
     function searchItems(){
@@ -476,5 +489,6 @@ function FormAdd(){
         
     }
     
+
 </script>
 @endsection

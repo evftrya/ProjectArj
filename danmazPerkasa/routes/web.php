@@ -9,6 +9,7 @@ use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\TransaksiController;
 use App\Models\Detail_Transaction;
+use App\Models\Transaksi;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,7 +105,8 @@ $controller = new Controller();
             //CHECKOUT, DLL
                 Route::get('/Checkout/{wht}/{qty}', [DetailTransactionController::class, 'CheckoutView']);
                 Route::get('/Checkout-view-direct/{wht}',[DetailTransactionController::class,'CheckoutViewDirect']);
-                Route::get('Transaction/{idTransaction}',[TransaksiController::class,'toTransaction']);
+                Route::get('/Transaction/{idTransaction}',[TransaksiController::class,'toTransaction']);
+                
                 //
                 Route::get('/UpdateStatus/{idproduct}/{wht}',[DetailTransactionController::class, 'UpdateStatus']);
                 Route::get('Transaction', function(Controller $cont){
@@ -123,10 +125,16 @@ $controller = new Controller();
                         return redirect('/Login');
                     }
                 });
+
+                //TRANSACTION
+                Route::get('/Transaction/Cancel/{idTransaction}',[TransaksiController::class, 'CancelTransaction']);
                 Route::get('/Manage/Transaction', [TransaksiController::class, 'ManageTransaction']);
                 Route::get('/OrderDone',function(){
                     return view('PaymentProses');
                 });
+                    //PAYMENT
+                    Route::get('/Payment/{snapToken}',[TransaksiController::class,'PaymentTransaction']);
+                    Route::get('/RedirectNewestTransaction',[TransaksiController::class,'RedirectNewestTransaction']);
 
     
     
@@ -223,3 +231,10 @@ Route::get('/tes', function(){
 //     session(['direction' => '/Profile/Info']);
 //     return redirect('/Login');
 // }
+
+Route::get('/testBayar', function(){
+    return view('User.Pelanggan.BayarTest');
+});
+Route::get('/bayar',[TransaksiController::class,'bayarNext']);
+
+
