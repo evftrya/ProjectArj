@@ -275,7 +275,7 @@
         let editSpace = document.querySelectorAll('#formProfileAddress>.containerbody');
         if(button.textContent=="Edit Address"){
             
-            let data = await fetch('/isNew');
+            let data = await fetch('/isNew/Address');
             let isnew = await data.json();
             @if(isset($data->address))
                 @if(($data->address[0]->Detil)!='The address has not been set.')

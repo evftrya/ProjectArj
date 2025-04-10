@@ -99,7 +99,7 @@ class TransaksiController extends Controller
 
         $params = array(
             'transaction_details' => array(
-                'order_id' => $data->id."A",
+                'order_id' => $data->id.env('CODE_TRANSACTION'),
                 'gross_amount'=>$data->id+$data->TotalShopping+$data->TotalShipping,
 
             ),
@@ -181,10 +181,53 @@ class TransaksiController extends Controller
         $data = $this->getAll();
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
+        $TemplateRoute = '/ViewTransaction/';
         // ,'notif'=>$notifs
         // dd($Transaction);
 
-        return view('User.Admin.ManageTransaction',['data'=>$data,'notif'=>$notifs]);
+        return view('User.Admin.ManageTransaction',['data'=>$data,'notif'=>$notifs,'TemplateRoute'=>$TemplateRoute]);
+    }
+
+    public function viewTransaction($idT){
+        // dd($idT);
+        $header = true;
+
+        if($idT==0){
+            return redirect('/');
+        }
+        // dd($idT);
+        $Data = DB::table('transaksis as a')
+        ->join('detail__transactions as b', 'b.Transaksis_id', '=', 'a.id')
+        ->join('products as c', 'b.id_product', '=', 'c.id_product')
+        ->join('photos as d', 'c.mainPhoto', '=', 'd.id_Photo')
+        ->select(
+            'a.*',
+            DB::raw('a.created_at as Dibuat'),
+            DB::raw('a.created_at as Deadline'),
+            'b.*',
+            'c.*',
+            'd.*'
+        )
+        ->where('a.id', $idT)
+        ->get();
+    
+        // dd($Data);
+        
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // dd($Data[0]);
+        $addr = new AddressController();
+        $userData = $addr->getDataById();
+        // dd($Data);
+        // if($Data[0]->Status_Pembayaran!='Done'){
+        //     $ST = $this->GetSnapToken($Data);
+        // }
+        // dd($Data);
+        $Address = new AddressController();
+        $detil = $Address->getDetil($Data[0]->id_user);
+
+        // dd($Data);
+            return view('User.Admin.ViewTransaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil,'header'=>$header]);
     }
 
     public function CancelTransaction($idTransaction){
@@ -223,12 +266,13 @@ class TransaksiController extends Controller
                 'a.id',
                 'a.created_at',
                 'b.namaUser',
-                'a.Total',
+                'a.TotalShopping',
                 'a.Shipping',
                 'a.Notes',
             )
             ->join('users as b', 'a.id_user', '=', 'b.id_User')
             ->get();
+            // dd($Transaction);
         return $Transaction;
     }
 
@@ -269,8 +313,6 @@ class TransaksiController extends Controller
         if(session('Role')=="Admin"){
             $Address = new AddressController();
             $detil = $Address->getDetil($Data[0]->id_user);
-            // dd($detil);
-
             return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil]);
         }
         else{
@@ -279,28 +321,6 @@ class TransaksiController extends Controller
         }
 
     }
-
-    // public function Bayar(){
-    //     $data = Transaksi::where('Status_Pembayaran', 'Waiting')->get();
-    //     // dd($data);
-    //     return view('apiPembayaran',['data'=>$data]);
-    // }
-
-    
-
-    // public function payment(Request $req){
-    //     // dd($req->all());
-    //     $transaction = Transaksi::where('id', $req->idTransaction)->get()->first();
-    //     // dd($transaction);
-    //     $transaction->Status_Pembayaran = 'Done';
-    //     $transaction->save();
-    //     $notif = new NotificationController();
-    //     $notif->store(2,$req->idTransaction,session('user_id'));
-
-    //     return redirect('/Bayar');
-        
-    // }
-
     public function PaymentTransaction($snapToken){
         return view('User.Pelanggan.Payment',['snap'=>$snapToken]);
     }
@@ -320,7 +340,7 @@ class TransaksiController extends Controller
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => "Basic $auth",
-            ])->get("https://api.sandbox.midtrans.com/v2/".$transaction->id."A"."/status");
+            ])->get("https://api.sandbox.midtrans.com/v2/".$transaction->id.env('CODE_TRANSACTION')."/status");
             // dd($response);
             $response = json_decode($response->body());
             // dd($response);
@@ -339,6 +359,5 @@ class TransaksiController extends Controller
             }
 
     }   
-        
         
 }

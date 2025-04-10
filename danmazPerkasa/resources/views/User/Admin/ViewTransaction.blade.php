@@ -201,11 +201,14 @@
                 </div>
                 <div class="sidE">
                     
-                    <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
-                        @csrf
+                    <!-- <form action="" class="theforms rows" method="GET" style="display:flex; flex-direction: row; gap: 20px;"> -->
+                    <div class="theforms" style="display:flex; flex-direction: row; gap: 20px;">
+
                         <button onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
                         <button onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
-                    </form>
+                    </div>
+                        
+                    <!-- </form> -->
                     
                 </div>
             </div>
@@ -215,10 +218,11 @@
 
 <script>
     
-
     @if(session('Role')=="Admin")
         async function AcceptOrder(event,idTransaction){
-            event.preventDefault();
+            event.preventDefault()
+            event.stopPropagation();
+            
             let response = await fetch('/Transaction/AcceptOrder/'+idTransaction);
             let data = await response.json();
             if(data=='Success'){
@@ -228,7 +232,9 @@
             }
         }
         async function RejectOrder(event,idTransaction){
-            event.preventDefault();
+            event.preventDefault()
+            event.stopPropagation();
+
             let response = await fetch('/Transaction/RejectOrder/'+idTransaction);
             let data = await response.json();
             if(data=='Success'){

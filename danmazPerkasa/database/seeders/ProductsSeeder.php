@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Products;
+use App\Models\Photos;
 
 class ProductsSeeder extends Seeder
 {
@@ -13,6 +14,44 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        // Products::factory(20)->create();
+        $products = Products::factory(30)->create();
+        // Products::factory(10)->create()->each(function ($product) {
+        //     $product->save();
+        //     $photos = Photos::factory()->count(3)->create([
+        //         'id_product' => $product->id
+        //     ]);
+    
+        //     $mainPhoto = $photos->random();
+        //     $product->mainPhoto = $mainPhoto->id;
+        //     $product->save();
+        // });
+
+        foreach($products as $product){
+            $photos = Photos::factory()->count(3)->create([
+                'id_product' => $product->id_product
+            ]);
+            $photos[0]->isMain = 1;
+            $photos[0]->save();
+            // dd($photos[0]);
+            $mainPhoto = $photos[0]->id_photo;
+            // dd($mainPhoto);
+            // 'mainPhoto' => $mainPhoto;
+            $product->mainPhoto = $mainPhoto;
+            // $product->forceFill([
+            //     'mainPhoto' => $mainPhoto
+            // ])->save();
+            $product->save();
+        }
+        
+
+        // $product = Products::factory()->make();
+        // $product->save();
+
+        // $photos =Photos::factory()->count(1)->for($product)->create();
+        // $mainPhoto = $photos->random();
+
+        // $product->mainPhoto = $mainPhoto->id;
+        // $product->save();
+        // Products::factory(10)->create();
     }
 }

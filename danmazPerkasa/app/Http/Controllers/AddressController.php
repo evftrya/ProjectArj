@@ -63,13 +63,31 @@ class AddressController extends Controller
     
     }
 
-    public function isNew(){
+    public function isNew($idProduct){
         $data = Address::where('id_user', session('user_id'))->first();
-        if($data!=null){
+        
+        //checkStok
+        $Cont = new ProductsController();
+        $product = null;
+        if($idProduct!='Address' && $idProduct!='CekAddress'){
+
+            $product = $Cont->getDataProduct($idProduct)[0][0];
+        }
+
+        if($data!=null||$idProduct=='Address'){
             return response()->json(1);
+        }            
+        else if($idProduct=='CekAddress'){
+            return response()->json(0);
+        }
+        else if($product->stok==0){
+            if($idProduct!='Address'){
+                return response()->json(2);
+            }
         }
         else{
             return response()->json(0);
+
         }
     }
 

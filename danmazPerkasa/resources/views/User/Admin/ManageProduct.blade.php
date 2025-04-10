@@ -15,6 +15,22 @@ $url = $cont->GetUrl();
 @endsection
 
 @section('content')
+<!-- <div class="ShowSomething" onclick="closeViewProduct()">
+    <div class="ShowContainer" >
+        <div class="HeaderDetails">
+            <div class="TextDetails">
+                <p>Product Detail</p>
+            </div>
+            <button>
+                X
+            </button>
+        </div>
+        <div class="BodyDetail" onclick="holdPrevent(event)">
+            
+        </div>
+    </div>
+    
+</div> -->
 <div class="LandingPage">
     <div class="titled">
         Manage Product
@@ -25,7 +41,7 @@ $url = $cont->GetUrl();
     <div class="theMainList">
         <div class="TheList">
             @foreach($data as $d)
-                    <div class="theItems">
+                    <div class="theItems" onclick="viewProduct('{{{$d->id_product}}}')">
                         <p class="name">{{{$d->nama_product}}}</p>
                         <p>{{{$d->Category}}}</p>
                         <p>{{{$d->stok}}} Items</p>
@@ -40,13 +56,9 @@ $url = $cont->GetUrl();
                                 }
                             }
                             @endphp
-                            <button class="IsContent {{{$st}}}" onclick="turnContent('{{{$st2}}}',this,'{{{$d->id_product}}}')">Turn Content</button>
-                            <button class="justButton" onclick="TurnEdit('{{{$d->id_product}}}')">Edit</button>
-                            <!-- <form action="/deleteProduct/{{{$d->id_product}}}" method="post">
-                                @csrf
-                                <button>Delete</button>
-                            </form> -->
-                            <button onclick="DeleteProduct('{{{$d->id_product}}}')">Delete</button>
+                            <button class="IsContent {{{$st}}}" onclick="turnContent('{{{$st2}}}',this,'{{{$d->id_product}}}',event)">Turn Content</button>
+                            <button class="justButton" onclick="TurnEdit('{{{$d->id_product}}}',event)">Edit</button>
+                            <button onclick="DeleteProduct('{{{$d->id_product}}}',event)">Delete</button>
                         </div>
                     </div>
                 @endforeach
@@ -61,10 +73,59 @@ $url = $cont->GetUrl();
     </div>
 </div>
 <script>
-    function DeleteProduct($idProduct){
+    function viewProduct(idProduct){
+        DetilProductAdd()
+        fetch('{{$TemplateRoute}}'+idProduct)
+            .then(response => response.text())
+            .then(html => { 
+                let show = document.querySelector('.BodyDetail');
+                show.innerHTML = html;
+        })
+        .catch(err => {
+            console.error('Gagal memuat konten:', err);
+        });
+    }
+    function DetilProductAdd(){
+        let container = document.querySelector(".maincontent");
+        container.style.display = "flex !improtant";
+        let div = document.createElement('div');
+        div.className = 'ShowSomething';
+        div.setAttribute('onclick', 'closeViewProduct()');
+        div.innerHTML=`
+            <div class="ShowContainer" >
+                <div class="HeaderDetails">
+                    <div class="TextDetails">
+                        <p>Product Detail</p>
+                    </div>
+                    <button>
+                        X
+                    </button>
+                </div>
+                <div class="BodyDetail" onclick="holdPrevent(event)">
+                    
+                </div>
+            </div>
+
+        `
+        // container.appendChild(div);
+        container.insertBefore(div, container.firstChild);
+
+    }
+    function closeViewProduct(){
+        let container = document.querySelector(".maincontent");
+        let show = document.querySelector('.ShowSomething'); 
+        container.removeChild(show);
+    }
+    function holdPrevent(event){
+        event.preventDefault();
+
+    }
+    function DeleteProduct($idProduct,event){
+        event.stopPropagation();
         window.location.href='/deleteProduct/'+$idProduct;
     }
-    function turnContent(wht,elemen,id){
+    function turnContent(wht,elemen,id,event){
+        event.stopPropagation();
         let content= document.querySelectorAll('.theButtons .IsContent.on');
         if(wht=='on'){
             if(content.length<=6){
@@ -123,8 +184,8 @@ $url = $cont->GetUrl();
         }
     }
 
-    async function TurnEdit(idProduct){
-
+    async function TurnEdit(idProduct,event){
+        event.stopPropagation();
         let response = await fetch('/getDataProduct/'+idProduct);
             
 
@@ -141,7 +202,7 @@ $url = $cont->GetUrl();
     
     function FormAdd(){
         let container = document.querySelector(".NewProduct .containerd");
-        container.style.displat = "flex !improtant";
+        container.style.display = "flex !improtant";
         let form = document.createElement('form');
         form.action = "{{ route('add-product', ['wht' => 'Product' ]) }}";
         form.method = "POST";
@@ -190,15 +251,15 @@ $url = $cont->GetUrl();
                 </select>
             </div>
             <div class="input-container">
-                <input required type="text" name="ProductName" placeholder="" id="inputField">
+                <input required type="text" name="ProductName" maxlength="50" placeholder="" id="inputField">
                 <label for="inputField">Product Name</label>
             </div>
             <div class="input-container">
-                <input required type="text" name="shortQuotes" placeholder="" id="inputField">
+                <input required type="text" name="shortQuotes" placeholder="" maxlength="50" id="inputField">
                 <label for="inputField">Short Quotes About This Product</label>
             </div>
             <div class="input-container">
-                <input required type="text" name="ProductColor" placeholder="" id="inputField">
+                <input required type="text" name="ProductColor" maxlength="20" placeholder="" id="inputField">
                 <label for="inputField">Product Color</label>
             </div>
             <div class="input-container">
@@ -367,17 +428,17 @@ $url = $cont->GetUrl();
                             </select>
                         </div>
                         <div class="input-container">
-                            <input required type="text" name="ProductName" placeholder="" id="inputField" value="${product[0].nama_product}">
+                            <input required type="text" name="ProductName" placeholder="" maxlength="50" id="inputField" value="${product[0].nama_product}">
                             <label for="inputField">Product Name</label>
                         </div>
 
                         <div class="input-container">
-                            <input required type="text" name="shortQuotes" placeholder="" id="inputField" value="${product[0].shortQuotes}">
+                            <input required type="text" name="shortQuotes" placeholder="" maxlength="50" id="inputField" value="${product[0].shortQuotes}">
                             <label for="inputField">Short Quotes About This Product</label>
                         </div>
 
                         <div class="input-container">
-                            <input required type="text" name="ProductColor" placeholder="" id="inputField" value="${product[0].nama_product}">
+                            <input required type="text" name="ProductColor" maxlength="20" placeholder="" id="inputField" value="${product[0].nama_product}">
                             <label for="inputField">Product Color</label>
                         </div>
                         <div class="input-container">

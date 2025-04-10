@@ -693,7 +693,7 @@ body p{
 
 }
 .freePoster p{
-    width: 40%;
+    width: 100%;
     color: white;
     font-family: 'normalPublica';
     font-size: 35px;
@@ -809,12 +809,18 @@ body p{
 }
 .descName{
     width: 100% !important;
+    overflow: hidden;
     /* background-color: aqua; */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     font-weight: 800;
     font-size: 16px;
     padding-bottom: 5px;
 }
 .narateDesc{
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     height: 50px;
     min-height: 50px;
     /* background-color: aqua; */

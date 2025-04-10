@@ -21,17 +21,16 @@ class PhotosFactory extends Factory
     {
         return [
             'PhotosName' =>$this->faker->randomElement($this->photos()),
-            'id_product'=>$this->faker->numberBetween(1,20),
+            // 'id_product'=>$this->faker->numberBetween(1,20),
+            'isMain'=>null,
             // 'isMain'=>
         ];
     }
 
     public function photos(){
         $array = [
-            "https://i.pinimg.com/236x/96/63/eb/9663ebfcd820b02d2205d21c03b22945.jpg",
-            "https://i.pinimg.com/236x/72/98/98/7298982c05737fc4c601a2f8e5ee9323.jpg",
-            "https://i.pinimg.com/236x/ef/0a/82/ef0a8228006cfda22a19f5d827b730fd.jpg",
-            "https://i.pinimg.com/236x/ea/bc/bb/eabcbb61c6d185aa3d924caa43b5830f.jpg"
+            "1ORrDK2ZBGxyTVRj4gy8uoDwHC2wjjSQOKFZDAhQ.png",
+            "Ag0aHLU3Zy6OZpobGxy16FEfKMorRSf2ILABC8P1.png",
 
 
 

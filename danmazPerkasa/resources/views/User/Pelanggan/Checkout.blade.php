@@ -2,7 +2,8 @@
 
 @section('css')
 <!-- <link rel="stylesheet" type="" href="{{asset('css/Checkout.css')}}"> -->
-<link rel="stylesheet" href="{{ secure_asset('css/Checkout.css') }}">
+<!-- <link rel="stylesheet" href="{{ secure_asset('css/Checkout.css') }}"> -->
+<link rel="stylesheet" href="{{ app()->environment('local')? asset('css/Checkout.css') : secure_asset('css/Checkout.css') }}">
 
 @endsection
 

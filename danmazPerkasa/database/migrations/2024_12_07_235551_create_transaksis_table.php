@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->unsignedBigInteger('id_user');
-            $table->integer('TotalShopping')->nullable();
-            $table->integer('TotalShipping')->nullable();
+            $table->decimal('TotalShopping',20,2)->nullable();
+            $table->decimal('TotalShipping',20,2)->nullable();
             $table->string('Shipping')->nullable();
             $table->string('PaymentMethod')->nullable();
             $table->string('Status_Pembayaran')->default('Pending');

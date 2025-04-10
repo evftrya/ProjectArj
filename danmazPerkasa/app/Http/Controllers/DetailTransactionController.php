@@ -39,34 +39,52 @@ class DetailTransactionController extends Controller
                 // dd("ms");
                 // dd(($products)); 
                 if((isset($products[0]->qty))){
-                    $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
-                    if($old){
-                        // dd($old);
-                        $old->qty = $old->qty+$req->qty;
-                        $old->Total = $old->qty*$product->price;
-                        if($old->save()){
-                            return response()->json(['message'=> 'successOld'.$products[0]->qty]);
+                    if($product->stok!=0){
+                        $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
+                        if($old){
+                            // dd($old);
+                            $old->qty = $old->qty+$req->qty;
+                            $old->Total = $old->qty*$product->price;
+                            if($old->save()){
+                                return response()->json(['message'=> 'successOld'.$products[0]->qty]);
+                            }
+                            else{
+                                return response()->json(['message'=> 'false'.$products[0]->id_Detail_transaction]);
+                            }
+                            // $old->Total =  
                         }
-                        else{
-                            return response()->json(['message'=> 'false'.$products[0]->id_Detail_transaction]);
-                        }
-                        // $old->Total =  
                     }
+                    else{
+                        return response()->json(['message'=> 'NoStock']);
+                        // return response()->json('Nostok 1');
+                        // dd('masuk else');
+                        
+                    }
+                    // dd('masuk 2');
                 }
+                // dd('masuk 3');
                 else{
-                    $detil = new Detail_Transaction();
-                    $detil->qty = $req->qty;
-                    $detil->total = $total;
-                    $detil->id_User = session("user_id");
-                    // $detil->status = 0;
-                    $detil->id_product = $idProduct;
-                    // $detil->save();
+                    if($product->stok!=0){
+                        
+                        $detil = new Detail_Transaction();
+                        $detil->qty = $req->qty;
+                        $detil->total = $total;
+                        $detil->id_User = session("user_id");
+                        // $detil->status = 0;
+                        $detil->id_product = $idProduct;
+                        // $detil->save();
                         if($detil->save()){
                             return response()->json(['message'=> 'successNew'.$detil->id_Detail_transaction]);
                         }
                         else{
                             return response()->json(['message'=> 'false'.$detil->id_Detail_transaction]);
                         }
+                    }
+                    else{
+                        return response()->json(['message'=> 'NoStock']);
+                        // return response()->json('Nostok 2');
+                        
+                    }
                 }
                 
                 //ISIII------------------------
@@ -220,7 +238,7 @@ class DetailTransactionController extends Controller
         
                 $addr = new AddressController();
                 $userData = $addr->getDataById();
-                // dd($userData[0]->city_id);
+                // dd($userData);
                 $cont = new Controller();
                 $ships = ($cont->getOngkir($userData[0]->city_id));
                 $shipjs = $ships[0];
@@ -266,6 +284,7 @@ class DetailTransactionController extends Controller
         
                 $addr = new AddressController();
                 $userData = $addr->getDataById();
+                // dd($userData);
                 // dd($userData[0]->city_id);
                 $cont = new Controller();
                 $ships = ($cont->getOngkir($userData[0]->city_id));

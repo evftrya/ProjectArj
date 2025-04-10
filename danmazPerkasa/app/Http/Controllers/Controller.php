@@ -9,6 +9,7 @@ use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
@@ -181,7 +182,7 @@ class Controller extends BaseController
         
         
         // dd($response);
-        
+        // dd($this->toJson($response));
         
         return ($this->toJson($response)['rajaongkir']['results']);
     }

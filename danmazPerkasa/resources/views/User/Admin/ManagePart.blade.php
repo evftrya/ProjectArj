@@ -28,18 +28,17 @@
                     <div class="TheList" onclick="Demand(event)">
                         @foreach($data[0] as $d)
                            @if($d->category_description==$t->Area && $d->category_name==$q->CAtegory)
-                                <div class="theItems">
+                                <div class="theItems" onclick="viewProduct('{{{$d->id_product}}}')">
                                     <p>{{{$d->nama_product}}}</p>
                                     <p>{{{$d->category_name}}}</p>
                                     <p>{{{$d->price}}}</p>
                                     <p>{{{$d->stok}}} Items</p>
                                     <div class="theButtons">
                                         <button></button>
-                                        <button onclick="TurnEdit('{{{$d->id_product}}}')">Edit</button>
-                                        <form action="/deletePart/{{{$d->id_product}}}" method="post">
-                                            @csrf
-                                            <button>Delete</button>
-                                        </form>
+                                        <button onclick="TurnEdit('{{{$d->id_product}}}',event)">Edit</button>
+                                        <!-- <button onclick="TurnDelete('{{{$d->id_product}}}')">Delete</button> -->
+                                        <button onclick="DeletePart('{{{$d->id_product}}}',event)">Delete</button>
+
                                     </div>
                                 </div>
                             @endif
@@ -58,7 +57,53 @@
 </div>
 <script>
 
+    function viewProduct(idProduct){
+        DetilProductAdd()
+        fetch('{{$TemplateRoute}}'+idProduct)
+            .then(response => response.text())
+            .then(html => { 
+                let show = document.querySelector('.BodyDetail');
+                show.innerHTML = html;
+        })
+        .catch(err => {
+            console.error('Gagal memuat konten:', err);
+        });
+    }
+    function DetilProductAdd(){
+        let container = document.querySelector(".maincontent");
+        container.style.display = "flex !improtant";
+        let div = document.createElement('div');
+        div.className = 'ShowSomething';
+        div.setAttribute('onclick', 'closeViewProduct()');
+        div.innerHTML=`
+            <div class="ShowContainer" >
+                <div class="HeaderDetails">
+                    <div class="TextDetails">
+                        <p>Product Detail</p>
+                    </div>
+                    <button>
+                        X
+                    </button>
+                </div>
+                <div class="BodyDetail" onclick="holdPrevent(event)">
+                    
+                </div>
+            </div>
 
+        `
+        // container.appendChild(div);
+        container.insertBefore(div, container.firstChild);
+
+    }
+    function closeViewProduct(){
+        let container = document.querySelector(".maincontent");
+        let show = document.querySelector('.ShowSomething'); 
+        container.removeChild(show);
+    }
+    function holdPrevent(event){
+        event.preventDefault();
+
+    }
     @if(session('pesan'))
         let pesan = "{{ session('pesan') }}";
         showPopup(pesan, 1);
@@ -129,7 +174,8 @@
         // let category1 = elemen.closest('category1')
         // category1.setAttribute(category1.getAttribute('onclick'))
     }
-    async function TurnEdit(idProduct){
+    async function TurnEdit(idProduct,event){
+        event.stopPropagation();
 
         let response = await fetch('/getDataPart/'+idProduct);
             
@@ -147,7 +193,10 @@
         ClosePopUp('open');
     }
 
-    
+    function DeletePart(idProduct,event){
+        event.stopPropagation();
+        window.location.href='/deletePart/'+idProduct;
+    }
 
     async function FormEdit(product, photos, data){
         // console.log(product[0].id_product)
@@ -330,7 +379,7 @@
             
         });
     }
-function TurnFormAdd(){
+    function TurnFormAdd(){
         resetForm();
         FormAdd();
         ClosePopUp('open');
@@ -347,7 +396,7 @@ function TurnFormAdd(){
 
         }
     }
-function FormAdd(){
+    function FormAdd(){
         let category = @json($Category);
         // console.log(category);
         let container = document.querySelector(".NewProduct .containerd");

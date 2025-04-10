@@ -129,6 +129,8 @@ $controller = new Controller();
                 //TRANSACTION
                 Route::get('/Transaction/Cancel/{idTransaction}',[TransaksiController::class, 'CancelTransaction']);
                 Route::get('/Manage/Transaction', [TransaksiController::class, 'ManageTransaction']);
+                Route::get('/ViewTransaction/{idT}', [TransaksiController::class, 'viewTransaction']);
+                
                 Route::get('/OrderDone',function(){
                     return view('PaymentProses');
                 });
@@ -150,10 +152,13 @@ $controller = new Controller();
         Route::get('/db', function(){
             return view('User.Admin.AdminDashboard');
         });
-        
+        Route::get('/livewire', function(){
+            return view('livewire');
+        });
         Route::get('/Manage/Product/{from}',[ProductsController::class, 'ProductManage']);
         
         //--------------PRODUCT -------------------
+            Route::get('/viewProduct/{id}',[ProductsController::class,'ViewProductAdmin']);
             Route::get('/getDataProduct/{idProduct}',[ProductsController::class, 'getAllDataProductById']);
             // Route::post('/ProductEdit/{idProduct}',[ProductsController::class, 'update']);
             Route::post('/editProduct/{id}',[ProductsController::class,'updateProduct']);
@@ -163,7 +168,7 @@ $controller = new Controller();
             Route::get('/Part-Manage/{from}',[ProductsController::class, 'ProductManage']);
             Route::post('add-product/{wht}',[ProductsController::class,'store'])->name('add-product');
             Route::post('/editPart/{id}',[ProductsController::class,'updatePart']);
-            Route::post('/deletePart/{id}',[ProductsController::class, 'deletePart']);
+            Route::get('/deletePart/{id}',[ProductsController::class, 'deletePart']);
             Route::get('/getDataPart/{idProduct}',[ProductsController::class, 'getAllDataPartById']);
     
 
@@ -197,7 +202,7 @@ $controller = new Controller();
     Route::get('/midtrans', [TransaksiController::class, 'payment']);
     Route::get('/OnContent/{idproduct}', [ProductsController::class, 'ContentOn']);
     Route::get('/OffContent/{idproduct}', [ProductsController::class, 'ContentOff']);
-    Route::get('/isNew',[AddressController::class,'isNew']);
+    Route::get('/isNew/{idProduct}',[AddressController::class,'isNew']);
 
 
 
@@ -237,7 +242,7 @@ Route::get('/tes', function(){
 // }
 
 Route::get('/testBayar', function(){
-    return view('User.Pelanggan.BayarTest');
+    return view('livewire');
 });
 Route::get('/bayar',[TransaksiController::class,'bayarNext']);
 

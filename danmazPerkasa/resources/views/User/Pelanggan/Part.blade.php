@@ -3,7 +3,8 @@
 @section('css')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- <link rel="stylesheet" type="" href="{{asset('css/product.css')}}"> -->
-<link rel="stylesheet" href="{{ secure_asset('css/product.css') }}">
+<!-- <link rel="stylesheet" href="{{ secure_asset('css/product.css') }}"> -->
+<link rel="stylesheet" href="{{ app()->environment('local')? asset('css/product.css') : secure_asset('css/product.css') }}">
 
 @endsection
 

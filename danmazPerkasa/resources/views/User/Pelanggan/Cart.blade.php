@@ -3,7 +3,8 @@
 @section('css')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- <link rel="stylesheet" type="" href="{{asset('css/Cart.css')}}"> -->
-<link rel="stylesheet" href="{{ secure_asset('css/Cart.css') }}">
+<!-- <link rel="stylesheet" href="{{ secure_asset('css/Cart.css') }}"> -->
+<link rel="stylesheet" href="{{ app()->environment('local')? asset('css/Cart.css') : secure_asset('css/Cart.css') }}">
 
 @endsection
 
@@ -233,7 +234,7 @@
         let totalChecked = document.getElementById("totalChecked");
         //console.log("checkout :"+ !(totalChecked.textContent==0))
         if(!(totalChecked.textContent==0)){
-            let adr = await fetch('/isNew');
+            let adr = await fetch('/isNew/CekAddress');
             let isnew = await adr.json();
             if(isnew==1){
                 //console.log('jalannnnn')
@@ -259,20 +260,40 @@
         if(wht=='plus'){
             
             if(temp<parseInt(maxstok)){
+                console.log('masuk if, if')
                 temp+=1;
                 number.value=temp;
             }
             else{
+                console.log('masuk if, else')
                 showPopup('Only '+maxstok+' items left in stock!',0)
             }
             
         }
         else if(wht=='min'){
-            if(temp!=0){
+            if(temp.value>=parseInt(maxstok)){
+                console.log('masuk else if, if')
+                number.value=maxstok;
+                showPopup('Only '+maxstok+' items left in stock!',0)
+                
+            }
+            else if(temp!=0){
+                console.log('masuk else if')
                 temp-=1;
                 number.value=temp;
             }
             
+        }
+        else if(wht=='inp'){
+            if(elemen.value>=parseInt(maxstok)){
+                elemen.value=maxstok;
+                temp=elemen.value
+                showPopup('Only '+maxstok+' items left in stock!',0)
+                
+            }
+            else{
+                temp = elemen.value
+            }
         }
         else{
             temp = elemen.value

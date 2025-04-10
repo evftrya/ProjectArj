@@ -122,7 +122,7 @@ class ProductsController extends Controller
     }
     public function getDataProduct($idProduct){
         $product = DB::table('products as a')
-            ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+            ->leftjoin('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
             ->select(
                 'a.id_product',
                 'a.nama_product',
@@ -237,19 +237,30 @@ class ProductsController extends Controller
         $from!='Part' ? $data = $this->getData('productManage',$from) : $data=$this->getAllPart();
         // dd($data);
         // dd($data[0]->id_product);
-        $route = null;
+        $Route = null;
         $view = null;
         $category = null;
-        $from!='Part' ? $Route='/addproduct' : $Route='/addPart';
-        $from!='Part' ? $view='ManageProduct' : $view='ManagePart';
-        $from!='Part' ? $category=null : $category=$this->GetPartCategory();
+        $TemplateRoute=null;
+        if($from=='Product'){
+            $TemplateRoute = '/viewProduct/';
+            $Route='/addproduct';
+            $view='ManageProduct';
+            $category=null;
+        }
+        elseif ($from=='Part') {
+            $category=$this->GetPartCategory();
+            $view='ManagePart';
+            $Route='/addPart';
+            $TemplateRoute = '/viewProduct/';
+        }
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
         // ,'notif'=>$notifs
         // dd($data);
         // dd(("User.Admin.".$view));
         // dd($category);
-        return view(("User.Admin.".$view),['routeForm'=>$Route, 'data'=>$data,'notif'=>$notifs,'Category'=>$category]);
+        // dd($data);
+        return view(("User.Admin.".$view),['routeForm'=>$Route, 'data'=>$data,'notif'=>$notifs,'Category'=>$category,'TemplateRoute'=>$TemplateRoute]);
     }
 
     public function GetPartCategory(){
@@ -269,6 +280,21 @@ class ProductsController extends Controller
         // ,'notif'=>$notifs
         // dd($data);
         return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht, 'forSearch'=>$wht,'notif'=>$notifs]);
+    }
+
+    public function ViewProductAdmin($id){
+        $data = ($this->getDataProduct($id));
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        $header = true;
+        // ,'notif'=>$notifs
+        // dd($data);
+        // dd($data[0]);
+        // dd($data);
+        if($data[0]!=null){
+            return view('/User.Admin.viewProduct',['isNull'=>0,'product'=>$data[0][0],'photos'=>$data[1],'notif'=>$notifs,'header'=>$header]);
+        }
+        return view('/User.Admin.viewProduct',['isNull'=>1]);
     }
     // Route::get('/Detil-Product', function(){
     //     return view('/ProductDetil');
@@ -438,13 +464,13 @@ class ProductsController extends Controller
         }
     }
     public function refresh(){
-        DB::table('products')->update(['isSpecial' => null]);
-
-        $news = $this->getDataNew();
-        foreach ($news as $item) {
-            $this->setNew($item->id_product);
-        }
+        // DB::table('products')->update(['isSpecial' => null]);
         
+
+        // $news = $this->getDataNew();
+        // foreach ($news as $item) {
+        //     $this->setNew($item->id_product);
+        // }
 
         return $this->getDataRefresh();
     }
@@ -455,6 +481,7 @@ class ProductsController extends Controller
             ->whereNotNull('a.isSpecial')
             ->select('a.*', 'b.*') // Optional: Select specific columns if needed
             ->get();
+            // dd($products);
         return $products;
     }
     public function getDataNew(){

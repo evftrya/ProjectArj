@@ -85,21 +85,25 @@
         });
 
         let data = await response.json();
+        console.log(data);
         
         if((data.message.includes('success'))){
             showPopup('successfully added to the cart');
+        }
+        else if(data.message.includes('NoStock')){
+            showPopup('Sorry, this product out of stock',0);
         }
         else{
             showPopup('Please log in first to perform this action',0);
         }
         // showPopup('Please log in first to perform this action',0);
     }
-
+    
     async function goCheckout(idProduct, event){
         // let session = "{{session('Role')}}";
         
         event.preventDefault();
-        let adr = await fetch('/isNew');
+        let adr = await fetch('/isNew/'+idProduct);
         let isnew = await adr.json();
         if(isnew==1){
             console.log('jalannnnn')
@@ -107,8 +111,11 @@
             window.location.href='/Checkout-view-direct/'+idProduct;
         }
         else if(document.querySelector('.auth')){
-
             showPopup("Please log in first to perform this action)",0)
+        }
+        else if(isnew==2){
+            showPopup('Sorry, this product out of stock',0);
+
         }
         else{
             showPopup("Please set the address first (Setting>Account Settings>Address)",0)
