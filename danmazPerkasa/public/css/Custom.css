@@ -61,7 +61,6 @@ form.custom{
     /* background-color: burlywood; */
     display: flex;
     width: 100%;
-
     border-radius: 15px;
     height: fit-content;
     flex-direction: column;
@@ -72,9 +71,13 @@ form.custom{
     display: flex;
     flex-direction: column;
     /* background-color: #D8D2C2; */
+    select{
+        padding-right: 10px;
+    }
 }
 .customField>*{
     padding-left: 10px;
+    /* padding-right: 10px; */
 }
 .TitleCustomField{
     background-color: #D8D2C2;
@@ -127,6 +130,9 @@ form.custom{
     /* appearance: none;
     margin-top: 10px; */
 }
+.containerSelect{
+    padding-right: 10px;
+}
 /* .customField>div>div select option{
     margin-top: 10px;
 } */
@@ -135,16 +141,33 @@ form.custom{
     position:sticky;
     bottom: 0;
     height: 100px;
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
     background-color: #D8D2C2;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: end;
+    /* justify-content: end; */
     padding-right: 20px;
+    padding-left: 20px;
     gap: 20px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
+    justify-content: space-between;
+    .text{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        flex-direction: row;
+    }
+    .text.no{
+        gap: 0;
+    }
+    .RightSide{
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        height: 100px;
+    }
 }
 .bottomArea>div{
     font-size: 20px;

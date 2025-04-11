@@ -583,6 +583,7 @@ else{
         cont.classList.replace('nofill', 'withfill');
         //console.log(e.style.display)
         let img = cont.querySelector('.theImage');  // Corrected class name here
+        console.log('masuk fillinput')
         inp.addEventListener('change', function() {
             let file = URL.createObjectURL(inp.files[0]);  // Corrected file reference
             if(file){

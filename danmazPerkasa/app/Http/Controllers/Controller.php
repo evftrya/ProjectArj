@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class Controller extends BaseController

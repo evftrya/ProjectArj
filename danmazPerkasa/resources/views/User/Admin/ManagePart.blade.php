@@ -101,7 +101,8 @@
         container.removeChild(show);
     }
     function holdPrevent(event){
-        event.preventDefault();
+        event.stopPropagation();
+
 
     }
     @if(session('pesan'))

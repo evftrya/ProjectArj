@@ -13,7 +13,14 @@
     <div class="Tables">
         <div class="THead" id="thead">
             <!-- <div class="forCBVar"><input type="checkbox" id="inCo" onclick="checkedAll('check', this)"></div> -->
-            <div class="forProdVar">Product</div>
+             
+             @if(isset($data[0]->type_transaction))
+                @if($data[0]->type_transaction=='Custom')
+                    <div class="forProdVar">Parts Custom</div>
+                @endif
+             @else
+                <div class="forProdVar">Product</div>
+             @endif
             <div class="forPriceVar">Unit Price</div>
             <div class="forPriceVar">Unit Weight</div>
             <div class="forQtyVar">Quantity</div>
@@ -33,10 +40,10 @@
                         </div>
                     </div>
                     <div class="ProductPrice" id="ProductPrice">
-                        {{{$d->price}}}
+                        {{{intval($d->price)}}}
                     </div>
                     <div class="ProductPrice weight">
-                        <p class="berat">{{{$d->weight}}}</p>
+                        <p class="berat">{{{($d->weight)}}}</p>
                         <p>Kg</p>
                     </div>
                     <div class="ProductQty">
@@ -114,15 +121,14 @@
                     </div>
                 </div>
                 <div class="PayMed">
-                    <div>
-                        <!-- <input type="text"> -->
+                    <!-- <div>
                     <p>Payment Method</p>
                         <div class="ListPayMed">
                             <button class="butOption" onclick="changePM('Bank Transfer',this)"><p>Bank Transfer</p></button>
                             <button class="butOption" onclick="changePM('Pay Cash at Partner',this)"><p>Pay Cash at Partner</p></button>
                             <button class="butOption" onclick="changePM('Credit Card',this)"><p>Credit Card</p></button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="bank" style="display: none;">
                     <div>
@@ -167,13 +173,15 @@
                 <p>Total Payment: </p>
                 <p class="FinalSum" id="FinalSum">Rp. 0</p>
             </div>
-            <form action="/OrderDone/{{{$routeChekcout}}}" class="theforms" method="POST">
+            @if($routeChekcout=='Custom')
+                <form action="/OrderDoneCustom/{{{$dataPart}}}" class="theforms" method="POST">
+            @else
+                <form action="/OrderDone/{{{$routeChekcout}}}" class="theforms" method="POST">
+            @endif    
                 @csrf 
                 <input type="text" name="shippingCost" class="shippingCost" required style="display: none;"   >
                 <input type="text" name="shippingEstimate" class="shippingEstimate" required style="display: none;"   >
-                <input type="text" name="bankMethod" class="bankMethod" style="display: none;"    >
                 <input type="text" name="ship" class="shipUse" style="display: none;" required>
-                <input type="text" name="paymentMethod" class="paymentMethodInp" style="display: none;" required>
                 <input type="text" name="toCheckout" id="toCheckout" style="display: none;" value="">
                 <input type="text" name="ntoes" id="notesClient" style="display: none;" value="">
                 <button onclick="ToForm(this,event)">Make Order</button>
@@ -391,6 +399,7 @@
 
     function checkedAll(wht, elemen){
         let theCBs = document.querySelectorAll('.CartContainer input[type="checkbox"]');
+        console.log('iniii')
         let len = theCBs.length;
         let sumCheck = document.getElementById('totalChecked');
         let totalProduct = document.getElementById('qtys');

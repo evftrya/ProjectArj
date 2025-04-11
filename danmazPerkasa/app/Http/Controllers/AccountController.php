@@ -242,14 +242,48 @@ class AccountController extends Controller
         )
         ->where('a.id_User', '!=', 1)
         ->get();
-    
-    
+        return $data;
+    }
 
+    public function getAllDataNonDelete(){
+        $data = DB::table('users as a')
+        ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
+        ->select(
+            'a.id_User as id',
+            'a.namaUser as name',
+            'a.emailUser as email',
+            'a.passwordUser as pw',
+            'a.role',
+            'a.Phone',
+            'a.Gender',
+            'b.Detil as address'
+        )
+        ->where('a.id_User', '!=', 1)->where('a.isDelete', 'no')
+        ->get();
+        return $data;
+    }
+
+    public function getDataWithoutPassword($idUser){
+        $data = DB::table('users as a')
+        ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
+        ->select(
+            'a.id_User as id',
+            'a.namaUser as name',
+            'a.emailUser as email',
+            'a.role',
+            'a.Phone',
+            'a.Gender',
+            'b.Detil as address',
+            'a.isActive',
+            'a.isDelete',
+        )
+        ->where('a.id_User', '=', $idUser)
+        ->get();
         return $data;
     }
 
     public function manageUser(){
-        $data = $this->getAllData();
+        $data = $this->getAllDataNonDelete();
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
         // ,'notif'=>$notifs
@@ -257,9 +291,41 @@ class AccountController extends Controller
         return view('User.Admin.ManageUser',['data' => $data, 'whtRoute' => 'Manage User','notif'=>$notifs]);
     }
 
-    public function ChangePassword(Request $req){
-        // \Log::info('Request received:', ['request' => $req->all()]);
-        dd($req);
+    // public function ChangePassword(Request $req){
+
+    //     // \Log::info('Request received:', ['request' => $req->all()]);
+    //     // dd($req);
+    // }
+
+    public function viewController($id){
+
+        $data = $this->getDataWithoutPassword($id);
+        // dd($data[0]);
+        return view('User.Admin.viewProfile',['data'=>$data[0]]);
+
+    }
+
+    public function Deactive($idAccount){
+        $akun = User::where('id_User', $idAccount)->first();
+        $back = null;
+        // dd($akun);
+        if($akun->isActive=='active'){
+            $akun->isActive='nonActive';
+            $back = 0;
+        }
+        else{
+            $akun->isActive='active';
+            $back = 1;
+        }
+        $akun->save();
+        return response()->json($back);
+    }
+
+    public function DeleteAccount($idAccount){
+        $akun = User::where('id_User', $idAccount)->first();
+        $akun->isDelete = 'Delete';
+        $akun->save();
+        return redirect('/Manage/User')->with('message', 'Successfully Delete');
     }
 
     

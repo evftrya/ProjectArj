@@ -424,9 +424,6 @@ class ProductsController extends Controller
         }
     }
 
-    public function clearPhotoDump($idProduct){
-
-    }
     public function ContentOn($idProduct){
         return $this->ChangeContent($idProduct,'on');
     }
@@ -508,6 +505,24 @@ class ProductsController extends Controller
         // ,'notif'=>$notifs
         // dd($data);
         return view ('User.Pelanggan.Product', ['data'=>$data,'wht'=>$wht,'search'=>$req->search,'forSearch'=>$wht,'notif'=>$notifs]);
+    }
+
+    public function Custom(){
+        $Parts = DB::table('products as a')
+        ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+        ->where('a.type', 'Part')
+        ->select('a.*', 'b.*')
+        ->get();
+    
+        $area = DB::table('categorypart')
+            ->select('Area')
+            ->distinct()
+            ->get();
+
+        $category = DB::table('categorypart')->get();
+        // $Parts = Products::where('type', 'Part')->get();
+        // dd('Parts',$Parts,'Areas',$area,'Categorys',$category);
+        return view('User.Pelanggan.Custom', ['Parts'=>$Parts,'Areas'=>$area,'Categorys'=>$category]);
     }
 
     

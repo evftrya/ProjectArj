@@ -117,7 +117,8 @@ $url = $cont->GetUrl();
         container.removeChild(show);
     }
     function holdPrevent(event){
-        event.preventDefault();
+        event.stopPropagation();
+
 
     }
     function DeleteProduct($idProduct,event){
@@ -548,7 +549,8 @@ $url = $cont->GetUrl();
         inp.click();
 
         inp.addEventListener('change', function() {
-            let file = URL.createObjectURL(inp.files[0]);  // Corrected file reference
+            let file = URL.createObjectURL(inp.files[0]);
+            console.log(file);
             if(file){
                 img.style.backgroundImage = `url(${file})`; 
             }

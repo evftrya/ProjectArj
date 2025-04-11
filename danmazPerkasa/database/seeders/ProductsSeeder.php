@@ -42,7 +42,25 @@ class ProductsSeeder extends Seeder
             // ])->save();
             $product->save();
         }
-        
+
+        $Parts = Products::where('type', 'Part')->get();
+        // dd($Parts);
+        foreach($Parts as $Part){
+            $photos = Photos::factory()->count(1)->create([
+                'id_product' => $Part->id_product
+            ]);
+            $photos[0]->isMain = 1;
+            $photos[0]->save();
+            // dd($photos[0]);
+            $mainPhoto = $photos[0]->id_photo;
+            // dd($mainPhoto);
+            // 'mainPhoto' => $mainPhoto;
+            $Part->mainPhoto = $mainPhoto;
+            // $product->forceFill([
+            //     'mainPhoto' => $mainPhoto
+            // ])->save();
+            $Part->save();
+        }
 
         // $product = Products::factory()->make();
         // $product->save();

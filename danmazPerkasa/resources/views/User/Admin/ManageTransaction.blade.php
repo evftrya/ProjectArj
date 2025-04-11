@@ -17,6 +17,7 @@
             @foreach($data as $d)
                 <div class="theItems" onclick="viewProduct('{{{$d->id}}}')">
                     <p class="name">{{{$d->namaUser}}}</p>
+                    <p>{{{$d->type_transaction}}}</p>
                     <p>{{{$d->created_at}}}</p>
                     <p>{{{$d->TotalShopping}}}</p>
                     <p>{{{$d->Shipping}}}</p>
@@ -107,7 +108,8 @@
         container.removeChild(show);
     }
     function holdPrevent(event){
-        event.preventDefault();
+        event.stopPropagation();
+
 
     }
 </script>

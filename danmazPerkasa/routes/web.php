@@ -92,6 +92,7 @@ $controller = new Controller();
 //With Login
     //Public
         Route::post('/OrderDone/{wht}',[TransaksiController::class,'store']);
+        Route::post('/OrderDoneCustom/{dataPart}',[TransaksiController::class,'CustomTransaction']);
         Route::post('AddToCart/{idProduct}',[DetailTransactionController::class, 'store']);
         Route::post('/DeleteCart/{id}',[DetailTransactionController::class,'DeleteCart']);
 
@@ -105,6 +106,7 @@ $controller = new Controller();
             //CHECKOUT, DLL
                 Route::get('/Checkout/{wht}/{qty}', [DetailTransactionController::class, 'CheckoutView']);
                 Route::get('/Checkout-view-direct/{wht}',[DetailTransactionController::class,'CheckoutViewDirect']);
+                Route::post('CheckoutCustom',[DetailTransactionController::class,'CheckoutViewCustom']);
                 Route::get('/Transaction/{idTransaction}',[TransaksiController::class,'toTransaction']);
                 
                 //
@@ -155,6 +157,12 @@ $controller = new Controller();
         Route::get('/livewire', function(){
             return view('livewire');
         });
+        // Route::get('/viewUser/{id}', function(){
+        //     return view('User.Admin.viewProfile');
+        // });
+        Route::get('/viewUser/{id}',[AccountController::class, 'viewController']);
+        Route::get('/DeactiveAccount/{idAccount}', [AccountController::class,'Deactive']);
+        Route::get('/DeleteAccount/{idAccount}', [AccountController::class,'DeleteAccount']);
         Route::get('/Manage/Product/{from}',[ProductsController::class, 'ProductManage']);
         
         //--------------PRODUCT -------------------
@@ -219,9 +227,10 @@ $controller = new Controller();
     // });
     
     
-    Route::get('/Custom', function(){
-        return view('User.Pelanggan.Custom');
-    });
+    // Route::get('/Custom', function(){
+    //     return view('User.Pelanggan.Custom');
+    // });
+    Route::get('/Custom',[ProductsController::class,'Custom']);
 
 Route::get('/tes', function(){
     return view('tes');
@@ -242,7 +251,7 @@ Route::get('/tes', function(){
 // }
 
 Route::get('/testBayar', function(){
-    return view('livewire');
+    return view('User.Admin.viewProfile');
 });
 Route::get('/bayar',[TransaksiController::class,'bayarNext']);
 

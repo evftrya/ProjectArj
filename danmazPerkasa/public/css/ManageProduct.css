@@ -693,6 +693,11 @@ textarea{
             background-color: rgba(226, 105, 105, 0.949);
         }
     }
+    .BodyDetail.User{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     .BodyDetail{
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
@@ -715,5 +720,71 @@ textarea{
                 }
             }
         }
+        
+        /* ------------- view USer ----------- */
+        .containerPopUpView{
+            font-family: 'normalPublica';
+
+            margin: 20px 30px;
+            width: calc(100% - 60px);
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            .variable{
+                display: flex;
+                flex-direction: row;
+                margin: 10px 0px;
+                justify-content:space-between;
+                width: calc(100% -20px);
+                height: fit-content;
+                gap: 20px;
+                .key{
+                    width: 100px;
+                    max-width: 100px;
+                    min-width: 100px;
+                    /* background-color: cyan; */
+                }
+                .value{
+                    width: calc(100% - 100px - 10px);
+                    /* min-width: calc(100% - 100px - 10px); */
+                    max-width: calc(100% - 100px - 10px);
+                    display: flex;
+                    align-items: start;
+                    justify-content: start;
+                    padding-right: 10px;
+                    /* background-color: cyan; */
+                }
+                p{
+                    word-wrap:break-word !important;
+                    overflow-wrap: break-word !important;
+                    word-break: break-word;
+                    white-space: normal;
+                    /* max-width: 100%; */
+                    padding: 0;
+                    margin: 0;
+                }
+            }
+        }
+        .ButtonAction{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content:space-evenly;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            button{
+                font-size: 15px;
+                padding: 10px 30px;
+                border-radius: 10px;
+                color: #FAFAFA;
+                background-color: #B17457;
+                border: none;
+            }
+        }
     }
+
+    
 }
+
+

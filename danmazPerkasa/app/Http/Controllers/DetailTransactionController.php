@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+// use App\Http\Controllers\pro;
 use App\Models\Detail_Transaction;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProductsController;
@@ -98,6 +99,20 @@ class DetailTransactionController extends Controller
 
 
         
+    }
+
+    public function storePart($idPart){
+        $Cont = new ProductsController();
+        $product = $Cont->getDataProduct($idPart)[0][0];
+        $DT = new Detail_Transaction();
+        // dd($DT);
+        $DT->qty = 1;
+        $DT->id_User = session('user_id');
+        $DT->id_product = $product->id_product;
+        $DT->Status ='Checkout';
+        $DT->Total = $product->price;
+        $DT->save();
+        // dd($product);
     }
 
     
@@ -321,6 +336,55 @@ class DetailTransactionController extends Controller
     
     }
 
+    public function CheckoutViewCustom(Request $req){
+        // dd($req);
+        $is1 = strpos($req->dataPart, '-');
+        $dataPart = explode("-", $req->dataPart);
+        $data = [];
+        $product = new ProductsController();
+        if($is1!=false){
+            foreach ($dataPart as $item) {
+                // dD($item);  
+                // dd($product->getAllDataProductById($item)->original[0][0]);
+                $add = $product->getAllDataProductById($item)->original[0][0];
+                $add->qty = 1;
+                $add->type_transaction = 'Custom';
+                $data[] = 
+                    $add;
+                ;
+            }
+        }
+        else{
+            // $add = $product->getAllDataProductById($dataPart);
+            $add = $product->getAllDataProductById($dataPart)->original[0][0];
+            // dd($add);
+            $add->qty = 1;
+            $add->type_transaction = 'Custom';
+            $data[] = 
+                $add;
+            ;
+        }
+        // dd($data);
+        // dd($data[0][0]->original[0][0]);
+        $routeChekcout = 'Custom';
+
+        $addr = new AddressController();
+        $userData = $addr->getDataById();
+
+        $cont = new Controller();
+        $ships = ($cont->getOngkir($userData[0]->city_id));
+        $shipjs = $ships[0];
+        $ship = $ships[1];
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+
+
+
+        return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs,'dataPart'=>$req->dataPart]);
+
+
+    }
+
 
 
     public function UpdateStatus($idProduct, $wht){
@@ -380,5 +444,15 @@ class DetailTransactionController extends Controller
         // dd($data);
         return ($data);
         
+    }
+    public function updateIDTransaction($OldId, $newId){
+        $DetilTransactions = Detail_Transaction::where('Transaksis_id', 3)->get();
+        // dd($DetilTransactions);
+        foreach($DetilTransactions as $DetilTransaction){
+            
+            $object = Detail_Transaction::where('id_Detail_transaction', $DetilTransaction->id_Detail_transaction)->first();
+            $object->Transaksis_id = $newId;
+            $object->save();
+        }
     }
 }

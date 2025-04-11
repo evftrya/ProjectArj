@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 // require_once dirname(__FILE__) . '/pathofproject/Midtrans.php';
 
 
@@ -126,11 +127,19 @@ class TransaksiController extends Controller
         $total = 0;
         // dd($Transaction);
         $contDT = new DetailTransactionController();
-        if($wht=='Default'){
+        if($wht=='Default'||$wht=='Custom'){
             $Checkout = $contDT->getAllData('Checkout');
         }
         else{
             $Checkout = $contDT->getAllData('TempCheckout');
+
+        }
+
+        if($wht=='Custom'){
+            $Transaction->type_transaction = 'Custom';
+        }
+        else{
+            $Transaction->type_transaction = 'Product';
 
         }
         // dd($Checkout);
@@ -146,11 +155,11 @@ class TransaksiController extends Controller
 
         // dd($req->shippingCost."and".$total);
         $Transaction->TotalShopping = ($total + $req->shippingCost);
-        $payment = $req->paymentMethod;
+        // $payment = $req->paymentMethod;
         if($req->bankMethod!=null){
             $payment = $req->paymentMethod." ".$req->bankMethod;
         }
-        $Transaction->PaymentMethod = $payment;
+        $Transaction->PaymentMethod = null;
         if($req->ntoes!=null){
             $Transaction->Notes = $req->ntoes;
         }
@@ -161,6 +170,11 @@ class TransaksiController extends Controller
         $Transaction->Status_Pembayaran = "Waiting";
         $Transaction->Status_Pengiriman = "Waiting";
         $Transaction->TotalShipping = $req->shippingCost;
+
+        $Address = new AddressController();
+        $detil = $Address->getDetil(session('user_id'));
+        $Transaction->Address = $detil;
+        
         $Transaction->save();
         // dd($Transaction);
         
@@ -269,11 +283,33 @@ class TransaksiController extends Controller
                 'a.TotalShopping',
                 'a.Shipping',
                 'a.Notes',
+                'a.type_transaction',
             )
             ->join('users as b', 'a.id_user', '=', 'b.id_User')
             ->get();
             // dd($Transaction);
         return $Transaction;
+    }
+
+    public function CustomTransaction($dataPart,Request $req){
+        // dd($req);
+        $is1 = strpos($req->dataPart, '-');
+        $datas = explode("-", $dataPart);
+
+
+        $DT = new DetailTransactionController();
+        if($is1!=false){
+            foreach($datas as $d){
+                // dd($d);
+                $DT->storePart($d);
+            }
+        }
+        else{
+            $DT->storePart($dataPart);
+        }
+
+        return $this->store($req, 'Custom');
+
     }
 
     public function toTransaction($idT){
@@ -306,18 +342,34 @@ class TransaksiController extends Controller
         $ST=null;
         // dd($Data);
         if($Data[0]->Status_Pembayaran!='Done'){
-            $ST = $this->GetSnapToken($Data);
+            // dd($Data[0]->snapToken==NULL);
+            if($Data[0]->snapToken==NULL){
+                $ST = $this->GetSnapToken($Data);
+                $Data[0]->snapToken = $ST;
+                $Trs=Transaksi::where('id', $Data[0]->id)->first();
+                $Trs->snapToken = $ST;
+                $Trs->save();
+            }
+            else{
+
+                $ST = $Data[0]->snapToken;
+            }
         }
+        else{
+            // dd($Data[0]);
+            $ST = $Data[0]->snapToken;
+        }
+        $detil = $Data[0]->Address;
 
         // dd($Data);
         if(session('Role')=="Admin"){
-            $Address = new AddressController();
-            $detil = $Address->getDetil($Data[0]->id_user);
+            // $Address = new AddressController();
+            // $detil = $Address->getDetil($Data[0]->id_user);
             return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil]);
         }
         else{
 
-            return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST]);
+            return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST,'Address'=>$detil]);
         }
 
     }
@@ -343,21 +395,77 @@ class TransaksiController extends Controller
             ])->get("https://api.sandbox.midtrans.com/v2/".$transaction->id.env('CODE_TRANSACTION')."/status");
             // dd($response);
             $response = json_decode($response->body());
-            // dd($response);
-            if($response->status_code==200){
-                $transaction->Status_Pembayaran = 'Done';
-                $transaction->save();
+            // dd($response,$transaction);
 
+            // dd($response);
+            if($response->status_code!=null){
+                (isset($response->va_numbers[0]->bank))?
+                $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type))." (".Str::upper($response->va_numbers[0]->bank).")":
+                $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type));
+
+                
                 $notif = new NotificationController();
                 //notif to Customer
                 $notif->store(2,$transaction->id,session('user_id'));
                 
                 //notif to Admin
                 $notif->store(7,$transaction->id,1);
+                $paymentStatus = $response->status_code;
+                if($paymentStatus==200){
+                    $transaction->Status_Pembayaran = 'Done';
+                    $transaction->save();
+                    if(app()->environment('local')){
+                        // dd('masuk');
+                        return redirect('http://127.0.0.1:8000/Transaction/'.$transaction->id)->with('notif','Pembayaran berhasil');
+                    }
+                    else{
+        
+                        return redirect('/Transaction/'.$transaction->id)->with('notif','Pembayaran berhasil');
+                    }
+                }
+                else if($paymentStatus==202){
+                    if($response->transaction_status=='deny'){
+                        //UpdateIdTransaction
+                        $newId = $id = DB::table('transaksis')
+                        ->orderBy('id', 'desc')
+                        ->limit(1)
+                        ->value('id');
+                        $idOld = $transaction->id; 
+                        $transaction->id = $newId;
 
-                return redirect('/Transaction/'.$transaction->id)->with('notif','Pembayaran berhasil');
+                        //updateIdTransactionOnDetilTransaction
+                        $contDetilTransaction = new DetailTransactionController();
+                        $contDetilTransaction->updateIDTransaction($idOld, $transaction->id);  
+
+                        $transaction->snapToken = null;
+                        $transaction->Status_Pembayaran = 'Reject By '.$response->payment_type;
+                        $transaction->save();
+
+
+                        if(app()->environment('local')){
+                            // dd('masuk');
+                            return redirect('http://127.0.0.1:8000/Transaction/'.$transaction->id)->with('notif','Pembayaran Ditolak oleh Akulaku');
+                        }
+                        else{
+            
+                            return redirect('/Transaction/'.$transaction->id)->with('notif','Pembayaran Ditolak oleh Akulaku');
+                        }
+
+
+
+                        // return redirect('/Transaction/'.$transaction->id)->with('notif','Pembayaran Ditolak oleh Akulaku');   
+                    }
+                }
             }
+            // dd(app()->environment('local'));
+            if(app()->environment('local')){
+                // dd('masuk');
+                return redirect('http://127.0.0.1:8000/Transaction/'.$transaction->id);
+            }
+            else{
 
+                return redirect('/Transaction/'.$transaction->id);
+            }
     }   
         
 }

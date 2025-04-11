@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('role');
             $table->string('Phone')->nullable();
             $table->string('Gender')->nullable();
+            $table->string('isActive')->default('active')->nullable();
+            $table->string('isDelete')->default('no')->nullable();
             $table->timestamps();
         });
     }

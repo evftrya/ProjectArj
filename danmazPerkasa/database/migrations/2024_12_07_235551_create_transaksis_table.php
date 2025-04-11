@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('Status_Pengiriman')->nullable();
             $table->string('Notes')->nullable();
             $table->string('shippingEstimate')->nullable();
+            $table->string('type_transaction')->nullable();
+            $table->string('snapToken')->nullable();
+            $table->string('Address')->nullable();
             
             $table->timestamps();
 

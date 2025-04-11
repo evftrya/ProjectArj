@@ -14,7 +14,11 @@
     <div class="Tables">
         <div class="THead" id="thead">
             <!-- <div class="forCBVar"><input type="checkbox" id="inCo" onclick="checkedAll('check', this)"></div> -->
-            <div class="forProdVar">Product</div>
+            @if($data[0]->type_transaction=='Custom')
+                <div class="forProdVar">Parts Custom</div>
+            @else
+                <div class="forProdVar">Product</div>
+            @endif
             <div class="forPriceVar">Unit Price</div>
             <div class="forPriceVar">Unit Weight</div>
             <div class="forQtyVar">Quantity</div>
@@ -81,20 +85,14 @@
                     <div class="Ship">
                         <p>Opsi Pengiriman: {{{$data[0]->Shipping}}}</p>
                         
-                        <p class="costsWeightSum">{{{$data[0]->TotalShipping}}}</p>
+                        <p class="costsWeightSum">{{{intval($data[0]->TotalShipping)}}}</p>
                     </div>
                     
                 </div>
                 <div class="line1" style="height: fit-content; padding-bottom:10px;">
                     <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
                         <p>Alamat tujuan:</p>
-                        @if(session('Role')!="Admin")
-                        <a href="/Profile/Address" style="text-decoration:none;color:green;">
-                            <p style="font-size:12px;">{{{$userData[0]->Detil}}}</p>
-                        </a>
-                        @else
                         {{{$Address}}}
-                        @endif
                     </div>
                     <div class="Ship">
                         <p>Estimasi Pengiriman:</p>
@@ -127,7 +125,7 @@
                         </div>
                         <div class="subCont">
                             <p>Total Shipping Price</p>
-                            <p class="totalShippingPrice">{{{$data[0]->TotalShipping}}}</p>
+                            <p class="totalShippingPrice">{{{intval($data[0]->TotalShipping)}}}</p>
                         </div>
                         <div class="subCont">
                             <p>Service Fee</p>
@@ -139,7 +137,7 @@
                         </div>
                         <div class="subCont">
                             <p>Total Payment</p>
-                            <p class="FinalSum">{{{$data[0]->TotalShopping}}}</p>
+                            <p class="FinalSum">{{{intval($data[0]->TotalShopping)}}}</p>
                         </div>
                         <div class="subCont">
                             <p>Payment Status</p>
@@ -239,7 +237,9 @@
         }
     @endif
     ///FOR PAYMENT
-    @if(session('Role')!="Admin")
+    @if(session('Role')!="Admin"&&(!($data[0]->Status_Pembayaran=='Cancel'||$data[0]->Status_Pembayaran=='Done')))
+
+
         var payButton = document.getElementById('pay-button');
         // For example trigger on button clicked, or any time you need
         payButton.addEventListener('click', function() {
@@ -629,6 +629,7 @@
         getChecked();
     }
     function toIdr(number){
+        console.log('masuk')
         let angka = number;
 
         let formattedAngka = angka.toLocaleString('id-ID');
@@ -682,6 +683,7 @@
         theFinalSum.textContent = toIdr(prices);
     }
     function onEditInput(elemen){
+        console.log('masuk sini')
         elemen.addEventListener('change', function(){
             getChecked();
             let theproduct = elemen.closest('.theProduct');
@@ -694,6 +696,7 @@
     }
     function allInputQty(){
         let inps = document.querySelectorAll('.mid input');
+        console.log('masuk sini')
         inps.forEach(e=>{
             onEditInput(e);
         })
