@@ -12,90 +12,94 @@ use App\Http\Controllers\ProductsController;
 class DetailTransactionController extends Controller
 {
     public function store(Request $req,$idProduct){
-        // $id = null;
-
-        if($this->AuthSystem()>0){
-            // dd(session('direction'));
-            if(session('direction')==null){
-                
-                // dd(session("user_id"));
-                // dd($idProduct);
-                $Cont = new ProductsController();
-                $product = $Cont->getDataProduct($idProduct)[0][0];
-                // echo $product;
-                $total = $product->price*$req->qty;
-                // dd($product->price);
-                
-                $products = DB::table('detail__transactions as a')
-                ->where('a.id_product', $idProduct)
-                ->where('a.id_user', session("user_id"))
-                ->where(function ($query) {
-                    $query->where('a.status', 'Pending')
-                          ->orWhere('a.status', 'Checkout');
-                })
-                ->whereNull('a.Transaksis_id')
-                ->get();
         
-        
-                // dd("ms");
-                // dd(($products)); 
-                if((isset($products[0]->qty))){
-                    if($product->stok!=0){
-                        $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
-                        if($old){
-                            // dd($old);
-                            $old->qty = $old->qty+$req->qty;
-                            $old->Total = $old->qty*$product->price;
-                            if($old->save()){
-                                return response()->json(['message'=> 'successOld'.$products[0]->qty]);
-                            }
-                            else{
-                                return response()->json(['message'=> 'false'.$products[0]->id_Detail_transaction]);
-                            }
-                            // $old->Total =  
-                        }
-                    }
-                    else{
-                        return response()->json(['message'=> 'NoStock']);
-                        // return response()->json('Nostok 1');
-                        // dd('masuk else');
-                        
-                    }
-                    // dd('masuk 2');
-                }
-                // dd('masuk 3');
-                else{
-                    if($product->stok!=0){
-                        
-                        $detil = new Detail_Transaction();
-                        $detil->qty = $req->qty;
-                        $detil->total = $total;
-                        $detil->id_User = session("user_id");
-                        // $detil->status = 0;
-                        $detil->id_product = $idProduct;
-                        // $detil->save();
-                        if($detil->save()){
-                            return response()->json(['message'=> 'successNew'.$detil->id_Detail_transaction]);
-                        }
-                        else{
-                            return response()->json(['message'=> 'false'.$detil->id_Detail_transaction]);
-                        }
-                    }
-                    else{
-                        return response()->json(['message'=> 'NoStock']);
-                        // return response()->json('Nostok 2');
-                        
-                    }
-                }
-                
-                //ISIII------------------------
-            }
+        if ($req->isMethod('get')) {
+            return redirect()->route('page.notfound');
         }
         else{
-            session(['direction' => '/']);
-            return response()->json(['message'=> 'false']);
-        }
+            if($this->AuthSystem()>0){
+                // dd(session('direction'));
+                if(session('direction')==null){
+                    
+                    // dd(session("user_id"));
+                    // dd($idProduct);
+                    $Cont = new ProductsController();
+                    $product = $Cont->getDataProduct($idProduct)[0][0];
+                    // echo $product;
+                    $total = $product->price*$req->qty;
+                    // dd($product->price);
+                    
+                    $products = DB::table('detail__transactions as a')
+                    ->where('a.id_product', $idProduct)
+                    ->where('a.id_user', session("user_id"))
+                    ->where(function ($query) {
+                        $query->where('a.status', 'Pending')
+                              ->orWhere('a.status', 'Checkout');
+                    })
+                    ->whereNull('a.Transaksis_id')
+                    ->get();
+            
+            
+                    // dd("ms");
+                    // dd(($products)); 
+                    if((isset($products[0]->qty))){
+                        if($product->stok!=0){
+                            $old = Detail_Transaction::where('id_Detail_transaction', $products[0]->id_Detail_transaction)->first();
+                            if($old){
+                                // dd($old);
+                                $old->qty = $old->qty+$req->qty;
+                                $old->Total = $old->qty*$product->price;
+                                if($old->save()){
+                                    return response()->json(['message'=> 'successOld'.$products[0]->qty]);
+                                }
+                                else{
+                                    return response()->json(['message'=> 'false'.$products[0]->id_Detail_transaction]);
+                                }
+                                // $old->Total =  
+                            }
+                        }
+                        else{
+                            return response()->json(['message'=> 'NoStock']);
+                            // return response()->json('Nostok 1');
+                            // dd('masuk else');
+                            
+                        }
+                        // dd('masuk 2');
+                    }
+                    // dd('masuk 3');
+                    else{
+                        if($product->stok!=0){
+                            
+                            $detil = new Detail_Transaction();
+                            $detil->qty = $req->qty;
+                            $detil->total = $total;
+                            $detil->id_User = session("user_id");
+                            // $detil->status = 0;
+                            $detil->id_product = $idProduct;
+                            // $detil->save();
+                            if($detil->save()){
+                                return response()->json(['message'=> 'successNew'.$detil->id_Detail_transaction]);
+                            }
+                            else{
+                                return response()->json(['message'=> 'false'.$detil->id_Detail_transaction]);
+                            }
+                        }
+                        else{
+                            return response()->json(['message'=> 'NoStock']);
+                            // return response()->json('Nostok 2');
+                            
+                        }
+                    }
+                    
+                    //ISIII------------------------
+                }
+            }
+            else{
+                session(['direction' => '/']);
+                return response()->json(['message'=> 'false']);
+            }
 
+        }    
 
 
         
@@ -255,7 +259,12 @@ class DetailTransactionController extends Controller
                 $userData = $addr->getDataById();
                 // dd($userData);
                 $cont = new Controller();
-                $ships = ($cont->getOngkir($userData[0]->city_id));
+                // $ships = ($cont->getOngkir($userData[0]->city_id));
+                $ships = [($userData[0]->ShippingRate), json_decode($userData[0]->ShippingRate)];
+                // $a[0]['costs'] as $b
+                // dd($ships[1][0][0]->costs);
+                // dd('ship1',$ships[0]["costs"]);
+                // dd('ship2',$ships2);
                 $shipjs = $ships[0];
                 $ship = $ships[1];
                 $notif = new NotificationController();
@@ -302,7 +311,9 @@ class DetailTransactionController extends Controller
                 // dd($userData);
                 // dd($userData[0]->city_id);
                 $cont = new Controller();
-                $ships = ($cont->getOngkir($userData[0]->city_id));
+                // $ships = ($cont->getOngkir($userData[0]->city_id));
+                $ships = [($userData[0]->ShippingRate), json_decode($userData[0]->ShippingRate)];
+
                 $shipjs = $ships[0];
                 $ship = $ships[1];
                 $notif = new NotificationController();
@@ -323,14 +334,20 @@ class DetailTransactionController extends Controller
     }
 
     public function deleteTempCheckout(){
-        $data = DB::table('detail__transactions')
-        ->where('Status', 'TempCheckout')
-        ->where('id_User', session('user_id'))
-        ->get();
+        if(session('user_id')>0){
 
-        foreach($data as $d){
-            // dd($d);
-            $this->DeleteCart($d->id_Detail_transaction);
+            $data = DB::table('detail__transactions')
+            ->where('Status', 'TempCheckout')
+            ->where('id_User', session('user_id'))
+            ->get();
+    
+            foreach($data as $d){
+                // dd($d);
+                $this->DeleteCart($d->id_Detail_transaction);
+            }
+        }
+        else{
+            return view('OutOfPages');
         }
         // dd($data);
     

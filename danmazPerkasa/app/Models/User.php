@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,8 +9,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    protected $primaryKey = 'id_User';
-    use HasFactory;
+    use HasFactory, Notifiable, HasApiTokens;
+
+    protected $primaryKey = 'id_User'; // Pastikan ini sesuai dengan kolom primary key di tabel
+    public $timestamps = true; // Pastikan kolom created_at dan updated_at ada di database
+    
     protected $fillable = [
         'id_User',
         'namaUser',
@@ -22,7 +24,16 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
     ];
-    public function index(){
 
+    // Fungsi untuk memeriksa role pengguna
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
+
+    // Fungsi untuk mengambil semua pengguna (contoh implementasi index)
+    public function index()
+    {
+        return self::all(); // Mengambil semua data pengguna
     }
 }

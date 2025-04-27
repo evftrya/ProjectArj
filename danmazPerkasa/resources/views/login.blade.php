@@ -146,9 +146,11 @@
             let data = await response.json();
 
             if(data.message != null){
+                console.log(data.message)
                 return data.message; 
             }
             else{
+                console.log(data.message)
                 return null;
             }
         }

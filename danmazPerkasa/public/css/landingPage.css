@@ -268,11 +268,17 @@ body p{
     .top{
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: space-between;
         font-weight: bolder;
         font-size: larger;
         padding-bottom: 3px;
         border-bottom: black 1px solid !important ;
+
+        .ReadAll{
+            font-size:15px;
+            font-weight: 100;
+            text-decoration: none;
+        }
         
     }
 
@@ -293,6 +299,13 @@ body p{
         justify-content: first baseline;
         gap: 10px;
         
+        .TheNotif.Read{
+            /* background-color: #e24d4dd2 !important; */
+            background-color: #00000005 !important;
+        }
+        .TheNotif.NotRead{
+            background-color: #0000002a !important;
+        }
         .TheNotif{
             text-decoration: none;
             color: black;
@@ -300,7 +313,6 @@ body p{
             flex-direction: row;
             justify-content: space-between;
             /* background-color: #e3e0d7; */
-            background-color: #00000015;
             /* background-color: aqua; */
             border-radius: 10px;
             align-items: center;

@@ -89,9 +89,9 @@
                             <select name="" id="" class="selectShip" required onchange="ChangeNominal(this)">
                                 <option value="0" selected>Pilih Kurir</option>
                                 @foreach($ship as $a)
-                                    @foreach($a[0]['costs'] as $b)
-                                        @if(!in_array($b['service'],['T15','T25','T60']))
-                                            <option value="{{{$a[0]['code']}}}|{{{$b['service']}}}">{{{strtoupper($a[0]['code'])}}} ({{{$b['description']}}})</option>
+                                    @foreach($a[0]->costs as $b)
+                                        @if(!in_array($b->service,['T15','T25','T60']))
+                                            <option value="{{{$a[0]->code}}}|{{{$b->service}}}">{{{strtoupper($a[0]->code)}}} ({{{$b->description}}})</option>
                                         @endif
                                     @endforeach
                                 @endforeach

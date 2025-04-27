@@ -19,7 +19,7 @@ class TransaksiController extends Controller
 
     public function AcceptOrder($idTransaction){
         $transaction = Transaksi::where('id', $idTransaction)->get()->first();
-        $transaction->Status_Pengiriman = 'Acceptted';
+        $transaction->Status_Transaksi = 'Acceptted';
         // dd($transaction);
         $notif = new NotificationController();
         $notif->store(10,$transaction->id,$transaction->id_user);
@@ -33,7 +33,7 @@ class TransaksiController extends Controller
     
     public function RejectOrder($idTransaction){
         $transaction = Transaksi::where('id', $idTransaction)->get()->first();
-        $transaction->Status_Pengiriman = 'Rejected';
+        $transaction->Status_Transaksi = 'Rejected';
         
         $notif = new NotificationController();
         $notif->store(11,$transaction->id,$transaction->id_user);
@@ -169,6 +169,7 @@ class TransaksiController extends Controller
         $Transaction->shippingEstimate = $req->shippingEstimate;
         $Transaction->Status_Pembayaran = "Waiting";
         $Transaction->Status_Pengiriman = "Waiting";
+        $Transaction->Status_Transaksi = "Waiting";
         $Transaction->TotalShipping = $req->shippingCost;
 
         $Address = new AddressController();
@@ -238,6 +239,7 @@ class TransaksiController extends Controller
         // }
         // dd($Data);
         $Address = new AddressController();
+        // dd($Data);
         $detil = $Address->getDetil($Data[0]->id_user);
 
         // dd($Data);
@@ -248,29 +250,35 @@ class TransaksiController extends Controller
         $idT = substr($idTransaction, 0, -1);
         $type = substr($idTransaction, -1);
         $transaction = Transaksi::where('id', $idT)->get()->first();
-        $transaction->Status_Pembayaran = 'Cancel';
-        $transaction->Status_Pengiriman = '-';
-        $pesan = null;
-        $notif = new NotificationController();
-        if($transaction->save()){
-            $pesan = 'The transaction was successfully cancelled';
-            // dd($idT);
-            $notif->store(4,$idT,session('user_id'));
+        if($transaction!=null){
+            $transaction->Status_Transaksi = 'Cancel';
+            $transaction->Status_Pembayaran = '-';
+            $transaction->Status_Pengiriman = '-';
+            $pesan = null;
+            $notif = new NotificationController();
+            if($transaction->save()){
+                $pesan = 'The transaction was successfully cancelled';
+                // dd($idT);
+                $notif->store(4,$idT,session('user_id'));
+                
+            }
+            else{
+                $pesan = 'Sorry, Something Error';
+            }
             
+            if($type==1){
+                
+                return back()->with('message', $pesan);
+            }
+            else{
+                return response()->json('The transaction has been canceled due to exceeding the payment deadline');
+                // dd($idTransaction);
+                $notif->store(3,$idT,session('user_id'));
+    
+            }
         }
         else{
-            $pesan = 'Sorry, Something Error';
-        }
-        
-        if($type==1){
-            
-            return back()->with('message', $pesan);
-        }
-        else{
-            return response()->json('The transaction has been canceled due to exceeding the payment deadline');
-            // dd($idTransaction);
-            $notif->store(3,$idT,session('user_id'));
-
+            return redirect('/PageNotFound');
         }
     }
 
@@ -286,6 +294,26 @@ class TransaksiController extends Controller
                 'a.type_transaction',
             )
             ->join('users as b', 'a.id_user', '=', 'b.id_User')
+            ->get();
+            // dd($Transaction);
+        return $Transaction;
+    }
+
+    public function getAllById($idUser){
+        $Transaction = DB::table('transaksis as a')
+            ->select(
+                'a.id',
+                'a.created_at',
+                'b.namaUser',
+                'a.TotalShopping',
+                'a.Shipping',
+                'a.Notes',
+                'a.type_transaction',
+                'a.Status_Transaksi',
+                'a.Status_Pembayaran',
+            )
+            ->join('users as b', 'a.id_user', '=', 'b.id_User')
+            ->where('a.id_user',$idUser)
             ->get();
             // dd($Transaction);
         return $Transaction;
@@ -331,45 +359,51 @@ class TransaksiController extends Controller
         )
         ->where('a.id', $idT)
         ->get();
-    
-        // dd($Data);
+        if(isset($Data[0])){
+            
+            
+                // dd($Data);
+                
+                $notif = new NotificationController();
+                $notifs = $notif->getAllNotif();
+                // dd($Data[0]);
+                $addr = new AddressController();
+                $userData = $addr->getDataById();
+                $ST=null;
+                // dd($Data);
+                if($Data[0]->Status_Pembayaran!='Done'){
+                    // dd($Data[0]->snapToken==NULL);
+                    if($Data[0]->snapToken==NULL){
+                        $ST = $this->GetSnapToken($Data);
+                        $Data[0]->snapToken = $ST;
+                        $Trs=Transaksi::where('id', $Data[0]->id)->first();
+                        $Trs->snapToken = $ST;
+                        $Trs->save();
+                    }
+                    else{
         
-        $notif = new NotificationController();
-        $notifs = $notif->getAllNotif();
-        // dd($Data[0]);
-        $addr = new AddressController();
-        $userData = $addr->getDataById();
-        $ST=null;
-        // dd($Data);
-        if($Data[0]->Status_Pembayaran!='Done'){
-            // dd($Data[0]->snapToken==NULL);
-            if($Data[0]->snapToken==NULL){
-                $ST = $this->GetSnapToken($Data);
-                $Data[0]->snapToken = $ST;
-                $Trs=Transaksi::where('id', $Data[0]->id)->first();
-                $Trs->snapToken = $ST;
-                $Trs->save();
-            }
-            else{
-
-                $ST = $Data[0]->snapToken;
-            }
+                        $ST = $Data[0]->snapToken;
+                    }
+                }
+                else{
+                    // dd($Data[0]);
+                    $ST = $Data[0]->snapToken;
+                }
+                $detil = $Data[0]->Address;
+        
+                // dd($Data);
+                if(session('Role')=="Admin"){
+                    // $Address = new AddressController();
+                    // $detil = $Address->getDetil($Data[0]->id_user);
+                    return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil]);
+                }
+                else{
+        
+                    return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST,'Address'=>$detil]);
+                }
         }
         else{
-            // dd($Data[0]);
-            $ST = $Data[0]->snapToken;
-        }
-        $detil = $Data[0]->Address;
-
-        // dd($Data);
-        if(session('Role')=="Admin"){
-            // $Address = new AddressController();
-            // $detil = $Address->getDetil($Data[0]->id_user);
-            return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil]);
-        }
-        else{
-
-            return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST,'Address'=>$detil]);
+            return redirect('/PageNotFound');
         }
 
     }
@@ -378,11 +412,81 @@ class TransaksiController extends Controller
     }
 
     public function cekStatus($idTransaction){
-        $data = Transaksi::where('id', $idTransaction)->get()->first();
-        return response()->json($data->Status_Pembayaran);
+        if(session('user_id')>0){
+            $transaction = Transaksi::where('id_user', session('user_id'))
+            ->latest() // sama dengan orderBy('created_at', 'desc')
+            ->first();
+            
+            $auth = base64_encode(env('MIDTRANS_SERVER_KEY'));
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => "Basic $auth",
+            ])->get("https://api.sandbox.midtrans.com/v2/".$transaction->id.env('CODE_TRANSACTION')."/status");
+            // dd($response);
+            $response = json_decode($response->body());
+            // dd($response,$transaction);
+
+            // dd($response);
+            if($response->status_code!=null){
+                // dd($response);
+                if(intval($response->status_code)<"300"){
+                        (isset($response->va_numbers[0]->bank))?
+                        $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type))." (".Str::upper($response->va_numbers[0]->bank).")":
+                        $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type));
+                }
+
+                
+                $notif = new NotificationController();
+                //notif to Customer
+                $notif->store(2,$transaction->id,session('user_id'));
+                
+                //notif to Admin
+                $notif->store(7,$transaction->id,1);
+                $paymentStatus = $response->status_code;
+                if($paymentStatus==200){
+                    $transaction->Status_Pembayaran = 'Done';
+                    $transaction->save();
+                }
+                else if($paymentStatus==202){
+                    if($response->transaction_status=='deny'){
+                        //UpdateIdTransaction
+                        $newId = $id = DB::table('transaksis')
+                        ->orderBy('id', 'desc')
+                        ->limit(1)
+                        ->value('id');
+                        $idOld = $transaction->id; 
+                        $transaction->id = $newId;
+
+                        //updateIdTransactionOnDetilTransaction
+                        $contDetilTransaction = new DetailTransactionController();
+                        $contDetilTransaction->updateIDTransaction($idOld, $transaction->id);  
+
+                        $transaction->snapToken = null;
+                        $transaction->Status_Pembayaran = 'Reject By '.$response->payment_type;
+                        $transaction->save();
+                    }
+                }
+                elseif ($paymentStatus>200 && $paymentStatus<300) {
+                    // dd($response->transaction_status);
+                    $transaction->Status_Pembayaran = $response->transaction_status;
+                    $transaction->save();
+                    // dd('masuk', $transaction,$response);
+                }
+            }
+
+            $data = Transaksi::where('id', $idTransaction)->get()->first();
+            // dd($response,$transaction);
+
+            return response()->json($data->Status_Pembayaran);
+        }
+        else{
+            return view('OutOfPages');
+        }
     }
 
     public function RedirectNewestTransaction(){
+        // dd(session('user_id'));
         $transaction = Transaksi::where('id_user', session('user_id'))
             ->latest() // sama dengan orderBy('created_at', 'desc')
             ->first();
@@ -399,9 +503,12 @@ class TransaksiController extends Controller
 
             // dd($response);
             if($response->status_code!=null){
-                (isset($response->va_numbers[0]->bank))?
-                $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type))." (".Str::upper($response->va_numbers[0]->bank).")":
-                $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type));
+                // dd($response);
+                if(intval($response->status_code)<300){
+                        (isset($response->va_numbers[0]->bank))?
+                        $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type))." (".Str::upper($response->va_numbers[0]->bank).")":
+                        $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type));
+                }
 
                 
                 $notif = new NotificationController();
@@ -456,6 +563,12 @@ class TransaksiController extends Controller
                         // return redirect('/Transaction/'.$transaction->id)->with('notif','Pembayaran Ditolak oleh Akulaku');   
                     }
                 }
+                elseif ($paymentStatus>200 && $paymentStatus<300) {
+                    // dd($response->transaction_status);
+                    $transaction->Status_Pembayaran = $response->transaction_status;
+                    $transaction->save();
+                    // dd('masuk', $transaction,$response);
+                }
             }
             // dd(app()->environment('local'));
             if(app()->environment('local')){
@@ -466,6 +579,18 @@ class TransaksiController extends Controller
 
                 return redirect('/Transaction/'.$transaction->id);
             }
-    }   
+    }  
+    
+    public function historyCustomer(){
+        if(session('user_id')>0){
+            $data = $this->getAllById(session('user_id'));
+            // dd($data);
+            
+            return view('User.Pelanggan.history',['data'=>$data]);
+        }
+        else{
+            return view('OutOfPages');
+        }
+    }
         
 }

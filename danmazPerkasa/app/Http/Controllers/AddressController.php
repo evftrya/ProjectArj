@@ -35,6 +35,9 @@ class AddressController extends Controller
         $data->AlamatDetil = $req->AlamatDetail;
         $data->Detil = $detil;
         $data->id_user = session('user_id');
+
+        $cont = new Controller();
+        $data->ShippingRate = $cont->getOngkir($data->KotaKabupaten);
         $data->save();        
     }
 
@@ -64,30 +67,35 @@ class AddressController extends Controller
     }
 
     public function isNew($idProduct){
-        $data = Address::where('id_user', session('user_id'))->first();
-        
-        //checkStok
-        $Cont = new ProductsController();
-        $product = null;
-        if($idProduct!='Address' && $idProduct!='CekAddress'){
-
-            $product = $Cont->getDataProduct($idProduct)[0][0];
-        }
-
-        if($data!=null||$idProduct=='Address'){
-            return response()->json(1);
-        }            
-        else if($idProduct=='CekAddress'){
-            return response()->json(0);
-        }
-        else if($product->stok==0){
-            if($idProduct!='Address'){
-                return response()->json(2);
+        if(session('user_id')>0){
+            $data = Address::where('id_user', session('user_id'))->first();
+            
+            //checkStok
+            $Cont = new ProductsController();
+            $product = null;
+            if($idProduct!='Address' && $idProduct!='CekAddress'){
+    
+                $product = $Cont->getDataProduct($idProduct)[0][0];
+            }
+    
+            if($data!=null||$idProduct=='Address'){
+                return response()->json(1);
+            }            
+            else if($idProduct=='CekAddress'){
+                return response()->json(0);
+            }
+            else if($product->stok==0){
+                if($idProduct!='Address'){
+                    return response()->json(2);
+                }
+            }
+            else{
+                return response()->json(0);
+    
             }
         }
         else{
-            return response()->json(0);
-
+            return view('OutOfPages');
         }
     }
 

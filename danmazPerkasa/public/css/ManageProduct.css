@@ -787,4 +787,15 @@ textarea{
     
 }
 
-
+.theItems.Waiting{
+    background-color: rgb(253, 253, 231);
+    border: rgb(113, 113, 102);
+}
+.theItems.pending{
+    background-color: #c9efe5;
+    border: #c9efe5;
+}
+.theItems.Done{
+    background-color: #d5f2bf;
+    border: #d5f2bf;
+}

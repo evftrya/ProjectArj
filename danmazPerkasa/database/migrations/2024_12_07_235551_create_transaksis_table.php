@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('Shipping')->nullable();
             $table->string('PaymentMethod')->nullable();
             $table->string('Status_Pembayaran')->default('Pending');
+            $table->string('Status_Transaksi')->nullable();
             $table->string('Kode_Pembayaran')->nullable();
             $table->string('Status_Pengiriman')->nullable();
             $table->string('Notes')->nullable();

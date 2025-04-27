@@ -508,21 +508,31 @@ class ProductsController extends Controller
     }
 
     public function Custom(){
-        $Parts = DB::table('products as a')
-        ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
-        ->where('a.type', 'Part')
-        ->select('a.*', 'b.*')
-        ->get();
-    
-        $area = DB::table('categorypart')
-            ->select('Area')
-            ->distinct()
+        if(session('user_id')>0){
+            $Parts = DB::table('products as a')
+            ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+            ->where('a.type', 'Part')
+            ->select('a.*', 'b.*')
             ->get();
-
-        $category = DB::table('categorypart')->get();
-        // $Parts = Products::where('type', 'Part')->get();
-        // dd('Parts',$Parts,'Areas',$area,'Categorys',$category);
-        return view('User.Pelanggan.Custom', ['Parts'=>$Parts,'Areas'=>$area,'Categorys'=>$category]);
+        
+            $area = DB::table('categorypart')
+                ->select('Area')
+                ->distinct()
+                ->get();
+    
+            $category = DB::table('categorypart')->get();
+            // $Parts = Products::where('type', 'Part')->get();
+            // dd('Parts',$Parts,'Areas',$area,'Categorys',$category);
+            return view('User.Pelanggan.Custom', ['Parts'=>$Parts,'Areas'=>$area,'Categorys'=>$category]);
+        }
+        else{
+            return view('OutOfPages');
+        }
+        // if(session('user_id')>0){
+        // }
+        // else{
+        //     return view('OutOfPages');
+        // }
     }
 
     

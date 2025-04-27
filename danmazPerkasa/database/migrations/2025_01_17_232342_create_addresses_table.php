@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('KodePos')->nullable();
             $table->longText('Detil')->nullable();
             $table->longText('AlamatDetil')->nullable();
+            $table->longText('ShippingRate')->nullable();
             $table->unsignedBigInteger('id_user');
             
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');

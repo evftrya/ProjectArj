@@ -119,12 +119,17 @@ class Controller extends BaseController
     }
 
     public function getCity($province){
+        if(session('user_id')>0){
+            $cities = DB::table('cities as a')
+                ->where('a.province_id', $province)
+                ->get();
+            
+            return response()->json($cities);
+        }
+        else{
+            return view('OutOfPages');
+        }
 
-        $cities = DB::table('cities as a')
-            ->where('a.province_id', $province)
-            ->get();
-        
-        return response()->json($cities);
 
         // return $response;
     }
@@ -150,7 +155,7 @@ class Controller extends BaseController
         $err = curl_error($curl);
 
         curl_close($curl);
-
+        // dd($this->toJson($response)['rajaongkir']['results']);
         
         return ($this->toJson($response)['rajaongkir']['results']);
 
@@ -182,9 +187,9 @@ class Controller extends BaseController
         curl_close($curl);
         
         
-        // dd($response);
-        // dd($this->toJson($response));
-        
+        // dd('response',($response));
+        // dd('INI',$this->toJson($response)['rajaongkir']['results']);
+        // return $response;
         return ($this->toJson($response)['rajaongkir']['results']);
     }
     
@@ -194,8 +199,13 @@ class Controller extends BaseController
         for($i=0;$i<count($kurir);$i++){
             array_push($data,$this->CekOngkir($kurir[$i],$tujuan));
         }
-        $back = [json_encode($data),$data];
-        return $back;
+        // dd(json_encode($data));
+        return (json_encode($data));
+        // $back = [json_encode($data),$data];
+        // return $back;
+        // return $data;
+        // dd($data);
+        // return [implode(",",$data)][0];
     }
     
     public function Ongkir(){

@@ -16,7 +16,6 @@ class AccountController extends Controller
 {
     public function login(Request $request){
 
-
         $request->validate([
             'emailUser'         => 'required|email',
             'passwordUser'   => 'required'
@@ -25,6 +24,7 @@ class AccountController extends Controller
         // DD($email);
 
         if($email){
+            Auth::login($email);
             session_start();
             session(['user_id' => $email->id_User]);
             session(['user_name' => $email->namaUser]);
@@ -34,7 +34,7 @@ class AccountController extends Controller
             return redirect('/Login');
         }
         else{
-            return redirect('/Login')->with('pesan', "Registration Succesfull");
+            return redirect('/Login')->with('pesan', "Registration Not Succesfull");
         }
     }
 
@@ -196,7 +196,6 @@ class AccountController extends Controller
                     ($key=="Kecamatan") ? $value="Kec. ".$value : null;
                     ($key=="Kelurahan") ? $value="Kel. ".$value : null;
                     
-                    
     
                     // dd($key!="RT");
                     if($key != "_token" && $key != "RW" && $key != "RT"){
@@ -216,6 +215,8 @@ class AccountController extends Controller
             // dd($address);
             $conAdd = new AddressController();
             $conAdd->store($req,$address);
+            $cont = new Controller();
+            // $cont->getOngkir($userData[0]->city_id);
             //$akun->Address = $address;
             // dd($address);
             $Allert = "Address change succesfull1";

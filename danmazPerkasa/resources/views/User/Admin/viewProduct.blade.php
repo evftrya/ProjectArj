@@ -80,8 +80,8 @@
                             <p>Checkout</p>
                         </button> -->
 
-                        <button class="justButton" onclick="TurnEdit('{{{$product->id_product}}}')">Edit</button>
-                        <button onclick="DeleteProduct('{{{$product->id_product}}}')">Delete</button>
+                        <button class="justButton" onclick="TurnEdit('{{{$product->id_product}}}',event)">Edit</button>
+                        <button onclick="DeleteProduct('{{{$product->id_product}}}',event)">Delete</button>
                     @endif
                     
                 </div>

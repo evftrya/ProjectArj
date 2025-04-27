@@ -134,4 +134,17 @@ class NotificationController extends Controller
 
         return $data;
     }
+
+    public function Read1Notif(Request $req){
+        $notification = Notification::where('idNotification', $req->id)->first();
+        // dd($notification);
+        $notification->isRead = "1";
+        $notification->save();
+        // dd($notification);
+        return response()->json(['message'=> 'success']);
+    }
+
+    public function RedAllNotif(Request $req){
+        
+    }
 }

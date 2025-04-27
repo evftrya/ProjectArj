@@ -140,14 +140,18 @@
                             <p class="FinalSum">{{{intval($data[0]->TotalShopping)}}}</p>
                         </div>
                         <div class="subCont">
-                            <p>Payment Status</p>
+                            <p>Transaction Status</p>
+                            <p class="TransactionStatus">{{{$data[0]->Status_Transaksi}}}</p>
+                        </div>
+                        <div class="subCont">
+                               <p>Payment Status</p>
                             <p class="PaymentStatus">{{{$data[0]->Status_Pembayaran}}}</p>
                         </div>
-                        @if(session('Role')=="Admin")
-                        <div class="subCont">
-                            <p>Order Status</p>
-                            <p class="OrderStatus">{{{$data[0]->Status_Pengiriman}}}</p>
-                        </div>
+                        @if($data[0]->Status_Transaksi=='Accepted')
+                            <div class="subCont">
+                                <p>Payment Status</p>
+                                <p class="PaymentStatus">{{{$data[0]->Status_Pengiriman}}}</p>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -184,7 +188,7 @@
         </div>
         @endif
     @else
-        @if($data[0]->Status_Pengiriman=='Waiting')
+        @if($data[0]->Status_Transaksi=='Waiting')
             <div class="toCheckout transaction">
                 <div class="warningTeks">
                     <!-- <div>
@@ -257,14 +261,21 @@
         }
     @endif
 
-    @if(session('message')=='NoBack')
-        let historyList = JSON.parse(localStorage.getItem('app_history'));
-        let lastUrl = historyList[historyList.length - 2]; // ambil URL sebelumnya
-        window.location.href = lastUrl ?? '/';
+    @if(session('message') == 'NoBack')
+        sessionStorage.setItem('backUrl', '/'); // Atur URL tujuan kembali
+
+        window.addEventListener('popstate', function(event) {
+            // Cek apakah tombol back ditekan
+            if (sessionStorage.getItem('backUrl')) {
+                // Pastikan untuk redirect ke backUrl yang disimpan di sessionStorage
+                window.location.href = sessionStorage.getItem('backUrl');
+            }
+        });
+        history.pushState(null, null, location.href); // Tambah state history baru untuk mencegah back ke halaman sebelumnya
     @endif
     
 
-    @if(session('message')&&session('message')!='NoBack')
+    @if(session('message') && session('message')!='NoBack')
         showPopup({!! json_encode(session('message')) !!});
     @endif
     function showPopup(wht,which) {
@@ -302,7 +313,7 @@
         const date = new Date(dateTime.replace(" ", "T")); // Mengganti spasi menjadi 'T' agar dikenali oleh Date
 
         // Tambahkan 30 menit
-        date.setMinutes(date.getMinutes()+30);
+        date.setMinutes(date.getMinutes()+16);
 
         // Format kembali ke string jika diperlukan (YYYY-MM-DD HH:mm:ss)
         const year = date.getFullYear();
@@ -328,12 +339,13 @@
         // return formattedDateTime(newDateTime);
 
     }
-    @if(session('Role'!="Admin"))
+    @if(session('Role')!="Admin")
     runRefresh(2)
     setInterval(runRefresh(1), 1000);
     // RefreshPage()
 
     function runRefresh(wht){
+        console.log('masuk refresh page');
         let cek = document.querySelector('.toCheckout');
         if(cek){
             if(wht==1){
