@@ -33,8 +33,8 @@
                             <p>{{{$d->nama_product}}}</p>
                         </div>
                     </div>
-                    <div class="ProductPrice" id="ProductPrice">
-                        {{{$d->price}}}
+                    <div class="ProductPrice Price" id="ProductPrice">
+                        {{{intval($d->price)}}}
                     </div>
                     <div class="ProductPrice weight">
                         <p class="berat">{{{$d->weight}}}</p>
@@ -81,7 +81,7 @@
                     <div class="Ship">
                         <p>Opsi Pengiriman: {{{$data[0]->Shipping}}}</p>
                         
-                        <p class="costsWeightSum">{{{$data[0]->TotalShipping}}}</p>
+                        <p class="costsWeightSum">{{{intval($data[0]->TotalShipping)}}}</p>
                     </div>
                     
                 </div>
@@ -127,7 +127,7 @@
                         </div>
                         <div class="subCont">
                             <p>Total Shipping Price</p>
-                            <p class="totalShippingPrice">{{{$data[0]->TotalShipping}}}</p>
+                            <p class="totalShippingPrice">{{{intval($data[0]->TotalShipping)}}}</p>
                         </div>
                         <div class="subCont">
                             <p>Service Fee</p>
@@ -139,11 +139,11 @@
                         </div>
                         <div class="subCont">
                             <p>Total Payment</p>
-                            <p class="FinalSum">{{{$data[0]->TotalShopping}}}</p>
+                            <p class="FinalSum">{{{intval($data[0]->TotalShopping)}}}</p>
                         </div>
                         <div class="subCont">
                             <p>Payment Status</p>
-                            <p class="PaymentStatus">{{{$data[0]->Status_Pembayaran}}}</p>
+                            <p class="PaymentStatus">{{{($data[0]->Status_Pembayaran)}}}</p>
                         </div>
                         @if(session('Role')=="Admin")
                         <div class="subCont">
@@ -186,7 +186,7 @@
         </div>
         @endif
     @else
-        @if($data[0]->Status_Pengiriman=='Waiting')
+        @if($data[0]->Status_Transaksi=='Waiting')
             <div class="toCheckout transaction">
                 <div class="warningTeks">
                     <!-- <div>
@@ -723,6 +723,7 @@
         //console.log(select);
 
     }
+
 </script>
 
 @endsection

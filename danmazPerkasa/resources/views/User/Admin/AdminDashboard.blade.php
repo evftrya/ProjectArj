@@ -18,12 +18,15 @@
                         <img src="/assets/earning.png" alt="earning">
                     </div>
                     <div class="action-button dashboard">
-                        <button class="active">Month</button>
-                        <button>Year</button>
+                        <button onclick="earning('day')" class="active">Day</button>
+                        <button onclick="earning('month')" class="">Month</button>
+                        <button onclick="earning('year')" class="">Years</button>
                     </div>
                 </div>
                 <div class="footer">
-                    <h1>Rp25.000.000</h1>
+                    <h1 class="day show">{{{$Data[0][0][0]->laba==null?0:$Data[0][0][0]->laba}}}</h1>
+                    <h1 class="month">{{{$Data[0][1][0]->laba==null?0:$Data[0][1][0]->laba}}}</h1>
+                    <h1 class="year">{{{$Data[0][2][0]->laba==null?0:$Data[0][2][0]->laba}}}</h1>
                     <h2>Total Earning</h2>
                 </div>
             </div>
@@ -34,12 +37,15 @@
                         <img src="/assets/order.png" alt="order">
                     </div>
                     <div class="action-button dashboard">
-                        <button class="active">Month</button>
-                        <button>Year</button>
+                        <button onclick="order('day')" class="active">Day</button>
+                        <button onclick="order('month')" class="">Month</button>
+                        <button onclick="order('year')" class="">Years</button>
                     </div>
                 </div>
                 <div class="footer">
-                    <h1>1.697.855</h1>
+                    <h1 class="day show">{{{intval($Data[1][0][0])}}}</h1>
+                    <h1 class="month">{{{$Data[1][1][0]}}}</h1>
+                    <h1 class="year">{{{$Data[1][2][0]}}}</h1>
                     <h2>Total Order</h2>
                 </div>
             </div>
@@ -48,14 +54,14 @@
                 <div class="iconButton">
                     <img src="/assets/product.png" alt="product">
                 </div>
-                <h3>1.378 Item<br>Total Product Sales</h1>
+                <h3>{{{$Data[2][0][0]}}} Item ({{{$Data[2][1][0]}}} Products, {{{$Data[2][2][0]}}} Customs, {{{$Data[2][3][0]}}} Parts)<br>Total Product Sales</h1>
             </div>
             <!-- customer -->
             <div class="box customer">
                 <div class="iconButton">
                     <img src="/assets/other.png" alt="other">
                 </div>
-                <h3>1.708 Item<br>Total Customer Sales</h1>
+                <h3>{{{$Data[3]}}} Transactions<br>Total Customer Sales</h1>
             </div>
         </div>
     </div>
@@ -71,6 +77,39 @@
                 });
             });
         });
+
+        
+        function toIdr(number){
+            let angka = number;
+            
+            let formattedAngka = angka.toLocaleString('id-ID');
+            
+            return formattedAngka;    
+        }
+        TideUp();
+        function TideUp(){
+            let tide = document.querySelectorAll('.footer>h1')
+            console.log(tide);
+            tide.forEach(e=>{
+                e.innerText = (toIdr(parseInt(e.innerText)));
+            })
+        } 
+
+        function earning(wht){
+            let elemen = document.querySelectorAll('.box.earning .footer>*');
+            elemen.forEach(e=>{
+                e.classList.remove('show')
+                e.classList.contains(wht)?e.classList.add('show'):null;
+            })
+        }
+
+        function order(wht){
+            let elemen = document.querySelectorAll('.box.order .footer>*');
+            elemen.forEach(e=>{
+                e.classList.remove('show')
+                e.classList.contains(wht)?e.classList.add('show'):null;
+            })
+        }
     </script>
 
 @endsection

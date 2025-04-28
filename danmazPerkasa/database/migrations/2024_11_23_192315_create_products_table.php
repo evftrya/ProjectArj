@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('type');
             $table->integer('stok');
             $table->string('price');
+            $table->string('originalPrice')->nullable();
             $table->string('color');
             $table->string('isContent')->nullable();
             $table->string('shortQuotes')->nullable();

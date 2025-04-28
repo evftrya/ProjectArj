@@ -8,10 +8,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
-        <form action="/cekLogin/Login" method="POST">
+        <form action="/RedAllNotif" method="POST">
             @csrf
             <input type="text" value="/Transaction/2">
-            <input type="text" name="el" value="q@Q">
+            <input type="text" name="id" value="q@Q">
             <input type="password" name="pu" value="123">
             <INPut type="submit">SAVE</INPut>
         </form>

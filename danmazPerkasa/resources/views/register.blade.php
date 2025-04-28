@@ -31,7 +31,7 @@
         </div>
         <div class="Container">
             <div class="namaCv">
-                <p>CV. Danmaz Perkasa</p>
+                <a href="/"><p>CV. Danmaz Perkasa</p></a>
             </div>
             <p>Create your account</p>
             <div class="InputArea">
@@ -39,22 +39,25 @@
                     @csrf
                     <div class="nameArea">
                         <div class="input-container">
-                            <input type="text" name="firstName" id="firstName" placeholder="" required>
+                            <input type="text" name="firstName" id="firstName" maxlength="30" placeholder="" required>
                             <label for="inputField">First Name</label>
 
                         </div>
                         <div class="input-container">
-                            <input type="text" name="lastName" id="lastName" placeholder="" required>
+                            <input type="text" name="lastName" id="lastName" maxlength="30" placeholder="" required>
                             <label for="inputField">Last Name</label>
                         </div>
                     </div>
                     <div class="input-container">
-                        <input class="el" type="email" name="emailUser" id="email" placeholder="" required>
+                        <input class="el" type="email" name="emailUser" maxlength="50" 
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" id="email" 
+                        placeholder="" required>
+
                         <label for="inputField">Email</label>
                     </div>
                     <div class="input-container" id="PasswordArea">
                             <!-- <p>Password</p> -->
-                            <input type="password" name="passwordUser" id="ThePassword" placeholder="" required>
+                            <input type="password" name="passwordUser" id="ThePassword" maxlength="25" placeholder="" required>
                             <label for="inputField">Password</label>
                         <div class="ButtonArea">
                             <button id="See" onclick="Password('LetsSee')">

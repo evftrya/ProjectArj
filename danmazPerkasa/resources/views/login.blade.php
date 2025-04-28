@@ -45,13 +45,14 @@
 
                     <div class="input-container">
                         <!-- <p>Email</p> -->
-                            <input type="email" class="el" name="emailUser" placeholder="" id="inputField">
+                         
+                            <input type="email" class="el" name="emailUser" placeholder="" id="inputField" maxlength="50" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
                             <label for="inputField">Email</label>
                         <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                     </div>
                     <div class="input-container" id="PasswordArea">
                             <!-- <p>Password</p> -->
-                            <input type="password" class="pu" name="passwordUser" id="ThePassword" placeholder="">
+                            <input type="password" class="pu" name="passwordUser" maxlength="25" id="ThePassword" placeholder="">
                             <label for="inputField">Password</label>
                         <div class="ButtonArea">
                             <button id="See" onclick="Password('LetsSee')">

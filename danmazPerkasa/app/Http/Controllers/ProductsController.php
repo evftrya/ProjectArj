@@ -28,6 +28,7 @@ class ProductsController extends Controller
         $Product->nama_product = $req->ProductName;
         $Product->stok = $req->stock;
         $Product->price = $req->ProductPrice;
+        $Product->originalPrice = $req->originalPrice;
         $Product->color = $req->ProductColor;
         $Product->shortQuotes = $req->shortQuotes;
         $Product->detail_product = $req->Description;
@@ -193,6 +194,7 @@ class ProductsController extends Controller
                 'a.detail_product',
                 'a.Features',
                 'b.PhotosName',
+                'a.originalPrice',
                 'a.price'
         )->where('a.id_product', $id)
         // ->where('a.stok','>',0 )
@@ -219,6 +221,7 @@ class ProductsController extends Controller
                 'a.detail_product',
                 'a.Features',
                 'b.PhotosName',
+                'a.originalPrice',
                 'a.price'
         )
         ->where('a.id_product', $id)
@@ -315,15 +318,15 @@ class ProductsController extends Controller
         return view('/User.Pelanggan.ProductDetil',['isNull'=>1]);
     }
 
-    public function CheckoutProduct($qty, $idProduct){
-        $old = Products::where('id_product', $idProduct)->first();
-        // dd($old->stok);
-        // dd(gettype($qty));
-        $old->stok =($old->stok-$qty);
-        // dd($old->stok);
-        $old->save();
-        // dd($old->stok);
-    }
+    // public function CheckoutProduct($qty, $idProduct){
+    //     $old = Products::where('id_product', $idProduct)->first();
+    //     // dd($old->stok);
+    //     // dd(gettype($qty));
+    //     $old->stok =($old->stok-$qty);
+    //     // dd($old->stok);
+    //     $old->save();
+    //     // dd($old->stok);
+    // }
     public function deleteProduct($idProduct){
         return $this->delete($idProduct,'Product');
     }
@@ -352,6 +355,34 @@ class ProductsController extends Controller
         return redirect('/Manage/Product/Part');
     }
 
+    public function UpdateStokMinus($idProduct,$qty){
+        $product = Products::where('id_product', $idProduct)->first();
+        $product->stok = $product->stok-$qty;
+        if($product->save()){
+            return 'success';
+        }
+    }
+    public function UpdateStokPlus($idProduct,$qty){
+        $product = Products::where('id_product', $idProduct)->first();
+        $product->stok = $product->stok+$qty;
+        if($product->save()){
+            return 'success';
+        }
+    }
+
+    public function TransactionUpdate($idTransaction,$PlusOrMinus){
+        $detilTransaction = DB::table('detail__transactions as a')
+                ->join('transaksis as b', 'a.Transaksis_id', '=', 'b.id')
+                ->where('b.id', $idTransaction)
+                ->get();
+
+        foreach($detilTransaction as $product){
+            ($PlusOrMinus=='plus')?
+            $this->UpdateStokPlus($product->id_product,$product->qty)
+            :$this->UpdateStokMinus($product->id_product,$product->qty);
+        }
+    }
+
     public function update(Request $req, $idProduct,$from){
         // dd($req);
         $Product = Products::where('id_product', $idProduct)->first();
@@ -362,6 +393,7 @@ class ProductsController extends Controller
         $Product->price = $req->ProductPrice;
         $Product->color = $req->ProductColor;
         $Product->detail_product = $req->Description;
+        $Product->originalPrice = $req->originalPrice;
         $Product->weight= $req->weight;
         $Product->type = $from;
         $Product->Category = $req->product;
@@ -457,7 +489,92 @@ class ProductsController extends Controller
             return view('landingpage',['Content'=>$Contens, 'Special'=>$Special,'notif'=>$notifs]);    
         }
         else{
-            return view('User.Admin.dashboard',['notif'=>$notifs]);
+
+            $TotalEarning = [
+                [
+                    DB::table('detail__transactions as a')
+                        ->join('products as b', 'b.id_product', '=', 'a.id_product')
+                        ->join('transaksis as c', 'a.Transaksis_id', '=', 'c.id')
+                        ->selectRaw('sum((a.qty * b.price) - (a.qty * b.originalPrice)) as laba')
+                        ->where('c.Status_Transaksi', 'Acceptted')
+                        ->whereDay('c.created_at', now()->day)
+                        ->whereMonth('c.created_at', now()->month)
+                        ->whereYear('c.created_at', now()->year)
+                        ->first()
+                ],
+                [
+                    DB::table('detail__transactions as a')
+                        ->join('products as b', 'b.id_product', '=', 'a.id_product')
+                        ->join('transaksis as c', 'a.Transaksis_id', '=', 'c.id')
+                        ->selectRaw('sum((a.qty * b.price) - (a.qty * b.originalPrice)) as laba')
+                        ->where('c.Status_Transaksi', 'Acceptted')
+                        ->whereMonth('c.created_at', now()->month)
+                        ->first()
+                ],
+                [
+                    DB::table('detail__transactions as a')
+                        ->join('products as b', 'b.id_product', '=', 'a.id_product')
+                        ->join('transaksis as c', 'a.Transaksis_id', '=', 'c.id')
+                        ->where('c.Status_Transaksi', 'Acceptted')
+                        ->selectRaw('sum((a.qty * b.price) - (a.qty * b.originalPrice)) as laba')
+                        ->first()
+    
+                ]
+            ];
+    
+            $TotalOrder=[
+                [
+                    DB::table('transaksis as a')
+                        ->where('a.Status_Transaksi', 'Acceptted')
+                        ->whereDay('a.created_at', now()->day)
+                        ->whereMonth('a.created_at', now()->month)
+                        ->whereYear('a.created_at', now()->year)
+                        ->sum('a.TotalShopping')
+                ],
+                [
+                    DB::table('transaksis as a')
+                        ->where('a.Status_Transaksi', 'Acceptted')
+                        ->whereMonth('a.created_at', now()->month)
+                        ->sum('a.TotalShopping')
+    
+                ],[
+                    DB::table('transaksis as a')
+                        ->where('a.Status_Transaksi', 'Acceptted')
+                        ->sum('a.TotalShopping')
+                ]
+            ];
+    
+            $TotalTransaksi = DB::table('transaksis as a')
+                ->where('a.Status_Transaksi', 'Acceptted')
+                ->count();
+    
+            $TotalItem = [
+                [
+                    DB::table('transaksis as a')
+                        ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+                        ->where('a.Status_Transaksi', 'Acceptted')
+                        ->sum('b.qty')
+                ],[
+                    DB::table('transaksis as a')
+                        ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+                        ->where('a.Status_Transaksi', 'Acceptted')
+                        ->where('a.type_transaction', 'Product')
+                        ->sum('b.qty')
+                ],[
+                    DB::table('transaksis')
+                        ->where('type_transaction', 'Custom')
+                        ->count()
+                ],[
+                    DB::table('transaksis as a')
+                        ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+                        ->where('a.Status_Transaksi', 'Acceptted')
+                        ->where('a.type_transaction', 'Custom')
+                        ->sum('b.qty')
+                ]
+            ];
+            
+            $Merge = [$TotalEarning,$TotalOrder, $TotalItem, $TotalTransaksi];
+            return view('User.Admin.AdminDashboard',['notif'=>$notifs, 'Data'=>$Merge]);
         }
     }
     public function refresh(){
@@ -476,7 +593,8 @@ class ProductsController extends Controller
         $products = DB::table('products as a')
             ->join('photos as b', 'b.id_Photo', '=', 'a.mainPhoto')
             ->whereNotNull('a.isSpecial')
-            ->select('a.*', 'b.*') // Optional: Select specific columns if needed
+            ->select('a.*', 'b.*')
+            ->limit(20)
             ->get();
             // dd($products);
         return $products;

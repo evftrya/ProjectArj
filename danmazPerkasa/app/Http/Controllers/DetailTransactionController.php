@@ -130,6 +130,7 @@ class DetailTransactionController extends Controller
                 'a.id_Detail_transaction',
                 'c.PhotosName',
                 'b.nama_product',
+                'b.stok',
                 'b.price',
                 'a.qty',
                 DB::raw('ROUND(b.weight / 1000, 2) as weight'),
@@ -254,6 +255,10 @@ class DetailTransactionController extends Controller
                     $this->UpdateStatus($idProduct, '1');
                 }
                 $data = $this->getAllData('Checkout');
+                foreach ($data as $product) {
+                    (new ProductsController())->UpdateStokMinus($product->id_product,$product->qty);
+                }
+                // dd($data);
         
                 $addr = new AddressController();
                 $userData = $addr->getDataById();
@@ -273,7 +278,7 @@ class DetailTransactionController extends Controller
                 // 'routeChekcout'=>$routeChekcout,
                 // ,'notif'=>$notifs
                 // dd($ship);
-                return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
+                return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs,'Back'=>'Cart']);
         }
         else{
             // dd('masuk');
@@ -322,7 +327,7 @@ class DetailTransactionController extends Controller
                 // 
                 // ,'notif'=>$notifs
                 // dd($ship);
-                return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs]);
+                return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs,'Back'=>'Index']);
             }
         }
         else{
@@ -389,7 +394,7 @@ class DetailTransactionController extends Controller
         $userData = $addr->getDataById();
 
         $cont = new Controller();
-        $ships = ($cont->getOngkir($userData[0]->city_id));
+        $ships = [($userData[0]->ShippingRate), json_decode($userData[0]->ShippingRate)];
         $shipjs = $ships[0];
         $ship = $ships[1];
         $notif = new NotificationController();
@@ -397,9 +402,7 @@ class DetailTransactionController extends Controller
 
 
 
-        return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs,'dataPart'=>$req->dataPart]);
-
-
+        return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs,'dataPart'=>$req->dataPart,'Back'=>'Custom']);
     }
 
 

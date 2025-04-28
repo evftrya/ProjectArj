@@ -147,9 +147,9 @@
                                <p>Payment Status</p>
                             <p class="PaymentStatus">{{{$data[0]->Status_Pembayaran}}}</p>
                         </div>
-                        @if($data[0]->Status_Transaksi=='Accepted')
+                        @if($data[0]->Status_Transaksi=='Acceptted')
                             <div class="subCont">
-                                <p>Payment Status</p>
+                                <p>Payment Pengiriman</p>
                                 <p class="PaymentStatus">{{{$data[0]->Status_Pengiriman}}}</p>
                             </div>
                         @endif
@@ -159,10 +159,10 @@
             </div>
 
             
-        </div>
+        </div> 
     </div>  
     @if(session('Role')!="Admin")   
-        @if(!($data[0]->Status_Pembayaran=='Cancel'||$data[0]->Status_Pembayaran=='Done'))
+        @if(!($data[0]->Status_Transaksi=='Cancel'||$data[0]->Status_Pembayaran=='Done'||$data[0]->Status_Transaksi=='Done'||$data[0]->Status_Pembayaran=='Cancel'))
         <div class="toCheckout transaction">
             <div class="warningTeks">
                 <div>

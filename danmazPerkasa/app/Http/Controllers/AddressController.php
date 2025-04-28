@@ -67,7 +67,6 @@ class AddressController extends Controller
     }
 
     public function isNew($idProduct){
-        if(session('user_id')>0){
             $data = Address::where('id_user', session('user_id'))->first();
             
             //checkStok
@@ -93,10 +92,7 @@ class AddressController extends Controller
                 return response()->json(0);
     
             }
-        }
-        else{
-            return view('OutOfPages');
-        }
+        
     }
 
     public function getCitiesName($id){

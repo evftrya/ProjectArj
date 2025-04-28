@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
 /* --- Variables --- */
 :root {
     --white: #FFF;
@@ -9,6 +8,7 @@
     --brownDark: #4A4947;
 }
 
+/* --- Layout --- */
 .frame * {
     margin: 0;
     padding: 0;
@@ -19,7 +19,6 @@
 .frame {
     width: 100%;
     height: 100%;
-    /* padding: 24px; */
 }
 
 .containerDashboard {
@@ -27,12 +26,9 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: min-content;
     gap: 16px;
-
-
     width: calc(100% - 48px);
     height: 100%;
     padding: 24px;
-
     background-color: var(--brownLight);
     border-radius: 16px 16px 0 0;
 }
@@ -41,64 +37,63 @@
     width: auto;
     height: fit-content;
     padding: 24px;
-
     background-color: var(--brownMedium);
     border-radius: 8px;
+}
 
-    /* --- Layout --- */
-    &.earning,
-    &.order {
-        display: flex;
-        flex-direction: column;
-        gap: 72px;
-    }
+/* --- Layout --- */
+.box.earning,
+.box.order {
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+}
 
-    &.product,
-    &.customer {
-        display: flex;
-        flex-direction: row;
-        gap: 24px;
-    }
 
-    /* --- Background Color --- */
-    &.earning {
-        background-color: var(--brownDark);
-    }
 
-    &.order {
-        background-color: var(--brownMedium);
-    }
-    
-    &.product {
-        background-color: var(--brownMedium);
-    }
-    
-    &.customer {
-        background-color: var(--brownDark);
-    }
+.box.product,
+.box.customer {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+/* --- Background Color --- */
+.box.earning {
+    background-color: var(--brownDark);
+}
+
+.box.order {
+    background-color: var(--brownMedium);
+}
+
+.box.product {
+    background-color: var(--brownMedium);
+}
+
+.box.customer {
+    background-color: var(--brownDark);
 }
 
 .box .header {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
 }
 
-.box .header .action-button {    
+.box .header .action-button {
     display: flex;
 }
 
 /* --- Typography --- */
 h1 {
     color: var(--white);
-
     font-family: 'Poppins';
     font-size: 40px;
 }
 
 h2 {
     color: var(--white);
-
     font-family: 'Poppins';
     font-size: 24px;
     font-weight: 500;
@@ -106,7 +101,6 @@ h2 {
 
 h3 {
     color: var(--white);
-
     font-family: 'Poppins';
     font-size: 16px;
     font-weight: 400;
@@ -114,38 +108,56 @@ h3 {
 }
 
 /* --- Components --- */
-.iconButton{
+.iconButton {
     background-color: var(--brownLight);
     border-radius: 8px;
-
     width: 48px;
     height: 48px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    img{
-        width: 24px;
-    }
 }
 
-.action-button.dashboard button{
+.iconButton img {
+    width: 24px;
+}
+.action-button.dashboard{
+    display: flex;
+    gap:20px;
+}
+
+.action-button.dashboard button {
     background-color: inherit;
     color: var(--brownLight);
-
     border-radius: 8px;
+    gap: 10px;
     border: none;
-
-    width: 72px;
     padding: 4px 8px;
-
     font-weight: 500;
-
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-    &.active{
-        background-color: var(--brownLight);
-        color: var(--black);
-    }
+/* --- Hover Effect --- */
+.action-button.dashboard button:hover {
+    background-color: #9e7f63;  /* Darker background on hover */
+    color: var(--white);  /* Lighter text color */
+}
+
+/* --- Active Effect --- */
+.action-button.dashboard button:active {
+    background-color: #7c5f45;  /* Even darker background when clicked */
+    color: var(--white);  /* Text color remains light */
+}
+
+/* --- Active Button (pre-selected) --- */
+.action-button.dashboard button.active {
+    background-color: var(--brownLight);  /* Retain the original color */
+    color: var(--black);  /* Text color remains dark */
+}
+
+.footer .day:not(.show),
+.footer .month:not(.show),
+.footer .year:not(.show) {
+    display: none;
 }

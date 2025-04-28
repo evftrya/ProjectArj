@@ -160,7 +160,12 @@
         let input = form.querySelector('.InputForm')
         input.value = dataProduct
         // console.log(form)
-        form.submit();
+        if(parseInt(document.querySelector('.TotalAmount').textContent)>0){
+            form.submit();
+        }
+        else{
+            showPopup('Please select at least one part', 0)
+        }
         
     }
 </script>

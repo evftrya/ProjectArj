@@ -23,10 +23,10 @@
         </div>
         <div class="Tbody" id="tbody">
             @foreach($data as $d)
-            <div class="theProduct">
+            <div class="theProduct {{{$d->stok!='0'? '' :'Fade'}}}"  {{{$d->stok!='0'? '' :'disabled'}}}>
                 <!-- <input type="text" > -->
                 <div class="cb">
-                    <input type="checkbox" name="check2" onclick="getChecked()" value="{{{$d->id_Detail_transaction}}}">
+                    <input type="checkbox" name="check2" onclick="getChecked()" value="{{{$d->id_Detail_transaction}}}" {{{$d->stok!='0'? '' :'disabled'}}}>
                     <p class="Pdi" style="display:none;">{{{$d->id_product}}}</p>
                 </div>
                 <div class="prodDesc">
@@ -202,6 +202,19 @@
                 loadingIndicator.style.display = 'flex';
             });
     }
+    
+    function hideLoadingIndicator() {
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
+        }
+    }
+    function showLoadingIndicator() {
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) {
+            loadingIndicator.style.display = 'flex'; // atau 'block' jika diperlukan
+        }
+    }
 
 
 
@@ -212,6 +225,7 @@
 
 
 <script>
+    let loading = null;
     Count();
     allInputQty();
     tydeUp();
@@ -234,14 +248,21 @@
         let totalChecked = document.getElementById("totalChecked");
         //console.log("checkout :"+ !(totalChecked.textContent==0))
         if(!(totalChecked.textContent==0)){
+            if(loading==null){
+                loading=1;
+                initializeLoadingIndicator();
+            }
+            else{
+                showLoadingIndicator();
+            }
             let adr = await fetch('/isNew/CekAddress');
             let isnew = await adr.json();
             if(isnew==1){
                 //console.log('jalannnnn')
-                initializeLoadingIndicator();
                 window.location.href='/Checkout/null/null';
             }
             else{
+                hideLoadingIndicator();
                 showPopup("Please set the address first (Setting>Account Settings>Address)",0)
             }
         }

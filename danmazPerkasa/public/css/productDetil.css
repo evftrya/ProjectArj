@@ -184,11 +184,14 @@ html body{
  .qtynumbers{
     flex-wrap: wrap;
     display: flex;
-
+    
     flex-direction: row;
     border-radius: 5px;
     border: black 0.8px solid;
- }
+   }
+   .qtynumbers.Fade{
+     opacity: 50%;
+   }
  .qtynumbers>*{
     display: flex;
     flex-wrap: wrap;
@@ -196,14 +199,23 @@ html body{
     justify-content: center;
     align-items: center;
  }
- .qtynumbers button{
-    width: 25px;
-    height: 25px;
-    background-color: rgb(0,0,0,0);
-    outline: none;
-    border: none;
-    /* border-radius: 10px 10px 10px 0; */
- }
+ .qtynumbers button {
+   width: 25px;
+   height: 25px;
+   background-color: rgb(0,0,0,0);
+   outline: none;
+   border: none;
+}
+
+.qtynumbers button:hover {
+   background-color: #f0f0f0;
+   cursor: pointer;
+}
+
+.qtynumbers button:active {
+   background-color: #d0d0d0;
+}
+
  .qtynumbers button svg{
     width: 8px;
  }
@@ -238,25 +250,47 @@ html body{
     align-items: center;
     justify-content: start;
  }
- .buttonArea button{
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 500;
-    width: 150px;
-    height: 40px;
-    border: none;
-    outline: none;
-    border-radius: 10px;
- }
- .buttonArea button.atc{
-    color: #9D5C0D;
-    background-color: #F7D08A;
- }
+ .buttonArea button {
+   font-family: inherit;
+   font-size: 15px;
+   font-weight: 500;
+   width: 150px;
+   height: 40px;
+   border: none;
+   outline: none;
+   border-radius: 10px;
+}
 
- .buttonArea button.co{
-    color: #ffffff;
-    background-color: #9D5C0D ;
- }
+.buttonArea button.atc {
+   color: #9D5C0D;
+   background-color: #F7D08A;
+}
+
+.buttonArea button.co {
+   color: #ffffff;
+   background-color: #9D5C0D;
+}
+
+.buttonArea button:hover {
+   cursor: pointer;
+}
+
+.buttonArea button.atc:hover {
+   background-color: #e0bb6f;
+}
+
+.buttonArea button.atc:active {
+   background-color: #cfa74b;
+}
+
+.buttonArea button.co:hover {
+   background-color: #7f4f1d;
+}
+
+.buttonArea button.co:active {
+   background-color: #6b4217;
+}
+
 
 
 
@@ -265,7 +299,7 @@ html body{
  /* ----------- DESC ------------- */
  .descArea{
     /* width: calc( 50% - 10px); */
-    width: calc(100% - 40px);
+    width: calc(70% - 40px);
     padding-top: 20px;
     font-size: 15px;
     text-align: justify;

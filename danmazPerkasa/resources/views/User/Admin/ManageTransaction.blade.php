@@ -11,11 +11,15 @@
 <div class="LandingPage">
     <div class="titled">
         Manage Transaction
+        <!-- <div>
+            <div class="active">All</div>
+            <div class="">Need Action</div>
+        </div> -->
     </div>
     <div class="theMainList" style="margin-top:30px;">
         <div class="TheList">
             @foreach($data as $d)
-                <div class="theItems" onclick="viewProduct('{{{$d->id}}}')">
+                <div class="theItems" onclick="viewProduct('{{{$d->id}}}','{{{$d->type_transaction}}}')">
                     <p class="name">{{{$d->namaUser}}}</p>
                     <p>{{{$d->type_transaction}}}</p>
                     <p>{{{$d->created_at}}}</p>
@@ -64,19 +68,76 @@
             clearBottom()
         }
     }
-    function viewProduct(id){
-        DetilProductAdd()
+    function viewProduct(id,type){
+        DetilProductAdd(type)
         fetch('{{$TemplateRoute}}'+id)
             .then(response => response.text())
             .then(html => { 
                 let show = document.querySelector('.BodyDetail');
                 show.innerHTML = html;
+
+                CountAllProduct();
+                FixIDR();
         })
         .catch(err => {
             console.error('Gagal memuat konten:', err);
         });
     }
-    function DetilProductAdd(){
+
+    function CountAllProduct(){
+        let product = document.querySelectorAll('.theProduct')
+        count = 0;
+        product.forEach(e=>{
+            // console.log('price',idrToInt(document.querySelector('.ProductPrice.Price').textContent))
+            // console.log('qty',document.querySelector('.mid input').textContent)
+            count += e.querySelector('.ProductTotal').textContent =
+                idrToInt(e.querySelector('.ProductPrice.Price').textContent)
+                *e.querySelector('.mid input').value;
+            
+                
+        })
+        document.querySelector('.totalProductPrice').textContent=toIdr(count);
+    }
+
+    function FixIDR(){
+        let product = document.querySelectorAll('.theProduct')
+        product.forEach(e=>{
+            e.querySelector('.ProductPrice.Price').textContent = toIdr(idrToInt(e.querySelector('.ProductPrice.Price').textContent));
+            e.querySelector('.ProductPrice.weight').textContent = Math.round(idrToInt(e.querySelector('.ProductPrice.weight').textContent)/1000);
+            
+            e.querySelector('.ProductTotal').textContent = toIdr(idrToInt(e.querySelector('.ProductTotal').textContent));
+            // e.querySelector('.costsWeightSum').textContent = toIdr(idrToInt(e.querySelector('.costsWeightSum').textContent))
+            
+        })
+        document.querySelector('.costsWeightSum').textContent = toIdr(idrToInt(document.querySelector('.costsWeightSum').textContent));
+        document.querySelector('.totalShippingPrice').textContent = toIdr(idrToInt(document.querySelector('.totalShippingPrice').textContent));
+        document.querySelector('.FinalSum').textContent = toIdr(idrToInt(document.querySelector('.FinalSum').textContent));
+        
+        
+        // console.log(toIdr(idrToInt(document.querySelector('.costsWeightSum').textContent)))
+    }
+
+    function toIdr(number){
+        let angka = number;
+
+        let formattedAngka = angka.toLocaleString('id-ID');
+        let formatted = "Rp. " + formattedAngka;
+
+        return formatted;
+
+    }
+
+    function idrToInt(string) {
+        let str = String(string);
+
+        let angka = str.replace(/[^\d]/g, '');
+
+        let parsedAngka = parseInt(angka, 10);
+
+        return parsedAngka;
+    }
+    
+    function DetilProductAdd(type){
         let container = document.querySelector(".maincontent");
         container.style.display = "flex !improtant";
         let div = document.createElement('div');
@@ -86,7 +147,7 @@
             <div class="ShowContainer" >
                 <div class="HeaderDetails">
                     <div class="TextDetails">
-                        <p>Product Detail</p>
+                        <p>${type} Detail</p>
                     </div>
                     <button>
                         X
@@ -112,5 +173,12 @@
 
 
     }
+
+
+
+    //////////////////////////
+    
+
+
 </script>
 @endsection

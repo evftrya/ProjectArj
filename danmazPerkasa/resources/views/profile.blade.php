@@ -19,25 +19,25 @@
     </div>
     <div class="container">
         <div class="sideBar">
-            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
+            <div class="ContainerSubMenu {{{$cp=='Info'? 'active':''}}}" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="27" fill="#B17457"/>
                 </svg>
                 <p><a href="/Profile/Info">Info</a></p>
             </div>
-            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
+            <div class="ContainerSubMenu {{{$cp=='ChangePassword'? 'active':''}}}" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
                 <p><a href="/Profile/Change-Password">Change Password</a></p>
             </div>
-            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
+            <div class="ContainerSubMenu {{{$cp=='Address'? 'active':''}}}" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
                 <p><a href="/Profile/Address">Address</a></p>
             </div>
-            <div class="ContainerSubMenu" onclick="ChangeText2(this)">
+            <div class="ContainerSubMenu {{{$cp=='Logout'? 'active':''}}}" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
@@ -46,7 +46,7 @@
         </div>
         <div class="container2">
             <div class="Text2">
-                <p>{{{$cp}}}</p>
+                <p>{{{$cp=='ChangePassword'? 'Change Password':$cp}}}</p>
                 <svg class="theSvgLine" width="100%" height="1" viewBox="0 0 100% 1" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <line y1="0.5" x2="100%" y2="0.5" stroke="#B17457"/>
                 </svg>
@@ -58,28 +58,34 @@
                     
                     <div class="BodyFill">
                         <div class="input-container">
-                                <input type="text" name="firstName" placeholder="" id="inputField" value="{{{$data->firstName}}}" disabled required>
+                                <input type="text" name="firstName" placeholder="" maxlength="30" id="inputField" value="{{{$data->firstName}}}" required>
                                 <label for="inputField">First Name*</label>
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
                             
-                                <input type="text" name="lastName" placeholder="" id="inputField" value="{{{$data->lastName}}}" disabled  required>
+                                <input type="text" name="lastName" placeholder="" maxlength="30" id="inputField" value="{{{$data->lastName}}}" required>
                                 <label for="inputField">Last Name*</label>
                             
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
-                                <input type="email" name="emailUser" placeholder="" id="inputField" value="{{{$data->emailUser}}}" disabled required>
+                        <input type="email" name="emailUser" placeholder=""
+                            maxlength="50" id="inputField" 
+                            value="{{ $data->emailUser }}" 
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                            required 
+                            oninvalid="this.setCustomValidity('Format email tidak valid. Harap masukkan email yang benar, misalnya: example@domain.com.')"
+                            oninput="this.setCustomValidity('')">
                                 <label for="inputField">Email*</label>
                         </div>
                     </div>
                     <div class="BodyFill">
                         <div class="input-container">
-                            
-                                <input type="text" name="Phone" placeholder="" id="inputField" value="{{{$data->Phone}}}" disabled required>
+                             
+                                <input type="text" name="Phone" placeholder="" maxlength="15" id="inputField" value="{{{$data->Phone}}}" required>
                                 <label for="inputField">Phone*</label>
                             
                         </div>
@@ -87,7 +93,7 @@
                     <div class="BodyFill">
                         <div class="input-container" id="PasswordArea">
 
-                                <input type="password" name="passwordUser" id="ThePassword" placeholder="" value="{{{$data->lenPassword}}}" disabled>
+                                <input type="password" name="passwordUser" id="ThePassword" maxlength="25" placeholder="" value="{{{$data->lenPassword}}}">
                                 <label for="ThePassword">Password</label>
 
                             <div class="ButtonArea">
@@ -118,7 +124,7 @@
                     </div>
                 </div>
                 <div class="containerButton">
-                    <button type="submit" onclick="EditProfileInfo('edit',event,this)" id="toEdit">Update Profile</button>
+                    <button type="submit" onclick="EditProfileInfo('edit',event,this)" id="toEdit">Save Changes</button>
                 </div>
             </form>
             @elseif($wht=="Change-Password")
@@ -129,7 +135,7 @@
                     
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
-                            <input type="password" name="currentPassword" id="OldPassword" placeholder="" value="">
+                            <input type="password" name="currentPassword" maxlength="25" id="OldPassword" placeholder="" value="">
                             <label for="ThePassword">Enter Current Password*</label>
                             
 
@@ -141,7 +147,7 @@
 
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
-                            <input type="password" name="NewPassword" id="NewPassword" placeholder="">
+                            <input type="password" name="NewPassword" maxlength="25" id="NewPassword" placeholder="">
                             <label for="ThePassword">Enter New Password*</label>
                             
 
@@ -153,7 +159,7 @@
 
                     <div class="BodyFill">
                         <div class="input-container Info" id="PasswordArea">
-                            <input type="password" name="RetypeNewPassword" id="RetypeNewpassword" placeholder="">
+                            <input type="password" name="RetypeNewPassword" maxlength="25" id="RetypeNewpassword" placeholder="">
                             <label for="ThePassword">Re-enter New password*</label>
                             
                             <div class="ButtonArea">
@@ -387,20 +393,12 @@
         
     }
     function EditProfileInfo(wht,event,button){
-        event.preventDefault();
+        // event.preventDefault();
         if(button.textContent=="Save Changes"){
-            document.getElementById('formProfileInfo').submit();
+            let input = document.querySelectorAll('.formProfile input')
+
+            // document.getElementById('formProfileInfo').submit();
         }
-        let input = document.querySelectorAll('#formProfileInfo input');
-        input.forEach(e => {
-            e.disabled = ((wht!=='edit'));
-            if(wht==='edit'){
-                button.textContent="Save Changes";
-            }
-            else{
-                button.textContent="Update Profile"
-            }
-        });
     }
     
     function checkPassword(event, elemen){
@@ -547,6 +545,16 @@
             window.addEventListener('beforeunload', function () {
                 loadingIndicator.style.display = 'flex';
             });
+    }
+
+    function ChangeText2(elemen){
+        let div = document.querySelectorAll('.ContainerSubMenu');
+        div.forEach(e=>{
+            e.classList.remove('active');
+            if(elemen==e){
+                e.classList.add('active')
+            }
+        })
     }
 
 

@@ -309,7 +309,7 @@
 .text.roboto{
     font-family: 'Roboto',sans-serif;
 }
-.toCheckout button{
+.toCheckout button {
     width: fit-content;
     background-color: #B17457;
     height: 30px;
@@ -322,6 +322,16 @@
     color: white;
     letter-spacing: 1px;
 }
+
+.toCheckout button:hover {
+    background-color: #a16447;
+    cursor: pointer;
+}
+
+.toCheckout button:active {
+    background-color: #8f573e;
+}
+
 .sidE{
     display: flex;
     align-items: center;

@@ -34,6 +34,9 @@ class ProductsFactory extends Factory
             'weight' => $faker->numberBetween(1, 9) * 1000,
             'stok' => $faker->numberBetween(1, 9) * 100,
             'price' => $faker->numberBetween(500000, 100000000),
+            'originalPrice' => function($attributes) {
+                return (int) round($attributes['price'] * 0.8);
+            },
             'Category'=>$faker->randomElement(["Bass","Guitar"]),
             // 'color'=>$faker->randomElement(["Red","Blue","Yellow"]),
             'color' => $faker->randomElement([

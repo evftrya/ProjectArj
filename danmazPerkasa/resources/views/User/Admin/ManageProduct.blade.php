@@ -269,7 +269,11 @@ $url = $cont->GetUrl();
             </div>
             <div class="input-container">
                 <input required type="number" name="ProductPrice" placeholder="" id="inputField">
-                <label for="inputField">Product Price</label>
+                <label for="inputField">Product Price To Customer</label>
+            </div>
+            <div class="input-container">
+                <input required type="number" name="originalPrice" placeholder="" id="inputField">
+                <label for="inputField">original price of the product</label>
             </div>
             <div class="forQty">
                 <p>Quantity</p>
@@ -315,7 +319,7 @@ $url = $cont->GetUrl();
     }
 
     async function FormEdit(product, photos){
-        console.log(product[0].id_product)
+        console.log(product[0].originalPrice);
             changeTitle('Edit Product');
         
             let container = document.querySelector(".NewProduct .containerd");
@@ -449,6 +453,10 @@ $url = $cont->GetUrl();
                         <div class="input-container">
                             <input required type="number" name="ProductPrice" placeholder="" id="inputField" value="${product[0].price}">
                             <label for="inputField">Product Price</label>
+                        </div>
+                        <div class="input-container">
+                            <input required type="number" name="originalPrice" placeholder="" id="inputField" value="${product[0].originalPrice}">
+                            <label for="inputField">original price of the product</label>
                         </div>
                         <div class="forQty">
                             <p>Quantity</p>

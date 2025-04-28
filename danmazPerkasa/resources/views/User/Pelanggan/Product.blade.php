@@ -24,7 +24,7 @@
         </div>
         <div class="produks">
             @foreach($data as $d)
-            <a href="/Detil-Product/{{{$d->id_product}}}" class="TheProduk special">
+            <a href="/Detil-Product/{{{$d->id_product}}}" class="TheProduk {{{$d->stok==0?'Sold':''}}}">
                 <p class="nospecial"></p>
                 <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}')">
 
@@ -41,10 +41,10 @@
                                 Login to Buy
                             </button>
                         @else
-                            <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)">
+                            <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)" {{{$d->stok==0?'disabled':''}}}>
                                 <p>ADD TO CART</p>
                             </Button>
-                            <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)">
+                            <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)" {{{$d->stok==0?'disabled':''}}}>
                                 <p>BUY NOW</p>
                             </Button>
                         @endif

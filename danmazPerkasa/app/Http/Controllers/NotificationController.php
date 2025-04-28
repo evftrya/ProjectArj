@@ -103,7 +103,7 @@ class NotificationController extends Controller
         //Transaction
             //Customer
             ($tipe[$idx]['status']>=2&&$tipe[$idx]['status']<=7)? $link=$tipe[$idx]['link'].$id:null;
-            ($tipe[$idx]['status']>=10&&$tipe[$idx]['status']<=11)? $link=$tipe[$idx]['link'].$id:null;
+            ($tipe[$idx]['status']>=9&&$tipe[$idx]['status']<=11)? $link=$tipe[$idx]['link'].$id:null;
             // Admin
             // ($tipe[$idx]['status']==7)? $link=$tipe[$idx]['link']:null;
 
@@ -145,6 +145,25 @@ class NotificationController extends Controller
     }
 
     public function RedAllNotif(Request $req){
-        
+        // dd($req)
+        $updated = Notification::where('id_user', session('user_id'))
+            ->where('isRead', 0)
+            ->update(['isRead' => 1]);
+        $back = null;
+        if($updated==0){
+            $back  = 'fail';
+        }
+        else if($updated!=0){
+
+            $back  = 'success';
+        }
+        else{
+            $back  = 'dk';
+
+        }
+
+        // dd('masuk',$updated);
+        return response()->json(['message'=>$back]);
+
     }
 }

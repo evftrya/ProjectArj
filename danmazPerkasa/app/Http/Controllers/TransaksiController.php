@@ -36,6 +36,9 @@ class TransaksiController extends Controller
         $transaction->Status_Transaksi = 'Rejected';
         
         $notif = new NotificationController();
+        //kembalikan stok
+        (new ProductsController())->TransactionUpdate($idTransaction,'plus');
+        //notifikasi
         $notif->store(11,$transaction->id,$transaction->id_user);
         $transaction->save();
         
@@ -129,6 +132,14 @@ class TransaksiController extends Controller
         $contDT = new DetailTransactionController();
         if($wht=='Default'||$wht=='Custom'){
             $Checkout = $contDT->getAllData('Checkout');
+            // dd($Checkout);
+
+            if($wht=='Custom'){
+                foreach($Checkout as $dt){
+                    (new ProductsController())->UpdateStokMinus($dt->id_product,$dt->qty);
+
+                }
+            }
         }
         else{
             $Checkout = $contDT->getAllData('TempCheckout');
@@ -146,7 +157,7 @@ class TransaksiController extends Controller
 
         $contProd = new ProductsController();
         foreach($Checkout as $c){
-            $contProd->CheckoutProduct($c->qty,$c->id_product);
+            // $contProd->CheckoutProduct($c->qty,$c->id_product);
             $contDT->UpdateStatus($c->id_product, 'WFP');
             $contDT->SetTransaction($c->id_Detail_transaction, $Transaction->id);
             $total+=(intval($c->price)*$c->qty);
@@ -251,12 +262,22 @@ class TransaksiController extends Controller
         $type = substr($idTransaction, -1);
         $transaction = Transaksi::where('id', $idT)->get()->first();
         if($transaction!=null){
+            // dd($transaction);
             $transaction->Status_Transaksi = 'Cancel';
             $transaction->Status_Pembayaran = '-';
             $transaction->Status_Pengiriman = '-';
             $pesan = null;
             $notif = new NotificationController();
             if($transaction->save()){
+                $detilTransaction = DB::table('detail__transactions as a')
+                ->join('transaksis as b', 'a.Transaksis_id', '=', 'b.id')
+                ->where('b.id', $transaction->id)
+                ->get();
+
+                foreach($detilTransaction as $product){
+                    (new ProductsController())->UpdateStokPlus($product->id_product,$product->qty);
+                }
+
                 $pesan = 'The transaction was successfully cancelled';
                 // dd($idT);
                 $notif->store(4,$idT,session('user_id'));
@@ -294,6 +315,8 @@ class TransaksiController extends Controller
                 'a.type_transaction',
             )
             ->join('users as b', 'a.id_user', '=', 'b.id_User')
+            ->where('a.Status_Pembayaran', 'Done')
+
             ->get();
             // dd($Transaction);
         return $Transaction;
@@ -435,8 +458,6 @@ class TransaksiController extends Controller
                         $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type))." (".Str::upper($response->va_numbers[0]->bank).")":
                         $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type));
                 }
-
-                
                 $notif = new NotificationController();
                 //notif to Customer
                 $notif->store(2,$transaction->id,session('user_id'));
@@ -592,5 +613,97 @@ class TransaksiController extends Controller
             return view('OutOfPages');
         }
     }
+
+    // public function DashboardAdmin(){
+    //     $TotalEarning = [
+    //         [
+    //             DB::table('detail__transactions as a')
+    //                 ->join('products as b', 'b.id_product', '=', 'a.id_product')
+    //                 ->join('transaksis as c', 'a.Transaksis_id', '=', 'c.id')
+    //                 ->selectRaw('sum((a.qty * b.price) - (a.qty * b.originalPrice)) as laba')
+    //                 ->where('c.Status_Transaksi', 'Acceptted')
+    //                 ->whereDay('c.created_at', now()->day)
+    //                 ->whereMonth('c.created_at', now()->month)
+    //                 ->whereYear('c.created_at', now()->year)
+    //                 ->first()
+    //         ],
+    //         [
+    //             DB::table('detail__transactions as a')
+    //                 ->join('products as b', 'b.id_product', '=', 'a.id_product')
+    //                 ->join('transaksis as c', 'a.Transaksis_id', '=', 'c.id')
+    //                 ->selectRaw('sum((a.qty * b.price) - (a.qty * b.originalPrice)) as laba')
+    //                 ->where('c.Status_Transaksi', 'Acceptted')
+    //                 ->whereMonth('c.created_at', now()->month)
+    //                 ->first()
+    //         ],
+    //         [
+    //             DB::table('detail__transactions as a')
+    //                 ->join('products as b', 'b.id_product', '=', 'a.id_product')
+    //                 ->join('transaksis as c', 'a.Transaksis_id', '=', 'c.id')
+    //                 ->where('c.Status_Transaksi', 'Acceptted')
+    //                 ->selectRaw('sum((a.qty * b.price) - (a.qty * b.originalPrice)) as laba')
+    //                 ->first()
+
+    //         ]
+    //     ];
+
+    //     $TotalOrder=[
+    //         [
+    //             DB::table('transaksis as a')
+    //                 ->where('a.Status_Transaksi', 'Acceptted')
+    //                 ->whereDay('a.created_at', now()->day)
+    //                 ->whereMonth('a.created_at', now()->month)
+    //                 ->whereYear('a.created_at', now()->year)
+    //                 ->sum('a.TotalShopping')
+    //         ],
+    //         [
+    //             DB::table('transaksis as a')
+    //                 ->where('a.Status_Transaksi', 'Acceptted')
+    //                 ->whereMonth('a.created_at', now()->month)
+    //                 ->sum('a.TotalShopping')
+
+    //         ],[
+    //             DB::table('transaksis as a')
+    //                 ->where('a.Status_Transaksi', 'Acceptted')
+    //                 ->sum('a.TotalShopping')
+    //         ]
+    //     ];
+
+    //     $TotalTransaksi = DB::table('transaksis as a')
+    //         ->where('a.Status_Transaksi', 'Acceptted')
+    //         ->count();
+
+    //     $TotalItem = [
+    //         [
+    //             DB::table('transaksis as a')
+    //                 ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+    //                 ->where('a.Status_Transaksi', 'Acceptted')
+    //                 ->sum('b.qty')
+    //         ],[
+    //             DB::table('transaksis as a')
+    //                 ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+    //                 ->where('a.Status_Transaksi', 'Acceptted')
+    //                 ->where('a.type_transaction', 'Product')
+    //                 ->sum('b.qty')
+    //         ],[
+    //             DB::table('transaksis')
+    //                 ->where('type_transaction', 'Custom')
+    //                 ->count()
+    //         ],[
+    //             DB::table('transaksis as a')
+    //                 ->join('detail__transactions as b', 'a.id', '=', 'b.Transaksis_id')
+    //                 ->where('a.Status_Transaksi', 'Acceptted')
+    //                 ->where('a.type_transaction', 'Custom')
+    //                 ->sum('b.qty')
+    //         ]
+    //     ];
+        
+    //     $Merge = [$TotalEarning,$TotalOrder, $TotalItem, $TotalTransaksi];
+
+
+
+
+    //     return view('User.Admin.AdminDashboard',['Data'=>$Merge]);
+    // }
         
 }

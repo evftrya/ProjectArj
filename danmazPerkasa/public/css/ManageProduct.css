@@ -28,10 +28,30 @@
     font-size:x-large;
     font-family: 'boldPublica';
     display: flex;
+    gap: 20px;
     /* flex-direction: ; */
     /* justify-content: end; */
     align-items: center;
     border-bottom: 0.5px #B17457 solid !important;
+    div{
+        font-size: 15px;
+        display: flex;
+        flex-direction: row;
+        padding: 3px 10px;
+        gap: 5px;
+        /* border-radius: 10px; */
+        div{
+            border-radius: 5px;
+            border: 1px solid #B17457;
+            color: #B17457;
+
+        }
+        div.active{
+            background-color: #fcf8eb;
+            border: none;
+            color: black;
+        }
+    }
 }
 .bottonsArea{
     align-items: center;
@@ -40,15 +60,24 @@
     display: flex;
     justify-content: end;
 }
-.bottonsArea>button{
+.bottonsArea > button {
     padding: 10px 20px;
     border-radius: 10px;
     outline: none;
     border: none;
     background-color: #B17457;
     color: white;
-    /* word-spacing: 5px; */
     letter-spacing: 1.5px;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover and active states */
+}
+
+.bottonsArea > button:hover {
+    background-color: #9b5d42; /* Darker shade on hover */
+    color: #f0f0f0; /* Lighter text on hover */
+}
+
+.bottonsArea > button:active {
+    background-color: #7a472e; /* Even darker shade when clicked */
 }
 .theMainList{
     /* margin-top: 10px; */
@@ -96,7 +125,7 @@
     flex-direction: column;
     gap: 10px;
 }
-.theItems{
+.theItems {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -105,7 +134,29 @@
     height: fit-content;
     align-items: center;
     padding: 20px;
+    transition: background-color 0.3s, color 0.3s;
+    color: #1f1f1f;
+    opacity: 75%;
 }
+
+.theItems:hover {
+    z-index: 1;
+    opacity: 100%;
+    /* background-color: #6a5b55fb !important; */
+    border: #6a5b55fb 0.5px solid;
+    color: #000000;
+    *{
+        z-index: 1;
+        color: #000000;
+    }
+}
+
+.theItems:active {
+    z-index: 1;
+    background-color: #544844fb;
+
+}
+
 .theItems p{
     text-align: start;
     word-wrap: break-word;
@@ -625,6 +676,7 @@ textarea{
 
 /* -------------------- DETIL PRODUCT -------------------- */
 .ShowSomething{
+    z-index: 1000;
     top: 0;
     left: 0;
     width: 100%;
@@ -663,7 +715,6 @@ textarea{
     .HeaderDetails{
         border-top-right-radius: 10px;
         border-top-left-radius: 10px;
-
         font-size: 15px;
         font-weight: bold;
         height: 10%;

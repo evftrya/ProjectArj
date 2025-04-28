@@ -61,18 +61,30 @@ body p{
     gap: 10px;
 
 }
-.navleft>button{
+.navleft>button {
     border: none;
     outline: none;
     width: 40px;
     height: 40px;
-    /* border: 1px solid #00000000; */
     background-color: #d8d2c2;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: background-color 0.3s, color 0.3s;
 }
+
+.navleft>button:hover {
+    background-color: #9d9d9d;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navleft>button:active {
+    background-color: #8a8a8a;
+
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
 .navleft>button.needMargin{
     margin-left: 10px;
     margin-right: 10px;
@@ -118,7 +130,7 @@ body p{
     padding: 0;
     margin: 0;
 }
-.searchArea>div{
+.searchArea > div {
     padding: 0;
     margin: 0;
     width: 100%;
@@ -128,11 +140,20 @@ body p{
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    /* border-radius: ; */
     border: 1px solid rgba(0, 0, 0, 0.669);
     border-radius: 15px;
-    
 }
+
+.searchArea > div:hover {
+    background-color: #bebbbb57;
+    cursor: pointer;
+}
+
+.searchArea > div:active {
+    background-color: #e0e0e0;
+    border-color: #b0b0b0;
+}
+
 .searchArea>div>svg{
     min-width: 20px !important;
     min-height: 20px;
@@ -174,7 +195,7 @@ body p{
     /* padding-right: 30px; */
     
 }
-.AfterLogin{
+.AfterLogin {
     background-color: #D8D2C2;
     display: flex;
     flex-direction: row;
@@ -183,11 +204,29 @@ body p{
     border-radius: 30px;
     gap: 50px;
     align-items: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
+
+.AfterLogin .setting:hover{
+    transform: scale(1.05) !important;
+}
+
+.AfterLogin:hover {
+    background-color: #b4ad94;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.AfterLogin:active {
+    background-color: #a0a08b;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
 .AfterLogin.notif{
     position: relative;
     padding: 10px 10px;
     border-radius: 10px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s, box-shadow 0.3s;
 
     svg{
         width: 20px;
@@ -209,6 +248,16 @@ body p{
         justify-content: center;
         align-items: center;
     }
+}
+
+.AfterLogin.notif:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.AfterLogin.notif:active {
+    background-color: #d0d0d0;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 .AfterLogin>svg{
     width: 35px;
@@ -241,6 +290,17 @@ body p{
     border-radius: 20px;
     border: #4A4947 solid 0.5px;
     stroke-opacity: 0.45;
+    .top{
+        /* background-color: aqua; */
+    }
+    .nameUSer{
+        /* background-color: #9D5C0D; */
+        /* padding-right: 20%; */
+        width: 80%;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        /* //findhere */
+    }
 
 }
 .NotifDetil{
@@ -306,6 +366,9 @@ body p{
         .TheNotif.NotRead{
             background-color: #0000002a !important;
         }
+        .TheNotif:hover {
+            transform: scale(1.05);
+        }
         .TheNotif{
             text-decoration: none;
             color: black;
@@ -318,6 +381,7 @@ body p{
             align-items: center;
             padding: 10px 10px;
             gap: 10px;
+            transition: transform 0.3s ease;
             /* margin: 10px 0px; */
 
             .svg{
@@ -339,6 +403,7 @@ body p{
                     }
                 }
             }
+            
 
             .detil{
                 display: flex;
@@ -370,6 +435,8 @@ body p{
     display: flex;
     flex-direction: row;
     gap: 3px;
+
+
 }
 .AccountDetil>*{
     display: flex;
@@ -381,7 +448,7 @@ body p{
     gap: 15px;
     flex-direction: column !important;
 }
-.areaButton>*{
+.areaButton>* {
     display: flex;
     flex-direction: row;
     width: 100%;    
@@ -391,7 +458,13 @@ body p{
     text-decoration: none;
     color: black;
     align-items: center;
+    transition: transform 0.3s ease; /* Menambahkan efek transisi */
 }
+
+.areaButton>*:hover {
+    transform: scale(1.1); /* Membesarkan teks saat hover */
+}
+
 .areaButton>*>svg{
     height: 17px;
     width: 17px;
@@ -596,6 +669,12 @@ body p{
     gap: 10px;
 }
 
+.Submenu p{
+    /* background-color: cyan; */
+    text-align: start;
+    font-size: 14px;
+}
+
 
 .ProductKategory{
     /* background-color: aqua; */
@@ -616,6 +695,14 @@ body p{
     align-items: center;
     text-decoration: none;
     outline: none;
+}
+.ProductKategory a{
+    color: inherit;
+    text-decoration: none !important;
+    p{
+        color: inherit;
+        text-decoration: none;
+    }
 }
 
 .ProductKategory a:visited {
@@ -781,6 +868,14 @@ body p{
     align-items: center;
     /* justify-content: center; */
     color: black;
+    transition: transform 0.3s ease;
+}
+.TheProduk.Sold{
+    opacity: 50% !important;
+}
+.TheProduk:hover{
+    transform: scale(1.1);
+    z-index: 1500;
 }
 .TheProduk>p{
     width: 100%;
@@ -863,7 +958,12 @@ body p{
     border-radius: 5px;
     border: none;
     font-size: 10px;
+    transition: transform 0.3s ease;
 }
+.bottomProductArea button:hover{
+    transform: scale(1.05);
+}
+
 .bottomProductArea>p{
     align-items: start;
     text-align: start;
@@ -876,6 +976,7 @@ body p{
     background-color: #B17457;
     color: white;
 }
+
 
 .bottomProductArea button:hover{
     background-color: #B17457;

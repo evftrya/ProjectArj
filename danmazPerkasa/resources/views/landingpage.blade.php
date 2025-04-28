@@ -37,7 +37,7 @@
         </div>
         <div class="produks">
             @foreach($Special as $s)
-            <a href="/Detil-Product/{{{$s->id_product}}}" class="TheProduk">
+            <a href="/Detil-Product/{{{$s->id_product}}}" class="TheProduk {{{$s->stok==0?'Sold':''}}}">
                 <p>{{{$s->isSpecial}}}</p>
                 <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$s->PhotosName)}}');">
 
@@ -49,10 +49,10 @@
                 <div class="bottomProductArea">
                     <p>{{{$s->price}}}</p>
                     <div class="bottomButtonProduct">
-                        <Button onclick="AddToCart(this, '{{{$s->id_product}}}', event)">
+                        <Button onclick="AddToCart(this, '{{{$s->id_product}}}', event)" {{{$s->stok==0?'disabled':''}}}>
                             <p>ADD TO CART</p>
                         </Button>
-                        <Button class="BuyNow" onclick="goCheckout('{{{$s->id_product}}}',event)">
+                        <Button class="BuyNow" onclick="goCheckout('{{{$s->id_product}}}',event)" {{{$s->stok==0?'disabled':''}}}>
                             <p>BUY NOW</p>
                         </Button>
                     </div>
@@ -103,21 +103,27 @@
         // let session = "{{session('Role')}}";
         
         event.preventDefault();
+        console.log('masuk fungsi')
         let adr = await fetch('/isNew/'+idProduct);
         let isnew = await adr.json();
+        console.log(isnew);
         if(isnew==1){
+            console.log('masuk if')
             console.log('jalannnnn')
             initializeLoadingIndicator();
             window.location.href='/Checkout-view-direct/'+idProduct;
         }
         else if(document.querySelector('.auth')){
+            console.log('masuk elif 1')
             showPopup("Please log in first to perform this action)",0)
         }
         else if(isnew==2){
+            console.log('masuk elif 2')
             showPopup('Sorry, this product out of stock',0);
-
+            
         }
         else{
+            console.log('masuk else')
             showPopup("Please set the address first (Setting>Account Settings>Address)",0)
         }
     }

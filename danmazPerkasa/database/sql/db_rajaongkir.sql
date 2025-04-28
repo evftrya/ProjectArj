@@ -880,3 +880,7 @@ INSERT INTO `provinces` (`province_id`, `province_name`) VALUES
   (33,	'Sumatera Selatan'),
   (34,	'Sumatera Utara')
 ;
+
+UPDATE products a
+SET a.originalPrice = ROUND(a.price * 0.8);
+

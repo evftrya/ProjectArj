@@ -72,6 +72,10 @@
 .sideBar>div:active{
     color:#B17457;
 }
+.ContainerSubMenu.active {
+    border-left: 3px solid #8f573e !important;
+    color: #8f573e;
+}
 .ContainerSubMenu>svg>rect{
     display: none;
 }
@@ -184,19 +188,28 @@ input:disabled{
     justify-content: space-between;
     /* padding: 20px;     */
 
-    select{
+    select {
         width: fit-content;
         width: calc(70% - 70px);
         color: #000000;
         background-color: white;
-        /* padding: 0 10px; */
         font-family: inherit;
-        padding: 8px 50px 8px 20px; /* Menambah padding kanan untuk tombol */
+        padding: 8px 50px 8px 20px;
         font-size: 16px;
         border: 2px solid #aaa;
         border-radius: 8px;
         outline: none;
     }
+    
+    select:hover {
+        background-color: #f8f8f8;
+        cursor: pointer;
+    }
+    
+    select:active {
+        background-color: #e0e0e0;
+    }
+    
 }
 
 .input-container label {
@@ -312,7 +325,7 @@ input:disabled{
     width: 100%;
     min-width: 50%;
 }
-.containerButton button{
+.containerButton button {
     font-family: inherit;
     color: white;
     background-color: #B17457;
@@ -325,6 +338,16 @@ input:disabled{
     outline: none;
     font-weight: bold;
 }
+
+.containerButton button:hover {
+    background-color: #a16447;
+    cursor: pointer;
+}
+
+.containerButton button:active {
+    background-color: #8f573e;
+}
+
 
 /* ---------- Change Password --------- */
 

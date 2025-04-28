@@ -131,9 +131,8 @@ Route::get('/Transaction/RejectOrder/{idTransaction}', [TransaksiController::cla
 
 //Admin
 Route::get('/Manage/User', [AccountController::class, 'manageUser'])->middleware('role:Admin');
-Route::get('/db', function(){
-    return view('User.Admin.AdminDashboard');
-})->middleware('role:Admin');
+
+
 Route::get('/viewUser/{id}', [AccountController::class, 'viewController'])->middleware('role:Admin');
 Route::get('/DeactiveAccount/{idAccount}', [AccountController::class, 'Deactive'])->middleware('role:Admin');
 Route::get('/DeleteAccount/{idAccount}', [AccountController::class, 'DeleteAccount'])->middleware('role:Admin');
@@ -191,6 +190,7 @@ Route::get('/testPage', function(){
 Route::get('/tes', function(){
     return view('tes');
 });
+Route::post('/RedAllNotif', [NotificationController::class,'RedAllNotif']);
 // Route::get('/testBayar', function(){
 //     if(session('user_id')>0){
 //         return view('User.Admin.viewProfile');
