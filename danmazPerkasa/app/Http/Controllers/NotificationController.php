@@ -111,18 +111,24 @@ class NotificationController extends Controller
         //Address
         ($tipe[$idx]['status']==8)? $link=$tipe[$idx]['link']:null;
 
-        
-
-
         $notif->link=$link;
         $notif->Icon=$idx;
         $notif->Title=$tipe[$idx]['title'];
         $notif->Detil=$tipe[$idx]['subtitle'];
         $notif->isRead=0;
         $notif->id_user=$idUser;
-        // dd($notif);
-        // dd($notif);
-        $notif->save();
+        // dd($tipe[$idx]['title']=='New Order!'||$tipe[$idx]['title']=='Transaction Successful');
+        if($tipe[$idx]['title']=='New Order!'||$tipe[$idx]['title']=='Transaction Successful'){
+            if(($this->FindNotif($idUser,$link,$tipe[$idx]['title']))){
+                // dd($notif);
+                // dd($notif);
+                $notif->save();
+            }
+        }
+        else{
+            $notif->save();
+        }
+
     }
 
     public function getAllNotif(){
@@ -165,5 +171,19 @@ class NotificationController extends Controller
         // dd('masuk',$updated);
         return response()->json(['message'=>$back]);
 
+    }
+
+    public function FindNotif($idUser,$link,$Title){
+        $result = DB::table('notifications')
+            ->where('id_user', $idUser)
+            ->where('Title', $Title)
+            ->where('link', $link)
+            ->pluck('idNotification');
+            // dd($result);
+        // dd(count($result));
+        $back = true;
+        count($result)==0?null:$back=false;
+
+        return $back;
     }
 }

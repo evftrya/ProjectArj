@@ -393,6 +393,7 @@ class ProductsController extends Controller
         $Product->price = $req->ProductPrice;
         $Product->color = $req->ProductColor;
         $Product->detail_product = $req->Description;
+        $Product->price = $req->ProductPrice;
         $Product->originalPrice = $req->originalPrice;
         $Product->weight= $req->weight;
         $Product->type = $from;
@@ -486,7 +487,13 @@ class ProductsController extends Controller
     
             $Special = $this->refresh();
             // ,'notif'=>$notifs
-            return view('landingpage',['Content'=>$Contens, 'Special'=>$Special,'notif'=>$notifs]);    
+            if(session('isActive')!='nonActive'){
+                return view('landingpage',['Content'=>$Contens, 'Special'=>$Special,'notif'=>$notifs]); 
+            }
+            else{
+                return redirect('/BannedAccount');
+            }
+
         }
         else{
 

@@ -53,7 +53,7 @@
                     @if(session('user_id')!=0)
                         <p>Quantity</p>
                         <div class="qtynumbers {{{$product->stok!=0?'':'Fade'}}}" >
-                            <button class="start minus" {{{$product->stok!=0?'':'disabled'}}}>
+                            <button class="start minus" {{{($product->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                                 </svg>
@@ -61,7 +61,7 @@
                             <div class="mid">
                                 <p>1</p>
                             </div>
-                            <button class="end plus" {{{$product->stok!=0?'':'disabled'}}}>
+                            <button class="end plus" {{{($product->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                                 </svg>
@@ -81,11 +81,11 @@
                                 Login to Buy
                             </button>
                         @else
-                            <button class="atc" onclick="AddToCart(this, '{{{$product->id_product}}}',event)">
+                            <button class="atc" onclick="AddToCart(this, '{{{$product->id_product}}}',event)" {{{($product->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>Add To Cart</p>
                             </button>
 
-                            <button class="co" onclick="goCheckout('{{{$product->id_product}}}',event)">
+                            <button class="co" onclick="goCheckout('{{{$product->id_product}}}',event)" {{{($product->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>Checkout</p>
                             </button>
                         @endif

@@ -13,7 +13,7 @@
     
     <div class="Tables">
         <div class="THead" id="thead">
-            <div class="forCBVar"><input type="checkbox" id="inCo" onclick="checkedAll('check', this)"></div>
+            <div class="forCBVar"><input type="checkbox" id="inCo" onclick="checkedAll('check', this)" {{{((session('isActive')=='nonActive'))?'disabled':''}}}></div>
             <div class="forProdVar">Product</div>
             <div class="forPriceVar">Unit Price</div>
             <div class="forPriceVar">Unit Weight</div>
@@ -85,7 +85,7 @@
     </div>
     <div class="toCheckout">
         <div class="lefT">
-            <div class="forCBVar"><input type="checkbox" id="inThead" onclick="checkedAll('check', this)"></div>
+            <div class="forCBVar"><input type="checkbox" id="inThead" onclick="checkedAll('check', this)"{{{((session('isActive')=='nonActive'))?'disabled':''}}}></div>
             <div class="text">
                 <p>Choose All (</p>
                 <p id="totalChecked">0</p>
@@ -125,7 +125,7 @@
                     @endforeach
                 </div>
                 <input type="text" id="toCheckout" style="Display: none">
-                <button onclick="gotoCheckout(event)">Checkout</button>
+                <button onclick="gotoCheckout(event)" {{{((session('isActive')=='nonActive'))?'disabled':''}}} >Checkout</button>
             </form>
         </div>
     </div>

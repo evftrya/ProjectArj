@@ -29,7 +29,8 @@ class AccountController extends Controller
             session(['user_id' => $email->id_User]);
             session(['user_name' => $email->namaUser]);
             session(['Role' => $email->role]);
-            // dd(session('Role'));
+            session(['isActive' => $email->isActive]);
+            session()->save();
             // dd(session('user_name'));
             return redirect('/Login');
         }
@@ -99,9 +100,7 @@ class AccountController extends Controller
         return redirect(('/Login'));
     }
 
-    public function AuthUser($email, $pw){
-        
-    }
+    
 
     public function store(Request $req){
         $val = $req->validate(([
@@ -219,7 +218,7 @@ class AccountController extends Controller
             // $cont->getOngkir($userData[0]->city_id);
             //$akun->Address = $address;
             // dd($address);
-            $Allert = "Address change succesfull1";
+            $Allert = "Address change succesfully";
 
         }
         $akun->Save();

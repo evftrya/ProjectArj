@@ -323,6 +323,8 @@ body p{
     border: #4A4947 solid 0.5px;
     stroke-opacity: 0.45;
     justify-content: space-between;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+
 
     
     .top{

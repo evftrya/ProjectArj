@@ -41,10 +41,10 @@
                                 Login to Buy
                             </button>
                         @else
-                            <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)" {{{$d->stok==0?'disabled':''}}}>
+                            <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>ADD TO CART</p>
                             </Button>
-                            <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)" {{{$d->stok==0?'disabled':''}}}>
+                            <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>BUY NOW</p>
                             </Button>
                         @endif

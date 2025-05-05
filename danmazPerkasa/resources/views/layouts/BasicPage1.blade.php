@@ -234,7 +234,7 @@ else{
                 <div class="GapMenu">
                     <p>Dashboard</p>
                     <div class="Submenu">
-                        <a href="">
+                        <a href="/Index">
                             <button>
                                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M26 24.4127V10.9206C26 10.6742 25.9435 10.4312 25.835 10.2108C25.7266 9.99037 25.5691 9.79865 25.375 9.65079L14.4375 1.31746C14.167 1.11139 13.8381 1 13.5 1C13.1619 1 12.833 1.11139 12.5625 1.31746L1.625 9.65079C1.43094 9.79865 1.27344 9.99037 1.16496 10.2108C1.05648 10.4312 1 10.6742 1 10.9206V24.4127C1 24.8337 1.16462 25.2374 1.45765 25.5351C1.75067 25.8328 2.1481 26 2.5625 26H8.8125C9.2269 26 9.62433 25.8328 9.91735 25.5351C10.2104 25.2374 10.375 24.8337 10.375 24.4127V19.6508C10.375 19.2298 10.5396 18.8261 10.8326 18.5284C11.1257 18.2307 11.5231 18.0635 11.9375 18.0635H15.0625C15.4769 18.0635 15.8743 18.2307 16.1674 18.5284C16.4604 18.8261 16.625 19.2298 16.625 19.6508V24.4127C16.625 24.8337 16.7896 25.2374 17.0826 25.5351C17.3757 25.8328 17.7731 26 18.1875 26H24.4375C24.8519 26 25.2493 25.8328 25.5424 25.5351C25.8354 25.2374 26 24.8337 26 24.4127Z" stroke="#B17457" stroke-width="
@@ -452,11 +452,19 @@ else{
     @if(!in_array($url, $noScript))
     function formClick(elemen){
         let form = ((elemen.closest('.containerd')).querySelector('form'))
-        let inp = document.createElement("input");
-        inp.setAttribute("name", "TotalPhoto");
-        inp.type = "text";
-        inp.value = (form.querySelectorAll('.PhotosAdds .imageContainer.withfill')).length;
-        form.appendChild(inp);
+        let inp = null;
+        if(document.querySelector('.TotalPhoto')==null){
+            inp = document.createElement("input");
+            inp.setAttribute("name", "TotalPhoto");
+            inp.className = 'TotalPhoto';
+            inp.type = "text";
+            inp.style.display = 'none';
+            inp.value = (form.querySelectorAll('.PhotosAdds .imageContainer.withfill')).length;
+            form.appendChild(inp);
+        }
+        else{
+            inp = document.querySelector('.TotalPhoto');
+        }
         
         // Mendapatkan semua elemen dengan atribut name di dalam elemen .NewProduct
         let elementsWithName = Array.from(document.querySelectorAll('.NewProduct [name]'));

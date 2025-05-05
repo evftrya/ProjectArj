@@ -436,7 +436,7 @@ class TransaksiController extends Controller
 
     public function cekStatus($idTransaction){
         if(session('user_id')>0){
-            $transaction = Transaksi::where('id_user', session('user_id'))
+            $transaction = Transaksi::where('id', $idTransaction)
             ->latest() // sama dengan orderBy('created_at', 'desc')
             ->first();
             
@@ -454,6 +454,7 @@ class TransaksiController extends Controller
             if($response->status_code!=null){
                 // dd($response);
                 if(intval($response->status_code)<"300"){
+                    // DD(intval($response->status_code)<"300");
                         (isset($response->va_numbers[0]->bank))?
                         $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type))." (".Str::upper($response->va_numbers[0]->bank).")":
                         $transaction->PaymentMethod = Str::title(Str::replace("_"," ",$response->payment_type));
@@ -495,9 +496,10 @@ class TransaksiController extends Controller
                     // dd('masuk', $transaction,$response);
                 }
             }
+            // DD($transaction);
 
             $data = Transaksi::where('id', $idTransaction)->get()->first();
-            // dd($response,$transaction);
+            // dd($response,$transaction,$data);
 
             return response()->json($data->Status_Pembayaran);
         }

@@ -224,7 +224,7 @@
             let response = await fetch('/Transaction/AcceptOrder/'+idTransaction);
             let data = await response.json();
             if(data=='Success'){
-                let OrderStatus = document.querySelector('.OrderStatus')
+                let OrderStatus = document.querySelector('.TransactionStatus')
                 OrderStatus.textContent = "Accept";
                 clearBottom()
             }
@@ -234,7 +234,7 @@
             let response = await fetch('/Transaction/RejectOrder/'+idTransaction);
             let data = await response.json();
             if(data=='Success'){
-                let OrderStatus = document.querySelector('.OrderStatus')
+                let OrderStatus = document.querySelector('.TransactionStatus')
                 OrderStatus.textContent = "Rejected";
                 clearBottom()
             }

@@ -212,16 +212,7 @@ class DetailTransactionController extends Controller
     // public function AddCart()
 
     public function CheckoutView($idProduct, $Newqty){
-        if($this->AuthSystem()>0){
             // dd(session('direction'));
-            if(session('direction')!=null){
-                // dd('masuk if');
-                $tempDirection = session('direction');
-                session(['direction' => null]);
-                return redirect($tempDirection);
-            }
-            else{
-            }
                 // dd(session());
                 // dd($Newqty);
                 if($idProduct!='null' && $Newqty!='null'){
@@ -278,13 +269,9 @@ class DetailTransactionController extends Controller
                 // 'routeChekcout'=>$routeChekcout,
                 // ,'notif'=>$notifs
                 // dd($ship);
+                // dd($data);
                 return view('User.Pelanggan.Checkout',['routeChekcout'=>$routeChekcout,'data'=>$data,'userData'=>$userData[0],'ship'=>$ship,'shipjs'=>$shipjs,'notif'=>$notifs,'Back'=>'Cart']);
-        }
-        else{
-            // dd('masuk');
-            session(['direction' => '/Cart']);
-            return redirect('/login');
-        }
+        
     }
 
     public function CheckoutViewDirect($idProduct){
@@ -430,6 +417,8 @@ class DetailTransactionController extends Controller
         else{
             $old->status = "Pending"; 
         }
+
+        
         if($old->save()){
             return response()->json(['message'=> 'success']);
 
