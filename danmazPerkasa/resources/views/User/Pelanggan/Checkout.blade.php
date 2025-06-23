@@ -363,8 +363,8 @@
                         shipPrice.textContent = cost.textContent;
 
                         let estimated = g.cost[0].etd
-                        @if(isset($data[0] - > type_transaction))
-                        @if($data[0] - > type_transaction == 'Custom')
+                        @if(isset($data[0]->type_transaction))
+                        @if($data[0]->type_transaction == 'Custom')
                         estimated = cutDaysCustom(estimated);
                         @endif
                         @endif

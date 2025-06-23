@@ -13,12 +13,14 @@ class PhotosController extends Controller
 
     public function store(Request $req, $idProduct, $number,$wht){
         // dd($req)->file('foto3');
+        // dd($wht);
         $photo = new Photos();
         // $photo->PhotosName = $req->file('foto'.$number)->getClientOriginalName().$idProduct;
         
         $photo->PhotosName = pathinfo($req->file('foto'.$number)->store('images','public'), PATHINFO_BASENAME);
         $photo->id_product = $idProduct;
         // if($wht!='Part'){
+        if($wht!='Part'){
             if($req->mainPhoto=='foto'.$number){
                 $photo->isMain = 1;
             }
@@ -27,6 +29,12 @@ class PhotosController extends Controller
             if($req->mainPhoto=='foto'.$number){
                 return $photo->id_photo;
             }
+        }
+        else{
+            $photo->isMain = 1;
+            $photo->save();
+            return $photo->id_photo;
+        }
         // }
     }
 
