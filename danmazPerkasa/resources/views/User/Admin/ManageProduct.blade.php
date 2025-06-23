@@ -73,6 +73,27 @@ $url = $cont->GetUrl();
     </div>
 </div>
 <script>
+    document.querySelector(".searchInp").setAttribute("onclick", "holdSearch(event)");
+    function holdSearch(event){
+        event.preventDefault()
+    }
+    document.querySelector(".searchInp").addEventListener("input", searchItems);
+
+    function searchItems(){
+        let text = document.querySelector('.searchInp');
+        let allItems = document.querySelectorAll('.theItems');
+        // console.log(allItems);
+        allItems.forEach(item=>{
+            let alltext = item.textContent.trim().toLowerCase();
+            console.log(alltext.includes(text.value.toLowerCase()));
+            if(alltext.includes(text.value.toLowerCase())){
+                item.style.display = "flex";
+            }
+            else{
+                item.style.display = "none";
+            }
+        })
+    }
     function viewProduct(idProduct){
         DetilProductAdd()
         fetch('{{$TemplateRoute}}'+idProduct)
@@ -82,7 +103,7 @@ $url = $cont->GetUrl();
                 show.innerHTML = html;
         })
         .catch(err => {
-            console.error('Gagal memuat konten:', err);
+            // console.error('Gagal memuat konten:', err);
         });
     }
     function DetilProductAdd(){
@@ -150,10 +171,10 @@ $url = $cont->GetUrl();
             let respon = await fetch('/OffContent/'+id);
             if(respon.ok){
                 let data = await respon.json();
-                console.log("message: "+data.message)
+                // console.log("message: "+data.message)
             }
             else{
-                console.log('no')
+                // console.log('no')
             }
     }
 
@@ -161,10 +182,10 @@ $url = $cont->GetUrl();
             let respon = await fetch('/OnContent/'+id);
             if(respon.ok){
                 let data = await respon.json();
-                console.log("message: "+data.message)
+                // console.log("message: "+data.message)
             }
             else{
-                console.log('no')
+                // console.log('no')
             }
     }
 
@@ -319,7 +340,7 @@ $url = $cont->GetUrl();
     }
 
     async function FormEdit(product, photos){
-        console.log(product[0].originalPrice);
+        // console.log(product[0].originalPrice);
             changeTitle('Edit Product');
         
             let container = document.querySelector(".NewProduct .containerd");
@@ -376,10 +397,10 @@ $url = $cont->GetUrl();
                     if(i!=photos.length){
 
                         let main = "notMain"
-                        console.log("--------------")
-                        console.log(photos[i].isMain)
-                        console.log(photos[i].isMain==1);
-                        console.log("--------------")
+                        // console.log("--------------")
+                        // console.log(photos[i].isMain)
+                        // console.log(photos[i].isMain==1);
+                        // console.log("--------------")
                         if(photos[i].isMain==1){
                             main = "Main";
                         }
@@ -506,7 +527,7 @@ $url = $cont->GetUrl();
 
     function scrollPhotos() {
         let photosCont = document.querySelector('.PhotoAreaContainer');
-        console.log(photosCont);
+        // console.log(photosCont);
         
         let debounceTimeout;
 
@@ -518,7 +539,7 @@ $url = $cont->GetUrl();
                 let closestDistance = Infinity;
                 let closestIndex = -1;
                 let photos = photosCont.querySelectorAll('.imageContainer');
-                console.log("panjang photos: "+photos.length)
+                // console.log("panjang photos: "+photos.length)
                 photos.forEach((p, index) => {
                     let photoRect = p.getBoundingClientRect();
                     let contRect = photosCont.getBoundingClientRect();
@@ -536,9 +557,9 @@ $url = $cont->GetUrl();
 
                 if (closestPhoto) {
                     let ScrollAmt = closestPhoto.offsetLeft - (photosCont.offsetWidth / 2) + (closestPhoto.offsetWidth / 2);
-                    console.log("closestPhoto.offsetLeft : "+closestPhoto.offsetLeft)
-                    console.log("photosCont.offsetWidth : "+photosCont.offsetWidth)
-                    console.log("closestPhoto.offsetWidth : "+closestPhoto.offsetWidth)
+                    // console.log("closestPhoto.offsetLeft : "+closestPhoto.offsetLeft)
+                    // console.log("photosCont.offsetWidth : "+photosCont.offsetWidth)
+                    // console.log("closestPhoto.offsetWidth : "+closestPhoto.offsetWidth)
                     // console.log("Scrolamt : "+ScrollAmt);
                     photosCont.scrollLeft = ScrollAmt;
 
@@ -558,7 +579,7 @@ $url = $cont->GetUrl();
 
         inp.addEventListener('change', function() {
             let file = URL.createObjectURL(inp.files[0]);
-            console.log(file);
+            // console.log(file);
             if(file){
                 img.style.backgroundImage = `url(${file})`; 
             }
@@ -568,12 +589,12 @@ $url = $cont->GetUrl();
 
     
     // document.getElementById("myInput").addEventListener("input", a);
-    searchItems();
-    function searchItems(){
-        let text = document.querySelector('.searchInp');
-        let allItems = document.querySelectorAll('.theMainList theItems');
-        console.log(allItems);
-    }
+    // searchItems();
+    // function searchItems(){
+    //     let text = document.querySelector('.searchInp');
+    //     let allItems = document.querySelectorAll('.theMainList theItems');
+    //     // console.log(allItems);
+    // }
 
     
 

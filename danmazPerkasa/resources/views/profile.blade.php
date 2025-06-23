@@ -287,7 +287,7 @@
                 @if(($data->address[0]->Detil)!='The address has not been set.')
                     if(isnew==1){
                         // Mendapatkan semua elemen input, textarea, dan select
-                        let elementsWithName = Array.from(document.querySelectorAll('[name]'));
+                        let elementsWithName = Array.from(document.querySelectorAll('[name]')).filter(el => el.getAttribute('name') !== '_token');;
                         for(let i=4;i<elementsWithName.length;i++){
                             // console.log(elementsWithName[i]);
                             (i==4)? elementsWithName[i].value = '{{$data->address[0]->province_id}}' : 0; 

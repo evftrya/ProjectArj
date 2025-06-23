@@ -15,40 +15,40 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function AuthSystem(){
-        if(session('user_id')>0){
+    public function AuthSystem()
+    {
+        if (session('user_id') > 0) {
             return 1;
-        }
-        else{
+        } else {
             return 0;
         }
     }
-    
-    public function authRoute($direction){
-        if($this->AuthSystem()>0){
-            dd('masukif');
+
+    public function authRoute($direction)
+    {
+        if ($this->AuthSystem() > 0) {
+            // dd('masukif');
             return redirect($direction);
-        }
-        elseif($direction!="/Login"){
+        } elseif ($direction != "/Login") {
             // session_start();
             session(['direction' => $direction]);
             // dd(session('direction'));
             return redirect('/Login');
             // dd('masukelif');
-        }
-        else{
-            dd('masukelse');
+        } else {
+            // dd('masukelse');
             return redirect('/Login');
         }
     }
 
-    public function GetUrl(){
-        
+    public function GetUrl()
+    {
+
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
         $request_uri = $_SERVER['REQUEST_URI'];
         $current_url = $protocol . '://' . $host . $request_uri;
-        
+
         // Memisahkan path berdasarkan "/" dan mengambil elemen kedua
         $urlParts = explode('/', ltrim($request_uri, '/'));
         $firstSegment = isset($urlParts[0]) ? $urlParts[0] : ''; // Cek apakah elemen pertama ada
@@ -56,14 +56,15 @@ class Controller extends BaseController
         return $firstSegment;
     }
 
-    public function Profile($wht,AccountController $acc){
+    public function Profile($wht, AccountController $acc)
+    {
 
         //------------------------------------------------------------------------
 
-        if($this->AuthSystem()>0){
+        if ($this->AuthSystem() > 0) {
             // dd(session('direction'));
-            if(session('direction')==null){
-                
+            if (session('direction') == null) {
+
                 $accInfo = $acc->getProfile(session('user_id'));
 
 
@@ -73,20 +74,19 @@ class Controller extends BaseController
                 $accInfo->firstName = trim($fullname[0]);
                 $accInfo->lastName = trim($fullname[1]);
                 // dd($accInfo->fisrtName."||".$accInfo->lastName);
-                for($i=1;$i<=strlen($accInfo->passwordUser);$i++){
-                    $lenpw = str_repeat('*',$i);
+                for ($i = 1; $i <= strlen($accInfo->passwordUser); $i++) {
+                    $lenpw = str_repeat('*', $i);
                 }
                 $accInfo->lenPassword = $lenpw;
                 // dd($accInfo->lenPassword);
 
-                
-                $cp = $wht;
-                if($wht=="Change-Password"){
-                    $cp = "ChangePassword";
 
+                $cp = $wht;
+                if ($wht == "Change-Password") {
+                    $cp = "ChangePassword";
                 }
-                $datas=null;
-                if($wht=='Address'){
+                $datas = null;
+                if ($wht == 'Address') {
                     // $city = $this->getCity();
                     $province = $this->getProvince();
                     $address = new AddressController();
@@ -99,34 +99,30 @@ class Controller extends BaseController
                 $notifs = $notif->getAllNotif();
                 // dd($accInfo);
 
-                return view('profile',['wht'=>$wht,'data'=>$accInfo,'cp'=>$cp,'notif'=>$notifs]);
+                return view('profile', ['wht' => $wht, 'data' => $accInfo, 'cp' => $cp, 'notif' => $notifs]);
             }
-        }
-        else{
+        } else {
             session(['direction' => '/Profile/Info']);
             return redirect('/Login');
         }
-
-
-
-        
     }
-    
 
-    public function ProfileUpdate(Request $req,AccountController $acc,$wht){
+
+    public function ProfileUpdate(Request $req, AccountController $acc, $wht)
+    {
         // dd($req);
-        return $acc->update($req,$wht);
+        return $acc->update($req, $wht);
     }
 
-    public function getCity($province){
-        if(session('user_id')>0){
+    public function getCity($province)
+    {
+        if (session('user_id') > 0) {
             $cities = DB::table('cities as a')
                 ->where('a.province_id', $province)
                 ->get();
-            
+
             return response()->json($cities);
-        }
-        else{
+        } else {
             return view('OutOfPages');
         }
 
@@ -134,37 +130,44 @@ class Controller extends BaseController
         // return $response;
     }
 
-    public function getProvince(){
+    public function getProvince()
+    {
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-        CURLOPT_HTTPHEADER => array(
-            $this->ApiKeyRajaOngkir()
-        ),
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                $this->ApiKeyRajaOngkir()
+            ),
         ));
+
+        // dd($curl);
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-
+        // dd($err);
         curl_close($curl);
+        // dd('response', $response);
         // dd($this->toJson($response)['rajaongkir']['results']);
-        
-        return ($this->toJson($response)['rajaongkir']['results']);
 
+        return ($this->toJson($response)['rajaongkir']['results']);
+        // return ($this->toJson($response));
     }
 
-    public function CekOngkir($kurir,$tujuan){
-        
+    public function CekOngkir($kurir, $tujuan)
+    {
+
         $curl = curl_init();
-        
+
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
             CURLOPT_RETURNTRANSFER => true,
@@ -172,32 +175,36 @@ class Controller extends BaseController
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // "C:\xampp\apache\bin\curl-ca-bundle.crt"=> false,
+            // CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "origin=154&destination=".$tujuan."&weight=1000&courier=".$kurir,
+            CURLOPT_POSTFIELDS => "origin=154&destination=" . $tujuan . "&weight=1000&courier=" . $kurir,
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/x-www-form-urlencoded",
                 $this->ApiKeyRajaOngkir()
-                
+
             ),
         ));
+
         
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        
+        // dd($err);
+        // dd($this->toJson($response));
+
         curl_close($curl);
-        
-        
-        // dd('response',($response));
-        // dd('INI',$this->toJson($response)['rajaongkir']['results']);
-        // return $response;
-        return ($this->toJson($response)['rajaongkir']['results']);
+        return ($this->toJson($response));
     }
-    
-    public function getOngkir($tujuan){
-        $kurir = ['jne','pos','tiki'];
-        $data=[];
-        for($i=0;$i<count($kurir);$i++){
-            array_push($data,$this->CekOngkir($kurir[$i],$tujuan));
+
+    public function getOngkir($tujuan)
+    {
+        $kurir = ['jne', 'pos', 'tiki'];
+        $data = [];
+        for ($i = 0; $i < count($kurir); $i++) {
+            $save = $this->CekOngkir($kurir[$i], $tujuan);
+            if($save!=null){
+                array_push($data, $this->CekOngkir($kurir[$i], $tujuan));
+            }
         }
         // dd(json_encode($data));
         return (json_encode($data));
@@ -207,8 +214,9 @@ class Controller extends BaseController
         // dd($data);
         // return [implode(",",$data)][0];
     }
-    
-    public function Ongkir(){
+
+    public function Ongkir()
+    {
         // dd($this->getCity());
         // $City = ($this->getCity(21));
         // $Province = ($this->getProvince());
@@ -219,13 +227,14 @@ class Controller extends BaseController
         // return $this->getOngkir();
     }
 
-    public function toJson($ary){
+    public function toJson($ary)
+    {
         $array = json_decode($ary, true);
         return $array;
     }
 
-    public function ApiKeyRajaOngkir(){
-        return 'key: e180111ce91e552a41ff1e7a7bbb198e';
+    public function ApiKeyRajaOngkir()
+    {
+        return "key: e180111ce91e552a41ff1e7a7bbb198e";
     }
-}   
-
+}

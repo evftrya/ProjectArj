@@ -527,16 +527,50 @@
     
     function searchItems(){
         let text = document.querySelector('.searchInp');
-        let allItems = document.querySelectorAll('.theItems');
-        // console.log(allItems);
-        allItems.forEach(item=>{
-            let alltext = item.textContent.trim().toLowerCase();
-            console.log(alltext.includes(text.value.toLowerCase()));
-            if(alltext.includes(text.value.toLowerCase())){
-                item.style.display = "flex";
+        // let allItems = document.querySelectorAll('.theItems');
+        // // console.log(allItems);
+        // allItems.forEach(item=>{
+            // let alltext = item.textContent.trim().toLowerCase();
+        //     console.log(alltext.includes(text.value.toLowerCase()));
+        //     if(alltext.includes(text.value.toLowerCase())){
+        //         item.style.display = "flex";
+        //     }
+        //     else{
+        //         item.style.display = "none";
+        //     }
+        // })
+        let all = document.querySelectorAll('.category1');
+        all.forEach(e=>{
+            count1 = 0;
+            document.querySelectorAll('.category2').forEach(f=>{
+                count2 = 0
+                // console.log(f)
+                f.querySelectorAll('.theItems').forEach(item=>{
+                    let alltext = item.textContent.trim().toLowerCase();
+                    console.log(alltext.includes(text.value.toLowerCase()));
+                    if(alltext.includes(text.value.toLowerCase())){
+                        count1++
+                        count2++
+                        item.style.display = "flex";
+                    }
+                    else{
+                        item.style.display = "none";
+                    }
+                })
+                console.log(count1,count2)
+                if(count2 > 0){
+                    f.style.display = "flex"
+                }
+                else{
+                    f.style.display = "none"
+                }
+            })
+
+            if(count1 > 0){
+                e.style.display = "flex"
             }
             else{
-                item.style.display = "none";
+                e.style.display = "none"
             }
         })
         

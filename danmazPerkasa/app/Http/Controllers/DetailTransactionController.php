@@ -256,7 +256,9 @@ class DetailTransactionController extends Controller
                 // dd($userData);
                 $cont = new Controller();
                 // $ships = ($cont->getOngkir($userData[0]->city_id));
+                // dd(json_decode($userData[0]->ShippingRate['rajaongkir']['results']));
                 $ships = [($userData[0]->ShippingRate), json_decode($userData[0]->ShippingRate)];
+
                 // $a[0]['costs'] as $b
                 // dd($ships[1][0][0]->costs);
                 // dd('ship1',$ships[0]["costs"]);
@@ -381,9 +383,13 @@ class DetailTransactionController extends Controller
         $userData = $addr->getDataById();
 
         $cont = new Controller();
+        // $dataOngkir = json_decode($userData[0]->ShippingRate);
+        // dd($dataOngkir);
         $ships = [($userData[0]->ShippingRate), json_decode($userData[0]->ShippingRate)];
         $shipjs = $ships[0];
         $ship = $ships[1];
+        // $ship = $ships[1]['rajaongkir']['results'];
+        // dd($ship);
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
 

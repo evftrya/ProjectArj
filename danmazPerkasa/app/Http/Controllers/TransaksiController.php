@@ -102,6 +102,7 @@ class TransaksiController extends Controller
         \Midtrans\Config::$is3ds = true;
 
         $params = array(
+            
             'transaction_details' => array(
                 'order_id' => $data->id.env('CODE_TRANSACTION'),
                 'gross_amount'=>$data->id+$data->TotalShopping+$data->TotalShipping,

@@ -29,8 +29,9 @@ class PhotosFactory extends Factory
 
     public function photos(){
         $array = [
-            "1ORrDK2ZBGxyTVRj4gy8uoDwHC2wjjSQOKFZDAhQ.png",
-            "Ag0aHLU3Zy6OZpobGxy16FEfKMorRSf2ILABC8P1.png",
+            "403d0b1ed5bd58d1a65d8771cb44cbf7.jpg",
+            "6ee38ef820613c856b4dc603bf2f1e2a.jpg",
+            "bae38365aa9dca16fb5dbecc1640e554.jpg",
 
 
 
