@@ -20,7 +20,7 @@
         </div>
         <div class="produks">
             @foreach($data as $d)
-            <a class="TheProduk {{{$d->stok==0?'Sold':''}}}">
+            <a href="/Detil-Product/{{{$d->id_product}}}" class="TheProduk {{{$d->stok==0?'Sold':''}}}">
                 <p class="nospecial"></p>
                 <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}')">
 

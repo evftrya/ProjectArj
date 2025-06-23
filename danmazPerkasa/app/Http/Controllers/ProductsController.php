@@ -142,6 +142,7 @@ class ProductsController extends Controller
                 'a.detail_product',
                 'a.Features',
                 'b.PhotosName',
+                'a.type',
                 'a.price'
             )->where('a.id_product', $idProduct)
             // ->where('a.stok','>',0 )
