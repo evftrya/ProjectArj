@@ -21,6 +21,7 @@ class ProductsController extends Controller
 
     public function store(Request $req, $wht)
     {
+        dd($req);
         // dd($req);
 
         $Product = new Products();
@@ -49,17 +50,22 @@ class ProductsController extends Controller
         for ($i = 1; $i <= $req->TotalPhoto; $i++) {
             // store(Request $req, $idProduct, $number)
             // if($wht=='Product'){
-            if($wht!='Part'){
+            // if($wht!='Part'){
                 if ('foto' . $i == $req->mainPhoto) {
                     // dd('foto'.$i==$req->mainPhoto);
                     $main = $photo->store($req, $id, $i, $wht);
                 } else {
-                    $photo->store($req, $id, $i, $wht);
+                    if($wht=='Part'){
+                        $main = $photo->store($req, $id, $i, $wht);
+                    }
+                    else{
+                        $photo->store($req, $id, $i, $wht);
+                    }
                 }
-            }
-            else{
-                    $main = $photo->store($req, $id, $i, $wht);
-            }
+            // }
+            // else{
+                    // $main = $photo->store($req, $id, $i, $wht);
+            // }
 
             
             // }

@@ -587,6 +587,66 @@ $url = $cont->GetUrl();
         });
     }
 
+    function formClick(elemen) {
+        let form = ((elemen.closest('.containerd')).querySelector('form'))
+        let inp = null;
+        if (document.querySelector('.TotalPhoto') == null) {
+            inp = document.createElement("input");
+            inp.setAttribute("name", "TotalPhoto");
+            inp.className = 'TotalPhoto';
+            inp.type = "text";
+            inp.style.display = 'none';
+            inp.value = (form.querySelectorAll('.PhotosAdds .imageContainer.withfill')).length;
+            form.appendChild(inp);
+        } else {
+            inp = document.querySelector('.TotalPhoto');
+        }
+
+        // Mendapatkan semua elemen dengan atribut name di dalam elemen .NewProduct
+        let elementsWithName = Array.from(document.querySelectorAll('.NewProduct [name]'));
+
+        // Filter untuk memastikan name tidak kosong
+        let elementsWithNonEmptyName = elementsWithName.filter(el => el.getAttribute('name').trim() !== "");
+        let needFill = 0;
+        let wht = null;
+        console.log(elementsWithNonEmptyName);
+        elementsWithNonEmptyName.forEach(y => {
+            if (y.value == "") {
+                //console.log(y.name.includes('foto'))
+                if (y.name.includes('foto')) {
+                    console.log(y.name.replace('foto', ''))
+                    if (y.name.replace('foto', '') == 1) {
+                        if (document.querySelector('.titlePopUp').textContent != 'Edit Product') {
+                            needFill += 1;
+                            console.log("masuk if: " + y)
+
+                            wht = y;
+                        }
+                        //console.log(y)
+                        //console.log('needfill tambah: '+needFill)
+                    }
+                } else {
+                    console.log("masuk else: " + y)
+                    needFill += 1;
+                    wht = y;
+                    //console.log(y)
+                    //console.log('needfill tambah: '+needFill)
+                }
+            }
+        })
+        // Menampilkan elemen yang memenuhi kriteria
+        //console.log('needfill: '+needFill)
+        if (needFill == 0 || needFill == '0') {
+            form.submit();
+            // //console.log('masuk if')
+        } else {
+            //console.log('masuk else')
+            showPopup('There are still empty fields', 0)
+        }
+
+
+    }
+
     
     // document.getElementById("myInput").addEventListener("input", a);
     // searchItems();
