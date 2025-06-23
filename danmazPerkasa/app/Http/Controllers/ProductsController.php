@@ -688,4 +688,21 @@ class ProductsController extends Controller
         //     return view('OutOfPages');
         // }
     }
+
+    public function ListPart(){
+        // $data = $this->getData($send, 'Product');
+        // $data = $this->getAllPart($send, 'Product');
+        $data = DB::table('products as a')
+                ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+                ->join('categorypart as c','c.id','=','a.Category' )
+                ->where('a.type', 'Part')
+                ->select('a.*', 'b.*', 'c.*')
+                ->get();
+                // dd($data);
+        $notif = new NotificationController();
+        $notifs = $notif->getAllNotif();
+        // ,'notif'=>$notifs
+        // dd($data);
+        return view('User.Pelanggan.listPart', ['data' => $data, 'forSearch' => 'Part', 'notif' => $notifs]);
+    }
 }

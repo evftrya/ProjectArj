@@ -342,6 +342,9 @@ $controller = new Controller();
     });
     Route::get('/Product/{wht}', [ProductsController::class, 'Product']);
     Route::get('/Profile/{wht}', [Controller::class, 'Profile']);
+    
+    Route::get('/List-Part', [ProductsController::class, 'ListPart']);
+    
 
     Route::get('/Detil-Product/{id}', [ProductsController::class, 'DetilProducts']);
     Route::get('/Custom', [ProductsController::class, 'Custom']);
