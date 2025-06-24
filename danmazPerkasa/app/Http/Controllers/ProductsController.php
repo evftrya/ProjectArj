@@ -21,7 +21,7 @@ class ProductsController extends Controller
 
     public function store(Request $req, $wht)
     {
-        dd($req);
+        // dd($req);
         // dd($req);
 
         $Product = new Products();
