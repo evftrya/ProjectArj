@@ -1,4 +1,4 @@
-.ContainerCustom{
+.ContainerCustom {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -8,7 +8,8 @@
     width: 100%;
     font-family: 'normalPublica';
 }
-.Title{
+
+.Title {
     width: calc( 100% - 43px);
     font-size: 30px;
     font-family: 'Poppins', sans-serif;
@@ -20,7 +21,8 @@
     /* background-cozlor: antiquewhite; */
     padding-left: 43px;
 }
-.Photo{
+
+.Photo {
     /* background-color: aqua; */
     width: 50%;
     height: 100%;
@@ -31,18 +33,20 @@
     justify-content: center;
     padding: 20px;
 }
-.Photo>div{
+
+.Photo>div {
     /* background-color: blue; */
     width: 80%;
     min-width: 80%;
     height: 300px;
     min-height: 300px;
     border-radius: 20px;
-    background-size:cover;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
-form.custom{
+
+form.custom {
     /* background-color: antiquewhite; */
     width: 50%;
     height: 100%;
@@ -54,10 +58,10 @@ form.custom{
     /* padding-bottom: 10px; */
     margin-bottom: 10px;
     overflow-y: scroll;
-
     /* border-radius: 20px; */
 }
-.customFields{
+
+.customFields {
     /* background-color: burlywood; */
     display: flex;
     width: 100%;
@@ -66,41 +70,46 @@ form.custom{
     flex-direction: column;
     /* padding-left: 10px; */
 }
-.customField{
+
+.customField {
     /* padding-left: 10px; */
     display: flex;
     flex-direction: column;
     /* background-color: #D8D2C2; */
-    select{
+    select {
         padding-right: 10px;
     }
 }
-.customField>*{
+
+.customField>* {
     padding-left: 10px;
     /* padding-right: 10px; */
 }
-.TitleCustomField{
+
+.TitleCustomField {
     background-color: #D8D2C2;
-    height: 30px;
-    font-family: 'Poppins',sans-serif;
+    height: fit-content;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 25px;
     padding: 5px 0px;
     padding-left: 10px;
 }
-.TitleCustomField.start{
+
+.TitleCustomField.start {
     /* border-radius: 15px; */
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
-.customField>div{
+
+.customField>div {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 10px 0px;
-
 }
-.customField>div>div{
+
+.customField>div>div {
     padding-left: 20px;
     display: flex;
     flex-direction: row;
@@ -109,14 +118,16 @@ form.custom{
     height: 30px;
     /* background-color: blue; */
 }
-.customField>div>div p{
+
+.customField>div>div p {
     width: 200px;
     /* background-color: aqua; */
     text-align: start;
     align-items: center;
     justify-content: center;
 }
-.customField>div>div select{
+
+.customField>div>div select {
     height: 100%;
     width: 250px;
     border-radius: 5px;
@@ -130,15 +141,18 @@ form.custom{
     /* appearance: none;
     margin-top: 10px; */
 }
-.containerSelect{
+
+.containerSelect {
     padding-right: 10px;
 }
+
+
 /* .customField>div>div select option{
     margin-top: 10px;
 } */
 
-.bottomArea{
-    position:sticky;
+.bottomArea {
+    position: sticky;
     bottom: 0;
     height: 100px;
     width: calc(100% - 40px);
@@ -153,43 +167,44 @@ form.custom{
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     justify-content: space-between;
-    .text{
+    .text {
         display: flex;
         align-items: center;
         gap: 5px;
         flex-direction: row;
     }
-    .text.no{
+    .text.no {
         gap: 0;
     }
-    .RightSide{
+    .RightSide {
         display: flex;
         align-items: center;
         flex-direction: row;
         height: 100px;
     }
 }
-.bottomArea>div{
+
+.bottomArea>div {
     font-size: 20px;
     display: flex;
     flex-direction: row;
     gap: 10px;
 }
-.bottomArea>div p{
+
+.bottomArea>div p {
     padding: 10px 0;
     font-family: 'Roboto', sans-serif;
-
 }
-.bottomArea button{
+
+.bottomArea button {
     border: none;
     background-color: #B17457;
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
-    
-
 }
-.theContent{
+
+.theContent {
     height: 450px;
     /* min-height: 100%; */
     display: flex;

@@ -185,7 +185,7 @@
                                 <select name="provinsi" class="Provinces" id="" onchange="ChangeCity(this.value)">
                                     <option value="0" selected>Pilih Provinsi Dahulu</option>
                                     @foreach($data->Province as $a)
-                                    <option value="{{{$a['province_id']}}}">{{{$a['province']}}}</option>
+                                    <option value="{{{$a['province_id']}}}">{{{$a['province_name']}}}</option>
                                     @endforeach
                                 </select>
                             </div>

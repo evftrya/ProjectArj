@@ -210,6 +210,9 @@ $controller = new Controller();
     Route::get('/', function (Controller $cont) {
         return redirect('/Index');
     });
+    // Route::get('/', function (Controller $cont) {
+    //     return ('trex');
+    // });
     Route::get('/Index', [ProductsController::class, 'LandingPage']);
     Route::get('/PaymentStatus/{id}', [TransaksiController::class, 'cekStatus']);
     Route::get('/getCity/{idProvince}', [AddressController::class, 'getCity']);
@@ -347,7 +350,7 @@ $controller = new Controller();
     
 
     Route::get('/Detil-Product/{id}', [ProductsController::class, 'DetilProducts']);
-    Route::get('/Custom', [ProductsController::class, 'Custom']);
+    Route::get('/Custom/{wht}', [ProductsController::class, 'Custom']);
     Route::get('/PageNotFound', function(){
         return view('OutOfPages');
     })->name('page.notfound');

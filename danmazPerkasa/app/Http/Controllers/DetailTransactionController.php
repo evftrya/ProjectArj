@@ -308,6 +308,7 @@ class DetailTransactionController extends Controller
                 // $ships = ($cont->getOngkir($userData[0]->city_id));
                 $ships = [($userData[0]->ShippingRate), json_decode($userData[0]->ShippingRate)];
 
+
                 $shipjs = $ships[0];
                 $ship = $ships[1];
                 $notif = new NotificationController();

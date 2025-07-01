@@ -149,7 +149,7 @@
                         </div>
                         @if($data[0]->Status_Transaksi=='Acceptted')
                             <div class="subCont">
-                                <p>Payment Pengiriman</p>
+                                <p>Status Pengiriman</p>
                                 <p class="PaymentStatus">{{{$data[0]->Status_Pengiriman}}}</p>
                             </div>
                         @endif

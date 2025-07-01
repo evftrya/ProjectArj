@@ -144,6 +144,10 @@ class TransaksiController extends Controller
         }
         else{
             $Checkout = $contDT->getAllData('TempCheckout');
+            // dd($Checkout);
+            (new ProductsController())->UpdateStokMinus($Checkout[0]->id_product,1);
+            //kurangi stok;
+            
 
         }
 

@@ -18,11 +18,11 @@
         <div class="dropdown" >
             <button class="btn btn-secondary dropdown-toggle border-0 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false"
             style="background-color: #d8d2c2;">
-                Set
+                {{{$active}}}
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Guitar</a></li>
-                <li><a class="dropdown-item" href="#">Bass</a></li>
+                <li><a class="dropdown-item" href="/Custom/Guitar">Guitar</a></li>
+                <li><a class="dropdown-item" href="/Custom/Bass">Bass</a></li>
             </ul>
         </div>
     </div>

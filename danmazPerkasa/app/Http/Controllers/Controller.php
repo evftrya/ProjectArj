@@ -133,60 +133,88 @@ class Controller extends BaseController
     public function getProvince()
     {
 
-        $curl = curl_init();
+        // $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                $this->ApiKeyRajaOngkir()
-            ),
-        ));
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => "",
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 30,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_SSL_VERIFYPEER => false,
+        //     CURLOPT_SSL_VERIFYHOST => false,
+        //     CURLOPT_CUSTOMREQUEST => "GET",
+        //     CURLOPT_HTTPHEADER => array(
+        //         $this->ApiKeyRajaOngkir()
+        //     ),
+        // ));
 
-        // dd($curl);
+        // // dd($curl);
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        // dd($err);
-        curl_close($curl);
+        // $response = curl_exec($curl);
+        // $err = curl_error($curl);
+        // // dd($err);
+        // dd($this->CekOngkir(2, 1));
+        // curl_close($curl);
+        $response = DB::table('provinces')->get();
+
+
         // dd('response', $response);
         // dd($this->toJson($response)['rajaongkir']['results']);
+        // dd($response);
 
-        return ($this->toJson($response)['rajaongkir']['results']);
+        return ($this->toJson($response));
         // return ($this->toJson($response));
     }
 
-    public function CekOngkir($kurir, $tujuan)
+    public function CekOngkir($tujuan)
     {
+
+        // $curl = curl_init();
+
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => "",
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 30,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     // "C:\xampp\apache\bin\curl-ca-bundle.crt"=> false,
+        //     // CURLOPT_SSL_VERIFYHOST => false,
+        //     CURLOPT_CUSTOMREQUEST => "POST",
+        //     CURLOPT_POSTFIELDS => "origin=154&destination=" . $tujuan . "&weight=1000&courier=" . $kurir,
+        //     CURLOPT_HTTPHEADER => array(
+        //         "content-type: application/x-www-form-urlencoded",
+        //         $this->ApiKeyRajaOngkir()
+
+        //     ),
+        // ));
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+            CURLOPT_URL => 'https://api-sandbox.collaborator.komerce.id/tariff/api/v1/calculate?shipper_destination_id=154&receiver_destination_id='.$tujuan.'&weight=1&item_value=3000&cod=yes',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
+            CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            // "C:\xampp\apache\bin\curl-ca-bundle.crt"=> false,
-            // CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "origin=154&destination=" . $tujuan . "&weight=1000&courier=" . $kurir,
+            CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                "content-type: application/x-www-form-urlencoded",
-                $this->ApiKeyRajaOngkir()
-
+                
+                'x-api-key: '.$this->ApiKeyRajaOngkir()
             ),
         ));
 
-        
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        // echo $response;
+
+
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
         // dd($err);
@@ -198,16 +226,17 @@ class Controller extends BaseController
 
     public function getOngkir($tujuan)
     {
-        $kurir = ['jne', 'pos', 'tiki'];
-        $data = [];
-        for ($i = 0; $i < count($kurir); $i++) {
-            $save = $this->CekOngkir($kurir[$i], $tujuan);
-            if($save!=null){
-                array_push($data, $this->CekOngkir($kurir[$i], $tujuan));
-            }
-        }
+        // $kurir = ['jne', 'pos', 'tiki'];
+        // $data = [];
+        // for ($i = 0; $i < count($kurir); $i++) {
+        //     $save = $this->CekOngkir($kurir[$i], $tujuan);
+        //     if ($save != null) {
+        //         array_push($data, $this->CekOngkir($kurir[$i], $tujuan));
+        //     }
+        // }
+        $data = $this->CekOngkir( $tujuan);
         // dd(json_encode($data));
-        return (json_encode($data));
+        return (json_encode($data['data']));
         // $back = [json_encode($data),$data];
         // return $back;
         // return $data;
@@ -235,6 +264,6 @@ class Controller extends BaseController
 
     public function ApiKeyRajaOngkir()
     {
-        return "key: e180111ce91e552a41ff1e7a7bbb198e";
+        return "lMGyIyJGc1fa204019b90fbc6j8kBlrl";
     }
 }

@@ -31,6 +31,7 @@
                                 <div class="theItems" onclick="viewProduct('{{{$d->id_product}}}')">
                                     <p>{{{$d->nama_product}}}</p>
                                     <p>{{{$d->category_name}}}</p>
+                                    <p>{{{$d->category_types}}}</p>
                                     <p>{{{$d->price}}}</p>
                                     <p>{{{$d->stok}}} Items</p>
                                     <div class="theButtons">
@@ -444,7 +445,7 @@
                                 let y = category[i]
                                 let option = document.createElement('option')
                                 option.value = `${y.id}`
-                                option.textContent = `${y.Area} - ${y.Category}`
+                                option.textContent = `${y.Area} - ${y.Category} (${y.Types})`
                                 select.appendChild(option)
                             }
                             div.appendChild(select);

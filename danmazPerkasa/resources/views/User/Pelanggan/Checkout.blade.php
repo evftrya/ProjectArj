@@ -88,12 +88,14 @@
                         <div class="text">
                             <select name="" id="" class="selectShip" required onchange="ChangeNominal(this)">
                                 <option value="0" selected>Pilih Kurir</option>
-                                @foreach($ship as $a)
-                                @foreach($a->rajaongkir->results[0]->costs as $b)
-                                @if((!in_array($b->service,['T15','T25','T60']))&&($b->cost[0]->etd!=""))
-                                <option value="{{{$a->rajaongkir->results[0]->code}}}|{{{$b->service}}}">{{{strtoupper($a->rajaongkir->results[0]->code)}}} ({{{$b->description}}})</option>
+                                @foreach($ship as $key => $a)
+                                @if($a!=[])
+                                    @foreach($a as $b)
+                                   
+                                    <option value="{{{$key.'|'.$b->service_name.'|'.$b->shipping_name}}}">{{{$b->shipping_name.' ('.strtoupper($b->service_name.') ')}}}</option>
+                                    
+                                    @endforeach
                                 @endif
-                                @endforeach
                                 @endforeach
 
                             </select>
@@ -336,10 +338,13 @@
     }
 
     function getKurir(kode) {
+                        console.log(kode)
+        let data = kode.split('|');
+
         // //console.log(@json($ship))
         // //console.log('tipe: '+typeof(@json($ship)))
         let kurir = JSON.parse(@json($shipjs));
-        // console.log(kurir);
+        console.log(kurir);
         let cost = document.querySelector('.costsWeight')
         let inpcost = document.querySelector('.shippingCost')
         let days = document.querySelector('.daysEstimate')
@@ -348,33 +353,30 @@
         let shipPrice = document.querySelector('.totalShippingPrice');
 
         // //console.log(kurir);
-        kurir.forEach(e => {
-            // console.log(e.rajaongkir.results[0])
-            e.rajaongkir.results.forEach(f => {
-                f.costs.forEach(g => {
-                    if ((f.code + "|" + g.service) == kode) {
-                        //console.log(f.code);
-                        // //console.log(f.costs);
-                        //console.log(g.service)
-                        //console.log(g.cost[0].etd)
-                        //console.log(g.cost[0].value)
-                        cost.textContent = toIdr((g.cost[0].value) * parseFloat(sumWeight.textContent))
-                        inpcost.value = (g.cost[0].value) * parseFloat(sumWeight.textContent)
-                        shipPrice.textContent = cost.textContent;
-
-                        let estimated = g.cost[0].etd
-                        @if(isset($data[0]->type_transaction))
-                        @if($data[0]->type_transaction == 'Custom')
-                        estimated = cutDaysCustom(estimated);
-                        @endif
-                        @endif
-                        days.textContent = estimated;
-                        dayForm.value = estimated;
-
+        Object.entries(kurir).forEach(([key, e])=>{
+            console.log('key :>> ', key, 'e: ', e);
+            if(data[0]==key){
+                e.forEach(f => {
+                    console.log('f: ',f)
+                    if(f.shipping_name==data[2] && f.service_name==data[1]){
+                                cost.textContent = toIdr((f.shipping_cost) * parseFloat(sumWeight.textContent))
+        
+                                inpcost.value = (f.shipping_cost) * parseFloat(sumWeight.textContent)
+                                shipPrice.textContent = cost.textContent;
+        
+                                let estimated = f.etd=='-'?5:f.etd
+                                // console.log('cek : ',f.etd==[], f.etd==null, f.etd, f.etd=='-')
+                                @if(isset($data[0]->type_transaction))
+                                @if($data[0]->type_transaction == 'Custom')
+                                estimated = cutDaysCustom(estimated);
+                                @endif
+                                @endif
+                                days.textContent = estimated;
+                                dayForm.value = estimated;
                     }
                 })
-            })
-        })
+            }
+        });
     }
 
     function cutDaysCustom(text) {
