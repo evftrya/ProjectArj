@@ -24,7 +24,7 @@
                     <p>{{{$d->type_transaction}}}</p>
                     <p>{{{$d->created_at}}}</p>
                     <p>{{{$d->TotalShopping}}}</p>
-                    <p>{{{$d->Shipping}}}</p>
+                    <p>{{{json_decode($d->Shipping)[2].' ('.json_decode($d->Shipping)[1].')'}}}</p>
                     <a href="" class="theButtons">Detail</a>
                 </div>
             @endforeach

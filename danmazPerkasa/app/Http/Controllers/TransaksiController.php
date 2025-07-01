@@ -180,7 +180,7 @@ class TransaksiController extends Controller
             $Transaction->Notes = $req->ntoes;
         }
         $ship = (explode('|', $req->ship));
-        $Transaction->Shipping = strtoupper($ship[0]." (".$ship[1].")");
+        $Transaction->Shipping = $ship;
         
         $Transaction->shippingEstimate = $req->shippingEstimate;
         $Transaction->Status_Pembayaran = "Waiting";
@@ -241,6 +241,8 @@ class TransaksiController extends Controller
         )
         ->where('a.id', $idT)
         ->get();
+        $shipping = json_decode($Data[0]->Shipping)[2].' ('.json_decode($Data[0]->Shipping)[1].')';
+
     
         // dd($Data);
         
@@ -259,7 +261,7 @@ class TransaksiController extends Controller
         $detil = $Address->getDetil($Data[0]->id_user);
 
         // dd($Data);
-            return view('User.Admin.ViewTransaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil,'header'=>$header]);
+            return view('User.Admin.ViewTransaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil,'header'=>$header, 'shipping'=>$shipping]);
     }
 
     public function CancelTransaction($idTransaction){
@@ -387,6 +389,10 @@ class TransaksiController extends Controller
         )
         ->where('a.id', $idT)
         ->get();
+        // dd($Data);
+
+        // dd(json_decode($Data[0]->Shipping));
+        $shipping = json_decode($Data[0]->Shipping)[2].' ('.json_decode($Data[0]->Shipping)[1].')';
         if(isset($Data[0])){
             
             
@@ -423,11 +429,11 @@ class TransaksiController extends Controller
                 if(session('Role')=="Admin"){
                     // $Address = new AddressController();
                     // $detil = $Address->getDetil($Data[0]->id_user);
-                    return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil]);
+                    return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'Address'=>$detil, 'shipping'=>$shipping]);
                 }
                 else{
         
-                    return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST,'Address'=>$detil]);
+                    return view('Transaction',['notif'=>$notifs,'data'=>$Data,'userData'=>$userData, 'idT'=>$idT,'snapToken'=>$ST,'Address'=>$detil, 'shipping'=>$shipping]);
                 }
         }
         else{

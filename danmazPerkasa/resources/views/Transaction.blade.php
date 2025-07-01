@@ -83,7 +83,7 @@
                         <!-- <input type="text" name="" placeholder="Optional"> -->
                     </div>
                     <div class="Ship">
-                        <p>Opsi Pengiriman: {{{$data[0]->Shipping}}}</p>
+                        <p>Opsi Pengiriman: {{{$shipping}}}</p>
                         
                         <p class="costsWeightSum">{{{intval($data[0]->TotalShipping)}}}</p>
                     </div>
