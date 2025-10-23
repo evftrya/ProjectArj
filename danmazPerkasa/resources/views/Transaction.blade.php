@@ -6,7 +6,16 @@
 <link rel="stylesheet" href="{{ app()->environment('local')? asset('css/Checkout.css') : secure_asset('css/Checkout.css') }}">
 
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SET_YOUR_CLIENT_KEY_HERE"></script>
+<style>
+    /* bisa taruh di Checkout.css */
+.btn{
+  display:inline-block;padding:10px 14px;border-radius:10px;
+  background:#222;color:#fff;text-decoration:none;border:none;cursor:pointer;font-weight:600
+}
+.btn + .btn{ margin-left:10px }
+.btn:hover{ filter:brightness(1.05) }
 
+</style>
 @endsection
 
 @section('content')
@@ -152,7 +161,16 @@
                                 <p>Status Pengiriman</p>
                                 <p class="PaymentStatus">{{{$data[0]->Status_Pengiriman}}}</p>
                             </div>
+
+                            <div class="d-flex align-items-center w-100 gap-2">
+                                <button type="button" class="btn btn-primary flex-fill" onclick="previewNota()">Preview Nota</button>
+                                <button type="button" class="btn btn-outline-secondary flex-fill" onclick="printNota()">Print / PDF Nota</button>
+                            </div>
                         @endif
+
+                        
+
+
                     </div>
                 </div>
                 
@@ -183,6 +201,8 @@
                     <button onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
                 </form>
                 @endif
+
+                
                 
             </div>
         </div>
@@ -733,5 +753,127 @@
 
     }
 </script>
+
+
+{{-- print nota --}}
+<script>
+    function previewNota(){ openNota(false) }
+    function printNota(){ openNota(true) }
+
+    function openNota(autoPrint=false){
+    const data = collectNotaData()
+    const html = buildNotaHTML(data, autoPrint)
+    const w = window.open('', '_blank')
+    if(!w){ alert('Izinkan pop-up untuk preview/print nota'); return }
+    w.document.open()
+    w.document.write(html)
+    w.document.close()
+    }
+
+    function collectNotaData(){
+    const idTrans = document.querySelector('.theDetil .subCont p')?.textContent?.replace('Id Transaction:','').trim() || '-'
+    const dibuat = document.querySelector('.theDetil .subCont:nth-child(1) p:nth-child(2)')?.textContent?.trim() || '-'
+    const statusTrans = document.querySelector('.TransactionStatus')?.textContent || '-'
+    const statusPay = document.querySelector('.PaymentStatus')?.textContent || '-'
+    const address = document.querySelector('.detilTransaksi .line1[style*="height: fit-content"] .notes')?.textContent?.replace('Alamat tujuan:','').trim() || '-'
+    const shipping = document.querySelector('.detilTransaksi .line1:nth-child(2) .Ship p')?.textContent || '-'
+    const estimate = document.querySelector('.detilTransaksi .line1:nth-child(3) .Ship p:last-child')?.textContent || '-'
+    
+    const rows = []
+    document.querySelectorAll('.theProducts .theProduct').forEach(prod=>{
+        const img = prod.querySelector('.ProductPhoto')?.style.backgroundImage?.replace(/^url\(["']?/, '').replace(/["']?\)$/, '') || ''
+        const name = prod.querySelector('.ProductDesc p')?.textContent || ''
+        const price = idrToInt(prod.querySelector('.ProductPrice:not(.weight)')?.textContent || '0')
+        const berat = prod.querySelector('.ProductPrice.weight')?.textContent || '0';
+        console.log('berat :>> ',  prod.querySelector('.ProductPrice.weight .berat'));
+        const qty = prod.querySelector('.ProductQty input')?.value || '0'
+        const total = price * parseInt(qty)
+        rows.push({img,name,price,berat,qty,total})
+    })
+    
+    const ongkir = idrToInt(document.querySelector('.totalShippingPrice')?.textContent || '0')
+    const service = idrToInt(document.querySelector('.SerivceFee')?.textContent || '0')
+    const handling = idrToInt(document.querySelector('.HandlingFee')?.textContent || '0')
+    const subtotal = rows.reduce((a,b)=>a+b.total,0)
+    const total = subtotal+ongkir+service+handling
+    
+    return {idTrans,dibuat,statusTrans,statusPay,address,shipping,estimate,rows,subtotal,ongkir,service,handling,total}
+    }
+
+    function buildNotaHTML(d,autoPrint){
+    const style=`
+    <style>
+    *{font-family:sans-serif;box-sizing:border-box}
+    body{-webkit-user-select:none;user-select:none;margin:0;padding:0}
+    .wrap{max-width:850px;margin:30px auto;padding:20px;border:1px solid #ccc;border-radius:10px}
+    h1{margin:0 0 10px}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{border-bottom:1px solid #ddd;padding:8px;text-align:left;vertical-align:middle}
+    th{background:#f3f3f3}
+    img{width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #ddd}
+    .right{text-align:right}
+    .totals td{border:none;padding:4px 8px}
+    .totals .num{font-weight:700}
+    .print-actions{margin-top:20px}
+    .btn{background:#000;color:#fff;padding:10px 16px;border:none;border-radius:8px;cursor:pointer}
+    @media print{.print-actions{display:none}}
+    </style>`
+    
+    const rows = d.rows.map(r=>`
+        <tr>
+        <td class="flex flex-row justify-center items-center gap-2">
+            <div class="flex flex-row items-center justify-center">
+                <p class="p-0 m-0 text-center break-words max-w-[100px]">${escapeHtml(r.name)}</p>
+                <img src="${r.img}" alt="" class="w-8 h-8 object-cover mr-2">
+            </div>
+        </td>
+
+        <td class="right">Rp ${formatIdr(r.price)}</td>
+        <td class="right">${escapeHtml(r.berat)} gr</td>
+        <td class="right">${r.qty}</td>
+        <td class="right">Rp ${formatIdr(r.total)}</td>
+        </tr>`).join('')
+    
+    return `
+    <html><head><meta charset="utf-8"><title>Nota ${d.idTrans}</title>${style}</head>
+    <body contenteditable="false">
+    <div class="wrap">
+        <h1>Nota Pembelian</h1>
+        <h1>Danmazz Perkasa</h1>
+        <p><b>ID Transaksi:</b> ${d.idTrans}</p>
+        <p><b>Tanggal:</b> ${d.dibuat}</p>
+        <p><b>Status Transaksi:</b> ${d.statusTrans}</p>
+        <p><b>Status Pembayaran:</b> ${d.statusPay}</p>
+        <hr>
+        <p><b>Alamat:</b> ${escapeHtml(d.address)}</p>
+        <p><b>Pengiriman:</b> ${escapeHtml(d.shipping)} (${escapeHtml(d.estimate)})</p>
+        <table>
+        <thead><tr><th>Produk</th><th class="right">Harga</th><th class="right">Berat</th><th class="right">Qty</th><th class="right">Subtotal</th></tr></thead>
+        <tbody>${rows}</tbody>
+        </table>
+        <table class="totals" style="width:auto;float:right;margin-top:10px">
+        <tr><td>Subtotal</td><td class="num right">Rp ${formatIdr(d.subtotal)}</td></tr>
+        <tr><td>Ongkir</td><td class="num right">Rp ${formatIdr(d.ongkir)}</td></tr>
+        <tr><td>Service Fee</td><td class="num right">Rp ${formatIdr(d.service)}</td></tr>
+        <tr><td>Handling Fee</td><td class="num right">Rp ${formatIdr(d.handling)}</td></tr>
+        <tr><td><b>Total</b></td><td class="num right"><b>Rp ${formatIdr(d.total)}</b></td></tr>
+        </table>
+        <div style="clear:both"></div>
+        <div class="print-actions">
+        <button class="btn" onclick="window.print()">Print</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('selectstart',e=>e.preventDefault(),{passive:false});
+        if(${autoPrint})window.onload=()=>setTimeout(()=>window.print(),200);
+    <\/script>
+    </body></html>`
+    }
+
+    function formatIdr(n){return (n||0).toLocaleString('id-ID')}
+    function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+</script>
+
+
 
 @endsection
