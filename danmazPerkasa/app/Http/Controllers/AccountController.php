@@ -323,8 +323,7 @@ class AccountController extends Controller
 
     public function DeleteAccount($idAccount){
         $akun = User::where('id_User', $idAccount)->first();
-        $akun->isDelete = 'Delete';
-        $akun->save();
+        $akun->delete();
         return redirect('/Manage/User')->with('message', 'Successfully Delete');
     }
 

@@ -25,7 +25,7 @@
                     <p>{{{$d->created_at}}}</p>
                     <p>{{{$d->TotalShopping}}}</p>
                     <p>{{{json_decode($d->Shipping)[2].' ('.json_decode($d->Shipping)[1].')'}}}</p>
-                    <a href="" class="theButtons">Detail</a>
+                    <a style="cursor: pointer;" href="/Transaction/{{ $d->id }}" class="theButtons">Detail</a>
                 </div>
             @endforeach
 
@@ -37,6 +37,8 @@
     </div>
 </div>
 <script>
+
+    
     function clearBottom(){
         console.log('clear bottom run')
         let bottom = document.querySelector('.toCheckout.transaction')
