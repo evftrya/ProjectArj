@@ -37,7 +37,7 @@ class ProductsFactory extends Factory
             'originalPrice' => function($attributes) {
                 return (int) round($attributes['price'] * 0.8);
             },
-            'Category'=>$faker->randomElement(["Bass","Guitar"]),
+            // 'Category'=>$faker->randomElement(["Bass","Guitar"]),
             // 'color'=>$faker->randomElement(["Red","Blue","Yellow"]),
             'color' => $faker->randomElement([
                 'Red', 'Blue', 'Yellow', 'Green', 'Orange', 'Purple', 'Black', 'White', 

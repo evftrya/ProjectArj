@@ -17,7 +17,8 @@ class CategoryPartFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id_part' => $this->faker->numerify('##########'),
+            'id_category_part' => $this->faker->numerify('##########'),
         ];
     }
 }

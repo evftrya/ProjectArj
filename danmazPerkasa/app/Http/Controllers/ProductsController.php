@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PhotosController;
+use App\Models\category_part;
+use App\Models\category_product;
 use App\Models\Photos;
 use Illuminate\Support\Facades\DB;
 
@@ -37,7 +39,7 @@ class ProductsController extends Controller
         $Product->detail_product = $req->Description;
         $Product->weight = $req->weight;
         $Product->type = 'Part';
-        $Product->Category = $req->product;
+        // $Product->Category = $req->product;
         if ($wht == 'Product') {
             $Product->type = 'Product';
             $Product->Features = $req->Features;
@@ -75,6 +77,19 @@ class ProductsController extends Controller
 
             $Product->mainPhoto = $main;
             $Product->save();
+
+            if($wht=='Product'){
+                $category = new category_product();
+                $category->id_product = $Product->id_product;
+                $category->category_name = $req->product;
+                $category->save();
+            }
+            elseif($wht=='Part'){
+                $category = new category_part();
+                $category->id_part = $Product->id_product;
+                $category->id_category_part = $req->product;
+                $category->save();
+            }
         }
         $from = null;
         ($wht == 'Part') ? $from = 'Manage/Product/Part' : $from = 'Manage/Product/Product';
@@ -100,12 +115,16 @@ class ProductsController extends Controller
                 'a.id_product',
                 'a.nama_product',
                 'a.stok',
+                'a.type',
                 'a.isContent',
-                'a.Category',
                 'a.detail_product',
                 'a.weight',
                 'a.price'
             );
+
+        
+
+        // dd($products);
         // dd($wht);
         if ($from == 'Product') {
             $products = $products->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
@@ -118,10 +137,7 @@ class ProductsController extends Controller
             }
         }
 
-        if ($wht != null && $wht != 'productManage') {
-            $products->where('a.Category', $wht);
-        }
-
+        
         if ($wht != 'productManage') {
             $products = $products->where('a.stok', '>', 0);
         }
@@ -131,7 +147,21 @@ class ProductsController extends Controller
         } else {
             $products = $products->where('a.type', 'Part');
         }
+        
+        if($from == 'Product'){
+            
+            $products->join('category_products as m', 'm.id_product', '=', 'a.id_product')
+            ->addSelect('m.category_name as Category');
+
+
+        }
+        
+        if ($wht != null && $wht != 'productManage') {
+            $products->where('m.category_name','=',$wht);
+        }
         $products = $products->get();
+        // dd($products);
+        // dd($products);
         return $products;
     }
     public function getDataProduct($idProduct)
@@ -168,20 +198,26 @@ class ProductsController extends Controller
     public function getAllPart()
     {
         $data = DB::table('products as a')
-            ->join('categorypart as b', 'a.Category', '=', 'b.id')
-            ->select('a.*', 'b.category as category_name', 'b.area as category_description', 'b.Types as category_types')
+            ->join('category_parts as b', 'a.id_product', '=', 'b.id_part')
+            ->join('ref_category_parts as c', 'c.id_category_part', '=', 'b.id_category_part')
+            ->select('a.*', 'c.Category as category_name', 'c.area as category_description', 'c.Types as category_types')
+            // ->select('a.*', 'b.*')
             ->get();
+        // dd($data);
 
-        $area = DB::table('categorypart as a')
-            ->select('a.Area')
+        $area = DB::table('category_parts as b')
+            ->join('ref_category_parts as c', 'c.id_category_part', '=', 'b.id_category_part')
+
+            ->select('c.Area')
             ->distinct()
             ->get();
 
         // dd($area);
-        $category = DB::table('categorypart as a')
-            ->select('a.CAtegory', 'a.Area')
+        $category = DB::table('ref_category_parts as c')
+            ->select('c.CAtegory', 'c.Area','c.id_category_part')
             ->distinct()
             ->get();
+        // dd($category,$area,$data);
         return [$data, $area, $category];
     }
 
@@ -285,7 +321,7 @@ class ProductsController extends Controller
 
     public function GetPartCategory()
     {
-        $data = DB::table('categorypart')->get();
+        $data = DB::table('ref_category_parts')->get();
         return $data;
     }
 

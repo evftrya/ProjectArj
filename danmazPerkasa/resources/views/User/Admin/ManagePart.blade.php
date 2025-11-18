@@ -205,6 +205,7 @@
             changeTitle('Edit Part');
 
             let category = @json($Category);
+            console.log('category :>> ', category);
 
             
             let container = document.querySelector(".NewProduct .containerd");
@@ -401,6 +402,7 @@
     }
     function FormAdd(){
         let category = @json($Category);
+        console.log('category :>> ', category[0]);
         // console.log(category);
         let container = document.querySelector(".NewProduct .containerd");
         let form = document.createElement('form');
@@ -444,7 +446,7 @@
 
                                 let y = category[i]
                                 let option = document.createElement('option')
-                                option.value = `${y.id}`
+                                option.value = `${y.id_category_part}`
                                 option.textContent = `${y.Area} - ${y.Category} (${y.Types})`
                                 select.appendChild(option)
                             }

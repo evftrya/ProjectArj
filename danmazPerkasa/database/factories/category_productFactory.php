@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\category_product>
  */
-class CategoryProductFactory extends Factory
+class category_productFactory extends Factory
 {
+    protected $model = \App\Models\category_product::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +18,8 @@ class CategoryProductFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id_product' => $this->faker->numerify('##########'),
+            'category_name' => $this->faker->randomElement(['Bass','Guitar']),
         ];
     }
 }

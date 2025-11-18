@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\category_product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Products;
@@ -41,6 +42,10 @@ class ProductsSeeder extends Seeder
             //     'mainPhoto' => $mainPhoto
             // ])->save();
             $product->save();
+
+            category_product::factory()->create([
+                'id_product'=>$product->id_product,
+            ]);
         }
 
         $Parts = Products::where('type', 'Part')->get();
