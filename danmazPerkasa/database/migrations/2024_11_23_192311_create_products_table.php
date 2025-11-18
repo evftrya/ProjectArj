@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('shortQuotes')->nullable();
             $table->string('isSpecial')->nullable();
             $table->Integer('weight');
-            $table->string('Category');
+            // $table->string('Category');
             $table->longText('detail_product');
             $table->longText('Features')->nullable();
             $table->string('mainPhoto')->nullable();
