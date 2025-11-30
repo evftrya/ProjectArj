@@ -673,12 +673,14 @@ class ProductsController extends Controller
             $item->save();
         }
 
+
+
         $products = DB::table('products as a')
             ->join('photos as b', 'b.id_Photo', '=', 'a.mainPhoto')
             ->whereNotNull('a.isSpecial')
             ->select('a.*', 'b.*')
             ->limit(20)
-            ->get();
+            ->get()->reverse();
         // dd($products);
         return $products;
     }
