@@ -133,6 +133,7 @@ $controller = new Controller();
     Route::match(['get', 'post'], '/editPart/{id}', [ProductsController::class, 'updatePart'])->middleware('CheckFormRequest')->middleware('role:Admin');
     Route::get('/deletePart/{id}', [ProductsController::class, 'deletePart'])->middleware('role:Admin');
     Route::get('/getDataPart/{idProduct}', [ProductsController::class, 'getAllDataPartById'])->middleware('role:Admin|User');
+    Route::get('/List-Part', [ProductsController::class, 'ListPart'])->middleware('role:User');
 
     //AllRole
     //PROFILE
@@ -162,7 +163,9 @@ $controller = new Controller();
     Route::get('/Profile/{wht}', [Controller::class, 'Profile']);
 
     Route::get('/Detil-Product/{id}', [ProductsController::class, 'DetilProducts']);
-    Route::get('/Custom', [ProductsController::class, 'Custom'])->middleware('role:User');
+    Route::get('/Custom/{wht}', [ProductsController::class, 'Custom'])->middleware('role:User');
+
+    // Route::get('/Custom', [ProductsController::class, 'Custom'])->middleware('role:User');
     Route::get('/BannedAccount', function(){
         return view('User.Pelanggan.BannedAccount');
     })->middleware('role:User');
@@ -206,74 +209,74 @@ $controller = new Controller();
 
 //FOR TESTING
 
-    //LANDING PAGE
-    Route::get('/', function (Controller $cont) {
-        return redirect('/Index');
-    });
+    // //LANDING PAGE
     // Route::get('/', function (Controller $cont) {
-    //     return ('trex');
+    //     return redirect('/Index');
     // });
-    Route::get('/Index', [ProductsController::class, 'LandingPage']);
-    Route::get('/PaymentStatus/{id}', [TransaksiController::class, 'cekStatus']);
-    Route::get('/getCity/{idProvince}', [AddressController::class, 'getCity']);
+    // // Route::get('/', function (Controller $cont) {
+    // //     return ('trex');
+    // // });
+    // Route::get('/Index', [ProductsController::class, 'LandingPage']);
+    // Route::get('/PaymentStatus/{id}', [TransaksiController::class, 'cekStatus']);
+    // Route::get('/getCity/{idProvince}', [AddressController::class, 'getCity']);
 
-    // ------------ SESSION -----------------
-    //LOGIN
-    Route::get('/login', function(){
-        return redirect('/Login');
-    });
-    Route::get('/Login', function (Controller $cont) {
+    // // ------------ SESSION -----------------
+    // //LOGIN
+    // Route::get('/login', function(){
+    //     return redirect('/Login');
+    // });
+    // Route::get('/Login', function (Controller $cont) {
 
-        if($cont->AuthSystem()>0){
-            if(session('direction')!=null){
-                $save = session('direction');
-                session(['direction' => null]);
+    //     if($cont->AuthSystem()>0){
+    //         if(session('direction')!=null){
+    //             $save = session('direction');
+    //             session(['direction' => null]);
 
-                return redirect($save);
-            }
-            else{
-                return redirect('/');
-            }
-        }
-        else{
-            return view('login');
-        }
-    });
-    Route::post('loginAccount', [AccountController::class, 'login']);
+    //             return redirect($save);
+    //         }
+    //         else{
+    //             return redirect('/');
+    //         }
+    //     }
+    //     else{
+    //         return view('login');
+    //     }
+    // });
+    // Route::post('loginAccount', [AccountController::class, 'login']);
 
-    //REGISTER
-    Route::get('/Register', function () {
-        return view('register');
-    });
-    Route::post('RegistrationAccount', [AccountController::class, 'store']);
+    // //REGISTER
+    // Route::get('/Register', function () {
+    //     return view('register');
+    // });
+    // Route::post('RegistrationAccount', [AccountController::class, 'store']);
 
-    //LOGOUT
-    Route::get('/Logout', [AccountController::class, 'Logout']);
+    // //LOGOUT
+    // Route::get('/Logout', [AccountController::class, 'Logout']);
 
-    Route::post('cekLogin/{wht}', [AccountController::class, 'cekLogin']);
-    Route::post('/Search/{wht}', [ProductsController::class,'search']);
+    // Route::post('cekLogin/{wht}', [AccountController::class, 'cekLogin']);
+    // Route::post('/Search/{wht}', [ProductsController::class,'search']);
 
-    // -------------- END SESSION ------------------
+    // // -------------- END SESSION ------------------
 
 
-    //With Login
-    //Public
-    Route::get('/History', [TransaksiController::class, 'historyCustomer']);
-    Route::post('/OrderDone/{wht}', [TransaksiController::class, 'store']);
-    Route::post('/OrderDoneCustom/{dataPart}', [TransaksiController::class, 'CustomTransaction']);
-    Route::post('/AddToCart/{idProduct}', [DetailTransactionController::class, 'store']);
+    // //With Login
+    // //Public
+    // Route::get('/History', [TransaksiController::class, 'historyCustomer']);
+    // Route::post('/OrderDone/{wht}', [TransaksiController::class, 'store']);
+    // Route::post('/OrderDoneCustom/{dataPart}', [TransaksiController::class, 'CustomTransaction']);
+    // Route::post('/AddToCart/{idProduct}', [DetailTransactionController::class, 'store']);
 
-    Route::post('/DeleteCart/{id}', [DetailTransactionController::class, 'DeleteCart']);
+    // Route::post('/DeleteCart/{id}', [DetailTransactionController::class, 'DeleteCart']);
 
-    //CART-CHECKOUT-TRANSACTION
-    //CART
-    Route::get('/Cart', [DetailTransactionController::class, 'Cart']);
-    Route::get('/deleteTempCheckout', [DetailTransactionController::class, 'deleteTempCheckout']);
+    // //CART-CHECKOUT-TRANSACTION
+    // //CART
+    // Route::get('/Cart', [DetailTransactionController::class, 'Cart']);
+    // Route::get('/deleteTempCheckout', [DetailTransactionController::class, 'deleteTempCheckout']);
 
-    Route::post('UpdateCart/{idproduct}/{idDT}', [DetailTransactionController::class, 'UpdateCart']);
+    // Route::post('UpdateCart/{idproduct}/{idDT}', [DetailTransactionController::class, 'UpdateCart']);
 
-    //CHECKOUT, DLL
-    Route::get('/Checkout/{wht}/{qty}', [DetailTransactionController::class, 'CheckoutView']);
+    // //CHECKOUT, DLL
+    // Route::get('/Checkout/{wht}/{qty}', [DetailTransactionController::class, 'CheckoutView']);
     // Route::get('/Checkout-view-direct/{wht}', [DetailTransactionController::class, 'CheckoutViewDirect']);
     // Route::post('CheckoutCustom', [DetailTransactionController::class, 'CheckoutViewCustom']);
     // Route::get('/Transaction/{idTransaction}', [TransaksiController::class, 'toTransaction']);

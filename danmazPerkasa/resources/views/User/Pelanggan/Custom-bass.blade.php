@@ -41,24 +41,24 @@
                             @if($b->Area==$a->Area)
                                 <div class="containerSelect">
                                     <p>{{{$b->Category}}}</p>
-                                    <select name="{{{$b->Category}}}" data-Amount="0" data-Weight="0" data-id="{{{$b->id}}}" onchange="Save(this)" id="">
+                                    <select name="{{{$b->Category}}}" data-Amount="0" data-Weight="0" data-id="{{{$b->id_category_part}}}" onchange="Save(this)" id="">
                                         <option value="0" 
                                             data-stock="0" 
                                             data-price="0" 
                                             data-weight="0" 
                                             data-photo="-"
-                                            data-Category="{{{$b->id}}}"
+                                            data-Category="{{{$b->id_category_part}}}"
                                             data-id="-">
                                             Select
                                         </option>
                                         @foreach($Parts as $c)
-                                            @if($c->Category==$b->id)
+                                            @if($c->id_category_part==$b->id_category_part)
                                                 <option value="{{{$c->id_product}}}" 
                                                     data-stock="{{{$c->stok}}}" 
                                                     data-price="{{{$c->price}}}" 
                                                     data-weight="{{{($c->weight)}}}" 
                                                     data-photo="{{{$c->PhotosName}}}"
-                                                    data-Category="{{{$b->id}}}"
+                                                    data-Category="{{{$b->id_category_part}}}"
                                                     data-id="{{{$c->id_product}}}">
                                                     {{{$c->nama_product}}}
                                                 </option>

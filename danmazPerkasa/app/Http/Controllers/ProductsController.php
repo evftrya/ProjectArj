@@ -78,13 +78,12 @@ class ProductsController extends Controller
             $Product->mainPhoto = $main;
             $Product->save();
 
-            if($wht=='Product'){
+            if ($wht == 'Product') {
                 $category = new category_product();
                 $category->id_product = $Product->id_product;
                 $category->category_name = $req->product;
                 $category->save();
-            }
-            elseif($wht=='Part'){
+            } elseif ($wht == 'Part') {
                 $category = new category_part();
                 $category->id_part = $Product->id_product;
                 $category->id_category_part = $req->product;
@@ -122,7 +121,7 @@ class ProductsController extends Controller
                 'a.price'
             );
 
-        
+
 
         // dd($products);
         // dd($wht);
@@ -137,7 +136,7 @@ class ProductsController extends Controller
             }
         }
 
-        
+
         if ($wht != 'productManage') {
             $products = $products->where('a.stok', '>', 0);
         }
@@ -147,17 +146,15 @@ class ProductsController extends Controller
         } else {
             $products = $products->where('a.type', 'Part');
         }
-        
-        if($from == 'Product'){
-            
+
+        if ($from == 'Product') {
+
             $products->join('category_products as m', 'm.id_product', '=', 'a.id_product')
-            ->addSelect('m.category_name as Category');
-
-
+                ->addSelect('m.category_name as Category');
         }
-        
+
         if ($wht != null && $wht != 'productManage') {
-            $products->where('m.category_name','=',$wht);
+            $products->where('m.category_name', '=', $wht);
         }
         $products = $products->get();
         // dd($products);
@@ -214,7 +211,7 @@ class ProductsController extends Controller
 
         // dd($area);
         $category = DB::table('ref_category_parts as c')
-            ->select('c.CAtegory', 'c.Area','c.id_category_part')
+            ->select('c.CAtegory', 'c.Area', 'c.id_category_part')
             ->distinct()
             ->get();
         // dd($category,$area,$data);
@@ -706,28 +703,40 @@ class ProductsController extends Controller
     {
         if (session('user_id') > 0) {
             $Parts = DB::table('products as a')
-                ->join('photos as c', 'a.mainPhoto', '=', 'c.id_Photo')
-                ->join('categorypart as b', 'a.Category', '=', 'b.id')
-                ->where('b.Types', $wht)
-                ->select('a.*', 'b.Area', 'b.Category as category_name', 'b.Types','c.*')
+                ->join('photos as e', 'a.mainPhoto', '=', 'e.id_Photo')
+                ->join('category_parts as c', 'c.id_part', '=', 'a.id_product')
+                ->join('ref_category_parts as d', 'd.id_category_part', '=', 'c.id_category_part')
+                ->where('d.Types', $wht)
+                ->select('a.*', 'd.Area', 'd.Category as category_name', 'd.Types', 'c.*','d.*','e.*')
                 ->get();
-                // dd($Parts);
 
-                // DB::table('products as a')
-                // ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
-                // ->where('a.type', 'Part')
-                // ->select('a.*', 'b.*')
-                // ->get();
+            // DB::table('products as a')
+            //     ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+            //     ->join('category_parts as c', 'c.id_part', '=', 'a.id_product')
+            //     ->join('ref_category_parts as d', 'd.id_category_part', '=', 'c.id_category_part')
+            //     ->where('a.type', 'Part')
+            //     ->select('a.*', 'b.*', 'c.*', 'd.*')
+            //     ->get();
+            // dd($Parts);
 
-            $area = DB::table('categorypart')
+            // DB::table('products as a')
+            // ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
+            // ->where('a.type', 'Part')
+            // ->select('a.*', 'b.*')
+            // ->get();
+
+            $area = DB::table('ref_category_parts')
                 ->select('Area')
                 ->distinct()
                 ->where('Types', $wht)
                 ->get();
 
-            $category = DB::table('categorypart')
+            $category = DB::table('ref_category_parts')
+                ->select('*')
+                ->distinct()
                 ->where('Types', $wht)
-            ->get();
+                ->get();
+                // dd($category);
             // $Parts = Products::where('type', 'Part')->get();
             // dd('Parts',$Parts,'Areas',$area,'Categorys',$category);
 
@@ -748,10 +757,12 @@ class ProductsController extends Controller
         // $data = $this->getAllPart($send, 'Product');
         $data = DB::table('products as a')
             ->join('photos as b', 'a.mainPhoto', '=', 'b.id_Photo')
-            ->join('categorypart as c', 'c.id', '=', 'a.Category')
+            ->join('category_parts as c', 'c.id_part', '=', 'a.id_product')
+            ->join('ref_category_parts as d', 'd.id_category_part', '=', 'c.id_category_part')
             ->where('a.type', 'Part')
-            ->select('a.*', 'b.*', 'c.*')
+            ->select('a.*', 'b.*', 'c.*', 'd.*')
             ->get();
+
         // dd($data);
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
