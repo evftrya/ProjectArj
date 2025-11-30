@@ -661,6 +661,18 @@ class ProductsController extends Controller
 
     public function getDataRefresh()
     {
+        $AllProducts = Products::whereNotNull('isSpecial')->get();
+        foreach ($AllProducts as $item) {
+            $item->isSpecial = null;
+            $item->save();
+        }
+
+        $Newest = Products::orderBy('created_at', 'desc')->limit(20)->get();
+        foreach ($Newest as $item) {
+            $item->isSpecial = 'NEW';
+            $item->save();
+        }
+
         $products = DB::table('products as a')
             ->join('photos as b', 'b.id_Photo', '=', 'a.mainPhoto')
             ->whereNotNull('a.isSpecial')
