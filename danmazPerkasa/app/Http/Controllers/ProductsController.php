@@ -202,16 +202,16 @@ class ProductsController extends Controller
             ->get();
         // dd($data);
 
-        $area = DB::table('category_parts as b')
-            ->join('ref_category_parts as c', 'c.id_category_part', '=', 'b.id_category_part')
-
+        $area = DB::table('ref_category_parts as c')
+            // ->join('ref_category_parts as c', 'c.id_category_part', '=', 'b.id_category_part')
             ->select('c.Area')
+            // ->select('c.Area')
             ->distinct()
             ->get();
 
         // dd($area);
         $category = DB::table('ref_category_parts as c')
-            ->select('c.CAtegory', 'c.Area', 'c.id_category_part')
+            ->select('c.CAtegory', 'c.Area', 'c.id_category_part','c.Types')
             ->distinct()
             ->get();
         // dd($category,$area,$data);
@@ -259,10 +259,12 @@ class ProductsController extends Controller
 
         $product = DB::table('products as a')
             ->LeftJoin('photos as b', 'a.id_product', '=', 'b.id_product')
+            ->LeftJoin('category_parts as c', 'a.id_product', '=', 'c.id_part')
+            ->LeftJoin('ref_category_parts as d', 'd.id_category_part', '=', 'c.id_category_part')
             ->select(
                 'a.id_product',
                 'a.nama_product',
-                'a.Category',
+                'd.Category',
                 'a.stok',
                 'a.type',
                 'a.color',
@@ -319,6 +321,7 @@ class ProductsController extends Controller
     public function GetPartCategory()
     {
         $data = DB::table('ref_category_parts')->get();
+        // dd($data);
         return $data;
     }
 
@@ -459,8 +462,24 @@ class ProductsController extends Controller
         $Product->originalPrice = $req->originalPrice;
         $Product->weight = $req->weight;
         $Product->type = $from;
-        $Product->Category = $req->product;
+        // $Product->Category = $req->product;
         $Product->save();
+
+
+        if ($from == 'Product') {
+                $category = category_product::where('id_product',$Product->id_product)->first();
+                // dd($category);
+                // $category->id_product = $Product->id_product;
+                $category->category_name = $req->product;
+                // dd($req,$category);
+                $category->update();
+            } elseif ($from == 'Part') {
+                $category = category_part::where('id_part',$Product->id_product)->first();
+                // $category->id_part = $Product->id_product;
+                $category->id_category_part = $req->product;
+                // dd($category,$req);
+                $category->update();
+            }
 
         $photo = new PhotosController();
         $main = null;

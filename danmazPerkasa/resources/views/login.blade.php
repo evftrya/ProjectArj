@@ -13,6 +13,13 @@
 
         <!-- <link href="login.css" rel="stylesheet"> -->
 
+        <style>
+            .no-row{
+                display: flex !important;
+                flex-direction: column !important;
+            }
+        </style>
+
     </head>
     <body>
         <div class="allert" id="theAllert" style="display:none;">
@@ -34,7 +41,7 @@
                 <p>Back </p>
             </a>
         </div>
-        <div class="Container">
+        <div class="Container no-row">
             <div class="namaCv">
                 <a href="/"><p>CV. Danmaz Perkasa</p></a>
             </div>

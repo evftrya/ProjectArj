@@ -24,10 +24,10 @@
             @foreach($data[2] as $q)
                 @if($q->Area==$t->Area)
                 <div class="category2 {{{$t->Area}}}" onclick="HideCategory(this, 'hide', event)">
-                    <p>▾ {{{$q->CAtegory}}}</p>
+                    <p>▾ {{{$q->CAtegory." (".$q->Types.")"}}}</p>
                     <div class="TheList" onclick="Demand(event)">
                         @foreach($data[0] as $d)
-                           @if($d->category_description==$t->Area && $d->category_name==$q->CAtegory)
+                           @if($d->category_description==$t->Area && $d->category_name==$q->CAtegory && $d->category_types==$q->Types)
                                 <div class="theItems" onclick="viewProduct('{{{$d->id_product}}}')">
                                     <p>{{{$d->nama_product}}}</p>
                                     <p>{{{$d->category_name}}}</p>
@@ -250,7 +250,7 @@
 
                                 let y = category[i]
                                 let option = document.createElement('option')
-                                option.value = `${y.id}`
+                                option.value = `${y.id_category_part}`
                                 option.textContent = `${y.Area} - ${y.Category} (${y.Types})`
                                 select.appendChild(option)
                             }

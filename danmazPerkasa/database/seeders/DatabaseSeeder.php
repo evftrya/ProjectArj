@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ImportDataRajaOngkir::class,
-            ProductsSeeder::class,
-            PhotosSeeder::class,
+            // ProductsSeeder::class,
+            // PhotosSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 
