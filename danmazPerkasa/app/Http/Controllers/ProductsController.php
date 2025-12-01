@@ -680,7 +680,7 @@ class ProductsController extends Controller
 
     public function getDataRefresh()
     {
-        $AllProducts = Products::whereNotNull('isSpecial')->get();
+        $AllProducts = Products::whereNotNull('isSpecial')->where('Type','Product')->get();
         foreach ($AllProducts as $item) {
             $item->isSpecial = null;
             $item->save();
@@ -697,6 +697,7 @@ class ProductsController extends Controller
         $products = DB::table('products as a')
             ->join('photos as b', 'b.id_Photo', '=', 'a.mainPhoto')
             ->whereNotNull('a.isSpecial')
+            ->where('a.Type','Product')
             ->select('a.*', 'b.*')
             ->limit(20)
             ->get()->reverse();

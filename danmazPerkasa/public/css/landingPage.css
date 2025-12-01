@@ -568,7 +568,7 @@ body p{
 
     }
     #Search{
-        display: flex;
+        display: none;
     }
     .searchArea>div>svg{
         display: none;
