@@ -16,7 +16,7 @@
     <div class="Title d-flex gap-3">
         <p>CUSTOM INSTRUMENT</p>
         <div class="dropdown" >
-            <button class="btn-pointer"  class="btn btn-secondary dropdown-toggle border-0 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+            <button class="btn btn-secondary dropdown-toggle border-0 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false"
             style="background-color: #d8d2c2;">
                 {{{$active}}}
             </button>
