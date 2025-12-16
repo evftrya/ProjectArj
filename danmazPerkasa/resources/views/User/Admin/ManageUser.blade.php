@@ -21,7 +21,7 @@
                     <p>{{{$d->Phone}}}</p>
                     <p>{{{$d->role}}}</p>
                     <div class="theButtons">
-                        <button class="btn-pointer">Detail</button>
+                        <button class="">Detail</button>
                     </div>
                 </div>
             @endforeach

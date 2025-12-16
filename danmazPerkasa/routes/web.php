@@ -65,7 +65,12 @@ $controller = new Controller();
     Route::match(['get', 'post'], 'RegistrationAccount', [AccountController::class, 'store'])->middleware('CheckFormRequest');
 
     //LOGOUT
-    Route::get('/Logout', [AccountController::class, 'Logout']);
+    Route::get('/Logout', [AccountController::class, 'Logout'])->name('logout');
+    Route::get('/now_status',function(){
+        $is_active = session('isActive')=='nonActive'?1:0;
+        return response()->json($is_active);
+    });
+    Route::get('/set_Active_Status',[AccountController::class, 'turn_active'])->middleware('role:User');
 
     Route::match(['get', 'post'], 'cekLogin/{wht}', [AccountController::class, 'cekLogin'])->middleware('CheckFormRequest');
     Route::match(['get', 'post'], '/Search/{wht}', [ProductsController::class,'search'])->middleware('CheckFormRequest');
@@ -134,6 +139,7 @@ $controller = new Controller();
     Route::get('/deletePart/{id}', [ProductsController::class, 'deletePart'])->middleware('role:Admin');
     Route::get('/getDataPart/{idProduct}', [ProductsController::class, 'getAllDataPartById'])->middleware('role:Admin|User');
     Route::get('/List-Part', [ProductsController::class, 'ListPart'])->middleware('role:User');
+    Route::get('/cekAktif', [AccountController::class, 'cekAktif'])->middleware('role:Admin|User');
 
     //AllRole
     //PROFILE

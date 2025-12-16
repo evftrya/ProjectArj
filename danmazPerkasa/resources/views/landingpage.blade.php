@@ -49,10 +49,10 @@
                 <div class="bottomProductArea">
                     <p>{{{$s->price}}}</p>
                     <div class="bottomButtonProduct">
-                        <button class="btn-pointer"  onclick="AddToCart(this, '{{{$s->id_product}}}', event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                        <button class=""  onclick="AddToCart(this, '{{{$s->id_product}}}', event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                             <p>ADD TO CART</p>
                         </Button>
-                        <button class="btn-pointer"  class="BuyNow" onclick="goCheckout('{{{$s->id_product}}}',event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                        <button class=""  class="BuyNow" onclick="goCheckout('{{{$s->id_product}}}',event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                             <p>BUY NOW</p>
                         </Button>
                     </div>

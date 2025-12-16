@@ -126,9 +126,9 @@
                     <!-- <div>
                     <p>Payment Method</p>
                         <div class="ListPayMed">
-                            <button class="btn-pointer"  class="butOption" onclick="changePM('Bank Transfer',this)"><p>Bank Transfer</p></button>
-                            <button class="btn-pointer"  class="butOption" onclick="changePM('Pay Cash at Partner',this)"><p>Pay Cash at Partner</p></button>
-                            <button class="btn-pointer"  class="butOption" onclick="changePM('Credit Card',this)"><p>Credit Card</p></button>
+                            <button class=""  class="butOption" onclick="changePM('Bank Transfer',this)"><p>Bank Transfer</p></button>
+                            <button class=""  class="butOption" onclick="changePM('Pay Cash at Partner',this)"><p>Pay Cash at Partner</p></button>
+                            <button class=""  class="butOption" onclick="changePM('Credit Card',this)"><p>Credit Card</p></button>
                         </div>
                     </div> -->
                 </div>
@@ -186,7 +186,7 @@
                     <input type="text" name="ship" class="shipUse" style="display: none;" required>
                     <input type="text" name="toCheckout" id="toCheckout" style="display: none;" value="">
                     <input type="text" name="ntoes" id="notesClient" style="display: none;" value="">
-                    <button class="btn-pointer"  onclick="ToForm(this,event)">Make Order</button>
+                    <button class=""  onclick="ToForm(this,event)">Make Order</button>
                 </form>
         </div>
     </div>

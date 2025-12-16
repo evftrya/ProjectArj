@@ -151,7 +151,7 @@
                     <div class="TextDetails">
                         <p>${type} Detail</p>
                     </div>
-                    <button class="btn-pointer">
+                    <button class="">
                         X
                     </button>
                 </div>

@@ -177,8 +177,8 @@
                 @if(session('Role')!="Admin")
                 <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
                     @csrf
-                    <button class="btn-pointer" id="pay-button" onclick="Payment(event,'{{{$snapToken}}}')">Pay Now</button>
-                    <button class="btn-pointer" onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
+                    <button class="" id="pay-button" onclick="Payment(event,'{{{$snapToken}}}')">Pay Now</button>
+                    <button class="" onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
                 </form>
                 @endif
                 
@@ -204,8 +204,8 @@
                     <!-- <form action="" class="theforms rows" method="GET" style="display:flex; flex-direction: row; gap: 20px;"> -->
                     <div class="theforms" style="display:flex; flex-direction: row; gap: 20px;">
 
-                        <button class="btn-pointer" onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
-                        <button class="btn-pointer" onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
+                        <button class="" onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
+                        <button class="" onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
                     </div>
                         
                     <!-- </form> -->

@@ -53,7 +53,7 @@
                 </div>
                 <div class="ProductQty">
                     <div class="inside">
-                        <button class="btn-pointer"  class="ActQty minus" onclick="changeQty('min',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')">
+                        <button class=""  class="ActQty minus" onclick="changeQty('min',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')">
                             <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                             </svg>
@@ -61,7 +61,7 @@
                         <div class="mid">
                             <input type="text" onchange="changeQty('inp',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')" value="{{{$d->qty}}}">
                         </div>
-                        <button class="btn-pointer"  class="ActQty plus" onclick="changeQty('plus',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')">
+                        <button class=""  class="ActQty plus" onclick="changeQty('plus',this,'{{{$d->id_product}}}','{{{$d->id_Detail_transaction}}}','{{{$d->stok}}}')">
                             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                             </svg>
@@ -74,7 +74,7 @@
                 <div class="ProductAct">
                     <form action="/DeleteCart/{{{$d->id_Detail_transaction}}}" method="POST">
                         @csrf
-                        <button class="btn-pointer"  type="submit">Delete</button>
+                        <button class=""  type="submit">Delete</button>
                     </form>
                 </div>
             </div>
@@ -125,7 +125,7 @@
                     @endforeach
                 </div>
                 <input type="text" id="toCheckout" style="Display: none">
-                <button class="btn-pointer"  onclick="gotoCheckout(event)" {{{((session('isActive')=='nonActive'))?'disabled':''}}} >Checkout</button>
+                <button class=""  onclick="gotoCheckout(event)" {{{((session('isActive')=='nonActive'))?'disabled':''}}} >Checkout</button>
             </form>
         </div>
     </div>

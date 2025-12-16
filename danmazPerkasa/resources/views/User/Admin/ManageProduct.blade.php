@@ -56,9 +56,9 @@ $url = $cont->GetUrl();
                                 }
                             }
                             @endphp
-                            <button class="IsContent {{{$st}}} btn-pointer" onclick="turnContent('{{{$st2}}}',this,'{{{$d->id_product}}}',event)">Turn Content</button>
-                            <button class="justButton btn-pointer" onclick="TurnEdit('{{{$d->id_product}}}',event)">Edit</button>
-                            <button class="btn-pointer" onclick="DeleteProduct('{{{$d->id_product}}}',event)">Delete</button>
+                            <button class="IsContent {{{$st}}} " onclick="turnContent('{{{$st2}}}',this,'{{{$d->id_product}}}',event)">Turn Content</button>
+                            <button class="justButton " onclick="TurnEdit('{{{$d->id_product}}}',event)">Edit</button>
+                            <button class="" onclick="DeleteProduct('{{{$d->id_product}}}',event)">Delete</button>
                         </div>
                     </div>
                 @endforeach
@@ -118,7 +118,7 @@ $url = $cont->GetUrl();
                     <div class="TextDetails">
                         <p>Product Detail</p>
                     </div>
-                    <button class="btn-pointer">
+                    <button class="">
                         X
                     </button>
                 </div>
@@ -253,11 +253,11 @@ $url = $cont->GetUrl();
                 <div class="PhotoAreaContainer">
                     <input type="text" name="mainPhoto" value="foto1" style="display: none;" required>
                     <div class="imageContainer nofill Main">
-                        <button class="forMainPhoto btn-pointer" onclick="makeItMain(this, event)">Main Photo</button>    
+                        <button class="forMainPhoto " onclick="makeItMain(this, event)">Main Photo</button>    
                         <div class="theImage" onclick="TurnInput(this)">
 
                         </div>
-                        <button class="forInputPhoto btn-pointer" onclick="fillInput(this, event)">
+                        <button class="forInputPhoto " onclick="fillInput(this, event)">
                             <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
                             </svg>
@@ -301,7 +301,7 @@ $url = $cont->GetUrl();
                 <p>Quantity</p>
                 <div class="ProductQty">
                     <div class="inside">
-                        <button class="ActQty minus btn-pointer" onclick="changeQty('min',this,event)">
+                        <button class="ActQty minus " onclick="changeQty('min',this,event)">
                             <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                             </svg>
@@ -309,7 +309,7 @@ $url = $cont->GetUrl();
                         <div class="mid">
                             <input required type="number" name="stock" value="1">
                         </div>
-                        <button class="ActQty plus btn-pointer" onclick="changeQty('plus',this,event)">
+                        <button class="ActQty plus " onclick="changeQty('plus',this,event)">
                             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                             </svg>
@@ -332,7 +332,7 @@ $url = $cont->GetUrl();
         theButton.className = 'TheButtons';
         theButton.setAttribute('onclick', 'formClick(this)');
         theButton.innerHTML = `
-            <button class="Save btn-pointer" >Save Changes</button>
+            <button class="Save " >Save Changes</button>
         `;
         container.appendChild(form);
         container.appendChild(theButton);
@@ -408,11 +408,11 @@ $url = $cont->GetUrl();
 
                         thephoto+=`
                             <div class="imageContainer withfill ${main}">
-                                <button class="forMainPhoto btn-pointer" onclick="makeItMain(this, event)">Main Photo</button>    
+                                <button class="forMainPhoto " onclick="makeItMain(this, event)">Main Photo</button>    
                                 <div class="theImage" onclick="TurnInput(this)" style="background-image: url('{{asset('storage/images')}}/${photos[i].PhotosName}'); display: flex;">
 
                                 </div>
-                                <button class="forInputPhoto btn-pointer" onclick="fillInput(this, event)">
+                                <button class="forInputPhoto " onclick="fillInput(this, event)">
                                     <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
                                     </svg>
@@ -425,11 +425,11 @@ $url = $cont->GetUrl();
                     else{
                         thephoto+=`
                             <div class="imageContainer nofill notMain">
-                                <button class="forMainPhoto btn-pointer" onclick="makeItMain(this, event)">Set as Main</button>    
+                                <button class="forMainPhoto " onclick="makeItMain(this, event)">Set as Main</button>    
                                 <div class="theImage">
 
                                 </div>
-                                <button class="forInputPhoto btn-pointer" onclick="fillInput(this, event)">
+                                <button class="forInputPhoto " onclick="fillInput(this, event)">
                                     <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"></path>
                                     </svg>
@@ -484,7 +484,7 @@ $url = $cont->GetUrl();
                             <p>Quantity</p>
                             <div class="ProductQty">
                                 <div class="inside">
-                                    <button class="ActQty minus btn-pointer" onclick="changeQty('min',this,event)">
+                                    <button class="ActQty minus " onclick="changeQty('min',this,event)">
                                         <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                                         </svg>
@@ -492,7 +492,7 @@ $url = $cont->GetUrl();
                                     <div class="mid">
                                         <input required type="number" name="stock" value="${product[0].stok}">
                                     </div>
-                                    <button class="ActQty plus btn-pointer" onclick="changeQty('plus',this,event)">
+                                    <button class="ActQty plus " onclick="changeQty('plus',this,event)">
                                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                                         </svg>
@@ -516,7 +516,7 @@ $url = $cont->GetUrl();
                 theButton.className = 'TheButtons';
                 theButton.setAttribute('onclick', 'formClick(this)');
                 theButton.innerHTML = `
-                    <button class="Save btn-pointer">Save Changes</button>
+                    <button class="Save ">Save Changes</button>
                 `;
             container.appendChild(form);
             container.appendChild(theButton);

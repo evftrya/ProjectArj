@@ -37,14 +37,14 @@
                     <p>{{{$d->price}}}</p>
                     <div class="bottomButtonProduct">
                         @if(session('user_id')==0)
-                            <button class="btn-pointer"  onclick="toLogin(event)">
+                            <button class=""  onclick="toLogin(event)">
                                 Login to Buy
                             </button>
                         @else
-                            <button class="btn-pointer"  onclick="AddToCart(this, '{{{$d->id_product}}}', event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                            <button class=""  onclick="AddToCart(this, '{{{$d->id_product}}}', event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>ADD TO CART</p>
                             </Button>
-                            <button class="btn-pointer"  class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                            <button class=""  class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>BUY NOW</p>
                             </Button>
                         @endif

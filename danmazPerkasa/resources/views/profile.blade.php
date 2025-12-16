@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="containerButton">
-                    <button class="btn-pointer"  type="submit" onclick="EditProfileInfo('edit',event,this)" id="toEdit">Save Changes</button>
+                    <button class=""  type="submit" onclick="EditProfileInfo('edit',event,this)" id="toEdit">Save Changes</button>
                 </div>
             </form>
             @elseif($wht=="Change-Password")
@@ -169,8 +169,8 @@
                     </div>
                 </div>
                 <div class="containerButton Info">
-                    <button class="btn-pointer"  type="Submit" onclick="checkPassword(event, this)">Update</button>
-                    <!-- <button class="btn-pointer"  type="submit" onclick="formSubmit('ChangePassword',event)">Update</button> -->
+                    <button class=""  type="Submit" onclick="checkPassword(event, this)">Update</button>
+                    <!-- <button class=""  type="submit" onclick="formSubmit('ChangePassword',event)">Update</button> -->
                 </div>
 
             </form>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <div class="containerButton">
-                    <button class="btn-pointer"  onclick="editAddress(event,this)">Edit Address</button>
+                    <button class=""  onclick="editAddress(event,this)">Edit Address</button>
                 </div>
 
             </form>

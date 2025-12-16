@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\NotificationController;
 use App\Models\address;
@@ -14,7 +15,18 @@ use App\Models\User;
 
 class AccountController extends Controller
 {
-    public function login(Request $request){
+    public function cekAktif()
+    {
+        // dd(session('user_id'));
+        $status_active = User::where('id_User', session('user_id'))->first();
+        if (!($status_active->isActive == 'active')) {
+            return response()->json(1);
+        }
+        return response()->json(0);
+        // return 
+    }
+    public function login(Request $request)
+    {
 
         $request->validate([
             'emailUser'         => 'required|email',
@@ -23,7 +35,7 @@ class AccountController extends Controller
         $email = User::where('emailUser', $request->input('emailUser'))->first();
         // DD($email);
 
-        if($email){
+        if ($email) {
             Auth::login($email);
             session_start();
             session(['user_id' => $email->id_User]);
@@ -33,86 +45,99 @@ class AccountController extends Controller
             session()->save();
             // dd(session('user_name'));
             return redirect('/Login');
-        }
-        else{
+        } else {
             return redirect('/Login')->with('pesan', "Registration Not Succesfull");
         }
     }
 
 
-    public function cekLogin(Request $req,$wht){
+    public function cekLogin(Request $req, $wht)
+    {
         // dd($req);
-        if($wht=='Login'){
-            return ($this->cekExistEmail($req->el, $req->pu,$wht));
-        }
-        else{
-            return ($this->cekExistEmail($req->el, null , $wht));
+        if ($wht == 'Login') {
+            return ($this->cekExistEmail($req->el, $req->pu, $wht));
+        } else {
+            return ($this->cekExistEmail($req->el, null, $wht));
         }
     }
-    public function cekExistEmail($email, $password, $wht){
+    public function cekExistEmail($email, $password, $wht)
+    {
         $data = User::where('emailUser', $email)->first();
         $email = null;
         $pw = null;
         // dd($data);
-        if($data){
+        if ($data) {
             // return response()->json(['message'=> 'ada']);
             $hasil = $email;
-            if($wht=="Login"){
-                if($data->passwordUser!=$password || $data->passwordUser==null){
+            if ($wht == "Login") {
+                if ($data->passwordUser != $password || $data->passwordUser == null) {
                     $pw = 'Wrong Password';
                     $hasil = $pw;
                 }
                 // else if()
-                else{
-                    $hasil = 'Good';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                else {
+                    $hasil = 'Good';
                 }
-            }
-            else{
+            } else {
                 $hasil = 'Email have been Exist try another email...';
             }
-        }
-        else{
+        } else {
             $email = 'Email Not Registered';
             $hasil = $email;
         }
-        
-        
+
+
         // dd($hasil);
-            // return response()->json(['message'=> 'success']);
-            // return $hasil;
-        return response()->json(['message'=> $hasil]);
-            // return response()->json(['message'=> 'tes']);
+        // return response()->json(['message'=> 'success']);
+        // return $hasil;
+        return response()->json(['message' => $hasil]);
+        // return response()->json(['message'=> 'tes']);
 
     }
 
-    public function getProfile($idUser){
+    public function getProfile($idUser)
+    {
         $data = User::where('id_User', $idUser)->first();
         // dd("data".$data);
         return $data;
     }
 
-    public function Logout(){
+    public function Logout(Request $request)
+    {
+        // dd(session());
         session_abort();
         Auth::logout();
         session(['user_id' => 0]);
-        session(['direction'=>null]);
-        session(['Role'=>null]);
-        return redirect(('/Login'));
+        session(['direction' => null]);
+        session(['Role' => null]);
+        if ($request->has('status')) {
+            return redirect('/Login')->with('pesan', "Akun anda sedang di batasi saat ini!");
+        } else {
+            return redirect(('/Login'));
+        }
     }
 
-    
+    public function turn_active(){
+        session(['isActive' => 'active']);
+        return response()->json(0);
 
-    public function store(Request $req){
+        // return response()->json(0);
+    }
+
+
+
+    public function store(Request $req)
+    {
         $val = $req->validate(([
             'firstName' => 'required',
             'lastName' => 'required',
             'emailUser' => 'required',
             'passwordUser' => 'required',
         ]));
-        if($val){
+        if ($val) {
             $email = User::where('emailUser', $val['emailUser'])->first();
-            if(!$email){
-                $namaUser = $val['firstName']." ".$val['lastName'];
+            if (!$email) {
+                $namaUser = $val['firstName'] . " " . $val['lastName'];
                 $user = new User;
                 $user->namaUser = $namaUser;
                 $user->emailUser = $val['emailUser'];
@@ -121,174 +146,167 @@ class AccountController extends Controller
                 $user->save();
 
                 $notif = new NotificationController();
-                $notif->store(9,0,$user->id_User);
+                $notif->store(9, 0, $user->id_User);
 
                 return redirect('/Login');
-            }
-            else{
+            } else {
                 return redirect('/Register');
             }
         }
-        
     }
-    public function update(Request $req,$wht){
+    public function update(Request $req, $wht)
+    {
         // dd(session('user_id'));
         // dd($req);
         $akun = $this->getProfile(session('user_id'));
         $Allert = null;
         // dd($akun);
-        if($wht=="Info"){
+        if ($wht == "Info") {
             // dd(($req->firstName && $req->lastName)."f=".$req->firstName."|". $req->lastName);
-            ($req->firstName && $req->lastName) ? 
-            $akun->namaUser = ($req->firstName." ".$req->lastName) :
-            null;
-            ($req->emailUser) ? $akun->emailUser = $req->emailUser: null;
+            ($req->firstName && $req->lastName) ?
+                $akun->namaUser = ($req->firstName . " " . $req->lastName) :
+                null;
+            ($req->emailUser) ? $akun->emailUser = $req->emailUser : null;
             ($req->Phone) ? $akun->Phone = $req->Phone : null;
-            ($req->Gender) ? $akun->Gender = $req->Gender: null;
+            ($req->Gender) ? $akun->Gender = $req->Gender : null;
             $Allert = "Info change succesfull";
             // dd($akun);
             // dd($wht);
-        }
-        else if($wht=="ChangePassword"){
+        } else if ($wht == "ChangePassword") {
             // dd($req->currentPassword===$akun->passwordUser);
-            if($req->currentPassword!=null){
-                if($req->currentPassword===$akun->passwordUser){
-                    if($req->NewPassword==$req->RetypeNewPassword){
+            if ($req->currentPassword != null) {
+                if ($req->currentPassword === $akun->passwordUser) {
+                    if ($req->NewPassword == $req->RetypeNewPassword) {
                         $akun->passwordUser = $req->NewPassword;
                     }
                     $Allert = "Password change succesfull1";
-                }
-                else{
+                } else {
                     $Allert = "The old password is not the same as the previous password0";
-                    
                 }
             }
-            
+
             $wht = "Change-Password";
-
-
-        }
-        else if($wht=="Address"){
+        } else if ($wht == "Address") {
             $addrs = new AddressController();
             // $urutanAddress = [$req->AlamatDetail, $req->];
             $urutanAddress = [];
             // $req->RTRW = "tes";
             $RTRW = null;
-            if($req->RT!=null || $req->RW!=null){
-                ($req->RT!=null) ? $RTRW = "RT. ".$req->RT :
-                $RTRW = "RW. ".$req->RW;
+            if ($req->RT != null || $req->RW != null) {
+                ($req->RT != null) ? $RTRW = "RT. " . $req->RT :
+                    $RTRW = "RW. " . $req->RW;
             }
-            if(($req->RT!=null && $req->RW!=null)){
-                $RTRW = "RT. ".$req->RT."/RW. ".$req->RW ;
+            if (($req->RT != null && $req->RW != null)) {
+                $RTRW = "RT. " . $req->RT . "/RW. " . $req->RW;
             };
-            
+
             // dd($req->all());
-            foreach(array_reverse($req->all()) as $key=>$value){
-                
+            foreach (array_reverse($req->all()) as $key => $value) {
+
                 // dd($key."|".$value);
-                if($value!=null){
-                    ($key=="provinsi") ? $value="Prov. ".$addrs->getProvinceName(intval($value)) : null;
+                if ($value != null) {
+                    ($key == "provinsi") ? $value = "Prov. " . $addrs->getProvinceName(intval($value)) : null;
                     // ($key=="provinsi") ? dd(intval($value)) : null;
-                    ($key=="KotaKabupaten") ? $value=$addrs->getCitiesName(intval($value)) : null;
+                    ($key == "KotaKabupaten") ? $value = $addrs->getCitiesName(intval($value)) : null;
                     // ($key == "KotaKabupaten") ? dd(gettype($addrs->getCitiesName(intval($value)))) : null;
 
-                    ($key=="Kecamatan") ? $value="Kec. ".$value : null;
-                    ($key=="Kelurahan") ? $value="Kel. ".$value : null;
-                    
-    
+                    ($key == "Kecamatan") ? $value = "Kec. " . $value : null;
+                    ($key == "Kelurahan") ? $value = "Kel. " . $value : null;
+
+
                     // dd($key!="RT");
-                    if($key != "_token" && $key != "RW" && $key != "RT"){
-                        
+                    if ($key != "_token" && $key != "RW" && $key != "RT") {
+
                         array_push($urutanAddress, $value);
-                        if($RTRW!=null){
-                            ($key=="AlamatDetail") ? 
-                            array_push($urutanAddress, $RTRW) : null;
-                        } 
+                        if ($RTRW != null) {
+                            ($key == "AlamatDetail") ?
+                                array_push($urutanAddress, $RTRW) : null;
+                        }
                     }
                 }
-                
-                
             }
             // dd($urutanAddress);     
-            $address = implode(", ", $urutanAddress).", Indonesia";
+            $address = implode(", ", $urutanAddress) . ", Indonesia";
             // dd($address);
             $conAdd = new AddressController();
-            $conAdd->store($req,$address);
+            $conAdd->store($req, $address);
             $cont = new Controller();
             // $cont->getOngkir($userData[0]->city_id);
             //$akun->Address = $address;
             // dd($address);
             $Allert = "Address change succesfully";
-
         }
         $akun->Save();
         session(['user_name' => $akun->namaUser]);
         // dd('/Profile/'.$wht);
-        return redirect('/Profile/'.$wht)->with('message', $Allert);
-
+        return redirect('/Profile/' . $wht)->with('message', $Allert);
     }
-    public function getAllData(){
+    public function getAllData()
+    {
         $data = DB::table('users as a')
-        ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
-        ->select(
-            'a.id_User as id',
-            'a.namaUser as name',
-            'a.emailUser as email',
-            'a.passwordUser as pw',
-            'a.role',
-            'a.Phone',
-            'a.Gender',
-            'b.Detil as address'
-        )
-        ->where('a.id_User', '!=', 1)
-        ->get();
+            ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
+            ->select(
+                'a.id_User as id',
+                'a.namaUser as name',
+                'a.emailUser as email',
+                'a.passwordUser as pw',
+                'a.role',
+                'a.Phone',
+                'a.Gender',
+                'b.Detil as address'
+            )
+            ->where('a.id_User', '!=', 1)
+            ->get();
         return $data;
     }
 
-    public function getAllDataNonDelete(){
+    public function getAllDataNonDelete()
+    {
         $data = DB::table('users as a')
-        ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
-        ->select(
-            'a.id_User as id',
-            'a.namaUser as name',
-            'a.emailUser as email',
-            'a.passwordUser as pw',
-            'a.role',
-            'a.Phone',
-            'a.Gender',
-            'b.Detil as address'
-        )
-        ->where('a.id_User', '!=', 1)->where('a.isDelete', 'no')
-        ->get();
+            ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
+            ->select(
+                'a.id_User as id',
+                'a.namaUser as name',
+                'a.emailUser as email',
+                'a.passwordUser as pw',
+                'a.role',
+                'a.Phone',
+                'a.Gender',
+                'b.Detil as address'
+            )
+            ->where('a.id_User', '!=', 1)->where('a.isDelete', 'no')
+            ->get();
         return $data;
     }
 
-    public function getDataWithoutPassword($idUser){
+    public function getDataWithoutPassword($idUser)
+    {
         $data = DB::table('users as a')
-        ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
-        ->select(
-            'a.id_User as id',
-            'a.namaUser as name',
-            'a.emailUser as email',
-            'a.role',
-            'a.Phone',
-            'a.Gender',
-            'b.Detil as address',
-            'a.isActive',
-            'a.isDelete',
-        )
-        ->where('a.id_User', '=', $idUser)
-        ->get();
+            ->leftJoin('addresses as b', 'a.id_User', '=', 'b.id_user')
+            ->select(
+                'a.id_User as id',
+                'a.namaUser as name',
+                'a.emailUser as email',
+                'a.role',
+                'a.Phone',
+                'a.Gender',
+                'b.Detil as address',
+                'a.isActive',
+                'a.isDelete',
+            )
+            ->where('a.id_User', '=', $idUser)
+            ->get();
         return $data;
     }
 
-    public function manageUser(){
+    public function manageUser()
+    {
         $data = $this->getAllDataNonDelete();
         $notif = new NotificationController();
         $notifs = $notif->getAllNotif();
         // ,'notif'=>$notifs
         // dd($data);
-        return view('User.Admin.ManageUser',['data' => $data, 'whtRoute' => 'Manage User','notif'=>$notifs]);
+        return view('User.Admin.ManageUser', ['data' => $data, 'whtRoute' => 'Manage User', 'notif' => $notifs]);
     }
 
     // public function ChangePassword(Request $req){
@@ -297,35 +315,34 @@ class AccountController extends Controller
     //     // dd($req);
     // }
 
-    public function viewController($id){
+    public function viewController($id)
+    {
 
         $data = $this->getDataWithoutPassword($id);
         // dd($data[0]);
-        return view('User.Admin.viewProfile',['data'=>$data[0]]);
-
+        return view('User.Admin.viewProfile', ['data' => $data[0]]);
     }
 
-    public function Deactive($idAccount){
+    public function Deactive($idAccount)
+    {
         $akun = User::where('id_User', $idAccount)->first();
         $back = null;
         // dd($akun);
-        if($akun->isActive=='active'){
-            $akun->isActive='nonActive';
+        if ($akun->isActive == 'active') {
+            $akun->isActive = 'nonActive';
             $back = 0;
-        }
-        else{
-            $akun->isActive='active';
+        } else {
+            $akun->isActive = 'active';
             $back = 1;
         }
         $akun->save();
         return response()->json($back);
     }
 
-    public function DeleteAccount($idAccount){
+    public function DeleteAccount($idAccount)
+    {
         $akun = User::where('id_User', $idAccount)->first();
         $akun->delete();
         return redirect('/Manage/User')->with('message', 'Successfully Delete');
     }
-
-    
 }

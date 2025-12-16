@@ -15,7 +15,7 @@
         Part
     </div>
     <div class="bottonsArea">
-        <button class="btn-pointer" onclick="TurnFormAdd()">Add Part</button>
+        <button class="" onclick="TurnFormAdd()">Add Part</button>
     </div>
     <div class="theMainList part">
         @foreach($data[1] as $t)
@@ -35,10 +35,10 @@
                                     <p>{{{$d->price}}}</p>
                                     <p>{{{$d->stok}}} Items</p>
                                     <div class="theButtons">
-                                        <button class="btn-pointer"></button>
-                                        <button class="btn-pointer" onclick="TurnEdit('{{{$d->id_product}}}',event)">Edit</button>
+                                        <button class=""></button>
+                                        <button class="" onclick="TurnEdit('{{{$d->id_product}}}',event)">Edit</button>
                                         <!-- <button onclick="TurnDelete('{{{$d->id_product}}}')">Delete</button> -->
-                                        <button class="btn-pointer" onclick="DeletePart('{{{$d->id_product}}}',event)">Delete</button>
+                                        <button class="" onclick="DeletePart('{{{$d->id_product}}}',event)">Delete</button>
 
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                     <div class="TextDetails">
                         <p>Product Detail</p>
                     </div>
-                    <button class="btn-pointer">
+                    <button class="">
                         X
                     </button>
                 </div>
@@ -223,7 +223,7 @@
                                     <div class="theImage" data-base-url="{{ asset('storage/images') }}" onclick="TurnInput(this)">
 
                                     </div>
-                                    <button class="forInputPhoto btn-pointer" onclick="fillInput(this, event)">
+                                    <button class="forInputPhoto " onclick="fillInput(this, event)">
                                         <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
                                         </svg>
@@ -285,7 +285,7 @@
                             <p>Quantity</p>
                             <div class="ProductQty">
                                 <div class="inside">
-                                    <button class="ActQty minus btn-pointer" onclick="changeQty('min',this,event)">
+                                    <button class="ActQty minus " onclick="changeQty('min',this,event)">
                                         <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                                         </svg>
@@ -293,7 +293,7 @@
                                     <div class="mid">
                                         <input type="number" name="stock" value="1">
                                     </div>
-                                    <button class="ActQty plus btn-pointer" onclick="changeQty('plus',this,event)">
+                                    <button class="ActQty plus " onclick="changeQty('plus',this,event)">
                                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                                         </svg>
@@ -312,7 +312,7 @@
                 theButton.setAttribute('onclick', 'formClick(this)');
                 // theButton.setAttribute('onclick', 'formClick(this)');
                 theButton.innerHTML = `
-                    <button class="btn-pointer">Save Changes</button>
+                    <button class="">Save Changes</button>
                 `;
             container.appendChild(form);
             container.appendChild(theButton);
@@ -419,7 +419,7 @@
                                     <div class="theImage" onclick="TurnInput(this)">
 
                                     </div>
-                                    <button class="forInputPhoto btn-pointer" onclick="fillInput(this, event)">
+                                    <button class="forInputPhoto " onclick="fillInput(this, event)">
                                         <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M65.448 35.432H35.496V65.64H29.992V35.432H0.168V30.568H29.992V0.359993H35.496V30.568H65.448V35.432Z" fill="black"/>
                                         </svg>
@@ -481,7 +481,7 @@
                             <p>Quantity</p>
                             <div class="ProductQty">
                                 <div class="inside">
-                                    <button class="ActQty minus btn-pointer" onclick="changeQty('min',this,event)">
+                                    <button class="ActQty minus " onclick="changeQty('min',this,event)">
                                         <svg width="8" height="3" viewBox="0 0 8 3" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M7.43408 0.235352V2.5791H0.976562V0.235352H7.43408Z" fill="black"/>
                                         </svg>
@@ -489,7 +489,7 @@
                                     <div class="mid">
                                         <input type="number" name="stock" value="1">
                                     </div>
-                                    <button class="ActQty plus btn-pointer" onclick="changeQty('plus',this,event)">
+                                    <button class="ActQty plus " onclick="changeQty('plus',this,event)">
                                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12.9883 5.25879V7.90771H0.805664V5.25879H12.9883ZM8.3252 0.27832V13.2178H5.48096V0.27832H8.3252Z" fill="black"/>
                                         </svg>
@@ -508,7 +508,7 @@
         theButton.className = 'TheButtons';
         theButton.setAttribute('onclick', 'formClick(this)');
         theButton.innerHTML = `
-            <button class="btn-pointer">Save Changes</button>
+            <button class="">Save Changes</button>
         `;
         container.appendChild(form);
         container.appendChild(theButton);
