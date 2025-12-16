@@ -89,7 +89,7 @@
                     <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
                         <p>Alamat tujuan:</p>
                         @if(session('Role')!="Admin")
-                        <a href="/Profile/Address" style="text-decoration:none;color:green;">
+                        <a   href="/Profile/Address" style="text-decoration:none;color:green;">
                             <p style="font-size:12px;">{{{$userData[0]->Detil}}}</p>
                         </a>
                         @else
@@ -177,8 +177,8 @@
                 @if(session('Role')!="Admin")
                 <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
                     @csrf
-                    <button id="pay-button" onclick="Payment(event,'{{{$snapToken}}}')">Pay Now</button>
-                    <button onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
+                    <button class="btn-pointer" id="pay-button" onclick="Payment(event,'{{{$snapToken}}}')">Pay Now</button>
+                    <button class="btn-pointer" onclick="cancelOrder(event,'{{{$idT}}}')">Cancel Order</button>
                 </form>
                 @endif
                 
@@ -204,8 +204,8 @@
                     <!-- <form action="" class="theforms rows" method="GET" style="display:flex; flex-direction: row; gap: 20px;"> -->
                     <div class="theforms" style="display:flex; flex-direction: row; gap: 20px;">
 
-                        <button onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
-                        <button onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
+                        <button class="btn-pointer" onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
+                        <button class="btn-pointer" onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
                     </div>
                         
                     <!-- </form> -->

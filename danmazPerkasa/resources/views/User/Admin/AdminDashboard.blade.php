@@ -18,9 +18,9 @@
                         <img src="/assets/earning.png" alt="earning">
                     </div>
                     <div class="action-button dashboard">
-                        <button onclick="earning('day')" class="active">Day</button>
-                        <button onclick="earning('month')" class="">Month</button>
-                        <button onclick="earning('year')" class="">Years</button>
+                        <button onclick="earning('day')" class="active btn-pointer">Day</button>
+                        <button onclick="earning('month')" class="btn-pointer">Month</button>
+                        <button onclick="earning('year')" class="btn-pointer">Years</button>
                     </div>
                 </div>
                 <div class="footer">
@@ -37,9 +37,9 @@
                         <img src="/assets/order.png" alt="order">
                     </div>
                     <div class="action-button dashboard">
-                        <button onclick="order('day')" class="active">Day</button>
-                        <button onclick="order('month')" class="">Month</button>
-                        <button onclick="order('year')" class="">Years</button>
+                        <button onclick="order('day')" class="active btn-pointer">Day</button>
+                        <button onclick="order('month')" class="btn-pointer">Month</button>
+                        <button onclick="order('year')" class="btn-pointer">Years</button>
                     </div>
                 </div>
                 <div class="footer">

@@ -24,7 +24,7 @@
         </div>
         <div class="produks">
             @foreach($data as $d)
-            <a href="/Detil-Product/{{{$d->id_product}}}" class="TheProduk {{{$d->stok==0?'Sold':''}}}">
+            <a   href="/Detil-Product/{{{$d->id_product}}}" class="TheProduk {{{$d->stok==0?'Sold':''}}}">
                 <p class="nospecial"></p>
                 <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}')">
 
@@ -37,14 +37,14 @@
                     <p>{{{$d->price}}}</p>
                     <div class="bottomButtonProduct">
                         @if(session('user_id')==0)
-                            <button onclick="toLogin(event)">
+                            <button class="btn-pointer"  onclick="toLogin(event)">
                                 Login to Buy
                             </button>
                         @else
-                            <Button onclick="AddToCart(this, '{{{$d->id_product}}}', event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                            <button class="btn-pointer"  onclick="AddToCart(this, '{{{$d->id_product}}}', event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>ADD TO CART</p>
                             </Button>
-                            <Button class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                            <button class="btn-pointer"  class="BuyNow" onclick="goCheckout('{{{$d->id_product}}}',event)" {{{($d->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                                 <p>BUY NOW</p>
                             </Button>
                         @endif

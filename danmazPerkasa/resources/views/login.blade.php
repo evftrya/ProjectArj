@@ -13,6 +13,13 @@
 
         <!-- <link href="login.css" rel="stylesheet"> -->
 
+        <style>
+            .no-row{
+                display: flex !important;
+                flex-direction: column !important;
+            }
+        </style>
+
     </head>
     <body>
         <div class="allert" id="theAllert" style="display:none;">
@@ -27,16 +34,16 @@
 
         
         <div class="BackButton">
-            <a href="{{ url()->previous() }}">
+            <a   href="{{ url()->previous() }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
                 </svg>
                 <p>Back </p>
             </a>
         </div>
-        <div class="Container">
+        <div class="Container no-row">
             <div class="namaCv">
-                <a href="/"><p>CV. Danmaz Perkasa</p></a>
+                <a   href="/"><p>CV. Danmaz Perkasa</p></a>
             </div>
             <p>Welcome back</p>
             <div class="InputArea ">
@@ -70,13 +77,13 @@
                             </button>
                         </div>
                     </div>
-                    <a href=""><p>Forgot Password?</p></a>
+                    <a   href=""><p>Forgot Password?</p></a>
                     <button id="buttonForm" onclick="Login(event,this)">
                         <p>Login</p>
                     </button>
                     <div class="ToRegister">
                         <p>Don't have an account?</p>
-                        <a href="/Register"><p>Register</p></a>
+                        <a   href="/Register"><p>Register</p></a>
                     </div>
                 </form>
             </div>

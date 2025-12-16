@@ -46,9 +46,9 @@
         </div>
         <div class="ButtonAction" onclick="holdPrevent(event)">
             @if($data->isActive=='active')
-                <button class="Deactive" onclick="Deactive('{{{$data->id}}}')">Deactive</button>
+                <button class="Deactive btn-pointer" onclick="Deactive('{{{$data->id}}}')">Deactive</button>
             @else
-                <button class="Deactive" onclick="Deactive('{{{$data->id}}}')">Activate</button>
+                <button class="Deactive btn-pointer" onclick="Deactive('{{{$data->id}}}')">Activate</button>
             @endif
-            <button class="DeleteAccount" onclick="DeleteAccount('{{{$data->id}}}')">Delete Account</button>
+            <button class="DeleteAccount btn-pointer" onclick="DeleteAccount('{{{$data->id}}}')">Delete Account</button>
         </div>

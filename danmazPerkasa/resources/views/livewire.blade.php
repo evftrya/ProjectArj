@@ -4,7 +4,7 @@
     <title>Halaman Awal</title>
 </head>
 <body>
-<button onclick="loadContent()">Tampilkan Konten dari /</button>
+<button class="btn-pointer"  onclick="loadContent()">Tampilkan Konten dari /</button>
 
     <div id="dynamic-content">
         <form action="/AddToCart/1" method="POST">

@@ -45,6 +45,7 @@ body{
     align-items: center;
     justify-content: center;
 }
+
 .Container>*>form{
     /* margin: 0; */
     /* padding: 0; */
@@ -64,7 +65,7 @@ body{
 .namaCv>a>p{
     padding: 0px;
     margin: 0;
-    font-size: 25px;
+    /* font-size: 10px; */
     text-align: center;
     font-family: 'boldPublica';
     font-weight:bold;

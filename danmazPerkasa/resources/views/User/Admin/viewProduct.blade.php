@@ -68,7 +68,7 @@
                 <div class="buttonArea">
                     <!-- <form action=""></form> -->
                     @if(session('user_id')==0)
-                        <button onclick="toLogin(event)" style="margin-left:50px; background-Color: #B17457;color: white;">
+                        <button class="btn-pointer" onclick="toLogin(event)" style="margin-left:50px; background-Color: #B17457;color: white;">
                             Login to Buy
                         </button>
                     @else
@@ -80,8 +80,8 @@
                             <p>Checkout</p>
                         </button> -->
 
-                        <button class="justButton" onclick="TurnEdit('{{{$product->id_product}}}',event)">Edit</button>
-                        <button onclick="DeleteProduct('{{{$product->id_product}}}',event)">Delete</button>
+                        <button class="justButton btn-pointer" onclick="TurnEdit('{{{$product->id_product}}}',event)">Edit</button>
+                        <button class="btn-pointer" onclick="DeleteProduct('{{{$product->id_product}}}',event)">Delete</button>
                     @endif
                     
                 </div>

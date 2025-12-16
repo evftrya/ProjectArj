@@ -23,25 +23,25 @@
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="27" fill="#B17457"/>
                 </svg>
-                <p><a href="/Profile/Info">Info</a></p>
+                <p><a   href="/Profile/Info">Info</a></p>
             </div>
             <div class="ContainerSubMenu {{{$cp=='ChangePassword'? 'active':''}}}" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
-                <p><a href="/Profile/Change-Password">Change Password</a></p>
+                <p><a   href="/Profile/Change-Password">Change Password</a></p>
             </div>
             <div class="ContainerSubMenu {{{$cp=='Address'? 'active':''}}}" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
-                <p><a href="/Profile/Address">Address</a></p>
+                <p><a   href="/Profile/Address">Address</a></p>
             </div>
             <div class="ContainerSubMenu {{{$cp=='Logout'? 'active':''}}}" onclick="ChangeText2(this)">
                 <svg width="2" height="25" viewBox="0 0 3 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="2" height="25" fill="#B17457"/>
                 </svg>
-                <p><a href="/Logout">Logout</a></p>
+                <p><a   href="/Logout">Logout</a></p>
             </div>
         </div>
         <div class="container2">
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="containerButton">
-                    <button type="submit" onclick="EditProfileInfo('edit',event,this)" id="toEdit">Save Changes</button>
+                    <button class="btn-pointer"  type="submit" onclick="EditProfileInfo('edit',event,this)" id="toEdit">Save Changes</button>
                 </div>
             </form>
             @elseif($wht=="Change-Password")
@@ -169,8 +169,8 @@
                     </div>
                 </div>
                 <div class="containerButton Info">
-                    <button type="Submit" onclick="checkPassword(event, this)">Update</button>
-                    <!-- <button type="submit" onclick="formSubmit('ChangePassword',event)">Update</button> -->
+                    <button class="btn-pointer"  type="Submit" onclick="checkPassword(event, this)">Update</button>
+                    <!-- <button class="btn-pointer"  type="submit" onclick="formSubmit('ChangePassword',event)">Update</button> -->
                 </div>
 
             </form>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <div class="containerButton">
-                    <button onclick="editAddress(event,this)">Edit Address</button>
+                    <button class="btn-pointer"  onclick="editAddress(event,this)">Edit Address</button>
                 </div>
 
             </form>

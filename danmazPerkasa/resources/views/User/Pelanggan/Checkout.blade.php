@@ -109,7 +109,7 @@
                 <div class="line1">
                     <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
                         <p>Alamat tujuan (click to edit):</p>
-                        <a href="/Profile/Address" style="text-decoration:none;color:green;">
+                        <a   href="/Profile/Address" style="text-decoration:none;color:green;">
                             <p style="font-size:12px;">{{{$userData->Detil}}}</p>
                         </a>
                     </div>
@@ -126,9 +126,9 @@
                     <!-- <div>
                     <p>Payment Method</p>
                         <div class="ListPayMed">
-                            <button class="butOption" onclick="changePM('Bank Transfer',this)"><p>Bank Transfer</p></button>
-                            <button class="butOption" onclick="changePM('Pay Cash at Partner',this)"><p>Pay Cash at Partner</p></button>
-                            <button class="butOption" onclick="changePM('Credit Card',this)"><p>Credit Card</p></button>
+                            <button class="btn-pointer"  class="butOption" onclick="changePM('Bank Transfer',this)"><p>Bank Transfer</p></button>
+                            <button class="btn-pointer"  class="butOption" onclick="changePM('Pay Cash at Partner',this)"><p>Pay Cash at Partner</p></button>
+                            <button class="btn-pointer"  class="butOption" onclick="changePM('Credit Card',this)"><p>Credit Card</p></button>
                         </div>
                     </div> -->
                 </div>
@@ -186,7 +186,7 @@
                     <input type="text" name="ship" class="shipUse" style="display: none;" required>
                     <input type="text" name="toCheckout" id="toCheckout" style="display: none;" value="">
                     <input type="text" name="ntoes" id="notesClient" style="display: none;" value="">
-                    <button onclick="ToForm(this,event)">Make Order</button>
+                    <button class="btn-pointer"  onclick="ToForm(this,event)">Make Order</button>
                 </form>
         </div>
     </div>

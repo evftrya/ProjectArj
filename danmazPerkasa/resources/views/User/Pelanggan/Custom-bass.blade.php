@@ -16,13 +16,13 @@
     <div class="Title d-flex gap-3">
         <p>CUSTOM INSTRUMENT</p>
         <div class="dropdown" >
-            <button class="btn btn-secondary dropdown-toggle border-0 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+            <button class="btn-pointer"  class="btn btn-secondary dropdown-toggle border-0 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false"
             style="background-color: #d8d2c2;">
                 {{{$active}}}
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/Custom/Guitar">Guitar</a></li>
-                <li><a class="dropdown-item" href="/Custom/Bass">Bass</a></li>
+                <li><a   class="dropdown-item" href="/Custom/Guitar">Guitar</a></li>
+                <li><a   class="dropdown-item" href="/Custom/Bass">Bass</a></li>
             </ul>
         </div>
     </div>
@@ -102,7 +102,7 @@
                     <p class="TotalAmount">0</p>
                 </div>
             </div>
-            <button type="submit" class="Checkout" data-parts="" onclick="Checkout(this)">Checkout</button>
+            <button class="btn-pointer"  type="submit" class="Checkout" data-parts="" onclick="Checkout(this)">Checkout</button>
         </div>
     </div>
     <form action="/CheckoutCustom" method="POST" class="formCustom" hidden>
@@ -208,14 +208,19 @@
         let isnew = await adr.json();
         if(isnew==1){
             if(parseInt(document.querySelector('.TotalWeight').textContent)>0){
+                console.log('masuk if :>> ');
                 form.submit();
             }
             else{
+                console.log('masuk else 1 :>> ');
+                
                 hideLoadingIndicator();
                 showPopup('Please select at least one part', 0)
+                // hideLoadingIndicator();
             }
         }
         else{
+            console.log('masuk else 2 :>> ');
             hideLoadingIndicator();
             showPopup("Please set the address first (Setting>Account Settings>Address)",0)
         }
@@ -224,6 +229,8 @@
     }
 
     function initializeLoadingIndicator() {
+        hideLoadingIndicator();
+
         //console.log('Initializing loading indicator');
 
         // Buat elemen loading indicator
@@ -296,8 +303,12 @@
     
     function hideLoadingIndicator() {
         const loadingIndicator = document.getElementById('loading-indicator');
+        console.log('masuk hapuss 1')
         if (loadingIndicator) {
-            loadingIndicator.style.display = 'none';
+            // loadingIndicator.style.display = 'none';
+            console.log('masuk hapuss 2')
+            loadingIndicator.remove();
+            // loadingIndicator.style.display = 'none';
         }
     }
     function showLoadingIndicator() {

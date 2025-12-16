@@ -202,16 +202,16 @@ class ProductsController extends Controller
             ->get();
         // dd($data);
 
-        $area = DB::table('category_parts as b')
-            ->join('ref_category_parts as c', 'c.id_category_part', '=', 'b.id_category_part')
-
+        $area = DB::table('ref_category_parts as c')
+            // ->join('ref_category_parts as c', 'c.id_category_part', '=', 'b.id_category_part')
             ->select('c.Area')
+            // ->select('c.Area')
             ->distinct()
             ->get();
 
         // dd($area);
         $category = DB::table('ref_category_parts as c')
-            ->select('c.CAtegory', 'c.Area', 'c.id_category_part')
+            ->select('c.CAtegory', 'c.Area', 'c.id_category_part', 'c.Types')
             ->distinct()
             ->get();
         // dd($category,$area,$data);
@@ -259,10 +259,12 @@ class ProductsController extends Controller
 
         $product = DB::table('products as a')
             ->LeftJoin('photos as b', 'a.id_product', '=', 'b.id_product')
+            ->LeftJoin('category_parts as c', 'a.id_product', '=', 'c.id_part')
+            ->LeftJoin('ref_category_parts as d', 'd.id_category_part', '=', 'c.id_category_part')
             ->select(
                 'a.id_product',
                 'a.nama_product',
-                'a.Category',
+                'd.Category',
                 'a.stok',
                 'a.type',
                 'a.color',
@@ -319,6 +321,7 @@ class ProductsController extends Controller
     public function GetPartCategory()
     {
         $data = DB::table('ref_category_parts')->get();
+        // dd($data);
         return $data;
     }
 
@@ -446,8 +449,10 @@ class ProductsController extends Controller
 
     public function update(Request $req, $idProduct, $from)
     {
-        // dd($req);
+        // dd($idProduct);
+        
         $Product = Products::where('id_product', $idProduct)->first();
+        // dd($Product);
         $oldMain = $Product->mainPhoto;
         // dd($oldMain);
         $Product->nama_product = $req->ProductName;
@@ -459,8 +464,31 @@ class ProductsController extends Controller
         $Product->originalPrice = $req->originalPrice;
         $Product->weight = $req->weight;
         $Product->type = $from;
-        $Product->Category = $req->product;
+        // $Product->Category = $req->product;
         $Product->save();
+
+
+        if ($from == 'Product') {
+            $category = category_product::where('id_product', $Product->id_product)->first();
+            // dd($category);
+            // dd('masuk product');
+            // $category->id_product = $Product->id_product;
+            $category->category_name = $req->product;
+            // dd($req,$category);
+            $category->update();
+        } elseif ($from == 'Part') {
+            $category = category_part::where('id_part', $Product->id_product)->first();
+            // dd('masuk part');
+            // $category->id_part = $Product->id_product;
+            // $category->id_category_part = $req->product;
+            $category->id_category_part = 4;
+            $category->save();
+            dd($category,$req);
+            // dd($category);
+            // dd($category);
+        }
+        dd('stop');
+
 
         $photo = new PhotosController();
         $main = null;
@@ -661,7 +689,7 @@ class ProductsController extends Controller
 
     public function getDataRefresh()
     {
-        $AllProducts = Products::whereNotNull('isSpecial')->get();
+        $AllProducts = Products::whereNotNull('isSpecial')->where('Type', 'Product')->get();
         foreach ($AllProducts as $item) {
             $item->isSpecial = null;
             $item->save();
@@ -672,10 +700,11 @@ class ProductsController extends Controller
             $item->isSpecial = 'NEW';
             $item->save();
         }
-        
+
         $products = DB::table('products as a')
             ->join('photos as b', 'b.id_Photo', '=', 'a.mainPhoto')
             ->whereNotNull('a.isSpecial')
+            ->where('a.Type', 'Product')
             ->select('a.*', 'b.*')
             ->limit(20)
             ->get()->reverse();
@@ -719,7 +748,7 @@ class ProductsController extends Controller
                 ->join('category_parts as c', 'c.id_part', '=', 'a.id_product')
                 ->join('ref_category_parts as d', 'd.id_category_part', '=', 'c.id_category_part')
                 ->where('d.Types', $wht)
-                ->select('a.*', 'd.Area', 'd.Category as category_name', 'd.Types', 'c.*','d.*','e.*')
+                ->select('a.*', 'd.Area', 'd.Category as category_name', 'd.Types', 'c.*', 'd.*', 'e.*')
                 ->get();
 
             // DB::table('products as a')
@@ -748,7 +777,7 @@ class ProductsController extends Controller
                 ->distinct()
                 ->where('Types', $wht)
                 ->get();
-                // dd($category);
+            // dd($category);
             // $Parts = Products::where('type', 'Part')->get();
             // dd('Parts',$Parts,'Areas',$area,'Categorys',$category);
 

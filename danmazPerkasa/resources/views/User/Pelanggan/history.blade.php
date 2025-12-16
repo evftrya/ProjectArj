@@ -24,9 +24,9 @@
                         <p>{{{$d->created_at}}}</p>
                         <p>{{{$d->type_transaction}}}</p>
                         <p class="totalIdr">{{{intval($d->TotalShopping)}}}</p>
-                        <p>{{{$d->Shipping}}}</p>
+                        {{-- <p>{{{$d->Shipping}}}</p> --}}
                         <p class="name">{{{$d->Status_Pembayaran}}}</p>
-                        <a style="cursor: pointer;" href="/Transaction/{{ $d->id }}" class="theButtons">Detail</a>
+                        <a   style="cursor: pointer;" href="/Transaction/{{ $d->id }}" class="theButtons">Detail</a>
                     </div>
                 @endforeach
             @endif

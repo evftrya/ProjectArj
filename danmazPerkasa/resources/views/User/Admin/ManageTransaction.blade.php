@@ -25,7 +25,7 @@
                     <p>{{{$d->created_at}}}</p>
                     <p>{{{$d->TotalShopping}}}</p>
                     <p>{{{json_decode($d->Shipping)[2].' ('.json_decode($d->Shipping)[1].')'}}}</p>
-                    <a style="cursor: pointer;" href="/Transaction/{{ $d->id }}" class="theButtons">Detail</a>
+                    <a   style="cursor: pointer;" href="/Transaction/{{ $d->id }}" class="theButtons">Detail</a>
                 </div>
             @endforeach
 
@@ -151,7 +151,7 @@
                     <div class="TextDetails">
                         <p>${type} Detail</p>
                     </div>
-                    <button>
+                    <button class="btn-pointer">
                         X
                     </button>
                 </div>

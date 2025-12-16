@@ -12,7 +12,7 @@
             @foreach($Content as $a)
             <div class="theContent" style="background-image: url('{{ asset('storage/images/' . $a->PhotosName) }}');">
                 <p>{{{$a->shortQuotes}}}</p>
-                <a href="/Detil-Product/{{{$a->id_product}}}">
+                <a   href="/Detil-Product/{{{$a->id_product}}}">
                     <p>SHOP NOW</p>
                 </a>
             </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="produks">
             @foreach($Special as $s)
-            <a href="/Detil-Product/{{{$s->id_product}}}" class="TheProduk {{{$s->stok==0?'Sold':''}}}">
+            <a   href="/Detil-Product/{{{$s->id_product}}}" class="TheProduk {{{$s->stok==0?'Sold':''}}}">
                 <p>{{{$s->isSpecial}}}</p>
                 <div class="imageProduct" style="background-image: url('{{asset('storage/images/'.$s->PhotosName)}}');">
 
@@ -49,10 +49,10 @@
                 <div class="bottomProductArea">
                     <p>{{{$s->price}}}</p>
                     <div class="bottomButtonProduct">
-                        <Button onclick="AddToCart(this, '{{{$s->id_product}}}', event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                        <button class="btn-pointer"  onclick="AddToCart(this, '{{{$s->id_product}}}', event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                             <p>ADD TO CART</p>
                         </Button>
-                        <Button class="BuyNow" onclick="goCheckout('{{{$s->id_product}}}',event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
+                        <button class="btn-pointer"  class="BuyNow" onclick="goCheckout('{{{$s->id_product}}}',event)" {{{($s->stok==0||(session('isActive')=='nonActive'))?'disabled':''}}}>
                             <p>BUY NOW</p>
                         </Button>
                     </div>

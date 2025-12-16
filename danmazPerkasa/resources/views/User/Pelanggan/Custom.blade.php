@@ -21,8 +21,8 @@
                 Set
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Guitar</a></li>
-                <li><a class="dropdown-item" href="#">Bass</a></li>
+                <li><a   class="dropdown-item" href="#">Guitar</a></li>
+                <li><a   class="dropdown-item" href="#">Bass</a></li>
             </ul>
         </div>
     </div>

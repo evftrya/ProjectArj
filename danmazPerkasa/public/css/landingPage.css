@@ -92,6 +92,10 @@ body p{
     height: 30px;
 }
 
+.btn-pointer{
+    cursor: pointer !important;
+}
+
 #Search{
     display: none;
 }
@@ -369,7 +373,7 @@ body p{
             background-color: #0000002a !important;
         }
         .TheNotif:hover {
-            transform: scale(1.05);
+            transform: scale(1);
         }
         .TheNotif{
             text-decoration: none;
@@ -383,6 +387,7 @@ body p{
             align-items: center;
             padding: 10px 10px;
             gap: 10px;
+            transform: scale(0.95);
             transition: transform 0.3s ease;
             /* margin: 10px 0px; */
 
@@ -568,7 +573,7 @@ body p{
 
     }
     #Search{
-        display: flex;
+        display: none;
     }
     .searchArea>div>svg{
         display: none;
