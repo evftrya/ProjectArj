@@ -672,9 +672,7 @@ class ProductsController extends Controller
             $item->isSpecial = 'NEW';
             $item->save();
         }
-
-
-
+        
         $products = DB::table('products as a')
             ->join('photos as b', 'b.id_Photo', '=', 'a.mainPhoto')
             ->whereNotNull('a.isSpecial')
