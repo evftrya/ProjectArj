@@ -226,7 +226,7 @@
                     <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
                         @csrf
                         <button class="btn-pointer"  onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
-                        <button class="btn-pointer"  onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
+                        {{-- <button class="btn-pointer"  onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button> --}}
                     </form>
                     
                 </div>
@@ -249,16 +249,16 @@
                 clearBottom()
             }
         }
-        async function RejectOrder(event,idTransaction){
-            event.preventDefault();
-            let response = await fetch('/Transaction/RejectOrder/'+idTransaction);
-            let data = await response.json();
-            if(data=='Success'){
-                let OrderStatus = document.querySelector('.TransactionStatus')
-                OrderStatus.textContent = "Rejected";
-                clearBottom()
-            }
-        }
+        // async function RejectOrder(event,idTransaction){
+        //     event.preventDefault();
+        //     let response = await fetch('/Transaction/RejectOrder/'+idTransaction);
+        //     let data = await response.json();
+        //     if(data=='Success'){
+        //         let OrderStatus = document.querySelector('.TransactionStatus')
+        //         OrderStatus.textContent = "Rejected";
+        //         clearBottom()
+        //     }
+        // }
     @endif
     ///FOR PAYMENT
     @if(session('Role')!="Admin"&&(!($data[0]->Status_Pembayaran=='Cancel'||$data[0]->Status_Pembayaran=='Done')))

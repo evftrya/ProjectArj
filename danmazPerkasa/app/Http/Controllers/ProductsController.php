@@ -480,14 +480,14 @@ class ProductsController extends Controller
             $category = category_part::where('id_part', $Product->id_product)->first();
             // dd('masuk part');
             // $category->id_part = $Product->id_product;
-            // $category->id_category_part = $req->product;
-            $category->id_category_part = 4;
+            $category->id_category_part = $req->product;
+            // $category->id_category_part = 4;
             $category->save();
-            dd($category,$req);
+            // dd($category,$req);
             // dd($category);
             // dd($category);
         }
-        dd('stop');
+        // dd('stop');
 
 
         $photo = new PhotosController();

@@ -367,8 +367,10 @@ class DetailTransactionController extends Controller
             }
         }
         else{
+            // dd($dataPart);
             // $add = $product->getAllDataProductById($dataPart);
             $add = $product->getAllDataProductById($dataPart)->original[0][0];
+            // dd($add);
 
             $add->qty = 1;
             $add->weight = $add->weight/1000;

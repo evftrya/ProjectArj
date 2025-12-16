@@ -102,7 +102,7 @@
                     <p class="TotalAmount">0</p>
                 </div>
             </div>
-            <button class="btn-pointer"  type="submit" class="Checkout" data-parts="" onclick="Checkout(this)">Checkout</button>
+            <button type="submit" class="Checkout" data-parts="" onclick="Checkout(this)">Checkout</button>
         </div>
     </div>
     <form action="/CheckoutCustom" method="POST" class="formCustom" hidden>
