@@ -14,7 +14,7 @@
 @section('content')
 <div class="ContainerCustom">
     <div class="Title d-flex gap-3">
-        <p>CUSTOM INSTRUMENT</p>
+        <p>KOSTUM INSTRUMEN</p>
         <div class="dropdown" >
             <button class="btn btn-secondary dropdown-toggle border-0 text-black" type="button" data-bs-toggle="dropdown" aria-expanded="false"
             style="background-color: #d8d2c2;">

@@ -33,6 +33,7 @@ $controller = new Controller();
     Route::get('/Index', [ProductsController::class, 'LandingPage']);
     Route::get('/PaymentStatus/{id}', [TransaksiController::class, 'cekStatus']);
     Route::get('/getCity/{idProvince}', [AddressController::class, 'getCity']);
+    Route::get('/getKecamatan/{idKota}',[AddressController::class, 'getKecamatan']);
 
     // ------------ SESSION -----------------
     //LOGIN

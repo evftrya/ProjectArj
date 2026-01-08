@@ -57,7 +57,7 @@ class AddressController extends Controller
         else{
             $data = [];
             $data[0] = new stdClass(); // Pastikan elemen pertama adalah objek
-            $data[0]->Detil = 'The address has not been set.';
+            $data[0]->Detil = 'Alamat Belum Diisi';
             $data[0]->AlamatDetil = null;
 
         }
@@ -115,6 +115,15 @@ class AddressController extends Controller
         $detil = Address::where('id_User', $idUser)->first();
         // dd($detil);
         return $detil->Detil;
+    }
+
+    public function getKecamatan($idKota){
+        $kecamatans = DB::table('kecamatans')
+        ->where('city_id', $idKota)
+        ->orderBy('nama_kecamatan')
+        ->get();
+
+        return response()->json($kecamatans);
     }
 
 }

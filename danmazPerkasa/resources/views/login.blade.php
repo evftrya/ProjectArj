@@ -2,19 +2,14 @@
 <html lang="en">
 
 <head>
-    <title>Login Page</title>
+    <title>Halaman Masuk</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- <link href="{{ asset('css/LoginAndRegister.css') }}" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="{{ request()->secure() ? secure_asset('css/LoginAndRegister.css') : asset('css/LoginAndRegister.css') }}"> -->
     <link rel="stylesheet"
         href="{{ app()->environment('local') ? asset('css/LoginAndRegister.css') : secure_asset('css/LoginAndRegister.css') }}">
 
-    <!-- <link rel="stylesheet" href="{{ secure_asset('css/LoginAndRegister.css') }}"> -->
-
-    <!-- <link href="login.css" rel="stylesheet"> -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         .no-row {
@@ -31,11 +26,9 @@
             <p></p>
         </div>
         <div class="allertButton">
-            <button onclick="allert(null,'close')">Ok</button>
-
+            <button onclick="allert(null,'close')">OK</button>
         </div>
     </div>
-
 
     <div class="BackButton">
         <a href="{{ url()->previous() }}">
@@ -44,33 +37,34 @@
                 <path fill-rule="evenodd"
                     d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
             </svg>
-            <p>Back </p>
+            <p>Kembali</p>
         </a>
     </div>
+
     <div class="Container no-row">
         <div class="namaCv">
             <a href="/">
                 <p>CV. Danmaz Perkasa</p>
             </a>
         </div>
-        <p>Welcome back</p>
+
+        <p>Selamat datang kembali</p>
+
         <div class="InputArea ">
             <form action="/loginAccount" method="POST">
                 @csrf
 
                 <div class="input-container">
-                    <!-- <p>Email</p> -->
-
                     <input type="email" class="el" name="emailUser" placeholder="" id="inputField" maxlength="50"
                         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
                     <label for="inputField">Email</label>
-                    <!-- <input type="email" name="" id="" placeholder="username@gmail.com"> -->
                 </div>
+
                 <div class="input-container" id="PasswordArea">
-                    <!-- <p>Password</p> -->
                     <input type="password" class="pu" name="passwordUser" maxlength="25" id="ThePassword"
                         placeholder="">
-                    <label for="inputField">Password</label>
+                    <label for="inputField">Kata Sandi</label>
+
                     <div class="ButtonArea">
                         <button id="See" onclick="Password('LetsSee')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="50" fill="currentColor"
@@ -81,6 +75,7 @@
                                     d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
                             </svg>
                         </button>
+
                         <button id="UnSee" onclick="Password('LetsUnSee')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="50" fill="currentColor"
                                 class="bi bi-eye-slash" viewBox="0 0 16 16">
@@ -94,24 +89,26 @@
                         </button>
                     </div>
                 </div>
+
                 <a href="">
-                    <p>Forgot Password?</p>
+                    <p>Lupa Kata Sandi?</p>
                 </a>
+
                 <button id="buttonForm" onclick="Login(event,this)">
-                    <p>Login</p>
+                    <p>Masuk</p>
                 </button>
+
                 <div class="ToRegister">
-                    <p>Don't have an account?</p>
+                    <p>Belum punya akun?</p>
                     <a href="/Register">
-                        <p>Register</p>
+                        <p>Daftar</p>
                     </a>
                 </div>
             </form>
         </div>
     </div>
-
-    <!-- <img src="asetfoto/login.jpg" alt=""> -->
 </body>
+
 <script>
     @if (session('pesan'))
         messge()
@@ -120,12 +117,11 @@
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Akun Anda Sedang Dibatasi, silahkan login kembali!",
+                text: "Akun Anda sedang dibatasi, silakan masuk kembali!",
             });
         }
-
-
     @endif
+
     let seeBut = document.getElementById('See');
     seeBut.addEventListener("click", function(event) {
         event.preventDefault();
@@ -161,16 +157,13 @@
             } else {
                 form.submit();
             }
-
         }
-
     }
+
     async function ElPu(el, pu) {
         let form = document.querySelector('form');
 
-
-        let response = await
-        fetch(('cekLogin/Login'), {
+        let response = await fetch(('cekLogin/Login'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -179,7 +172,6 @@
             body: JSON.stringify({
                 el: el,
                 pu: pu,
-
             })
         });
 
@@ -194,7 +186,6 @@
         }
     }
 
-
     function allert(alerted, wht) {
         let alert = document.getElementById('theAllert');
         let dalert = alert.querySelector('.contAllert p');
@@ -207,20 +198,17 @@
         }
     }
 
-
     clickAuto();
 
     function clickAuto() {
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
-
                 const button = document.getElementById('buttonForm');
                 button.click();
             }
         })
     }
 </script>
-
 
 </html>
