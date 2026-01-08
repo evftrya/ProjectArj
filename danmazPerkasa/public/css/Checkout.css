@@ -379,7 +379,7 @@
 .notes{
     display: flex;
     flex-direction: row;
-    width: 500px;
+    width: 700px;
     min-width: 400px;
     align-items: center;
     justify-content: start;

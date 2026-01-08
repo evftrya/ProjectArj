@@ -207,7 +207,7 @@
         let adr = await fetch('/isNew/CekAddress');
         let isnew = await adr.json();
         if(isnew==1){
-            if(parseInt(document.querySelector('.TotalWeight').textContent)>0){
+            if(parseInt(document.querySelector('.TotalWeight').textContent*1000)>0){
                 console.log('masuk if :>> ');
                 form.submit();
             }

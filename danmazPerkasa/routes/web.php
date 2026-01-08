@@ -7,6 +7,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ReturnPesananController;
 use App\Http\Controllers\TransaksiController;
 use App\Models\Detail_Transaction;
 use App\Models\Transaksi;
@@ -58,10 +59,18 @@ $controller = new Controller();
     });
     Route::post('loginAccount', [AccountController::class, 'login']);
 
+    
+
     //REGISTER
     Route::get('/Register', function () {
         return view('register');
     });
+
+    Route::get('/About-us', function () {
+        return view('about-us');
+    });
+
+    
     Route::match(['get', 'post'], 'RegistrationAccount', [AccountController::class, 'store'])->middleware('CheckFormRequest');
 
     //LOGOUT
@@ -108,6 +117,17 @@ $controller = new Controller();
     Route::get('/Manage/Transaction', [TransaksiController::class, 'ManageTransaction'])->middleware('role:Admin');
     Route::get('/ViewTransaction/{idT}', [TransaksiController::class, 'viewTransaction'])->middleware('role:Admin');
 
+    //RETUR
+    Route::post('/Retur/Submit', [ReturnPesananController::class, 'Retur_Submit'])->middleware('role:User');
+
+    Route::get('/Retur-Produk', function () {
+        return view('User.Pelanggan.form-retur');
+    });
+    Route::get('/Retur-Produk/Lengkapi-data/{retur_id}',[ReturnPesananController::class, 'fill_data'])->name('fill-data');
+    Route::post('/Retur-Produk/Ajukan',[ReturnPesananController::class, 'ajukan_data']);
+    Route::post('/Retur-Produk/Terima',[ReturnPesananController::class, 'terima']);
+    Route::post('/Retur-Produk/Tolak',[ReturnPesananController::class, 'tolak']);
+    Route::post('/Retur-Produk/Input-Resi',[ReturnPesananController::class, 'input_resi']);
 
     //PAYMENT
     // Route::get('/Payment/{snapToken}', [TransaksiController::class, 'PaymentTransaction']);

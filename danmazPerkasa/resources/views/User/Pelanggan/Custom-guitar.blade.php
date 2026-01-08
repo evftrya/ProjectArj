@@ -82,7 +82,7 @@
         </div>
     </div>
     <div class="bottomArea">
-        <div class="Weight">
+        <div class="Weight" style="flex-direction: column; justify-content: center; gap:0% !important;">
             <div class="text">
                 <p>Weight: </p>
                 <p class="TotalWeight">0</p>
@@ -92,6 +92,9 @@
                     <p class="CountPart">0</p>
                 </div>
                 <p>Parts) </p>
+            </div>
+            <div class="text" style="font-size: 10px;">
+                <p>Apabila ada kendala terkait website atau lain-lainnya, silahkan menghubungi kami pada kontak yang tertera pada <a href="">about us</a></p>
             </div>
         </div>
         <div class="RightSide">
@@ -206,8 +209,11 @@
         // console.log(form)
         let adr = await fetch('/isNew/CekAddress');
         let isnew = await adr.json();
+        // console.log("detail: "+isnew)
         if(isnew==1){
-            if(parseInt(document.querySelector('.TotalWeight').textContent)>0){
+            // console.log("tes part"+parseInt(document.querySelector('.TotalWeight').textContent*1000)>0,parseInt(document.querySelector('.TotalWeight').textContent*1000))
+            // console.log("berat: "+()
+            if(parseInt(document.querySelector('.TotalWeight').textContent*1000)>0){
                 form.submit();
             }
             else{

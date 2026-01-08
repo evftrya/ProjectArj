@@ -106,7 +106,7 @@
                     </div>
 
                 </div>
-                <div class="line1">
+                <div class="line1 nonbottom">
                     <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
                         <p>Alamat tujuan (click to edit):</p>
                         <a   href="/Profile/Address" style="text-decoration:none;color:green;">
@@ -114,14 +114,38 @@
                         </a>
                     </div>
                     <div class="Ship">
+                        @if(isset($data[0]->type_transaction))
+                        <p>Estimasi Pemesanan:</p>
+                        <div style="display:flex;flex-direction:row;gap:10px;">
+                            <p class="daysEstimatePo"></p>
+                            <p>-+ 20 Hari</p>
+                        </div>
+                        @else
+                            <p>Estimasi Pengiriman:</p>
+                                <div style="display:flex;flex-direction:row;gap:10px;">
+                                    <p class="daysEstimate">-</p>
+                                    <p>Hari</p>
+                                </div>
+                        @endif
+
+                    </div>
+                </div>
+                <div class="line1">
+                    <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
+                        
+                    </div>
+                    <div class="Ship">
+                        @if(isset($data[0]->type_transaction))
                         <p>Estimasi Pengiriman:</p>
                         <div style="display:flex;flex-direction:row;gap:10px;">
                             <p class="daysEstimate">-</p>
                             <p>Hari</p>
                         </div>
 
+                        @endif
                     </div>
                 </div>
+                
                 <div class="PayMed">
                     <!-- <div>
                     <p>Payment Method</p>
@@ -368,7 +392,7 @@
                                 // console.log('cek : ',f.etd==[], f.etd==null, f.etd, f.etd=='-')
                                 @if(isset($data[0]->type_transaction))
                                 @if($data[0]->type_transaction == 'Custom')
-                                estimated = cutDaysCustom(estimated);
+                                    // estimated = cutDaysCustom(estimated);
                                 @endif
                                 @endif
                                 days.textContent = estimated;

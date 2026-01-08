@@ -4,7 +4,6 @@
 <!-- <link rel="stylesheet" type="" href="{{asset('css/Checkout.css')}}"> -->
 <!-- <link rel="stylesheet" href="{{ secure_asset('css/Checkout.css') }}"> -->
 <link rel="stylesheet" href="{{ app()->environment('local')? asset('css/Checkout.css') : secure_asset('css/Checkout.css') }}">
-
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SET_YOUR_CLIENT_KEY_HERE"></script>
 <style>
     /* bisa taruh di Checkout.css */
@@ -36,7 +35,8 @@
         <div class="Tbody" id="tbody">
             <div class="theProducts">
                 @foreach($data as $d)
-                <div class="theProduct">
+                {{-- {{ dd($d) }} --}}
+                <div class="theProduct" data-produk="{{ $d->id_Detail_transaction."|".$d->id_product."|".$d->qty."|".$d->nama_product }}">
                     <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div>
                     <div class="prodDesc">
                         <div class="ProductPhoto" style="background-image: url('{{asset('storage/images/'.$d->PhotosName)}}');">
@@ -98,10 +98,39 @@
                     </div>
                     
                 </div>
+                
+                <div class="line1 nonbottom">
+                    <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
+                        <p>Alamat tujuan (click to edit):</p>
+                        <a   href="/Profile/Address" style="text-decoration:none;color:green;">
+                           {{{$Address}}}
+                        </a>
+                    </div>
+                    <div class="Ship">
+                        @if(isset($data[0]->type_transaction))
+                        @if($data[0]->type_transaction == 'Custom')
+                        <p>Estimasi Pemesanan:</p>
+                        <div style="display:flex;flex-direction:row;gap:10px;">
+                            <p class="daysEstimatePo"></p>
+                            <p>-+ 20 Hari</p>
+                        </div>
+                        @else
+                            
+                        @endif
+                        @else
+                            <p>Estimasi Pengiriman:</p>
+                                <div style="display:flex;flex-direction:row;gap:10px;">
+                                    <p class="daysEstimate"></p>
+                                    <p>{{{$data[0]->shippingEstimate}}} Hari</p>
+                                </div>
+                        @endif
+
+                    </div>
+                </div>
+
                 <div class="line1" style="height: fit-content; padding-bottom:10px;">
                     <div class="notes" style="display:flex; flex-direction:column; align-items:start;">
-                        <p>Alamat tujuan:</p>
-                        {{{$Address}}}
+                        
                     </div>
                     <div class="Ship">
                         <p>Estimasi Pengiriman:</p>
@@ -112,6 +141,7 @@
                         
                     </div>
                 </div>
+
                 <div class="PayMed">
                     <div>
                         <!-- <input type="text"> -->
@@ -166,9 +196,180 @@
                                 <button type="button" class="btn btn-primary flex-fill" onclick="previewNota()">Preview Nota</button>
                                 <button type="button" class="btn btn-outline-secondary flex-fill" onclick="printNota()">Print / PDF Nota</button>
                             </div>
-                        @endif
+                            @if(session('Role')!="Admin")
+                            <style>
+                                .btn {
+                                    padding: 12px 20px;
+                                    border-radius: 8px;
+                                    border: none;
+                                    font-size: 14px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                    transition: all 0.25s ease;
+                                    margin-right: 10px;
+                                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+                                }
 
-                        
+                                /* Barang Diterima */
+                                .btn-success {
+                                    background: linear-gradient(135deg, #28a745, #34ce57);
+                                    color: #fff;
+                                }
+
+                                .btn-success:hover {
+                                    background: linear-gradient(135deg, #218838, #2fbf4a);
+                                    transform: translateY(-2px);
+                                }
+
+                                /* Retur Barang (tidak disarankan) */
+                                .btn-muted {
+                                    background: linear-gradient(135deg, #adb5bd, #ced4da);
+                                    color: #495057;
+                                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+                                }
+
+                                .btn-muted:hover {
+                                    background: linear-gradient(135deg, #9aa0a6, #bfc5ca);
+                                    color: #343a40;
+                                }
+
+                                /* Efek klik */
+                                .btn:active {
+                                    transform: scale(0.96);
+                                }
+
+
+                                                            </style>
+                                                            <button class="btn btn-success">Barang Diterima</button>
+                                <button onclick="showDropdown()" class="btn btn-muted">Retur Barang</button>
+                                
+                                @endif
+
+                                <form id="csrfFormRetur" style="display: none;" action="" method="POST">
+                                    @csrf 
+                                </form>
+                                {{-- {{ dd($retur) }} --}}
+                                {{-- Riwayat Pengajuan Retur --}}
+                                @if(isset($retur) && count($retur) > 0)
+                                <div class="subCont" style="display:block; width:100%; margin-top:18px;">
+                                    <p style="font-weight:700; margin-bottom:10px;">Riwayat Pengajuan Retur</p>
+
+                                    <div style="overflow:auto; width:100%;">
+                                        <table class="retur-table" style="width:100%; border-collapse:collapse; min-width:720px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kode Retur</th>
+                                                    <th>Barang</th>
+                                                    <th style="text-align:right;">Qty</th>
+                                                    <th>Alasan Retur</th>
+                                                    <th>Bukti</th>
+                                                    <th>Status</th>
+                                                    <th>Resi Pengiriman</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    @foreach($retur as $r)
+                                                        <tr>
+                                                            <td>{{ $r->id ?? '-' }}</td>
+                                                            <td>{{ $r->nama_product ?? '-' }}</td>
+                                                            <td style="text-align:right;">{{ $r->qty_retur ?? 0 }}</td>
+                                                            <td>{{ $r->alasan_retur ?? '-' }}</td>
+                                                            <td>
+
+                                                                @if($r->link_bukti==null)
+                                                                 - 
+                                                                @else 
+                                                                <a href="{{ $r->link_bukti }}">{{ $r->link_bukti }}</a>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                @if($r->retur_status===0)
+                                                                    Ditolak ({{ $r->alasan_ditolak }})
+                                                                @elseif($r->retur_status===1)
+                                                                    Diterima
+                                                                @elseif($r->retur_status==null)
+                                                                @if(session('Role')!="Admin") 
+                                                                        Menunggu
+                                                                    @else
+                                                                        <style>
+                                                                            .action-buttons{
+                                                                                display: flex;
+                                                                                gap: 10px;
+                                                                                align-items: center;
+                                                                            }
+
+                                                                            .btn-terima{
+                                                                                padding: 8px 14px;
+                                                                                border: 0;
+                                                                                border-radius: 6px;
+                                                                                cursor: pointer;
+                                                                                background: #16a34a;
+                                                                                color: white;
+                                                                            }
+
+                                                                            .btn-tolak{
+                                                                                padding: 8px 14px;
+                                                                                border: 0;
+                                                                                border-radius: 6px;
+                                                                                cursor: pointer;
+                                                                                background: #dc2626;
+                                                                                color: white;
+                                                                            }
+                                                                        </style>
+                                                                        <div class="action-buttons">
+                                                                            <button type="button" class="btn-terima" onclick="terima_ajuan({{ $r->id }})">Terima</button>
+                                                                            <button type="button" class="btn-tolak" onclick="showRejectRetur({{ $r->id }})">Tolak</button>
+                                                                        </div>
+                                                                        {{-- {{ dd($retur) }} --}}
+                                                                    @endif
+                                                                @endif
+                                                                
+                                                            </td>
+                                                            <td>
+                                                                @if($r->Resi==null)
+                                                                    @if(session('Role')=="Admin" && $r->retur_status==true)
+                                                                        <div class="action-buttons">
+                                                                            <button type="button" class="btn-terima" onclick="showInputResi({{ $r->id }})">Input Resi</button>
+                                                                        </div>
+
+                                                                    @elseif(session('Role')!="Admin" && $r->retur_status==true)
+                                                                    Menunggu Resi
+                                                                        @elseif($r->retur_status===0)
+                                                                    -
+                                                                    @else 
+                                                                    Belum Ada
+                                                                    @endif
+                                                                @else
+                                                                <a href="https://cekresi.com/?noresi={{ $r->Resi }}">{{ $r->Resi ?? 'Belum Ada' }}</a>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                @endif
+
+                                <style>
+                                    .retur-table th, .retur-table td{
+                                        border-bottom:1px solid #e6e6e6;
+                                        padding:10px 12px;
+                                        font-size:13px;
+                                        vertical-align:middle;
+                                        white-space:nowrap;
+                                    }
+                                    .retur-table th{
+                                        background:#f7f7f7;
+                                        font-weight:700;
+                                        text-align:left;
+                                    }
+                                </style>
+
+
+                                {{-- <button >Buka SweetAlert Dropdown</button> --}}
+
+                        @endif
 
 
                     </div>
@@ -226,14 +427,288 @@
                     <form action="" class="theforms rows" method="POST" style="display:flex; flex-direction: row; gap: 20px;">
                         @csrf
                         <button class=""  onclick="AcceptOrder(event,'{{{$idT}}}')">Accept Order</button>
-                        {{-- <button class=""  onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button> --}}
+                        <button class=""  onclick="RejectOrder(event,'{{{$idT}}}')">Reject Order</button>
                     </form>
                     
                 </div>
             </div>
         @endif
+        
     @endif
+    {{-- {{ dd($data) }} --}}
 </div>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+    @if(session('Role')=="Admin") 
+
+    function showInputResi(id_retur) {
+    Swal.fire({
+        title: 'Input Resi Pengiriman',
+        html: `
+        <div style="
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:12px;
+            font-size:13px;
+        ">
+            <div style="width: 280px; text-align:left;">
+                <label style="display:block; margin-bottom:4px; color:#555;">
+                    Ekspedisi
+                </label>
+                <input
+                    id="ekspedisi"
+                    class="swal2-input"
+                    placeholder="Contoh: JNE, J&T, SiCepat"
+                    style="width:100%; font-size:13px;"
+                />
+            </div>
+
+            <div style="width: 280px; text-align:left;">
+                <label style="display:block; margin-bottom:4px; color:#555;">
+                    Nomor Resi
+                </label>
+                <input
+                    id="no_resi"
+                    class="swal2-input"
+                    placeholder="Masukkan nomor resi"
+                    style="width:100%; font-size:13px;"
+                />
+            </div>
+        </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Batal',
+        focusConfirm: false,
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            const ekspedisi = (document.getElementById('ekspedisi').value || '').trim();
+            const no_resi = (document.getElementById('no_resi').value || '').trim();
+
+            if (!ekspedisi) {
+                Swal.showValidationMessage('Ekspedisi wajib diisi');
+                return false;
+            }
+
+            if (!no_resi) {
+                Swal.showValidationMessage('Nomor resi wajib diisi');
+                return false;
+            }
+
+            return { ekspedisi, no_resi };
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const form = document.getElementById("csrfFormRetur");
+            form.setAttribute('action', '/Retur-Produk/Input-Resi');
+            form.appendChild(inputTemp("id_retur", id_retur));
+            form.appendChild(inputTemp("ekspedisi", result.value.ekspedisi));
+            form.appendChild(inputTemp("resi", result.value.no_resi));
+            form.submit();
+        }
+    });
+}
+
+
+    function showRejectRetur(id_retur) {
+        Swal.fire({
+            title: 'Tolak Retur',
+            html: `
+            <div style="
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                gap:10px;
+                font-size:13px;
+            ">
+                <div style="width: 280px; text-align:left;">
+                <label style="display:block; margin-bottom:4px; color:#555;">
+                    Alasan menolak retur
+                </label>
+                <textarea
+                    id="alasan"
+                    class="swal2-textarea"
+                    placeholder="Tulis alasan penolakan..."
+                    style="
+                    width:100%;
+                    min-height:90px;
+                    font-size:13px;
+                    resize: vertical;
+                    "
+                ></textarea>
+                </div>
+            </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            cancelButtonText: 'Batal',
+            focusConfirm: false,
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+            const alasan = (document.getElementById('alasan').value || '').trim();
+
+            if (!alasan) {
+                Swal.showValidationMessage('Alasan wajib diisi');
+                return false;
+            }
+
+            // kalau mau simulasi loading (opsional)
+            // await new Promise(r => setTimeout(r, 800));
+
+            return { alasan };
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+            const form = document.getElementById("csrfFormRetur");
+            form.setAttribute('action', '/Retur-Produk/Tolak');
+            form.appendChild(inputTemp("id_retur",id_retur));
+            form.appendChild(inputTemp("alasan_menolak", result.value.alasan));
+            form.submit();
+            }
+        });
+    }
+
+
+    function terima_ajuan(id_retur){
+        const form = document.getElementById("csrfFormRetur")
+        form.setAttribute('action', '/Retur-Produk/Terima'); // <- ganti sesuai endpoint kamu
+        form.appendChild(inputTemp("id_retur",id_retur));
+        form.submit();
+    }
+
+    @endif
+    
+    function showDropdown() {
+        
+        opt = [];
+        prepared = document.querySelectorAll('.theProduct')
+        prepared.forEach(t=>{
+            mentah = (t.dataset.produk).split("|");
+            console.log('mentah :>> ', mentah);
+            
+            opt.push(optionTemp(mentah[0]+"|"+mentah[1], mentah[3]));
+        })
+    
+
+        
+        Swal.fire({
+            title: 'Retur Barang',
+            html: `
+            <div style="
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                font-size: 13px;
+            ">
+
+                <!-- Barang -->
+                <div style="width: 240px; text-align: left;">
+                <label style="display:block; margin-bottom:4px; color:#555;">
+                    Pilih barang yang akan diretur
+                </label>
+                <select id="barang" class="swal2-select" style="
+                    width:100%;
+                    height:34px;
+                    font-size:13px;
+                ">
+                    `+opt.join()+`
+                </select>
+                </div>
+
+                <!-- Qty -->
+                <div style="
+                width: 240px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                ">
+                <label style="color:#555; white-space: nowrap;">
+                    Qty Barang
+                </label>
+                <input
+                    id="qty"
+                    type="number"
+                    min="1"
+                    class="swal2-input"
+                    placeholder="Qty"
+                    style="
+                    width: 50px;
+                    max-width: 50px;
+                    height: 32px;
+                    font-size: 13px;
+                    margin: 0;
+                    padding: 0 6px;
+                    text-align: center;
+                    "
+                >
+                </div>
+
+            </div>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Ajukan',
+    cancelButtonText: 'Batal',
+    focusConfirm: false,
+    showLoaderOnConfirm: true,
+    preConfirm: async () => {
+      const barang = document.getElementById('barang').value;
+      const qty = Number(document.getElementById('qty').value);
+
+      if (!barang) {
+        Swal.showValidationMessage('Barang wajib dipilih');
+        return false;
+      }
+      if (!qty || qty <= 0) {
+        Swal.showValidationMessage('Qty tidak valid');
+        return false;
+      }
+
+      // simulasi proses (misal call API)
+      await new Promise(r => setTimeout(r, 1500));
+
+      return { barang, qty };
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+        const form = document.getElementById("csrfFormRetur");
+        form.setAttribute('action','/Retur/Submit');
+        let bare = result.value.barang.split("|"); 
+        form.appendChild(inputTemp("Barang",bare[1]));
+        form.appendChild(inputTemp("qty_retur",result.value.qty));
+        form.appendChild(inputTemp("id_detil_transaksi",bare[0]));
+        form.submit();
+    //   console.log('Data retur:', result.value); // { barang, qty }
+      // TODO: kirim ke server / proses lanjutan di sini
+    }
+  });
+}
+
+function inputTemp(name, value){
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+
+    return input;
+}
+
+function optionTemp(value, show){
+    return '<option value="'+value+'">'+show+'</option>';
+}
+</script>
+
+
+
+
 
 <script>
     
