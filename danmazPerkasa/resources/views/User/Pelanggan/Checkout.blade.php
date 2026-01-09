@@ -29,6 +29,7 @@
         <div class="Tbody" id="tbody">
             <div class="theProducts">
                 @foreach($data as $d)
+                {{-- {{ dd($d) }} --}}
                 <div class="theProduct">
                     <div class="cb"><input type="checkbox" name="check2" onclick="getChecked()"></div>
                     <div class="prodDesc">
@@ -43,7 +44,9 @@
                         {{{intval($d->price)}}}
                     </div>
                     <div class="ProductPrice weight">
-                        <p class="berat">{{{($d->weight)}}}</p>
+                        <p class="berat">
+                            {{{($d->weight)}}}
+                        </p>
                         <p>Kg</p>
                     </div>
                     <div class="ProductQty">

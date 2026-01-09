@@ -428,7 +428,7 @@ html, body { overflow-x: hidden; }
 
           <div class="dmz-cta">
             <a class="dmz-btn dmz-btnPrimary" href="{{ url('/Product/AllProduct') }}">Lihat Produk</a>
-            <a class="dmz-btn dmz-btnGhost" href="https://wa.me/628886546545">Hubungi Kami</a>
+            <a class="dmz-btn dmz-btnGhost" href="https://wa.me/6282338309541">Hubungi Kami</a>
           </div>
         </div>
 
@@ -501,7 +501,7 @@ html, body { overflow-x: hidden; }
           <div class="dmz-steps">
             <div class="dmz-step">
               <div class="dmz-stepDot"></div>
-              <div class="dmz-stepText"><a href="https://wa.me/628972529100?text=Halo%20saya%20ingin%20Berkonsultasi" 
+              <div class="dmz-stepText"><a href="https://wa.me/6282338309541?text=Halo%20saya%20ingin%20Berkonsultasi" 
                 style="text-decoration: none; color: black;">Konsultasi kebutuhan & budget</a></div>
             </div>
             <div class="dmz-step">
@@ -531,7 +531,7 @@ html, body { overflow-x: hidden; }
           <div class="dmz-contactIcon">☎</div>
           <div>
             <div class="dmz-contactLabel">Telepon / WhatsApp</div>
-            <div class="dmz-contactValue">08xx-xxxx-xxxx</div>
+            <div class="dmz-contactValue">082338309541</div>
           </div>
         </div>
 
@@ -547,7 +547,7 @@ html, body { overflow-x: hidden; }
           <div class="dmz-contactIcon">⌂</div>
           <div>
             <div class="dmz-contactLabel">Alamat</div>
-            <div class="dmz-contactValue">Isi alamat toko di sini</div>
+            <div class="dmz-contactValue">Jalan Desa Sumberbendo Dusun Lolawang, RT.02/RW.03, Lolawang, Kec. Ngoro, Kabupaten Mojokerto, Jawa Timur 61385</div>
           </div>
         </div>
 

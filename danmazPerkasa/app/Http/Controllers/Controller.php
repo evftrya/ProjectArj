@@ -192,9 +192,9 @@ class Controller extends BaseController
         // ));
 
         $curl = curl_init();
-
+// 4088
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api-sandbox.collaborator.komerce.id/tariff/api/v1/calculate?shipper_destination_id=154&receiver_destination_id='.$tujuan.'&weight=1&item_value=3000&cod=yes',
+            CURLOPT_URL => 'https://api-sandbox.collaborator.komerce.id/tariff/api/v1/calculate?shipper_destination_id=290&receiver_destination_id='.$tujuan.'&weight=1&item_value=3000&cod=yes',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

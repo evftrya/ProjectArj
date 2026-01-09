@@ -360,6 +360,7 @@ class DetailTransactionController extends Controller
                 // dd($product->getAllDataProductById($item)->original[0][0]);
                 $add = $product->getAllDataProductById($item)->original[0][0];
                 $add->qty = 1;
+                $add->weight = $add->weight/1000;
                 $add->type_transaction = 'Custom';
                 $data[] = 
                     $add;
@@ -373,7 +374,7 @@ class DetailTransactionController extends Controller
             // dd($add);
 
             $add->qty = 1;
-            $add->weight = $add->weight/1000;
+            $add->weigth_final = $add->weight/1000;
             $add->type_transaction = 'Custom';
             // dd($add);
             $data[] = 
