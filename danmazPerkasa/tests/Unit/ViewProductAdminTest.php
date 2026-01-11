@@ -113,6 +113,7 @@ namespace Tests\Unit\Controllers {
         {
             // schema-safe access
             return $row->status ?? ($row->Status ?? null);
+            
         }
 
         /* ===========================================================
