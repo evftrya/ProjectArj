@@ -309,12 +309,6 @@ class AccountController extends Controller
         return view('User.Admin.ManageUser', ['data' => $data, 'whtRoute' => 'Manage User', 'notif' => $notifs]);
     }
 
-    // public function ChangePassword(Request $req){
-
-    //     // \Log::info('Request received:', ['request' => $req->all()]);
-    //     // dd($req);
-    // }
-
     public function viewController($id)
     {
 

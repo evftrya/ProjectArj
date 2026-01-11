@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
-    //
-    // public function store(Request $req){
-    //     // dd($req->file('foto2'));
-    //     // dd($req->TotalPhoto);
-    //     for($i=1; $i<=$req->TotalPhoto;$i++){
-    //         dd( $req->files[('foto'.$i)]->getClientOriginalName());
-    //     }
-    // }
 
     public function store(Request $req, $wht)
     {

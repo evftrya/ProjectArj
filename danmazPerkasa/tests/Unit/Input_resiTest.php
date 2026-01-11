@@ -1,0 +1,44 @@
+<?php
+namespace Tests\Feature {
+
+     use Tests\Unit\Support\BaseControllerTestCase;
+    use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Facades\Route;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Http\Request;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Illuminate\Support\Facades\Schema;
+
+    // Controllers
+    use App\Http\Controllers\AccountController;
+    use App\Http\Controllers\AddressController;
+    use App\Http\Controllers\Controller as BaseAppController;
+    use App\Http\Controllers\DetailTransactionController;
+    use App\Http\Controllers\NotificationController;
+    use App\Http\Controllers\PhotosController;
+    use App\Http\Controllers\ProductsController;
+    use App\Http\Controllers\ReturnPesananController;
+    use App\Http\Controllers\TransaksiController;
+
+    class input_resiTest extends BaseControllerTestCase
+    {
+        
+
+        /* =========================
+     * AccountController UTB
+     * ========================= */
+
+        public function test_UTB_066_input_resi_sets_ekspedisi_resi()
+        {
+            $this->requiresTablesOrSkip(['return_pesanans', 'detail__transactions'], 'Need return_pesanans/detail__transactions');
+
+            $idRetur = $this->seedReturnPesanan(['id' => 1, 'id_detil_transaksi' => 7]);
+
+            $req = $this->makeRequest(['id_retur' => $idRetur, 'ekspedisi' => 'JNE', 'resi' => '123'], 'POST');
+            (new ReturnPesananController())->input_resi($req);
+
+            $this->assertDatabaseHas('return_pesanans', ['id' => $idRetur, 'Ekspedisi' => 'JNE', 'Resi' => '123']);
+        }
+    }
+}

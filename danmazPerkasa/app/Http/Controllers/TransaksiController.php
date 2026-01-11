@@ -53,77 +53,68 @@ class TransaksiController extends Controller
 
     public function GetSnapToken($Data)
     {
-        // dd($Data);
-        $data = $Data[0];
-        $Acc = new AccountController();
-        $AccData = $Acc->getProfile($data->id_User);
-        $DT = new DetailTransactionController();
-        $DTData = $DT->getDetilTransactionsByIdTransaction($data->id);
-        $item_details = [];
-        foreach ($Data as $item) {
+        if($Data!=null){
+
+            $data = $Data[0];
+            $Acc = new AccountController();
+            $AccData = $Acc->getProfile($data->id_User);
+            $DT = new DetailTransactionController();
+            $DTData = $DT->getDetilTransactionsByIdTransaction($data->id);
+            $item_details = [];
+            foreach ($Data as $item) {
+                $item_details[] = [
+                    'id' => null,
+                    'price' => intval($item->price),
+                    'quantity' => intval($item->qty),
+                    'name' => substr($item->nama_product, 0, 50)
+                ];
+            }
+            // dd( $data->weight/1000);
             $item_details[] = [
                 'id' => null,
-                'price' => intval($item->price),
-                'quantity' => intval($item->qty),
-                'name' => substr($item->nama_product, 0, 50)
+                'price' => intval($data->TotalShipping / intval(ceil($Data[0]->weight / 1000))),
+                'quantity' => intval(ceil($Data[0]->weight / 1000)),
+                'name' => 'Kg Shipping by ' . $data->Shipping
             ];
+    
+            $item_details[] = [
+                'id' => null,
+                'price' => 2000,
+                'quantity' => 1,
+                'name' => 'Biaya Lain-lain'
+            ];
+            \Midtrans\Config::$serverKey = config('midtrans.server_key');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = false;
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = true;
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = true;
+    
+            $params = array(
+    
+                'transaction_details' => array(
+                    'order_id' => $data->id . env('CODE_TRANSACTION'),
+                    'gross_amount' => $data->id + $data->TotalShopping + $data->TotalShipping,
+    
+                ),
+                'customer_details' => array(
+                    'first_name' => $AccData->namaUser,
+                    'last_name' => '',
+                    'email' => 'arjun@gmail.com',
+                    'phone' => $AccData->Phone,
+                ),
+                'item_details' => $item_details
+            );
+    
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+            // dd($snapToken);
+    
+            return $snapToken;
         }
-        // dd( $data->weight/1000);
-        $item_details[] = [
-            'id' => null,
-            'price' => intval($data->TotalShipping / intval(ceil($Data[0]->weight / 1000))),
-            'quantity' => intval(ceil($Data[0]->weight / 1000)),
-            'name' => 'Kg Shipping by ' . $data->Shipping
-        ];
-
-        $item_details[] = [
-            'id' => null,
-            'price' => 2000,
-            'quantity' => 1,
-            'name' => 'Biaya Lain-lain'
-        ];
-        // dd($item_details);
-
-        /*Install Midtrans PHP Library (https://github.com/Midtrans/midtrans-php)
-        composer require midtrans/midtrans-php
-                                    
-        Alternatively, if you are not using **Composer**, you can download midtrans-php library 
-        (https://github.com/Midtrans/midtrans-php/archive/master.zip), and then require 
-        the file manually.   
-
-        require_once dirname(__FILE__) . '/pathofproject/Midtrans.php'; */
-
-        //SAMPLE REQUEST START HERE
-
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = config('midtrans.server_key');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
-
-        $params = array(
-
-            'transaction_details' => array(
-                'order_id' => $data->id . env('CODE_TRANSACTION'),
-                'gross_amount' => $data->id + $data->TotalShopping + $data->TotalShipping,
-
-            ),
-            'customer_details' => array(
-                'first_name' => $AccData->namaUser,
-                'last_name' => '',
-                'email' => 'arjun@gmail.com',
-                'phone' => $AccData->Phone,
-            ),
-            'item_details' => $item_details
-        );
-
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-        // dd($snapToken);
-
-        return $snapToken;
+        else{
+            return 0;
+        }
     }
     public function store(Request $req, $wht)
     {
